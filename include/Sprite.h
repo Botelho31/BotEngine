@@ -5,6 +5,7 @@
 #ifndef SPRITE_H
     #define SPRITE_H
     #include "Component.h"
+    #include "GameObject.h"
 
     class Sprite : Component{
         public:

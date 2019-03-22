@@ -1,6 +1,5 @@
 #include "../include/Sprite.h"
 #include "../include/State.h"
-#include "../include/Game.h"
 
 Sprite::Sprite(GameObject& associated) : Component(associated){
     this->associated = associated;
