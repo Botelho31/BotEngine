@@ -6,7 +6,7 @@
     #define SPRITE_H
     #include "Component.h"
 
-    class Sprite : public Component{
+    class Sprite : Component{
         public:
             Sprite();
             Sprite(const char* file);
