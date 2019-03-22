@@ -8,7 +8,7 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
 }
 
 Sprite::Sprite(GameObject& associated,const char* file): Component(associated){
-    this->associated;
+    this->associated = associated;
     texture = nullptr;
     Open(file);
 }
@@ -43,6 +43,10 @@ void Sprite::SetClip(int x,int y,int w,int h){
     clip_rect.y = y;
 }
 
+void Sprite::Update(float dt){
+
+}
+
 void Sprite::Render(){
     SDL_Rect dst_rect;
     dst_rect.x = this->associated.box.x;
@@ -50,10 +54,6 @@ void Sprite::Render(){
     dst_rect.w = clip_rect.w;
     dst_rect.h = clip_rect.h;
     SDL_RenderCopy(Game::GetInstance().GetRenderer(),texture,&clip_rect,&dst_rect);
-}
-
-void Sprite::Update(float dt){
-
 }
 
 int Sprite::GetWidth(){
