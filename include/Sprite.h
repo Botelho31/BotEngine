@@ -8,15 +8,17 @@
 
     class Sprite : Component{
         public:
-            Sprite();
-            Sprite(const char* file);
+            Sprite(GameObject& associated);
+            Sprite(GameObject& associated,const char* file);
             ~Sprite();
             void Open(const char* file); 
             void SetClip(int x,int y,int w,int h);
-            void Render(int x,int y);
+            void Render();
+            void Update(float dt);
             int GetWidth();
             int GetHeight();
             bool IsOpen();
+            bool Is(std::string type);
 
         private:
             SDL_Texture *texture;
