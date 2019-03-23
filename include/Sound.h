@@ -8,11 +8,11 @@
     class Sound : public Component{
         public:
             Sound(GameObject& associated);
-            Sound(GameObject& associated, std::string file);
+            Sound(GameObject& associated, const char* file);
             ~Sound();
             void Play (int times = 1);
             void Stop();
-            void Open(std::string file);
+            void Open(const char* file);
             bool IsOpen();
 
             void Update(float dt);
