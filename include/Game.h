@@ -9,9 +9,11 @@
 
 #ifndef GAME_H
   #define GAME_H
+  #define PI 3.14159265
   #include <iostream>
   #include <vector>
   #include <memory>
+  #include "math.h"
   #include "State.h"
 
   class Game {

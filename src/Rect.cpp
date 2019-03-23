@@ -13,3 +13,11 @@ Rect::Rect(float x,float y,float w,float h){
     this->w = w;
     this->h = h;
 }
+
+bool Rect::Contains(float x,float y){
+    if(( (this->x <= x) && (x <= (this->x + this->w)) ) && ( (this->y <= y) && (y <= (this->y + this->h)) )){
+        return true;
+    }else{
+        return false;
+    }
+}

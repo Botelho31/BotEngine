@@ -7,7 +7,7 @@ GameObject::GameObject(){
 }
 
 GameObject::~GameObject(){
-    for(unsigned int i = components.size(); i > 0; i--){
+    for(unsigned int i = components.size() - 1; i >= 0; i--){
         delete components.at(i);
     }
     components.clear();
