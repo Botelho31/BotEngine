@@ -24,7 +24,7 @@
       static Game& GetInstance();
 
     private:
-      Game(const char* Title,int Width,int Height);
+      Game(std::string Title,int Width,int Height);
       static Game *instance;
       SDL_Window *window;
       SDL_Renderer *renderer;

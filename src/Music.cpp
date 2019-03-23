@@ -4,7 +4,7 @@ Music::Music(){
     music = nullptr;
 }
 
-Music::Music(const char* file){
+Music::Music(std::string file){
     music = nullptr;
     Open(file);
 }
@@ -13,11 +13,11 @@ Music::~Music(){
     Mix_FreeMusic(music);
 }
 
-void Music::Open(const char* file){
+void Music::Open(std::string file){
     if(music){
         Mix_FreeMusic(music);
     }
-    music = Mix_LoadMUS(file);
+    music = Mix_LoadMUS(file.c_str());
     if(music == nullptr){
         std::cout << "Failed loading Music - " << SDL_GetError() << "\n" << std::endl;
     }

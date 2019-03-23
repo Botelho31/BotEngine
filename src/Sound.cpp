@@ -5,7 +5,7 @@ Sound::Sound(GameObject& associated) : Component(associated){
     chunk = nullptr;
 }
 
-Sound::Sound(GameObject& associated, const char* file) : Sound(associated){
+Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
     Open(file);
 }
 
@@ -16,8 +16,8 @@ Sound::~Sound(){
     }
 }
 
-void Sound::Open(const char* file){
-    chunk = Mix_LoadWAV(file);
+void Sound::Open(std::string file){
+    chunk = Mix_LoadWAV(file.c_str());
 }
 
 void Sound::Play(int times){

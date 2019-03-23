@@ -12,7 +12,7 @@ Game& Game::GetInstance(){
     }
 }
 
-Game::Game(const char* Title,int Width,int Height){
+Game::Game(std::string Title,int Width,int Height){
     if(instance != nullptr){
         std::cout << "Fatal Error: Two instances being created\n" << std::endl;
         return;
@@ -29,7 +29,7 @@ Game::Game(const char* Title,int Width,int Height){
             }
             std::cout << "Number of Mix Libraries Initialized: " << Mix_Init(MIX_INIT_MP3) << "\n" << std::endl;
             Mix_AllocateChannels(32);
-            window = SDL_CreateWindow(Title,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,Width,Height,0); 
+            window = SDL_CreateWindow(Title.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,Width,Height,0); 
             if(window){
                 std::cout << "Window Initialized\n" << std::endl;
             }else{

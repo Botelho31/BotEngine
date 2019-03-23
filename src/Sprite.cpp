@@ -6,7 +6,7 @@ Sprite::Sprite(GameObject& associated) : Component(associated){
     texture = nullptr;
 }
 
-Sprite::Sprite(GameObject& associated,const char* file) : Sprite(associated){
+Sprite::Sprite(GameObject& associated,std::string file) : Sprite(associated){
     Open(file);
 }
 
@@ -16,12 +16,12 @@ Sprite::~Sprite(){
     }
 }
 
-void Sprite::Open(const char* file){
+void Sprite::Open(std::string file){
     if(texture){
         SDL_DestroyTexture(texture);
         texture = nullptr;
     }
-    texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file);
+    texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
     if(texture == nullptr){
         std::cout << "Error Loading Image: " << SDL_GetError() << std::endl;
         return;

@@ -4,10 +4,14 @@
 
 #ifndef FACE_H
     #define FACE_H
-    
+    #include "GameObject.h"
+    #include "Component.h"
+
     class Face : public Component{
         public:
             Face(GameObject& associated);
+            ~Face();
+
             void Damage(int damage);
 
             void Update(float dt);
