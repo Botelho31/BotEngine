@@ -4,10 +4,10 @@
 
 #ifndef SPRITE_H
     #define SPRITE_H
-    #include "Component.h"
     #include "GameObject.h"
+    #include "Component.h"
 
-    class Sprite : Component{
+    class Sprite : public Component{
         public:
             Sprite(GameObject& associated);
             Sprite(GameObject& associated,const char* file);

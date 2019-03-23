@@ -1,4 +1,5 @@
 #include "../include/GameObject.h"
+#include "../include/Component.h"
 
 
 GameObject::GameObject(){
@@ -6,20 +7,20 @@ GameObject::GameObject(){
 }
 
 GameObject::~GameObject(){
-    for(int i = components.size(); i > 0; i--){
+    for(unsigned int i = components.size(); i > 0; i--){
         delete components.at(i);
     }
     components.clear();
 }
 
 void GameObject::Update(float dt){
-    for(int i = 0; i <= components.size;i++){
+    for(unsigned int i = 0; i <= components.size();i++){
         components[i]->Update(dt);
     }
 }
 
 void GameObject::Render(){
-    for(int i = 0; i <= components.size;i++){
+    for(unsigned int i = 0; i <= components.size();i++){
         components[i]->Render();
     }
 }
@@ -37,7 +38,7 @@ void GameObject::AddComponent(Component* cpt){
 }
 
 void GameObject::RemoveComponent(Component* cpt){
-    for(int i = 0; i <= components.size();i++){
+    for(unsigned int i = 0; i <= components.size();i++){
         if(components.at(i) == cpt){
             delete components.at(i);
             components.erase(components.begin() + i);
@@ -46,7 +47,7 @@ void GameObject::RemoveComponent(Component* cpt){
 }
 
 Component* GameObject::GetComponent(std::string type){
-    for(int i = 0; i <= components.size();i++){
+    for(unsigned int i = 0; i <= components.size();i++){
         if(components[i]->Is(type)){
             return components.at(i);
         }

@@ -4,9 +4,8 @@
 
 #ifndef GAMEOBJECT_H
     #define GAMEOBJECT_H
-    class Component;
-    #include "Component.h"
     #include "Rect.h"
+    class Component;
 
     class GameObject{
         public:
