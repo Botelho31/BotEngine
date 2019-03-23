@@ -14,11 +14,12 @@
             ~Sprite();
             void Open(const char* file); 
             void SetClip(int x,int y,int w,int h);
-            void Render();
-            void Update(float dt);
             int GetWidth();
             int GetHeight();
             bool IsOpen();
+
+            void Render();
+            void Update(float dt);
             bool Is(std::string type);
 
         private:
