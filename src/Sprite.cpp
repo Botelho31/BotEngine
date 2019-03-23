@@ -2,11 +2,11 @@
 #include "../include/State.h"
 
 Sprite::Sprite(GameObject& associated) : Component(associated){
+    this->associated = associated;
     texture = nullptr;
 }
 
-Sprite::Sprite(GameObject& associated,const char* file) : Component(associated){
-    texture = nullptr;
+Sprite::Sprite(GameObject& associated,const char* file) : Sprite(associated){
     Open(file);
 }
 

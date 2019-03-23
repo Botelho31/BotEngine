@@ -18,8 +18,8 @@
             int GetHeight();
             bool IsOpen();
 
-            void Render();
             void Update(float dt);
+            void Render();
             bool Is(std::string type);
 
         private:
