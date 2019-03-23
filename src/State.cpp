@@ -1,6 +1,7 @@
 #include "../include/State.h"
 #include "../include/Face.h"
 #include "../include/Vec2.h"
+#include "../include/Sound.h"
 
 State::State(){
     quitRequested = false;
@@ -67,14 +68,41 @@ void State::Input(){
 		}
 	}
 }
+
+void State::AddObject(int mouseX,int mouseY){
+    GameObject *object = new GameObject();
+    Sprite *penguin  =  new Sprite(*object,"../assets/img/penguinface.png");
+    object->AddComponent(penguin);
+    object->box.x = mouseX - (object->box.w/2);
+    object->box.y = mouseY - (object->box.h/2);
+    Sound *sound = new Sound(*object,"../assets/audio/boom.wav");
+    object->AddComponent(sound);
+    Face *face = new Face(*object);
+    object->AddComponent(face);
+    objectArray.emplace_back(object);
+}
+
 void State::LoadAssets(){
 
 }
 
 void State::Update(float dt){
+    Input();
+    float t = 0;
+    for(unsigned int i = 0; i <= objectArray.size();i++){
+        objectArray[i]->Update(t);
+    }
+    for(unsigned int i = 0; i <= objectArray.size();i++){
+        if(objectArray[i]->IsDead()){
+            objectArray.erase(objectArray.begin() + i);
+        }
+    }
 }
 
 void State::Render(){
+    for(unsigned int i = 0; i <= objectArray.size();i++){
+        objectArray[i]->Render();
+    }
 }
 
 bool State::QuitRequested(){

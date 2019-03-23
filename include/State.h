@@ -6,6 +6,7 @@
     #define STATE_H
     #include "Sprite.h"
     #include "Music.h"
+    #include "GameObject.h"
 
     class State{
         public:
