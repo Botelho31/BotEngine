@@ -11,6 +11,7 @@
   #define GAME_H
   #include <iostream>
   #include <vector>
+  #include <memory>
   #include "State.h"
 
   class Game {
