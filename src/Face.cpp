@@ -15,12 +15,18 @@
             Component *component = associated.GetComponent("Sound");
             if(component != nullptr){
                 Sound *sound = dynamic_cast<Sound*>(component);
-                sound->Play();
-                associated.RequestDelete();
+                sound->Play(1);
+                SDL_TimerID timerid =  SDL_AddTimer(800,DelayedDeath,&associated);
             }else{
                 associated.RequestDelete();
             }
         }
+    }
+
+    Uint32 Face::DelayedDeath(Uint32 interval, void *param){
+        GameObject* game =  static_cast<GameObject*>(param);
+        game->RequestDelete();
+        return 0;
     }
 
     void Face::Update(float dt){

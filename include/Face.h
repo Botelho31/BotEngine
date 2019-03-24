@@ -13,6 +13,7 @@
             ~Face();
 
             void Damage(int damage);
+            static Uint32 DelayedDeath(Uint32 interval, void *param);
 
             void Update(float dt);
             void Render();

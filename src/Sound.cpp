@@ -34,6 +34,14 @@ bool Sound::IsPlaying(){
     }
 }
 
+bool Sound::IsOpen(){
+    if(chunk){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 void Sound::Stop(){
     if(chunk != nullptr){
         Mix_HaltChannel(channel);
