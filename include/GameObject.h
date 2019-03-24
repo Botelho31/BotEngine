@@ -5,7 +5,7 @@
 #ifndef GAMEOBJECT_H
     #define GAMEOBJECT_H
     #include "Rect.h"
-    class Component;
+    #include "Component.h"
 
     class GameObject{
         public:

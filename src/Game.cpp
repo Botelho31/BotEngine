@@ -8,7 +8,7 @@ Game& Game::GetInstance(){
     }
     else{
         Game *game = new Game("BotEngine",1024,600);
-        return *instance;
+        return *game;
     }
 }
 
@@ -55,9 +55,10 @@ Game::Game(std::string Title,int Width,int Height){
 }
 
 Game::~Game(){
+    delete state;
     IMG_Quit();
-    Mix_Quit();
     Mix_CloseAudio();
+    Mix_Quit();
     SDL_DestroyWindow(window);
     SDL_DestroyRenderer(renderer);
     SDL_Quit();

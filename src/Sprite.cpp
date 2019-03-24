@@ -2,7 +2,6 @@
 #include "../include/State.h"
 
 Sprite::Sprite(GameObject& associated) : Component(associated){
-    this->associated = associated;
     texture = nullptr;
 }
 

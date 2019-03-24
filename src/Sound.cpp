@@ -1,7 +1,6 @@
 #include "../include/Sound.h"
 
 Sound::Sound(GameObject& associated) : Component(associated){
-    this->associated = associated;
     chunk = nullptr;
 }
 

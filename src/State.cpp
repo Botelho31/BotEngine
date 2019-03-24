@@ -7,12 +7,14 @@ State::State(){
     quitRequested = false;
     music = new Music("assets/audio/stageState.ogg");
     music->Play();
-    // bg = new Sprite("assets/img/ocean.jpg");
+    // bg = new Sprite("assets/img/ocean.jpg";
     // bg->SetClip(0,0,bg->GetWidth(),bg->GetHeight());
     // bg->Render(0,0);
 }
 
 State::~State(){
+	delete music;
+	delete bg;
     objectArray.clear();
 }
 
@@ -89,10 +91,10 @@ void State::LoadAssets(){
 void State::Update(float dt){
     Input();
     float t = 0;
-    for(unsigned int i = 0; i <= objectArray.size();i++){
+    for(unsigned int i = 0; i < objectArray.size();i++){
         objectArray[i]->Update(t);
     }
-    for(unsigned int i = 0; i <= objectArray.size();i++){
+    for(unsigned int i = 0; i < objectArray.size();i++){
         if(objectArray[i]->IsDead()){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -100,7 +102,7 @@ void State::Update(float dt){
 }
 
 void State::Render(){
-    for(unsigned int i = 0; i <= objectArray.size();i++){
+    for(unsigned int i = 0; i < objectArray.size();i++){
         objectArray[i]->Render();
     }
 }

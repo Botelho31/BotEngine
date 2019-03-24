@@ -1,0 +1,2567 @@
+==31304== Memcheck, a memory error detector
+==31304== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==31304== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==31304== Command: ./GAME
+==31304== Parent PID: 31279
+==31304== 
+--31304-- 
+--31304-- Valgrind options:
+--31304--    --log-file=valgrindlog.txt
+--31304--    --leak-check=full
+--31304--    -v
+--31304-- Contents of /proc/version:
+--31304--   Linux version 4.15.0-46-generic (buildd@lgw01-amd64-008) (gcc version 5.4.0 20160609 (Ubuntu 5.4.0-6ubuntu1~16.04.10)) #49~16.04.1-Ubuntu SMP Tue Feb 12 17:45:24 UTC 2019
+--31304-- 
+--31304-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-avx-avx2-bmi
+--31304-- Page sizes: currently 4096, max supported 4096
+--31304-- Valgrind library directory: /usr/lib/valgrind
+--31304-- Reading syms from /home/botelho/Desktop/BotEngine/botengine/GAME
+--31304-- Reading syms from /lib/x86_64-linux-gnu/ld-2.23.so
+--31304--   Considering /lib/x86_64-linux-gnu/ld-2.23.so ..
+--31304--   .. CRC mismatch (computed 10d8ea02 wanted 4fdda1aa)
+--31304--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/ld-2.23.so ..
+--31304--   .. CRC is valid
+--31304-- Reading syms from /usr/lib/valgrind/memcheck-amd64-linux
+--31304--   Considering /usr/lib/valgrind/memcheck-amd64-linux ..
+--31304--   .. CRC mismatch (computed eea41ea9 wanted 2009db78)
+--31304--    object doesn't have a symbol table
+--31304--    object doesn't have a dynamic symbol table
+--31304-- Scheduler: using generic scheduler lock implementation.
+--31304-- Reading suppressions file: /usr/lib/valgrind/default.supp
+==31304== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-31304-by-botelho-on-???
+==31304== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-31304-by-botelho-on-???
+==31304== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-31304-by-botelho-on-???
+==31304== 
+==31304== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==31304== don't want to do, unless you know exactly what you're doing,
+==31304== or are doing some strange experiment):
+==31304==   /usr/lib/valgrind/../../bin/vgdb --pid=31304 ...command...
+==31304== 
+==31304== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==31304==   /path/to/gdb ./GAME
+==31304== and then give GDB the following command
+==31304==   target remote | /usr/lib/valgrind/../../bin/vgdb --pid=31304
+==31304== --pid is optional if only one valgrind process is running
+==31304== 
+--31304-- REDIR: 0x401cf10 (ld-linux-x86-64.so.2:strlen) redirected to 0x3809e181 (???)
+--31304-- Reading syms from /usr/lib/valgrind/vgpreload_core-amd64-linux.so
+--31304--   Considering /usr/lib/valgrind/vgpreload_core-amd64-linux.so ..
+--31304--   .. CRC mismatch (computed 2567ccf6 wanted 49420590)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so
+--31304--   Considering /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so ..
+--31304--   .. CRC mismatch (computed 0e27c9a8 wanted ac585421)
+--31304--    object doesn't have a symbol table
+==31304== WARNING: new redirection conflicts with existing -- ignoring it
+--31304--     old: 0x0401cf10 (strlen              ) R-> (0000.0) 0x3809e181 ???
+--31304--     new: 0x0401cf10 (strlen              ) R-> (2007.0) 0x04c31020 strlen
+--31304-- REDIR: 0x401b860 (ld-linux-x86-64.so.2:index) redirected to 0x4c30bc0 (index)
+--31304-- REDIR: 0x401ba80 (ld-linux-x86-64.so.2:strcmp) redirected to 0x4c320d0 (strcmp)
+--31304-- REDIR: 0x401dc70 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4c35270 (mempcpy)
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libSDL2_image-2.0.so.0.0.1
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libSDL2_mixer-2.0.so.0.0.1
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libstdc++.so.6.0.21 ..
+--31304--   .. CRC mismatch (computed b2e7dc97 wanted c9833bdf)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libm-2.23.so
+--31304--   Considering /lib/x86_64-linux-gnu/libm-2.23.so ..
+--31304--   .. CRC mismatch (computed d1bcd7c2 wanted c6824701)
+--31304--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libm-2.23.so ..
+--31304--   .. CRC is valid
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libgcc_s.so.1
+--31304--   Considering /lib/x86_64-linux-gnu/libgcc_s.so.1 ..
+--31304--   .. CRC mismatch (computed b9a68419 wanted 29d51b00)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libc-2.23.so
+--31304--   Considering /lib/x86_64-linux-gnu/libc-2.23.so ..
+--31304--   .. CRC mismatch (computed 10016417 wanted 1f868c97)
+--31304--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libc-2.23.so ..
+--31304--   .. CRC is valid
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libasound.so.2.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libdl-2.23.so
+--31304--   Considering /lib/x86_64-linux-gnu/libdl-2.23.so ..
+--31304--   .. CRC mismatch (computed ca8e05bc wanted c502f875)
+--31304--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libdl-2.23.so ..
+--31304--   .. CRC is valid
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libpulse.so.0.19.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libsndio.so.6.1
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0 ..
+--31304--   .. CRC mismatch (computed 2d6b0194 wanted c4b33c13)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libXext.so.6.4.0 ..
+--31304--   .. CRC mismatch (computed b483887a wanted 38c83e44)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libXcursor.so.1.0.2 ..
+--31304--   .. CRC mismatch (computed 1e588ec0 wanted 349ee508)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libXinerama.so.1.0.0 ..
+--31304--   .. CRC mismatch (computed 7bb99cdf wanted 61ad4d32)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXi.so.6.1.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXrandr.so.2.2.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXss.so.1.0.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libXss.so.1.0.0 ..
+--31304--   .. CRC mismatch (computed ab522b10 wanted 5fc28128)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXxf86vm.so.1.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libwayland-egl.so.1.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libwayland-client.so.0.3.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libwayland-cursor.so.0.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxkbcommon.so.0.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libpthread-2.23.so
+--31304--   Considering /usr/lib/debug/.build-id/b1/7c21299099640a6d863e423d99265824e7bb16.debug ..
+--31304--   .. build-id is valid
+--31304-- Reading syms from /lib/x86_64-linux-gnu/librt-2.23.so
+--31304--   Considering /lib/x86_64-linux-gnu/librt-2.23.so ..
+--31304--   .. CRC mismatch (computed bbc6ed8b wanted 6e62fb7a)
+--31304--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/librt-2.23.so ..
+--31304--   .. CRC is valid
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libpng12.so.0.54.0
+--31304--   Considering /lib/x86_64-linux-gnu/libpng12.so.0.54.0 ..
+--31304--   .. CRC mismatch (computed 6f238d5c wanted 8f335665)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libjpeg.so.8.0.2
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libtiff.so.5.2.4
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libwebp.so.5.0.4
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libmodplug.so.1.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libfluidsynth.so.1.5.2
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libvorbisfile.so.3.3.7
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libFLAC.so.8.3.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libmad.so.0.2.1
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libjson-c.so.2.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-8.0.so
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libdbus-1.so.3.14.6
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libbsd.so.0.8.2
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libXrender.so.1.3.0 ..
+--31304--   .. CRC mismatch (computed 19f12a45 wanted d5c3c1e7)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXfixes.so.3.1.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libffi.so.6.0.4
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libz.so.1.2.8
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/liblzma.so.5.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libjbig.so.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libjbig.so.0 ..
+--31304--   .. CRC mismatch (computed 62ceb709 wanted f6cb0ad8)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libglib-2.0.so.0.4800.2
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libjack.so.0.1.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libpulse-simple.so.0.1.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.25
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libsndfile.so.1.0.25 ..
+--31304--   .. CRC mismatch (computed 52510984 wanted 7d6372da)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libreadline.so.6.3
+--31304--   Considering /lib/x86_64-linux-gnu/libreadline.so.6.3 ..
+--31304--   .. CRC mismatch (computed 0fdae671 wanted ec3ee935)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libvorbis.so.0.4.8
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libogg.so.0.8.2
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libogg.so.0.8.2 ..
+--31304--   .. CRC mismatch (computed 79e45162 wanted f32912dd)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libsystemd.so.0.14.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libwrap.so.0.7.6
+--31304--   Considering /lib/x86_64-linux-gnu/libwrap.so.0.7.6 ..
+--31304--   .. CRC mismatch (computed 34dcf8ad wanted 45219146)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libasyncns.so.0.3.1
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libXau.so.6.0.0 ..
+--31304--   .. CRC mismatch (computed 256f5df8 wanted 5d40ac88)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXdmcp.so.6.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libpcre.so.3.13.2
+--31304--   Considering /lib/x86_64-linux-gnu/libpcre.so.3.13.2 ..
+--31304--   .. CRC mismatch (computed 276b70fd wanted 22183252)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libvorbisenc.so.2.0.11
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libtinfo.so.5.9
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libselinux.so.1
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libgcrypt.so.20.0.5
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libnsl-2.23.so
+--31304--   Considering /lib/x86_64-linux-gnu/libnsl-2.23.so ..
+--31304--   .. CRC mismatch (computed 8db6ee4e wanted d3ca6948)
+--31304--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libnsl-2.23.so ..
+--31304--   .. CRC is valid
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libresolv-2.23.so
+--31304--   Considering /lib/x86_64-linux-gnu/libresolv-2.23.so ..
+--31304--   .. CRC mismatch (computed 7dfc00ab wanted 4cd5db61)
+--31304--   Considering /usr/lib/debug/lib/x86_64-linux-gnu/libresolv-2.23.so ..
+--31304--   .. CRC is valid
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libgpg-error.so.0.17.0
+--31304--    object doesn't have a symbol table
+--31304-- REDIR: 0x5ef3a00 (libc.so.6:strcasecmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5eef280 (libc.so.6:strcspn) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef5cf0 (libc.so.6:strncasecmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef16f0 (libc.so.6:strpbrk) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef1a80 (libc.so.6:strspn) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef314b (libc.so.6:memcpy@GLIBC_2.2.5) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5eefb20 (libc.so.6:strncmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5eeda80 (libc.so.6:index) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef31b0 (libc.so.6:memset) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef2bb0 (libc.so.6:bcmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5eedcd0 (libc.so.6:strcmp) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5f7a210 (libc.so.6:__memcpy_chk) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef83f0 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef13c0 (libc.so.6:strncpy) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef3850 (libc.so.6:stpcpy) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5eef160 (libc.so.6:strcpy) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef3330 (libc.so.6:mempcpy) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5ef1400 (libc.so.6:rindex) redirected to 0x4c308a0 (rindex)
+--31304-- REDIR: 0x5eef720 (libc.so.6:strlen) redirected to 0x4c30f60 (strlen)
+--31304-- REDIR: 0x5ee8130 (libc.so.6:malloc) redirected to 0x4c2db20 (malloc)
+--31304-- REDIR: 0x5ef8470 (libc.so.6:__GI_memcpy) redirected to 0x4c32b00 (__GI_memcpy)
+--31304-- REDIR: 0x5eedd10 (libc.so.6:__GI_strcmp) redirected to 0x4c31fe0 (__GI_strcmp)
+--31304-- REDIR: 0x5ef2060 (libc.so.6:__GI_strstr) redirected to 0x4c354d0 (__strstr_sse2)
+--31304-- REDIR: 0x5ef2860 (libc.so.6:memchr) redirected to 0x4c32170 (memchr)
+--31304-- REDIR: 0x5ef2630 (libc.so.6:strstr) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5f0e070 (libc.so.6:__strstr_sse2_unaligned) redirected to 0x4c35460 (strstr)
+--31304-- REDIR: 0x5ee84f0 (libc.so.6:free) redirected to 0x4c2ed80 (free)
+--31304-- REDIR: 0x5ef2bf0 (libc.so.6:__GI_memcmp) redirected to 0x4c33b90 (__GI_memcmp)
+--31304-- REDIR: 0x5f03570 (libc.so.6:__strcmp_sse2_unaligned) redirected to 0x4c31f90 (strcmp)
+--31304-- REDIR: 0x5650e60 (libstdc++.so.6:operator new(unsigned long)) redirected to 0x4c2e080 (operator new(unsigned long))
+--31304-- REDIR: 0x5ee8d10 (libc.so.6:calloc) redirected to 0x4c2faa0 (calloc)
+--31304-- REDIR: 0x5fd2430 (libc.so.6:__memcmp_sse4_1) redirected to 0x4c33cd0 (__memcmp_sse4_1)
+--31304-- REDIR: 0x5ef33b0 (libc.so.6:__GI_mempcpy) redirected to 0x4c34fa0 (__GI_mempcpy)
+--31304-- REDIR: 0x5fb1ea0 (libc.so.6:__memcpy_avx_unaligned) redirected to 0x4c324a0 (memcpy@@GLIBC_2.14)
+--31304-- REDIR: 0x5ee86c0 (libc.so.6:realloc) redirected to 0x4c2fce0 (realloc)
+--31304-- REDIR: 0x5fd6970 (libc.so.6:__memset_avx2) redirected to 0x4c344c0 (memset)
+--31304-- REDIR: 0x5eefb70 (libc.so.6:__GI_strncmp) redirected to 0x4c31710 (__GI_strncmp)
+--31304-- REDIR: 0x5efa760 (libc.so.6:strchrnul) redirected to 0x4c34da0 (strchrnul)
+--31304-- REDIR: 0x5f7a480 (libc.so.6:__strcpy_chk) redirected to 0x4c34e10 (__strcpy_chk)
+--31304-- REDIR: 0x5fa9a90 (libc.so.6:__strncmp_sse42) redirected to 0x4c317f0 (__strncmp_sse42)
+--31304-- REDIR: 0x5fb19b0 (libc.so.6:__memmove_avx_unaligned) redirected to 0x4c32230 (memcpy@GLIBC_2.2.5)
+--31304-- REDIR: 0x5f0a000 (libc.so.6:__strncpy_sse2_unaligned) redirected to 0x4c31570 (__strncpy_sse2_unaligned)
+--31304-- REDIR: 0x5f099d0 (libc.so.6:__strcpy_sse2_unaligned) redirected to 0x4c31040 (strcpy)
+--31304-- REDIR: 0x5eedab0 (libc.so.6:__GI_strchr) redirected to 0x4c30a00 (__GI_strchr)
+--31304-- REDIR: 0x5f0afe0 (libc.so.6:__stpcpy_sse2_unaligned) redirected to 0x4c34120 (__stpcpy_sse2_unaligned)
+--31304-- REDIR: 0x5f03520 (libc.so.6:__GI_strncpy) redirected to 0x4c31310 (__GI_strncpy)
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /lib/x86_64-linux-gnu/libexpat.so.1.6.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-dri3.so.0.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-present.so.0.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-sync.so.1.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxshmfence.so.1.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libglapi.so.0.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libXdamage.so.1.1.0 ..
+--31304--   .. CRC mismatch (computed e9b9988d wanted 2077fd66)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0
+--31304--   Considering /usr/lib/x86_64-linux-gnu/libX11-xcb.so.1.0.0 ..
+--31304--   .. CRC mismatch (computed 98018579 wanted ddca8eec)
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-glx.so.0.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libxcb-dri2.so.0.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libdrm.so.2.4.0
+--31304--    object doesn't have a symbol table
+--31304-- REDIR: 0x5fb2240 (libc.so.6:__mempcpy_avx_unaligned) redirected to 0x4c34eb0 (mempcpy)
+--31304-- REDIR: 0x5fae860 (libc.so.6:__strspn_sse42) redirected to 0x4c35670 (strspn)
+--31304-- REDIR: 0x5eef8c0 (libc.so.6:strnlen) redirected to 0x4c30ee0 (strnlen)
+--31304-- REDIR: 0x5ef3890 (libc.so.6:__GI_stpcpy) redirected to 0x4c33f80 (__GI_stpcpy)
+--31304-- REDIR: 0x5ef2ff0 (libc.so.6:__GI_memmove) redirected to 0x4c347e0 (__GI_memmove)
+--31304-- REDIR: 0x5efa550 (libc.so.6:rawmemchr) redirected to 0x4c34dd0 (rawmemchr)
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libdrm_intel.so.1.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libdrm_nouveau.so.2.0.0
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libdrm_radeon.so.1.0.1
+--31304--    object doesn't have a symbol table
+--31304-- Reading syms from /usr/lib/x86_64-linux-gnu/libpciaccess.so.0.11.1
+--31304--    object doesn't have a symbol table
+--31304-- REDIR: 0x5eed880 (libc.so.6:strcat) redirected to 0x4a286f0 (_vgnU_ifunc_wrapper)
+--31304-- REDIR: 0x5650f10 (libstdc++.so.6:operator new[](unsigned long)) redirected to 0x4c2e7a0 (operator new[](unsigned long))
+--31304-- REDIR: 0x564ef40 (libstdc++.so.6:operator delete[](void*)) redirected to 0x4c2f6e0 (operator delete[](void*))
+==31304== Syscall param writev(vector[...]) points to uninitialised byte(s)
+==31304==    at 0x5F60FFD: ??? (syscall-template.S:84)
+==31304==    by 0xA8BBF28: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==31304==    by 0xA8BC31C: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==31304==    by 0xA8BC3A4: xcb_writev (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==31304==    by 0x6BCF54D: _XSend (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x6BCFA41: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x6BBA60E: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x4EF9B3A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EFA941: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC1A8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBF94: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0xe24efb3 is 35 bytes inside a block of size 16,384 alloc'd
+==31304==    at 0x4C2FB55: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31304==    by 0x6BBF722: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x4EF8E04: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBF40: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==    by 0x4021A7: Game::GetInstance() (Game.cpp:10)
+==31304==    by 0x404EC7: main (Main.cpp:5)
+==31304== 
+--31304-- REDIR: 0x5eeb600 (libc.so.6:posix_memalign) redirected to 0x4c300a0 (posix_memalign)
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932000 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932004 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932008 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93200c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932010 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932014 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932018 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93201c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932020 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932024 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B44D98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932028 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B44FE7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93202c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B44FED: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932030 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B45020: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932034 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B45026: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932038 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4502D: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93203c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B44FAE: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932040 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+--31304-- WARNING: Serious error when reading debug info
+--31304-- When reading debug info from /memfd:xshmfence (deleted):
+--31304-- failed to stat64/stat this file
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932044 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932048 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93204c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932050 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932054 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932058 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93205c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932060 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932064 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932068 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93206c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932070 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932074 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932078 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93207c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B587D7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932080 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B587DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932084 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B587FD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93208c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5883C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932088 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B58889: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932094 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B588A3: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932090 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B588D0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932098 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5897F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93209c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B58985: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320a0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B589B8: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320a4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B589BF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320a8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B589A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320ac is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320b0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320b4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460DF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320b8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320bc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320c0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5C31B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320c8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5C31F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320c4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5C33D: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320cc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320d0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320d4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320d8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320dc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320e0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5BFE1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da9320e4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5BFF0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da9320e8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320ec is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320f0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320f4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320f8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320fc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5B9A5: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da932100 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== Invalid write of size 4
+==31304==    at 0x10B5B9BA: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da932104 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+--31304-- REDIR: 0x5fae5f0 (libc.so.6:__strcspn_sse42) redirected to 0x4c35610 (strcspn)
+--31304-- REDIR: 0x5fb1e90 (libc.so.6:__memcpy_chk_avx_unaligned) redirected to 0x4c35360 (__memcpy_chk)
+--31304-- REDIR: 0x564ef10 (libstdc++.so.6:operator delete(void*)) redirected to 0x4c2f1e0 (operator delete(void*))
+==31304== Conditional jump or move depends on uninitialised value(s)
+==31304==    at 0x4028BC: State::~State() (State.cpp:17)
+==31304==    by 0x402621: Game::~Game() (Game.cpp:58)
+==31304==    by 0x404EFB: main (Main.cpp:5)
+==31304== 
+==31304== Invalid read of size 8
+==31304==    at 0x4EE818A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E9221A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402657: Game::~Game() (Game.cpp:63)
+==31304==    by 0x404EFB: main (Main.cpp:5)
+==31304==  Address 0x12d2a900 is 0 bytes inside a block of size 216 free'd
+==31304==    at 0x4C2EDEB: free (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31304==    by 0x402647: Game::~Game() (Game.cpp:62)
+==31304==    by 0x404EFB: main (Main.cpp:5)
+==31304==  Block was alloc'd at
+==31304==    at 0x4C2FB55: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31304==    by 0x4EEC0E9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4023F3: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:32)
+==31304==    by 0x4021A7: Game::GetInstance() (Game.cpp:10)
+==31304==    by 0x404EC7: main (Main.cpp:5)
+==31304== 
+==31304== 
+==31304== HEAP SUMMARY:
+==31304==     in use at exit: 181,605 bytes in 555 blocks
+==31304==   total heap usage: 13,743 allocs, 13,188 frees, 26,089,151 bytes allocated
+==31304== 
+==31304== Searching for pointers to 555 not-freed blocks
+==31304== Checked 3,559,408 bytes
+==31304== 
+==31304== LEAK SUMMARY:
+==31304==    definitely lost: 0 bytes in 0 blocks
+==31304==    indirectly lost: 0 bytes in 0 blocks
+==31304==      possibly lost: 0 bytes in 0 blocks
+==31304==    still reachable: 181,605 bytes in 555 blocks
+==31304==         suppressed: 0 bytes in 0 blocks
+==31304== Reachable blocks (those to which a pointer was found) are not shown.
+==31304== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+==31304== 
+==31304== Use --track-origins=yes to see where uninitialised values come from
+==31304== ERROR SUMMARY: 72 errors from 69 contexts (suppressed: 0 from 0)
+==31304== 
+==31304== 1 errors in context 1 of 69:
+==31304== Invalid read of size 8
+==31304==    at 0x4EE818A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E9221A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402657: Game::~Game() (Game.cpp:63)
+==31304==    by 0x404EFB: main (Main.cpp:5)
+==31304==  Address 0x12d2a900 is 0 bytes inside a block of size 216 free'd
+==31304==    at 0x4C2EDEB: free (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31304==    by 0x402647: Game::~Game() (Game.cpp:62)
+==31304==    by 0x404EFB: main (Main.cpp:5)
+==31304==  Block was alloc'd at
+==31304==    at 0x4C2FB55: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31304==    by 0x4EEC0E9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4023F3: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:32)
+==31304==    by 0x4021A7: Game::GetInstance() (Game.cpp:10)
+==31304==    by 0x404EC7: main (Main.cpp:5)
+==31304== 
+==31304== 
+==31304== 1 errors in context 2 of 69:
+==31304== Conditional jump or move depends on uninitialised value(s)
+==31304==    at 0x4028BC: State::~State() (State.cpp:17)
+==31304==    by 0x402621: Game::~Game() (Game.cpp:58)
+==31304==    by 0x404EFB: main (Main.cpp:5)
+==31304== 
+==31304== 
+==31304== 1 errors in context 3 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5B9BA: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da932104 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 4 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5B9A5: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da932100 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 5 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320fc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 6 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320f8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 7 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320f4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 8 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320f0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 9 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFF7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320ec is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 10 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5BFF0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da9320e8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 11 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5BFE1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==  Address 0x7f73da9320e4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 12 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320e0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 13 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320dc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 14 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320d8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 15 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320d4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 16 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320d0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 17 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5C33D: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320cc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 18 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5C31F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320c4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 19 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5C31B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320c8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 20 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320c0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 21 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320bc is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 22 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460DF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320b8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 23 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320b4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 24 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45E9C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B45F24: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5BFB4: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320b0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 25 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B589A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320ac is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 26 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B589BF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320a8 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 27 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B589B8: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320a4 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 28 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B58985: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da9320a0 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 29 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5897F: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93209c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 30 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B588D0: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932098 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 31 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B588A3: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932090 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 32 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B58889: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932094 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 33 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B5883C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932088 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 34 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B587FD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93208c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 35 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B587DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932084 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 36 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B587D7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC035: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932080 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 37 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93207c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 38 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932078 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 39 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932074 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 40 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932070 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 41 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5868E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93206c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 42 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932068 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 43 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932064 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 44 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932060 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 45 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93205c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 46 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58681: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932058 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 47 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932054 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 48 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932050 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 49 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93204c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 50 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932048 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 51 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58674: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B58D1A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B5C004: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B37C2C: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x107C68FF: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3AB0E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFBFA9: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE3D824: glXMakeContextCurrent (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF81C9: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB2CE: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBAF8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932044 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 52 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B44FAE: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932040 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 53 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4502D: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93203c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 54 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B45026: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932038 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 55 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B45020: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932034 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 56 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B44FED: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932030 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 57 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B44FE7: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93202c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 58 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B44D98: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBFA8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932028 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 59 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932024 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 60 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932020 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 61 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93201c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 62 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932018 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 63 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D50: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932014 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 64 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4602E: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932010 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 65 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B46028: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da93200c is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 66 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B461EC: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932008 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 67 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B460A1: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932004 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 1 errors in context 68 of 69:
+==31304== Invalid write of size 4
+==31304==    at 0x10B4609A: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44D43: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B44F35: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B4C39B: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10B3A453: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0x10AFB8DD: ??? (in /usr/lib/x86_64-linux-gnu/dri/i965_dri.so)
+==31304==    by 0xEE6AA05: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE6AAF3: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A43A: ??? (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0xEE3A720: glXCreateContext (in /usr/lib/x86_64-linux-gnu/mesa/libGL.so.1.2.0)
+==31304==    by 0x4EF85EF: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEB14F: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0x7f73da932000 is not stack'd, malloc'd or (recently) free'd
+==31304== 
+==31304== 
+==31304== 4 errors in context 69 of 69:
+==31304== Syscall param writev(vector[...]) points to uninitialised byte(s)
+==31304==    at 0x5F60FFD: ??? (syscall-template.S:84)
+==31304==    by 0xA8BBF28: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==31304==    by 0xA8BC31C: ??? (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==31304==    by 0xA8BC3A4: xcb_writev (in /usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0)
+==31304==    by 0x6BCF54D: _XSend (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x6BCFA41: _XReply (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x6BBA60E: XInternAtom (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x4EF9B3A: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EFA941: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEC1A8: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBF94: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==  Address 0xe24efb3 is 35 bytes inside a block of size 16,384 alloc'd
+==31304==    at 0x4C2FB55: calloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==31304==    by 0x6BBF722: XOpenDisplay (in /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0)
+==31304==    by 0x4EF8E04: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4EEBF40: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x4E533F6: ??? (in /usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.4.0)
+==31304==    by 0x402291: Game::Game(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, int, int) (Game.cpp:22)
+==31304==    by 0x4021A7: Game::GetInstance() (Game.cpp:10)
+==31304==    by 0x404EC7: main (Main.cpp:5)
+==31304== 
+==31304== ERROR SUMMARY: 72 errors from 69 contexts (suppressed: 0 from 0)
