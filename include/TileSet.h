@@ -5,7 +5,7 @@
 #ifndef TILESET_H
     #define TILESET_H
     #include "Sprite.h"
-    
+
     class TileSet{
         public:
             TileSet(int tileWidth,int tileHeight,std::string file);
@@ -13,7 +13,7 @@
             int GetTileWidth();
             int GetTileHeight();
         private:
-            Sprite tileset;
+            Sprite *tileset;
             int rows;
             int columns;
             int tileWidth;

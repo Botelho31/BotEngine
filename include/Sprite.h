@@ -20,6 +20,7 @@
 
             void Update(float dt);
             void Render();
+            void Render(int x,int y);
             bool Is(std::string type);
 
         private:

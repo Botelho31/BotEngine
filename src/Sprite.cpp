@@ -45,9 +45,13 @@ void Sprite::Update(float dt){
 }
 
 void Sprite::Render(){
+    Render(this->associated.box.x,this->associated.box.y);
+}
+
+void Sprite::Render(int x,int y){
     SDL_Rect dst_rect;
-    dst_rect.x = this->associated.box.x;
-    dst_rect.y = this->associated.box.y;
+    dst_rect.x = x;
+    dst_rect.y = y;
     dst_rect.w = clip_rect.w;
     dst_rect.h = clip_rect.h;
     SDL_RenderCopy(Game::GetInstance().GetRenderer(),texture,&clip_rect,&dst_rect);
