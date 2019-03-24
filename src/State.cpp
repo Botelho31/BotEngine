@@ -39,16 +39,10 @@ void State::Input(){
 		
 		// Se o evento for clique...
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
-			std::cout << "BUTTON PRESS" << std::endl;
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
 				// Obtem o ponteiro e casta pra Face.
 				GameObject* go = (GameObject*) objectArray[i].get();
-				// Nota: Desencapsular o ponteiro é algo que devemos evitar ao máximo.
-				// O propósito do unique_ptr é manter apenas uma cópia daquele ponteiro,
-				// ao usar get(), violamos esse princípio e estamos menos seguros.
-				// Esse código, assim como a classe Face, é provisório. Futuramente, para
-				// chamar funções de GameObjects, use objectArray[i]->função() direto.
 
 				if(go->box.Contains( (float)mouseX, (float)mouseY ) ) {
 					Face* face = (Face*)go->GetComponent( "Face" );
@@ -62,7 +56,6 @@ void State::Input(){
 			}
 		}
 		if( event.type == SDL_KEYDOWN ) {
-			std::cout << "ENTREI" << std::endl;
 			// Se a tecla for ESC, setar a flag de quit
 			if( event.key.keysym.sym == SDLK_ESCAPE ) {
 				quitRequested = true;
@@ -77,18 +70,12 @@ void State::Input(){
 }
 
 void State::AddObject(int mouseX,int mouseY){
-	std::cout << mouseX << mouseY << std::endl;
     GameObject *object = new GameObject();
-	std::cout << "ENTREI1" << std::endl;
     Sprite *penguin  =  new Sprite(*object,"assets/img/penguinface.png");
-	std::cout << "ENTREI2" << std::endl;
     object->AddComponent(penguin);
-	std::cout << "ENTREI3" << std::endl;
     object->box.x = mouseX - (object->box.w/2);
     object->box.y = mouseY - (object->box.h/2);
-	std::cout << "ENTREI4" << std::endl;
     Sound *sound = new Sound(*object,"assets/audio/boom.wav");
-	std::cout << "ENTREI5" << std::endl;
     object->AddComponent(sound);
     Face *face = new Face(*object);
     object->AddComponent(face);
