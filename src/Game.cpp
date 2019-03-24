@@ -55,12 +55,14 @@ Game::Game(std::string Title,int Width,int Height){
 }
 
 Game::~Game(){
-    delete state;
-    IMG_Quit();
-    Mix_CloseAudio();
-    Mix_Quit();
-    SDL_DestroyWindow(window);
+    if(state != nullptr){
+        delete state;
+    }
     SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    Mix_Quit();
+    Mix_CloseAudio();
+    IMG_Quit();
     SDL_Quit();
     std::cout << "SDL Finalized" << std::endl;
 }

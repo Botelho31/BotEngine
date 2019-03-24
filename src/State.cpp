@@ -7,14 +7,18 @@ State::State(){
     quitRequested = false;
     music = new Music("assets/audio/stageState.ogg");
     music->Play();
-    // bg = new Sprite("assets/img/ocean.jpg";
-    // bg->SetClip(0,0,bg->GetWidth(),bg->GetHeight());
-    // bg->Render(0,0);
+	GameObject *background = new GameObject();
+    bg = new Sprite(*background,"assets/img/ocean.jpg");
+    bg->Render();
 }
 
 State::~State(){
-	delete music;
-	delete bg;
+	if(music != nullptr){
+		delete music;
+	}
+	if(bg != nullptr){
+		delete bg;
+	}
     objectArray.clear();
 }
 
@@ -35,7 +39,7 @@ void State::Input(){
 		
 		// Se o evento for clique...
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
-
+			std::cout << "BUTTON PRESS" << std::endl;
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
 			for(int i = objectArray.size() - 1; i >= 0; --i) {
 				// Obtem o ponteiro e casta pra Face.
@@ -58,6 +62,7 @@ void State::Input(){
 			}
 		}
 		if( event.type == SDL_KEYDOWN ) {
+			std::cout << "ENTREI" << std::endl;
 			// Se a tecla for ESC, setar a flag de quit
 			if( event.key.keysym.sym == SDLK_ESCAPE ) {
 				quitRequested = true;
@@ -72,12 +77,18 @@ void State::Input(){
 }
 
 void State::AddObject(int mouseX,int mouseY){
+	std::cout << mouseX << mouseY << std::endl;
     GameObject *object = new GameObject();
-    Sprite *penguin  =  new Sprite(*object,"../assets/img/penguinface.png");
+	std::cout << "ENTREI1" << std::endl;
+    Sprite *penguin  =  new Sprite(*object,"assets/img/penguinface.png");
+	std::cout << "ENTREI2" << std::endl;
     object->AddComponent(penguin);
+	std::cout << "ENTREI3" << std::endl;
     object->box.x = mouseX - (object->box.w/2);
     object->box.y = mouseY - (object->box.h/2);
-    Sound *sound = new Sound(*object,"../assets/audio/boom.wav");
+	std::cout << "ENTREI4" << std::endl;
+    Sound *sound = new Sound(*object,"assets/audio/boom.wav");
+	std::cout << "ENTREI5" << std::endl;
     object->AddComponent(sound);
     Face *face = new Face(*object);
     object->AddComponent(face);
