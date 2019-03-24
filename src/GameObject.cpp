@@ -7,6 +7,7 @@ GameObject::GameObject(){
 }
 
 GameObject::~GameObject(){
+    // std::cout << "Cleared "<< components.size() << " Components" << std::endl;
     components.clear();
 }
 

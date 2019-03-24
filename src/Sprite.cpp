@@ -45,6 +45,7 @@ void Sprite::Update(float dt){
 }
 
 void Sprite::Render(){
+    std::cout << width << std::endl;
     SDL_Rect dst_rect;
     dst_rect.x = this->associated.box.x;
     dst_rect.y = this->associated.box.y;

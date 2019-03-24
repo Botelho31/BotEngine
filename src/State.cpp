@@ -9,7 +9,7 @@ State::State(){
     music->Play();
 	GameObject *background = new GameObject();
     bg = new Sprite(*background,"assets/img/ocean.jpg");
-    bg->Render();
+	background->AddComponent(bg);
 	objectArray.emplace_back(background);
 }
 
@@ -17,9 +17,7 @@ State::~State(){
 	if(music != nullptr){
 		delete music;
 	}
-	if(bg != nullptr){
-		delete bg;
-	}
+	std::cout << "Cleared "<< objectArray.size() << " Objects" << std::endl;
     objectArray.clear();
 }
 

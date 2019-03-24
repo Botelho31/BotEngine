@@ -12,12 +12,12 @@
     void Face::Damage(int damage){
         hitpoints -= damage;
         if(hitpoints <= 0){
+            Component *component = associated.GetComponent("Sound");
+            if(component != nullptr){
+                Sound *sound = dynamic_cast<Sound*>(component);
+                sound->Play();
+            }
             associated.RequestDelete();
-        }
-        Component *component = associated.GetComponent("Sound");
-        if(component != nullptr){
-            Sound *sound = dynamic_cast<Sound*>(component);
-            sound->Play();
         }
     }
 

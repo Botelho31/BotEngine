@@ -2,6 +2,7 @@
 
 Sound::Sound(GameObject& associated) : Component(associated){
     chunk = nullptr;
+    channel = -2;
 }
 
 Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
@@ -10,7 +11,9 @@ Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
 
 Sound::~Sound(){
     if(chunk != nullptr){
-        Mix_HaltChannel(channel);
+        if(channel != -2){
+            Mix_HaltChannel(channel);
+        }
         Mix_FreeChunk(chunk);
     }
 }
