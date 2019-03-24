@@ -13,6 +13,7 @@ Game& Game::GetInstance(){
 }
 
 Game::Game(std::string Title,int Width,int Height){
+    srand(time(NULL));
     if(instance != nullptr){
         std::cout << "Fatal Error: Two instances being created\n" << std::endl;
         return;

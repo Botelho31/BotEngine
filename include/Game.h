@@ -13,6 +13,8 @@
   #include <iostream>
   #include <vector>
   #include <memory>
+  #include <cstdlib>
+  #include <ctime>
   #include "math.h"
   #include "State.h"
 

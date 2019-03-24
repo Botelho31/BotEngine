@@ -10,6 +10,7 @@ State::State(){
 	GameObject *background = new GameObject();
     bg = new Sprite(*background,"assets/img/ocean.jpg");
     bg->Render();
+	objectArray.emplace_back(background);
 }
 
 State::~State(){
