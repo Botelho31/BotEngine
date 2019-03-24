@@ -16,8 +16,10 @@
             if(component != nullptr){
                 Sound *sound = dynamic_cast<Sound*>(component);
                 sound->Play();
+                associated.RequestDelete();
+            }else{
+                associated.RequestDelete();
             }
-            associated.RequestDelete();
         }
     }
 

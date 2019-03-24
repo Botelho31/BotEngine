@@ -14,6 +14,7 @@
             void Stop();
             void Open(std::string file);
             bool IsOpen();
+            bool IsPlaying();
 
             void Update(float dt);
             void Render();
