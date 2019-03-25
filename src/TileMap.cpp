@@ -41,7 +41,14 @@ void TileMap::SetTileSet(TileSet* tileSet){
 }
 
 int& TileMap::At(int x,int y,int z){
-    return x;
+    if((x < this->mapWidth) && (y < this->mapHeight) && (z < this->mapDepth)){
+        int tilePlace = ( (y + (this->mapHeight * z)) * this->mapWidth) + x;
+        return tileMatrix[tilePlace];
+    }else{
+        int error = 0;
+        std::cout << "Tile not Located" << std::endl;
+        return error;
+    }
 }
 
 
