@@ -20,6 +20,7 @@
             bool Is(std::string type);
         private:
             int hitpoints;
+            bool isDying;
     };
 
 #endif

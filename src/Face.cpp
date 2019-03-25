@@ -3,6 +3,7 @@
 
     Face::Face(GameObject& associated) : Component(associated){
         hitpoints = 30;
+        isDying = false;
     }
 
     Face::~Face(){
@@ -11,11 +12,12 @@
 
     void Face::Damage(int damage){
         hitpoints -= damage;
-        if(hitpoints <= 0){
+        if((hitpoints <= 0) && (isDying == false)){
             Component *component = associated.GetComponent("Sound");
             if(component != nullptr){
                 Sound *sound = dynamic_cast<Sound*>(component);
                 sound->Play(1);
+                isDying = true;
                 SDL_TimerID timerid =  SDL_AddTimer(800,DelayedDeath,&associated);
             }else{
                 associated.RequestDelete();

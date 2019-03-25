@@ -11,6 +11,7 @@
   #define GAME_H
   #define PI 3.14159265
   #include <iostream>
+  #include <fstream>
   #include <vector>
   #include <memory>
   #include <cstdlib>
