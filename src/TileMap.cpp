@@ -45,8 +45,23 @@ void TileMap::SetTileSet(TileSet* tileSet){
 }
 
 int& TileMap::At(int x,int y,int z){
+    // std::cout << "X :" << x << " Y: " << y << " Z: " << z << std::endl;
+    // std::cout << "Height: " << this->mapHeight << " Width: " << this->mapWidth << " Depth: " << this->mapDepth <<std::endl;
     if((x < this->mapWidth) && (y < this->mapHeight) && (z < this->mapDepth)){
         int tilePlace = ( (y + (this->mapHeight * z)) * this->mapWidth) + x;
+        // std::cout << "TILEPLACE: "<< tilePlace << std::endl;
+        // if(tileMatrix[tilePlace] < 9){
+        //     std::cout << "0";
+        // }
+        // if(tileMatrix[tilePlace] == -1){
+        //     std::cout << "0" << ",";
+        // }else{
+        //     std::cout << (tileMatrix[tilePlace] + 1) << ",";
+        // }
+        // if(((tilePlace + 1) % 25) == 0){
+        //     std::cout << std::endl;
+        // }
+
         return tileMatrix[tilePlace];
     }else{
         int error = -1;
@@ -65,7 +80,8 @@ void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
 
 void TileMap::Render(){
     for(int d = 0;d < this->mapDepth;d++){
-        RenderLayer(d,associated.box.x,associated.box.y);
+        RenderLayer(0,associated.box.x,associated.box.y);
+        // associated.RequestDelete();
     }
 }
 

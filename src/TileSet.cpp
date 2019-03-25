@@ -7,8 +7,8 @@ TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     if(tileset->IsOpen()){
-        rows = tileset->GetWidth() / tileWidth;
-        columns = tileset->GetHeight() / tileHeight;
+        rows = tileset->GetHeight() / tileHeight;
+        columns = tileset->GetWidth() / tileWidth;
     }else{
         std::cout << "Failed to open tileset: " << file << std::endl; 
     }
