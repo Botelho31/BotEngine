@@ -45,12 +45,19 @@ int& TileMap::At(int x,int y,int z){
         int tilePlace = ( (y + (this->mapHeight * z)) * this->mapWidth) + x;
         return tileMatrix[tilePlace];
     }else{
-        int error = 0;
+        int error = -1;
         std::cout << "Tile not Located" << std::endl;
         return error;
     }
 }
 
+void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
+    for(int h = 0;h < this->mapHeight;h++){
+        for(int w = 0;w < this->mapWidth;w++){
+            tileSet->RenderTile(At(w,h,layer),tileSet->GetTileWidth() * w,tileSet->GetTileHeight() * h);
+        }
+    }
+}
 
 void TileMap::Render(){
 
@@ -61,13 +68,12 @@ void TileMap::Update(float dt){
 }
 
 bool TileMap::Is(std::string type){
-
+    if(type == "TileMap"){
+        return true;
+    }else{
+        return false;
+    }
 }
-
-void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
-
-}
-
 
 int TileMap::GetWidth(){
     return mapWidth;
