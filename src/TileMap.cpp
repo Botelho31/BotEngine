@@ -5,6 +5,10 @@ TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Com
     Load(file);
 }
 
+TileMap::~TileMap(){
+    delete tileSet;
+}
+
 void TileMap::Load(std::string file){
     std::ifstream FileReader;
     FileReader.open(file);

@@ -2,15 +2,27 @@
 #include "../include/Face.h"
 #include "../include/Vec2.h"
 #include "../include/Sound.h"
+#include "../include/TileSet.h"
+#include "../include/TileMap.h"
 
 State::State(){
     quitRequested = false;
     music = new Music("assets/audio/stageState.ogg");
     music->Play();
+
 	GameObject *background = new GameObject();
     bg = new Sprite(*background,"assets/img/ocean.jpg");
 	background->AddComponent(bg);
 	objectArray.emplace_back(background);
+
+	GameObject *tileObj = new GameObject();
+	TileSet *tileSet = new TileSet(64,64,"assets/img/tileset.png");
+	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMap.txt",tileSet);
+	tileObj->box.x = 0;
+	tileObj->box.y = 0;
+	tileObj->AddComponent(tileMap);
+	objectArray.emplace_back(tileObj);
+
 }
 
 State::~State(){

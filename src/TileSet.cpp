@@ -2,8 +2,8 @@
 #include "../include/GameObject.h"
 
 TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
-    GameObject* tmp;
-    tileset = new Sprite(*tmp,file);
+    owner = new GameObject();
+    tileset = new Sprite(*owner,file);
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     if(tileset->IsOpen()){
@@ -14,15 +14,20 @@ TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
     }
 }
 
+TileSet::~TileSet(){
+    delete owner;
+}
+
 void TileSet::RenderTile(unsigned index,float x,float y){
     if(index < (rows*columns)){
         int row = (index/columns);
         int column = (index%columns);
-        tileset->SetClip(row * tileHeight,column * tileWidth,tileWidth,tileHeight);
+        tileset->SetClip(column * tileWidth,row * tileHeight,tileWidth,tileHeight);
         tileset->Render(x,y);
 
     }else{
-        std::cout << "Tile Requested Out of Index: " << rows*columns << std::endl;
+        // std::cout << "Tile Requested Out of Index: " << rows*columns  << std::endl;
+        // std::cout << "Index: " << index << " X: " << x << " Y: " << y << std::endl;
     }
 }
 
