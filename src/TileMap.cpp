@@ -6,14 +6,31 @@ TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Com
 }
 
 void TileMap::Load(std::string file){
-     std::ifstream FileReader;
+    std::ifstream FileReader;
     FileReader.open(file);
-    char output[100];
+    std::stringstream num;
+    std::string number;
+    int numint = 0;
+    int iterator = 0;
     if (FileReader.is_open()) {
         while (!FileReader.eof()) {
-            FileReader >> output;
-            std::cout << output  << std::endl;
-
+            num.clear();
+            std::getline(FileReader, number, ',');
+            num << number;
+            num >> numint;
+            if(iterator == 0){
+                this->mapWidth = numint;
+            }
+            else if(iterator == 1){
+                this->mapHeight = numint;
+            }
+            else if(iterator == 2){
+                this->mapDepth = numint;
+            }
+            else{
+                this->tileMatrix.push_back(numint-1);
+            }
+            iterator ++;
         }
     }
     FileReader.close();
