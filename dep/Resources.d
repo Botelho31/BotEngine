@@ -1,11 +1,10 @@
-bin/Sprite.o: src/Sprite.cpp src/../include/Sprite.h \
+bin/Resources.o: src/Resources.cpp src/../include/Resources.h \
  src/../include/Game.h src/../include/SDL_include.h \
  src/../include/State.h src/../include/Sprite.h \
  src/../include/GameObject.h src/../include/Rect.h \
- src/../include/Component.h src/../include/Music.h src/../include/State.h \
- src/../include/Resources.h
+ src/../include/Component.h src/../include/Music.h
 
-src/../include/Sprite.h:
+src/../include/Resources.h:
 
 src/../include/Game.h:
 
@@ -22,7 +21,3 @@ src/../include/Rect.h:
 src/../include/Component.h:
 
 src/../include/Music.h:
-
-src/../include/State.h:
-
-src/../include/Resources.h:

@@ -1,5 +1,6 @@
 #include "../include/Sprite.h"
 #include "../include/State.h"
+#include "../include/Resources.h"
 
 Sprite::Sprite(GameObject& associated) : Component(associated){
     texture = nullptr;
@@ -10,17 +11,11 @@ Sprite::Sprite(GameObject& associated,std::string file) : Sprite(associated){
 }
 
 Sprite::~Sprite(){
-    if(texture){
-        SDL_DestroyTexture(texture);
-    }
 }
 
 void Sprite::Open(std::string file){
-    if(texture){
-        SDL_DestroyTexture(texture);
-        texture = nullptr;
-    }
-    texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
+    Resources *resources = new Resources();
+    texture = resources->GetImage(file);
     if(texture == nullptr){
         std::cout << "Error Loading Image: " << SDL_GetError() << std::endl;
         return;
