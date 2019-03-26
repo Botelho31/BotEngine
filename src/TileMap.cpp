@@ -38,6 +38,8 @@ void TileMap::Load(std::string file){
         }
     }
     FileReader.close();
+    associated.box.w = this->mapWidth * tileSet->GetTileWidth();
+    associated.box.h = this->mapHeight * tileSet->GetTileHeight();
 }
 
 void TileMap::SetTileSet(TileSet* tileSet){
@@ -58,15 +60,14 @@ int& TileMap::At(int x,int y,int z){
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
-            tileSet->RenderTile(At(w,h,layer),(tileSet->GetTileWidth() * w) + cameraX,(tileSet->GetTileHeight() * h) + cameraY );
+            tileSet->RenderTile(At(w,h,layer),(tileSet->GetTileWidth() * w) - cameraX,(tileSet->GetTileHeight() * h) - cameraY );
         }
     }
 }
 
 void TileMap::Render(){
     for(int d = 0;d < this->mapDepth;d++){
-        RenderLayer(0,associated.box.x,associated.box.y);
-        // associated.RequestDelete();
+        RenderLayer(d,associated.box.x,associated.box.y);
     }
 }
 
