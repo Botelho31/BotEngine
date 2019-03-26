@@ -50,6 +50,7 @@ void Resources::ClearMusics(){
     std::unordered_map<std::string, Mix_Music*>::iterator it = musicTable.begin();
 
     while(it != musicTable.end()){
+        Mix_FreeMusic(it->second);
         it = musicTable.erase(it);
     }
     musicTable.clear();
@@ -77,6 +78,7 @@ void Resources::ClearSounds(){
     std::unordered_map<std::string, Mix_Chunk*>::iterator it = soundTable.begin();
 
     while(it != soundTable.end()){
+        Mix_FreeChunk(it->second);
         it = soundTable.erase(it);
     }
     soundTable.clear();

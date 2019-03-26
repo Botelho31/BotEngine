@@ -15,12 +15,14 @@ Sound::~Sound(){
         if(channel != -2){
             Mix_HaltChannel(channel);
         }
-        Mix_FreeChunk(chunk);
     }
 }
 
 void Sound::Open(std::string file){
-    chunk = Mix_LoadWAV(file.c_str());
+    chunk = resources->GetSound(file);
+    if(chunk == nullptr){
+        std::cout << "Failed to load Sound: " << SDL_GetError() << std::endl;
+    }
 }
 
 void Sound::Play(int times){

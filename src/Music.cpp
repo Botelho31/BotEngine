@@ -10,14 +10,10 @@ Music::Music(Resources* resources,std::string file) : Music(resources){
 }
 
 Music::~Music(){
-    Mix_FreeMusic(music);
 }
 
 void Music::Open(std::string file){
-    if(music){
-        Mix_FreeMusic(music);
-    }
-    music = Mix_LoadMUS(file.c_str());
+    music = resources->GetMusic(file);
     if(music == nullptr){
         std::cout << "Failed loading Music - " << SDL_GetError() << "\n" << std::endl;
     }
