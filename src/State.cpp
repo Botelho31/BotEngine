@@ -52,7 +52,6 @@ void State::LoadAssets(){
 }
 
 void State::Update(float dt){
-    float t = 0;
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_ESCAPE) || input->QuitRequested()){
 		quitRequested = true;
@@ -62,7 +61,7 @@ void State::Update(float dt){
 		AddObject((int)objPos.x, (int)objPos.y);
 	}
     for(unsigned int i = 0; i < objectArray.size();i++){
-        objectArray[i]->Update(t);
+        objectArray[i]->Update(dt);
     }
     for(unsigned int i = 0; i < objectArray.size();i++){
         if(objectArray[i]->IsDead()){

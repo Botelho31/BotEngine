@@ -20,6 +20,8 @@ Game::Game(std::string Title,int Width,int Height){
     }
     else{
         instance = this;
+        frameStart = 0;
+        dt = 0;
         if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) == 0){
             std::cout << "Game instance Created\n" << std::endl;
             std::cout << "Number of Img Libraries Initialized: " << IMG_Init(IMG_INIT_JPG  |  IMG_INIT_PNG  |  IMG_INIT_TIF) << "\n" << std::endl;
@@ -85,12 +87,22 @@ State& Game::GetState(){
 
 void Game::Run(){
     while(state->QuitRequested() == false){
-        float dt = 0;
+        CalculateDeltaTime();
         InputManager::GetInstance().Update();
-        state->Update(dt);
+        state->Update(GetDeltaTime());
         state->Render();
         SDL_RenderPresent(renderer);
         SDL_Delay(33);
     }
+}
+
+void Game::CalculateDeltaTime(){
+    dt = frameStart - SDL_GetTicks();
+    frameStart = SDL_GetTicks();
+    dt /= 1000.0;
+}
+
+float Game::GetDeltaTime(){
+    return this->dt;
 }
 
