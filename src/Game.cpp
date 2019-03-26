@@ -97,9 +97,9 @@ void Game::Run(){
 }
 
 void Game::CalculateDeltaTime(){
-    dt = frameStart - SDL_GetTicks();
+    dt = SDL_GetTicks() - frameStart;
     frameStart = SDL_GetTicks();
-    dt /= 1000.0;
+    dt = dt / 1000.0;
 }
 
 float Game::GetDeltaTime(){
