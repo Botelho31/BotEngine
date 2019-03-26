@@ -15,7 +15,12 @@ TileSet::TileSet(int tileWidth,int tileHeight,Resources *resources,std::string f
 }
 
 TileSet::~TileSet(){
-    delete owner;
+    if(owner != nullptr){
+        delete owner;
+    }
+    if(tileset != nullptr){
+        delete tileset;
+    }
 }
 
 void TileSet::RenderTile(unsigned index,float x,float y){
