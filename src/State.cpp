@@ -7,7 +7,7 @@
 
 State::State(Resources* resources) : resources(resources){
     quitRequested = false;
-    music = new Music("assets/audio/stageState.ogg");
+    music = new Music(resources,"assets/audio/stageState.ogg");
     music->Play();
 
 	GameObject *background = new GameObject();
@@ -86,7 +86,7 @@ void State::AddObject(int mouseX,int mouseY){
     object->AddComponent(penguin);
     object->box.x = mouseX - (object->box.w/2);
     object->box.y = mouseY - (object->box.h/2);
-    Sound *sound = new Sound(*object,"assets/audio/boom.wav");
+    Sound *sound = new Sound(*object,resources,"assets/audio/boom.wav");
     object->AddComponent(sound);
     Face *face = new Face(*object);
     object->AddComponent(face);

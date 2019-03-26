@@ -1,11 +1,12 @@
 #include "../include/Sound.h"
 
-Sound::Sound(GameObject& associated) : Component(associated){
+Sound::Sound(GameObject& associated,Resources* resources) : Component(associated){
     chunk = nullptr;
+    this->resources = resources;
     channel = -2;
 }
 
-Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
+Sound::Sound(GameObject& associated,Resources* resources, std::string file) : Sound(associated,resources){
     Open(file);
 }
 

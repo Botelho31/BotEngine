@@ -7,8 +7,6 @@
     class InputManager{
         public:
             InputManager& GetInstance();
-            InputManager();
-            ~InputManager();
 
             void Update();
 
@@ -25,6 +23,9 @@
 
             bool QuitRequest();
         private:
+            InputManager();
+            ~InputManager();
+
             bool mouseState[6];
             int mouseUpdate[6];
 

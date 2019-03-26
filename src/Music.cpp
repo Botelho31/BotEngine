@@ -1,10 +1,10 @@
 #include "../include/Music.h"
 
-Music::Music(){
+Music::Music(Resources* resources) : resources(resources){
     music = nullptr;
 }
 
-Music::Music(std::string file){
+Music::Music(Resources* resources,std::string file) : Music(resources){
     music = nullptr;
     Open(file);
 }
