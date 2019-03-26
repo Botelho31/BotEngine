@@ -4,6 +4,7 @@
 TileSet::TileSet(int tileWidth,int tileHeight,Resources *resources,std::string file) : resources(resources){
     owner = new GameObject();
     tileset = new Sprite(*owner,resources,file);
+    owner->AddComponent(tileset);
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     if(tileset->IsOpen()){
@@ -17,9 +18,6 @@ TileSet::TileSet(int tileWidth,int tileHeight,Resources *resources,std::string f
 TileSet::~TileSet(){
     if(owner != nullptr){
         delete owner;
-    }
-    if(tileset != nullptr){
-        delete tileset;
     }
 }
 
