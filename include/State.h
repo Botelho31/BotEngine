@@ -10,7 +10,7 @@
 
     class State{
         public:
-            State();
+            State(Resources* resources);
             ~State();
             void Input();
             void AddObject(int mouseX,int mouseY);
@@ -22,6 +22,7 @@
         private:
             Sprite *bg;
             Music *music;
+            Resources *resources;
             bool quitRequested;
             std::vector<std::unique_ptr<GameObject>> objectArray;
     };

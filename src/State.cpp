@@ -5,18 +5,18 @@
 #include "../include/TileSet.h"
 #include "../include/TileMap.h"
 
-State::State(){
+State::State(Resources* resources) : resources(resources){
     quitRequested = false;
     music = new Music("assets/audio/stageState.ogg");
     music->Play();
 
 	GameObject *background = new GameObject();
-    bg = new Sprite(*background,"assets/img/ocean.jpg");
+    bg = new Sprite(*background,resources,"assets/img/ocean.jpg");
 	background->AddComponent(bg);
 	objectArray.emplace_back(background);
 
 	GameObject *tileObj = new GameObject();
-	TileSet *tileSet = new TileSet(64,64,"assets/img/tileset.png");
+	TileSet *tileSet = new TileSet(64,64,resources,"assets/img/tileset.png");
 	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMap.txt",tileSet);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
@@ -82,7 +82,7 @@ void State::Input(){
 
 void State::AddObject(int mouseX,int mouseY){
     GameObject *object = new GameObject();
-    Sprite *penguin  =  new Sprite(*object,"assets/img/penguinface.png");
+    Sprite *penguin  =  new Sprite(*object,resources,"assets/img/penguinface.png");
     object->AddComponent(penguin);
     object->box.x = mouseX - (object->box.w/2);
     object->box.y = mouseY - (object->box.h/2);

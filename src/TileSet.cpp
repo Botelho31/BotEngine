@@ -1,9 +1,9 @@
 #include "../include/TileSet.h"
 #include "../include/GameObject.h"
 
-TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
+TileSet::TileSet(int tileWidth,int tileHeight,Resources *resources,std::string file) : resources(resources){
     owner = new GameObject();
-    tileset = new Sprite(*owner,file);
+    tileset = new Sprite(*owner,resources,file);
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
     if(tileset->IsOpen()){

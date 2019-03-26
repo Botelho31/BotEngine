@@ -22,7 +22,7 @@ void Resources::ClearImages(){
     std::unordered_map<std::string, SDL_Texture*>::iterator it = imageTable.begin();
 
     while(it != imageTable.end()){
-        delete it->second;
+        it = imageTable.erase(it);
     }
     imageTable.clear();
 
@@ -50,7 +50,7 @@ void Resources::ClearMusics(){
     std::unordered_map<std::string, Mix_Music*>::iterator it = musicTable.begin();
 
     while(it != musicTable.end()){
-        delete it->second;
+        it = musicTable.erase(it);
     }
     musicTable.clear();
 }
@@ -77,7 +77,7 @@ void Resources::ClearSounds(){
     std::unordered_map<std::string, Mix_Chunk*>::iterator it = soundTable.begin();
 
     while(it != soundTable.end()){
-        delete it->second;
+        it = soundTable.erase(it);
     }
     soundTable.clear();
 }

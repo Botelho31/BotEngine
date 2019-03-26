@@ -19,6 +19,7 @@
   #include <ctime>
   #include "math.h"
   #include "State.h"
+  #include "Resources.h"
 
   class Game {
 
@@ -36,6 +37,7 @@
       SDL_Window *window;
       SDL_Renderer *renderer;
       State *state;
+      Resources *resources;
 
   };
 

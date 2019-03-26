@@ -6,11 +6,12 @@
     #define SPRITE_H
     #include "GameObject.h"
     #include "Component.h"
+    #include "Resources.h"
 
     class Sprite : public Component{
         public:
-            Sprite(GameObject& associated);
-            Sprite(GameObject& associated,std::string file);
+            Sprite(GameObject& associated,Resources* resources);
+            Sprite(GameObject& associated,Resources* resources,std::string file);
             ~Sprite();
             void Open(std::string file); 
             void SetClip(int x,int y,int w,int h);
@@ -25,6 +26,7 @@
 
         private:
             SDL_Texture *texture;
+            Resources *resources;
             int width;
             int height;
             SDL_Rect clip_rect;

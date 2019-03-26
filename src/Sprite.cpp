@@ -1,12 +1,12 @@
 #include "../include/Sprite.h"
 #include "../include/State.h"
-#include "../include/Resources.h"
 
-Sprite::Sprite(GameObject& associated) : Component(associated){
+Sprite::Sprite(GameObject& associated,Resources* resources) : Component(associated){
+    this->resources = resources;
     texture = nullptr;
 }
 
-Sprite::Sprite(GameObject& associated,std::string file) : Sprite(associated){
+Sprite::Sprite(GameObject& associated,Resources* resources,std::string file) : Sprite(associated,resources){
     Open(file);
 }
 
@@ -14,7 +14,6 @@ Sprite::~Sprite(){
 }
 
 void Sprite::Open(std::string file){
-    Resources *resources = new Resources();
     texture = resources->GetImage(file);
     if(texture == nullptr){
         std::cout << "Error Loading Image: " << SDL_GetError() << std::endl;

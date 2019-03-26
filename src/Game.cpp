@@ -46,7 +46,9 @@ Game::Game(std::string Title,int Width,int Height){
                 SDL_GetRendererInfo(renderer,&info);
                 std::cout << "Driver in use: " << info.name << "\n" << std::endl;
             }
-            state = new State();
+            resources = new Resources();
+            state = new State(resources);
+            
 
         }else{
             std::cout << "Fatal Error: SDL not initialized - " << SDL_GetError() << std::endl;
@@ -58,6 +60,11 @@ Game::Game(std::string Title,int Width,int Height){
 Game::~Game(){
     if(state != nullptr){
         delete state;
+    }
+    if(resources != nullptr){
+        resources->ClearImages();
+        resources->ClearMusics();
+        resources->ClearSounds();
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
