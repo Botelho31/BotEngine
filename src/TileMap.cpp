@@ -45,23 +45,8 @@ void TileMap::SetTileSet(TileSet* tileSet){
 }
 
 int& TileMap::At(int x,int y,int z){
-    // std::cout << "X :" << x << " Y: " << y << " Z: " << z << std::endl;
-    // std::cout << "Height: " << this->mapHeight << " Width: " << this->mapWidth << " Depth: " << this->mapDepth <<std::endl;
     if((x < this->mapWidth) && (y < this->mapHeight) && (z < this->mapDepth)){
         int tilePlace = ( (y + (this->mapHeight * z)) * this->mapWidth) + x;
-        // std::cout << "TILEPLACE: "<< tilePlace << std::endl;
-        // if(tileMatrix[tilePlace] < 9){
-        //     std::cout << "0";
-        // }
-        // if(tileMatrix[tilePlace] == -1){
-        //     std::cout << "0" << ",";
-        // }else{
-        //     std::cout << (tileMatrix[tilePlace] + 1) << ",";
-        // }
-        // if(((tilePlace + 1) % 25) == 0){
-        //     std::cout << std::endl;
-        // }
-
         return tileMatrix[tilePlace];
     }else{
         int error = -1;
@@ -73,7 +58,7 @@ int& TileMap::At(int x,int y,int z){
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
-            tileSet->RenderTile(At(w,h,layer),tileSet->GetTileWidth() * w,tileSet->GetTileHeight() * h);
+            tileSet->RenderTile(At(w,h,layer),(tileSet->GetTileWidth() * w) + cameraX,(tileSet->GetTileHeight() * h) + cameraY );
         }
     }
 }

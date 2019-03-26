@@ -65,6 +65,9 @@ void InputManager::Update(){
 
 
 bool InputManager::KeyPress(int key){
+    if(key > 416){
+        key -= 1073741697;
+    }
     if((keyUpdate[key] == updateCouter) && (keyState[key] == true)){
         return true;
     }else{
@@ -73,6 +76,9 @@ bool InputManager::KeyPress(int key){
 }
 
 bool InputManager::KeyRelease(int key){
+    if(key > 416){
+        key -= 1073741697;
+    }
     if((keyUpdate[key] == updateCouter) && (keyState[key] == false)){
         return true;
     }else{
@@ -81,6 +87,9 @@ bool InputManager::KeyRelease(int key){
 }
 
 bool InputManager::IsKeyDown(int key){
+    if(key > 416){
+        key -= 1073741697;
+    }
     return keyState[key];
 }
 

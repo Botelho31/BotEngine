@@ -5,6 +5,7 @@
 #include "../include/TileSet.h"
 #include "../include/TileMap.h"
 #include "../include/InputManager.h"
+#include "../include/Camera.h"
 
 State::State(Resources* resources) : resources(resources){
     quitRequested = false;
@@ -53,7 +54,8 @@ void State::LoadAssets(){
 
 void State::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
-	if(input->IsKeyDown(SDLK_ESCAPE) || input->QuitRequested()){
+    Camera::Update(dt);
+	if(input->IsKeyDown(ESCAPE_KEY) || input->QuitRequested()){
 		quitRequested = true;
 	}
 	if(input->IsKeyDown(SDLK_SPACE)){
@@ -72,6 +74,11 @@ void State::Update(float dt){
 
 void State::Render(){
     for(unsigned int i = 0; i < objectArray.size();i++){
+        Component *component = objectArray[i]->GetComponent("TileMap");
+        if(component){
+            objectArray[i]->box.x = Camera::pos.x;
+            objectArray[i]->box.y = Camera::pos.y;
+        }
         objectArray[i]->Render();
     }
 }
