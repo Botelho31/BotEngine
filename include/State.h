@@ -12,7 +12,6 @@
         public:
             State(Resources* resources);
             ~State();
-            void Input();
             void AddObject(int mouseX,int mouseY);
             bool QuitRequested();
             void LoadAssets();

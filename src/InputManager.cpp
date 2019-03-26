@@ -34,34 +34,32 @@ void InputManager::Update(){
 		if(event.type == SDL_QUIT) {
 			quitRequested = true;
 		}
-		if(event.type == SDL_MOUSEBUTTONUP) {
-            std::cout << event.button.button << " Mouse Up" << std::endl;
-            mouseState[event.button.button] = false;
-            mouseUpdate[event.button.button] = updateCouter;
-		}
-        if(event.type == SDL_MOUSEBUTTONDOWN) {
-            std::cout << event.button.button << " Mouse Down" << std::endl;
-            mouseState[event.button.button] = true;
-            mouseUpdate[event.button.button] = updateCouter;
-		}
-		if( event.type == SDL_KEYUP ) {
-            std::cout << event.key.keysym.sym << " Key Up" << std::endl;
-            int key = event.key.keysym.sym;
-            if(key > 127){
-                key -= 1073741697;
+        if(!(event.key.repeat)){
+            if(event.type == SDL_MOUSEBUTTONUP) {
+                mouseState[event.button.button] = false;
+                mouseUpdate[event.button.button] = updateCouter;
             }
-            keyState[key] = false;
-            keyUpdate[key] = updateCouter;
-		}
-		if(( event.type == SDL_KEYDOWN ) && (event.key.repeat != 1)) {
-            std::cout << event.key.keysym.sym << " Key Down" <<std::endl;
-            int key = event.key.keysym.sym;
-            if(key > 127){
-                key -= 1073741697;
+            if(event.type == SDL_MOUSEBUTTONDOWN) {
+                mouseState[event.button.button] = true;
+                mouseUpdate[event.button.button] = updateCouter;
             }
-            keyState[key] = true;
-            keyUpdate[key] = updateCouter;
-		}
+            if( event.type == SDL_KEYUP ) {
+                int key = event.key.keysym.sym;
+                if(key > 127){
+                    key -= 1073741697;
+                }
+                keyState[key] = false;
+                keyUpdate[key] = updateCouter;
+            }
+            if( event.type == SDL_KEYDOWN ) {
+                int key = event.key.keysym.sym;
+                if(key > 127){
+                    key -= 1073741697;
+                }
+                keyState[key] = true;
+                keyUpdate[key] = updateCouter;
+            }
+        }
 	}
 }
 
