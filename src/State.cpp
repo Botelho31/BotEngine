@@ -48,6 +48,19 @@ void State::Input(){
 			quitRequested = true;
 		}
 		
+		// if(event.type == SDL_MOUSEBUTTONUP) {
+        //     std::cout << event.button.button << " Mouse Up" << std::endl;
+		// }
+        // if(event.type == SDL_MOUSEBUTTONDOWN) {
+        //     std::cout << event.button.button << " Mouse Down" << std::endl;
+		// }
+		// if( event.type == SDL_KEYUP ) {
+        //     std::cout << event.key.keysym.sym << " Key Up" << std::endl;
+		// }
+		// if( event.type == SDL_KEYDOWN ) {
+        //     std::cout << event.key.keysym.sym << " Key Down" <<std::endl;
+		// }
+
 		// Se o evento for clique...
 		if(event.type == SDL_MOUSEBUTTONDOWN) {
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima

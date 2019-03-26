@@ -20,6 +20,7 @@
   #include "math.h"
   #include "State.h"
   #include "Resources.h"
+  #include "InputManager.h"
 
   class Game {
 

@@ -86,6 +86,7 @@ State& Game::GetState(){
 void Game::Run(){
     while(state->QuitRequested() == false){
         float dt = 0;
+        InputManager::GetInstance().Update();
         state->Update(dt);
         state->Render();
         SDL_RenderPresent(renderer);
