@@ -39,8 +39,8 @@ void State::AddObject(int mouseX,int mouseY){
     GameObject *object = new GameObject();
     Sprite *penguin  =  new Sprite(*object,resources,"assets/img/penguinface.png");
     object->AddComponent(penguin);
-    object->box.x = mouseX - (object->box.w/2);
-    object->box.y = mouseY - (object->box.h/2);
+    object->box.x = (mouseX - (object->box.w/2)) + Camera::pos.x;
+    object->box.y = (mouseY - (object->box.h/2)) + Camera::pos.y;
     Sound *sound = new Sound(*object,resources,"assets/audio/boom.wav");
     object->AddComponent(sound);
     Face *face = new Face(*object);

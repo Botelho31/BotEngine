@@ -1,5 +1,6 @@
 #include "../include/Sprite.h"
 #include "../include/State.h"
+#include "../include/Camera.h"
 
 Sprite::Sprite(GameObject& associated,Resources* resources) : Component(associated){
     this->resources = resources;
@@ -39,7 +40,11 @@ void Sprite::Update(float dt){
 }
 
 void Sprite::Render(){
-    Render(this->associated.box.x,this->associated.box.y);
+    if(associated.GetComponent("Face")){
+        Render(this->associated.box.x - Camera::pos.x,this->associated.box.y - Camera::pos.y);
+    }else{
+        Render(this->associated.box.x,this->associated.box.y);
+    }
 }
 
 void Sprite::Render(int x,int y){
