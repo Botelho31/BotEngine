@@ -6,6 +6,7 @@
 #include "../include/TileMap.h"
 #include "../include/InputManager.h"
 #include "../include/Camera.h"
+#include "../include/CameraFollower.h"
 
 State::State(Resources* resources) : resources(resources){
     quitRequested = false;
@@ -14,7 +15,9 @@ State::State(Resources* resources) : resources(resources){
 
 	GameObject *background = new GameObject();
     bg = new Sprite(*background,resources,"assets/img/ocean.jpg");
+    CameraFollower *camerafollower = new CameraFollower(*background);
 	background->AddComponent(bg);
+    background->AddComponent(camerafollower);
 	objectArray.emplace_back(background);
 
 	GameObject *tileObj = new GameObject();

@@ -40,11 +40,7 @@ void Sprite::Update(float dt){
 }
 
 void Sprite::Render(){
-    if(associated.GetComponent("Face")){
-        Render(this->associated.box.x - Camera::pos.x,this->associated.box.y - Camera::pos.y);
-    }else{
-        Render(this->associated.box.x,this->associated.box.y);
-    }
+    Render(this->associated.box.x - Camera::pos.x,this->associated.box.y - Camera::pos.y);
 }
 
 void Sprite::Render(int x,int y){
