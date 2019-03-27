@@ -10,6 +10,7 @@
 
 State::State(Resources* resources) : resources(resources){
     quitRequested = false;
+    started = false;
     music = new Music(resources,"assets/audio/stageState.ogg");
     music->Play();
 
@@ -38,18 +39,48 @@ State::~State(){
     objectArray.clear();
 }
 
-void State::AddObject(int mouseX,int mouseY){
-    GameObject *object = new GameObject();
-    Sprite *penguin  =  new Sprite(*object,resources,"assets/img/penguinface.png");
-    object->AddComponent(penguin);
-    object->box.x = (mouseX - (object->box.w/2)) + Camera::pos.x;
-    object->box.y = (mouseY - (object->box.h/2)) + Camera::pos.y;
-    Sound *sound = new Sound(*object,resources,"assets/audio/boom.wav");
-    object->AddComponent(sound);
-    Face *face = new Face(*object);
-    object->AddComponent(face);
-    objectArray.emplace_back(object);
+void State::Start(){
+    LoadAssets();
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        objectArray[i]->Start();
+    }
+    started = true;
 }
+
+std::weak_ptr<GameObject> State::AddObject(GameObject *go){
+    std::shared_ptr<GameObject> object(go);
+    objectArray.push_back(object);
+    if(started){
+        object->Start();
+    }
+    std::weak_ptr<GameObject> weakptr = object;
+    return weakptr;
+}
+
+std::weak_ptr<GameObject> State::GetObjectPtr(GameObject *go){
+    std::shared_ptr<GameObject> object(go);
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        if(objectArray[i] == object){
+            std::weak_ptr<GameObject> weakptr = objectArray[i];
+            return weakptr;
+        }
+    }
+    std::weak_ptr<GameObject> weakptr;
+    return weakptr;
+}
+
+// void State::AddObject(int mouseX,int mouseY){
+//     GameObject *object = new GameObject();
+//     Sprite *penguin  =  new Sprite(*object,resources,"assets/img/penguinface.png");
+//     object->AddComponent(penguin);
+//     object->box.x = (mouseX - (object->box.w/2)) + Camera::pos.x;
+//     object->box.y = (mouseY - (object->box.h/2)) + Camera::pos.y;
+//     Sound *sound = new Sound(*object,resources,"assets/audio/boom.wav");
+//     object->AddComponent(sound);
+//     Face *face = new Face(*object);
+//     object->AddComponent(face);
+//     objectArray.emplace_back(object);
+// }
 
 void State::LoadAssets(){
 
@@ -63,7 +94,7 @@ void State::Update(float dt){
 	}
 	if(input->IsKeyDown(SDLK_SPACE)){
 		Vec2 objPos = Vec2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vec2( input->GetMouseX(), input->GetMouseY() );
-		AddObject((int)objPos.x, (int)objPos.y);
+		// AddObject((int)objPos.x, (int)objPos.y);
 	}
     for(unsigned int i = 0; i < objectArray.size();i++){
         objectArray[i]->Update(dt);

@@ -14,11 +14,13 @@
             void Update(float dt);
             void Render();
             bool IsDead();
+            void Start();
             void RequestDelete();
             void AddComponent(Component* cpt);
             void RemoveComponent(Component* cpt);
             Component* GetComponent(std::string type);
             Rect box;
+            bool started;
         private:
             std::vector<std::unique_ptr<Component>> components;
             bool isDead;

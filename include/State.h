@@ -12,7 +12,10 @@
         public:
             State(Resources* resources);
             ~State();
-            void AddObject(int mouseX,int mouseY);
+            // void AddObject(int mouseX,int mouseY);
+            void Start();
+            std::weak_ptr<GameObject> AddObject(GameObject *go);
+            std::weak_ptr<GameObject> GetObjectPtr(GameObject *go);
             bool QuitRequested();
             void LoadAssets();
             void Update(float dt);
@@ -23,7 +26,8 @@
             Music *music;
             Resources *resources;
             bool quitRequested;
-            std::vector<std::unique_ptr<GameObject>> objectArray;
+            bool started;
+            std::vector<std::shared_ptr<GameObject>> objectArray;
     };
 
 #endif
