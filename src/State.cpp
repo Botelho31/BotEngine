@@ -7,6 +7,7 @@
 #include "../include/InputManager.h"
 #include "../include/Camera.h"
 #include "../include/CameraFollower.h"
+#include "../include/Alien.h"
 
 State::State(Resources* resources) : resources(resources){
     quitRequested = false;
@@ -28,6 +29,12 @@ State::State(Resources* resources) : resources(resources){
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tileMap);
 	objectArray.emplace_back(tileObj);
+
+    GameObject *alienObj = new GameObject();
+    Alien *alien = new Alien(*alienObj,resources,0);
+    alienObj->box.Transform(512,300);
+    alienObj->AddComponent(alien);
+    objectArray.emplace_back(alienObj);
 
 }
 
@@ -92,10 +99,10 @@ void State::Update(float dt){
 	if(input->IsKeyDown(ESCAPE_KEY) || input->QuitRequested()){
 		quitRequested = true;
 	}
-	if(input->IsKeyDown(SDLK_SPACE)){
-		Vec2 objPos = Vec2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vec2( input->GetMouseX(), input->GetMouseY() );
-		// AddObject((int)objPos.x, (int)objPos.y);
-	}
+	// if(input->IsKeyDown(SDLK_SPACE)){
+	// 	Vec2 objPos = Vec2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vec2( input->GetMouseX(), input->GetMouseY() );
+	// 	// AddObject((int)objPos.x, (int)objPos.y);
+	// }
     for(unsigned int i = 0; i < objectArray.size();i++){
         objectArray[i]->Update(dt);
     }

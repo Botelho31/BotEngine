@@ -37,9 +37,6 @@
         InputManager *input =  &(InputManager::GetInstance());
         if(input->MousePress(SDL_BUTTON_LEFT) == true){
             if(associated.box.Contains( ((float)input->GetMouseX() + Camera::pos.x), ((float)input->GetMouseY() + Camera::pos.y)) ){
-                // std::cout << "Sprite X: " << associated.box.x << " Sprite Y: "<< associated.box.y << std::endl;
-                // std::cout << "Camera X: " << Camera::pos.x << " Camera Y: "<< Camera::pos.y << std::endl;
-                // std::cout << "Mouse X: " << input->GetMouseX() << " Mouse Y: "<< input->GetMouseY() << std::endl << std::endl;
                 Damage(std::rand() % 10 + 10);
             }
         }
