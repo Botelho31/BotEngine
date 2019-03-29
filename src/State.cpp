@@ -32,7 +32,13 @@ State::State(Resources* resources) : resources(resources){
 
     GameObject *alienObj = new GameObject();
     Alien *alien = new Alien(*alienObj,resources,0);
-    alienObj->box.Transform(512,300);
+    Component* component = alienObj->GetComponent("Sprite");
+    if(component != nullptr){
+        Sprite *aliensprite = dynamic_cast<Sprite*>(component);
+        alienObj->box.Transform(512 - (aliensprite->GetWidth()/2),300 - (aliensprite->GetHeight()/2));
+    }else{
+        alienObj->box.Transform(512,300);
+    }
     alienObj->AddComponent(alien);
     objectArray.emplace_back(alienObj);
 

@@ -11,7 +11,10 @@ Vec2::Vec2(float x,float y){
 }
 
 Vec2& Vec2::GetRotated(float R){
-    this->x = (this->x * cos(R)) - (this->y * sin(R)); 
-    this->y = (this->y * cos(R)) + (this->x * sin(R));
+    float x,y;
+    x = this->x;
+    y = this->y;
+    this->x = (x * cos(R)) - (y * sin(R)); 
+    this->y = (y * cos(R)) + (x * sin(R));
     return *this;
 }
