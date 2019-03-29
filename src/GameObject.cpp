@@ -2,7 +2,7 @@
 #include "../include/Component.h"
 
 
-GameObject::GameObject(){
+GameObject::GameObject(State* state) : state(state){
     this->isDead = false;
     this->started = false;
 }
@@ -60,5 +60,9 @@ Component* GameObject::GetComponent(std::string type){
         }
     }
     return nullptr;
+}
+
+State& GameObject::GetState(){
+    return *state;
 }
 

@@ -15,7 +15,7 @@
   #include <vector>
   #include <memory>
   #include <cstdlib>
-  #include<bits/stdc++.h> 
+  #include <bits/stdc++.h> 
   #include <ctime>
   #include "math.h"
   #include "State.h"

@@ -2,7 +2,7 @@
 #include "../include/GameObject.h"
 
 TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
-    owner = new GameObject();
+    owner = new GameObject(&owner->GetState());
     tileset = new Sprite(*owner,file);
     owner->AddComponent(tileset);
     this->tileWidth = tileWidth;

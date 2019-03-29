@@ -7,6 +7,7 @@
     #include "Sprite.h"
     #include "Music.h"
     #include "GameObject.h"
+    #include "State.h"
 
     class State{
         public:

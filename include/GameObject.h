@@ -7,9 +7,11 @@
     #include "Rect.h"
     #include "Component.h"
 
+    class State;
+    
     class GameObject{
         public:
-            GameObject();
+            GameObject(State* state);
             ~GameObject();
             void Update(float dt);
             void Render();
@@ -19,9 +21,11 @@
             void AddComponent(Component* cpt);
             void RemoveComponent(Component* cpt);
             Component* GetComponent(std::string type);
+            State& GetState();
             Rect box;
             bool started;
         private:
+            State* state;
             std::vector<std::unique_ptr<Component>> components;
             bool isDead;
 

@@ -15,14 +15,14 @@ State::State(){
     music = new Music("assets/audio/stageState.ogg");
     music->Play();
 
-	GameObject *background = new GameObject();
+	GameObject *background = new GameObject(this);
     bg = new Sprite(*background,"assets/img/ocean.jpg");
     CameraFollower *camerafollower = new CameraFollower(*background);
 	background->AddComponent(bg);
     background->AddComponent(camerafollower);
 	objectArray.emplace_back(background);
 
-	GameObject *tileObj = new GameObject();
+	GameObject *tileObj = new GameObject(this);
 	TileSet *tileSet = new TileSet(64,64,"assets/img/tileset.png");
 	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMap.txt",tileSet);
 	tileObj->box.x = 0;
@@ -30,8 +30,8 @@ State::State(){
 	tileObj->AddComponent(tileMap);
 	objectArray.emplace_back(tileObj);
 
-    GameObject *alienObj = new GameObject();
-    Alien *alien = new Alien(*alienObj,0);
+    GameObject *alienObj = new GameObject(this);
+    Alien *alien = new Alien(*alienObj,1);
     Component* component = alienObj->GetComponent("Sprite");
     if(component != nullptr){
         Sprite *aliensprite = dynamic_cast<Sprite*>(component);

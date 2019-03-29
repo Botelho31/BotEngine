@@ -4,7 +4,6 @@
 
 #ifndef SOUND_H
     #define SOUND_H
-    #include "Resources.h"
     #include "Component.h"
 
     class Sound : public Component{

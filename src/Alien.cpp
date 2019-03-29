@@ -26,10 +26,12 @@ Alien::~Alien(){
 
 void Alien::Start(){
     for(int i = 0; i < nMinions;i ++){
-        GameObject *minionObj = new GameObject();
-
-        std::weak_ptr<GameObject> alienCenter = State::GetObjectPtr(*this);
-        Minion *minion = new Minion(*minionObj,alienCenter,i*(PI*2/(float)nMinions));
+        // GameObject *minionObj = new GameObject(&associated.GetState());
+        // std::weak_ptr<GameObject> alienCenter = associated.GetState().GetObjectPtr(&associated);
+        // Minion *minion = new Minion(*minionObj,alienCenter,i*(PI*2/(float)nMinions));
+        // minionObj->AddComponent(minion);
+        // associated.GetState().AddObject(minionObj);
+        // minionArray.emplace_back(*minionObj);
     }
 }
 
