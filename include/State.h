@@ -10,7 +10,7 @@
 
     class State{
         public:
-            State(Resources* resources);
+            State();
             ~State();
             // void AddObject(int mouseX,int mouseY);
             void Start();
@@ -24,7 +24,6 @@
         private:
             Sprite *bg;
             Music *music;
-            Resources *resources;
             bool quitRequested;
             bool started;
             std::vector<std::shared_ptr<GameObject>> objectArray;

@@ -7,17 +7,17 @@
 
     class Resources{
         public:
-            SDL_Texture* GetImage(std::string file);
-            void ClearImages();
+            static SDL_Texture* GetImage(std::string file);
+            static void ClearImages();
 
-            Mix_Music* GetMusic(std::string file);
-            void ClearMusics();
+            static Mix_Music* GetMusic(std::string file);
+            static void ClearMusics();
 
-            Mix_Chunk* GetSound(std::string file);
-            void ClearSounds();
+            static Mix_Chunk* GetSound(std::string file);
+            static void ClearSounds();
         private:
-            std::unordered_map<std::string, SDL_Texture*> imageTable;
-            std::unordered_map<std::string, Mix_Music*> musicTable;
-            std::unordered_map<std::string, Mix_Chunk*> soundTable;
+            static std::unordered_map<std::string, SDL_Texture*> imageTable;
+            static std::unordered_map<std::string, Mix_Music*> musicTable;
+            static std::unordered_map<std::string, Mix_Chunk*> soundTable;
     };
 #endif

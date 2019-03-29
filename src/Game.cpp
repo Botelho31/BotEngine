@@ -49,7 +49,7 @@ Game::Game(std::string Title,int Width,int Height){
                 std::cout << "Driver in use: " << info.name << "\n" << std::endl;
             }
             resources = new Resources();
-            state = new State(resources);
+            state = new State();
             
 
         }else{

@@ -3,12 +3,12 @@
 #include "../include/Camera.h"
 #include "../include/Resources.h"
 
-Alien::Alien(GameObject& associated,Resources* resources,int nMinions) : Component(associated){
+Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
     speed.x = 150;
     speed.y = 150;
     hp = 30;
     minionArray.clear();
-    Sprite *alien = new Sprite(associated,resources,"assets/img/alien.png");
+    Sprite *alien = new Sprite(associated,"assets/img/alien.png");
     associated.AddComponent(alien);
 }
 

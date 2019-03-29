@@ -8,8 +8,8 @@
 
     class Music{
         public:
-            Music(Resources* resources);
-            Music(Resources* resources,std::string file);
+            Music();
+            Music(std::string file);
             ~Music();
             void Play(int times = -1);
             void Stop(int msToStop = 1500);
@@ -17,7 +17,6 @@
             bool IsOpen();
         private:
             Mix_Music *music;
-            Resources* resources;
     };
 
 #endif

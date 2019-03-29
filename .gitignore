@@ -8,7 +8,7 @@
 *.so
 *.ipch
 *.d
-*.vscode
+.vscode
 
 # Packages #
 ############

@@ -9,8 +9,8 @@
 
     class Sound : public Component{
         public:
-            Sound(GameObject& associated,Resources* resources);
-            Sound(GameObject& associated,Resources* resources, std::string file);
+            Sound(GameObject& associated);
+            Sound(GameObject& associated, std::string file);
             ~Sound();
             void Play (int times = 1);
             void Stop();
@@ -23,7 +23,6 @@
             bool Is(std::string type);
         private:
             Mix_Chunk* chunk;
-            Resources* resources;
             int channel;
     };
 

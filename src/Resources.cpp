@@ -1,5 +1,8 @@
 #include "../include/Resources.h"
 
+std::unordered_map<std::string, SDL_Texture*> Resources::imageTable;
+std::unordered_map<std::string, Mix_Music*> Resources::musicTable;
+std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
 SDL_Texture* Resources::GetImage(std::string file){
     std::unordered_map<std::string, SDL_Texture*>::iterator it;
 	it = imageTable.find(file);

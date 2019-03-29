@@ -1,12 +1,11 @@
 #include "../include/Sound.h"
 
-Sound::Sound(GameObject& associated,Resources* resources) : Component(associated){
+Sound::Sound(GameObject& associated) : Component(associated){
     chunk = nullptr;
-    this->resources = resources;
     channel = -2;
 }
 
-Sound::Sound(GameObject& associated,Resources* resources, std::string file) : Sound(associated,resources){
+Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
     Open(file);
 }
 
@@ -19,7 +18,7 @@ Sound::~Sound(){
 }
 
 void Sound::Open(std::string file){
-    chunk = resources->GetSound(file);
+    chunk = Resources::GetSound(file);
     if(chunk == nullptr){
         std::cout << "Failed to load Sound: " << SDL_GetError() << std::endl;
     }

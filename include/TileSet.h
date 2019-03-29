@@ -9,7 +9,7 @@
 
     class TileSet{
         public:
-            TileSet(int tileWidth,int tileHeight,Resources* resources,std::string file);
+            TileSet(int tileWidth,int tileHeight,std::string file);
             ~TileSet();
             void RenderTile(unsigned index,float x,float y);
             int GetTileWidth();
@@ -17,7 +17,6 @@
         private:
             GameObject *owner;
             Sprite *tileset;
-            Resources *resources;
             int rows;
             int columns;
             int tileWidth;

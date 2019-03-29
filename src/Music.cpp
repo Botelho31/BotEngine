@@ -1,10 +1,10 @@
 #include "../include/Music.h"
 
-Music::Music(Resources* resources) : resources(resources){
+Music::Music(){
     music = nullptr;
 }
 
-Music::Music(Resources* resources,std::string file) : Music(resources){
+Music::Music(std::string file){
     music = nullptr;
     Open(file);
 }
@@ -13,7 +13,7 @@ Music::~Music(){
 }
 
 void Music::Open(std::string file){
-    music = resources->GetMusic(file);
+    music = Resources::GetMusic(file);
     if(music == nullptr){
         std::cout << "Failed loading Music - " << SDL_GetError() << "\n" << std::endl;
     }

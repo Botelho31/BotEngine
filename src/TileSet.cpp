@@ -1,9 +1,9 @@
 #include "../include/TileSet.h"
 #include "../include/GameObject.h"
 
-TileSet::TileSet(int tileWidth,int tileHeight,Resources *resources,std::string file) : resources(resources){
+TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
     owner = new GameObject();
-    tileset = new Sprite(*owner,resources,file);
+    tileset = new Sprite(*owner,file);
     owner->AddComponent(tileset);
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;

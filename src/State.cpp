@@ -9,21 +9,21 @@
 #include "../include/CameraFollower.h"
 #include "../include/Alien.h"
 
-State::State(Resources* resources) : resources(resources){
+State::State(){
     quitRequested = false;
     started = false;
-    music = new Music(resources,"assets/audio/stageState.ogg");
+    music = new Music("assets/audio/stageState.ogg");
     music->Play();
 
 	GameObject *background = new GameObject();
-    bg = new Sprite(*background,resources,"assets/img/ocean.jpg");
+    bg = new Sprite(*background,"assets/img/ocean.jpg");
     CameraFollower *camerafollower = new CameraFollower(*background);
 	background->AddComponent(bg);
     background->AddComponent(camerafollower);
 	objectArray.emplace_back(background);
 
 	GameObject *tileObj = new GameObject();
-	TileSet *tileSet = new TileSet(64,64,resources,"assets/img/tileset.png");
+	TileSet *tileSet = new TileSet(64,64,"assets/img/tileset.png");
 	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMap.txt",tileSet);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
@@ -31,7 +31,7 @@ State::State(Resources* resources) : resources(resources){
 	objectArray.emplace_back(tileObj);
 
     GameObject *alienObj = new GameObject();
-    Alien *alien = new Alien(*alienObj,resources,0);
+    Alien *alien = new Alien(*alienObj,0);
     Component* component = alienObj->GetComponent("Sprite");
     if(component != nullptr){
         Sprite *aliensprite = dynamic_cast<Sprite*>(component);

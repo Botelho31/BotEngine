@@ -9,7 +9,7 @@
 
     class Alien : public Component{
         public:
-            Alien(GameObject& associated,Resources* resources,int nMinions);
+            Alien(GameObject& associated,int nMinions);
             ~Alien();
 
             void Start();
