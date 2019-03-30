@@ -5,6 +5,7 @@ Bullet::Bullet(GameObject& associated,float angle,float speed,int damage,float m
     Component(associated){
         Sprite *bullet = new Sprite(associated,sprite);
         associated.AddComponent(bullet);
+        associated.angleDeg = -((angle * 180)/PI);
         this->speed.x = speed;
         this->speed.y = speed;
         this->distanceLeft = maxDistance;

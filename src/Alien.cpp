@@ -27,6 +27,13 @@ void Alien::Start(){
         GameObject *minionObj = new GameObject(&associated.GetState());
         std::weak_ptr<GameObject> alienCenter = associated.GetState().GetObjectPtr(&associated);
         Minion *minion = new Minion(*minionObj,alienCenter,i*(PI*2/(float)nMinions));
+        Component *component = minionObj->GetComponent("Sprite");
+        if(component != nullptr){
+            Sprite *sprite = dynamic_cast<Sprite*>(component);
+            float scale = (rand() % 5) + 10;
+            scale /= 10;
+            sprite->SetScaleX(scale,scale);
+        }
         minionObj->AddComponent(minion);
         std::weak_ptr<GameObject> minionWeakPtr = associated.GetState().AddObject(minionObj);
         minionArray.emplace_back(minionWeakPtr);
@@ -36,6 +43,7 @@ void Alien::Start(){
 
 void Alien::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
+    associated.angleDeg -= (180/10) * dt;
     if(input->MousePress(SDL_BUTTON_LEFT) == true){
         Action::ActionType actiontype = Action::MOVE;
         Action *action = new Action(actiontype,(input->GetMouseX() + Camera::pos.x) - associated.box.w/2,(input->GetMouseY() + Camera::pos.y) - associated.box.h/2);
