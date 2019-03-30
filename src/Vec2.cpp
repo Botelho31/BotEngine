@@ -10,6 +10,10 @@ Vec2::Vec2(float x,float y){
     this->y = y;
 }
 
+float Vec2::Magnitude(){
+    return sqrt(x*x + y*y);
+}
+
 Vec2& Vec2::GetRotated(float R){
     float x,y;
     x = this->x;

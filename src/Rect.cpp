@@ -27,6 +27,14 @@ void Rect::Transform(float x,float y){
     this->y = y;
 }
 
+float Rect::Magnitude(){
+    return sqrt(x*x + y*y);
+}
+
+float Rect::MultiplyVector(float x,float y){
+    return (this->x * this->y) + (x*y);
+}
+
 bool Rect::Follow(float x,float y, float speedX,float speedY,float dt){
     bool DoneX = false;
     bool DoneY = false;

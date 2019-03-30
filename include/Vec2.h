@@ -9,6 +9,7 @@
         public:
             Vec2();
             Vec2(float x,float y);
+            float Magnitude();
             Vec2& GetRotated(float R);
             float x,y;
 
