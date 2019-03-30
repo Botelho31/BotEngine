@@ -24,6 +24,7 @@
             State& GetState();
             Rect box;
             bool started;
+            double angleDeg; // SENTIDO HORARIO EM GRAUS
         private:
             State* state;
             std::vector<std::unique_ptr<Component>> components;

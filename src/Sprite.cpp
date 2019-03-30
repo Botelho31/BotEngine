@@ -3,7 +3,10 @@
 #include "../include/Camera.h"
 
 Sprite::Sprite(GameObject& associated) : Component(associated){
+    scale.x = 1;
+    scale.y = 1;
     texture = nullptr;
+    associated.angleDeg = 0;
 }
 
 Sprite::Sprite(GameObject& associated,std::string file) : Sprite(associated){
@@ -34,6 +37,19 @@ void Sprite::SetClip(int x,int y,int w,int h){
     clip_rect.y = y;
 }
 
+void Sprite::SetScaleX(float scaleX,float scaleY){
+    if(scaleX != 0){
+        scale.x = scaleX;
+        associated.box.x = associated.box.x + (associated.box.w - (associated.box.w*scaleX));
+        associated.box.w *= scaleX;
+    }
+    if(scaleY != 0){
+        scale.y = scaleY;
+        associated.box.y = associated.box.y + (associated.box.h - (associated.box.h*scaleY));
+        associated.box.h *= scaleY;
+    }
+}
+
 void Sprite::Update(float dt){
 
 }
@@ -46,17 +62,17 @@ void Sprite::Render(int x,int y){
     SDL_Rect dst_rect;
     dst_rect.x = x;
     dst_rect.y = y;
-    dst_rect.w = clip_rect.w;
-    dst_rect.h = clip_rect.h;
-    SDL_RenderCopy(Game::GetInstance().GetRenderer(),texture,&clip_rect,&dst_rect);
+    dst_rect.w = clip_rect.w * scale.x;
+    dst_rect.h = clip_rect.h * scale.y;
+    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture,&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
 }
 
 int Sprite::GetWidth(){
-    return width;
+    return width * scale.x;
 }
 
 int Sprite::GetHeight(){
-    return height;
+    return height * scale.y;
 }
 
 bool Sprite::IsOpen(){

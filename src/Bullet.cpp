@@ -7,7 +7,7 @@ Bullet::Bullet(GameObject& associated,float angle,float speed,int damage,float m
         associated.AddComponent(bullet);
         this->speed.x = speed;
         this->speed.y = speed;
-        this->distanceLeft = maxDistance + associated.box.w/2 + associated.box.h/2;
+        this->distanceLeft = maxDistance;
         this->damage = damage;
         this->angle = angle;
 }
@@ -15,7 +15,6 @@ Bullet::Bullet(GameObject& associated,float angle,float speed,int damage,float m
 void Bullet::Update(float dt){
     associated.box.x += (cos(angle) * speed.x) * dt;
     associated.box.y += ((-sin(angle)) * speed.y) * dt;
-    std::cout << distanceLeft << std::endl;
     distanceLeft -= fabs((((-sin(angle)) * speed.y) * dt))  + fabs(((cos(angle) * speed.x) * dt));
     if(distanceLeft <= 0){
         associated.RequestDelete();
