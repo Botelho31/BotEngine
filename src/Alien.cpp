@@ -63,7 +63,16 @@ void Alien::Update(float dt){
             }
         }   
         if(taskQueue.front().type == Action::SHOOT){
-            Component* component = minionArray[ (rand() % minionArray.size())].lock().get()->GetComponent("Minion");
+            float lastDistance = minionArray[0].lock().get()->box.GetDistance(taskQueue.front().pos.x,taskQueue.front().pos.y);
+            int chosen = 0;
+            for(int i = 0; i < minionArray.size();i++){
+                float distance = minionArray[i].lock().get()->box.GetDistance(taskQueue.front().pos.x,taskQueue.front().pos.y);
+                if(distance < lastDistance){
+                    lastDistance = distance;
+                    chosen = i;
+                }
+            }
+            Component* component = minionArray[chosen].lock().get()->GetComponent("Minion");
             if(component){
                 Minion *minion = dynamic_cast<Minion*>(component);
                 minion->Shoot(taskQueue.front().pos);
