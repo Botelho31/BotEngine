@@ -2,16 +2,20 @@
 #include "../include/State.h"
 #include "../include/Camera.h"
 
-Sprite::Sprite(GameObject& associated,int frameTime,float frameCount) : 
-    Component(associated),frameTime(frameTime),frameCount(frameCount){
+Sprite::Sprite(GameObject& associated,int frameCount,float frameTime) : 
+    Component(associated){
+    this->frameCount = frameCount;
+    this->frameTime = frameTime;
     scale.x = 1;
     scale.y = 1;
     texture = nullptr;
     associated.angleDeg = 0;
+    currentFrame = 0;
+    timeElapsed = 0;
 }
 
-Sprite::Sprite(GameObject& associated,std::string file,int frameTime,float frameCount) :
-    Sprite(associated,frameTime,frameCount){
+Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime) :
+    Sprite(associated,frameCount,frameTime){
 
     Open(file);
 }
@@ -27,8 +31,8 @@ void Sprite::Open(std::string file){
     }else{
         SDL_QueryTexture(texture,nullptr,nullptr, &width, &height);
         this->associated.box.w = width/frameCount;
-        this->associated.box.h = height/frameCount;
-        SetClip(0,0,width,height);
+        this->associated.box.h = height;
+        SetClip(0,0,width/frameCount,height);
         
     }
 }
@@ -70,10 +74,12 @@ void Sprite::SetFrameTime(float frameTime){
 void Sprite::Update(float dt){
     timeElapsed += dt;
     if(timeElapsed >= frameTime ){
+        timeElapsed = 0;
         currentFrame += 1;
         if(currentFrame >= frameCount){
             currentFrame = 0;
         }
+        std::cout << currentFrame << std::endl;
         SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
     }
 

@@ -1,9 +1,10 @@
 #include "../include/Bullet.h"
 #include "../include/Sprite.h"
 
-Bullet::Bullet(GameObject& associated,float angle,float speed,int damage,float maxDistance,std::string sprite) : 
+Bullet::Bullet(GameObject& associated,float angle,float speed,int damage,float maxDistance,std::string sprite,int frameCount,float frameTime) : 
     Component(associated){
-        Sprite *bullet = new Sprite(associated,sprite);
+        Sprite *bullet = new Sprite(associated,sprite,frameCount,frameTime);
+        bullet->SetScaleX(2,2);
         associated.AddComponent(bullet);
         associated.angleDeg = -((angle * 180)/PI);
         this->speed.x = speed;

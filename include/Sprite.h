@@ -11,7 +11,7 @@
 
     class Sprite : public Component{
         public:
-            Sprite(GameObject& associated,int frameCount = 1,float frameTime = 1);
+            Sprite(GameObject& associated,int frameCount,float frameTime);
             Sprite(GameObject& associated,std::string file ,int frameCount = 1,float frameTime = 1);
             ~Sprite();
             void Open(std::string file); 
