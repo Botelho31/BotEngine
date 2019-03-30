@@ -17,9 +17,8 @@ Alien::Action::Action(Action::ActionType type,float x,float y) : type(type),pos(
 }
 
 Alien::~Alien(){
-    while(!taskQueue.empty()){
-        taskQueue.pop();
-    }
+    std::queue<Action> clear;
+    taskQueue.swap(clear);
 }
 
 void Alien::Start(){

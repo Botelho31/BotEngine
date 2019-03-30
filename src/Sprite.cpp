@@ -79,7 +79,6 @@ void Sprite::Update(float dt){
         if(currentFrame >= frameCount){
             currentFrame = 0;
         }
-        std::cout << currentFrame << std::endl;
         SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
     }
 
