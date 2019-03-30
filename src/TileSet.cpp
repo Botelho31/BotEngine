@@ -1,8 +1,7 @@
 #include "../include/TileSet.h"
 #include "../include/GameObject.h"
 
-TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
-    owner = new GameObject(&owner->GetState());
+TileSet::TileSet(GameObject *owner,int tileWidth,int tileHeight,std::string file) : owner(owner){
     tileset = new Sprite(*owner,file);
     owner->AddComponent(tileset);
     this->tileWidth = tileWidth;
@@ -16,9 +15,6 @@ TileSet::TileSet(int tileWidth,int tileHeight,std::string file){
 }
 
 TileSet::~TileSet(){
-    if(owner != nullptr){
-        delete owner;
-    }
 }
 
 void TileSet::RenderTile(unsigned index,float x,float y){

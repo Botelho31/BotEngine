@@ -9,7 +9,6 @@ Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
     speed.y = 150;
     hp = 30;
     this->nMinions = nMinions;
-    minionArray.clear();
     Sprite *alien = new Sprite(associated,"assets/img/alien.png");
     associated.AddComponent(alien);
 }
@@ -18,7 +17,6 @@ Alien::Action::Action(Action::ActionType type,float x,float y) : type(type),pos(
 }
 
 Alien::~Alien(){
-    minionArray.clear();
     while(!taskQueue.empty()){
         taskQueue.pop();
     }
@@ -26,12 +24,13 @@ Alien::~Alien(){
 
 void Alien::Start(){
     for(int i = 0; i < nMinions;i ++){
-        // GameObject *minionObj = new GameObject(&associated.GetState());
-        // std::weak_ptr<GameObject> alienCenter = associated.GetState().GetObjectPtr(&associated);
-        // Minion *minion = new Minion(*minionObj,alienCenter,i*(PI*2/(float)nMinions));
-        // minionObj->AddComponent(minion);
-        // associated.GetState().AddObject(minionObj);
-        // minionArray.emplace_back(*minionObj);
+        GameObject *minionObj = new GameObject(&associated.GetState());
+        std::weak_ptr<GameObject> alienCenter = associated.GetState().GetObjectPtr(&associated);
+        Minion *minion = new Minion(*minionObj,alienCenter,i*(PI*2/(float)nMinions));
+        minionObj->AddComponent(minion);
+        std::weak_ptr<GameObject> minionWeakPtr = associated.GetState().AddObject(minionObj);
+        minionArray.emplace_back(minionWeakPtr);
+
     }
 }
 
@@ -39,7 +38,7 @@ void Alien::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
     if(input->MousePress(SDL_BUTTON_LEFT) == true){
         Action::ActionType actiontype = Action::MOVE;
-        Action *action = new Action(actiontype,(input->GetMouseX() + Camera::pos.x),(input->GetMouseY() + Camera::pos.y));
+        Action *action = new Action(actiontype,(input->GetMouseX() + Camera::pos.x) - associated.box.w/2,(input->GetMouseY() + Camera::pos.y) - associated.box.h/2);
         taskQueue.emplace(*action);
     }
     else if(input->MousePress(SDL_BUTTON_RIGHT) == true){

@@ -23,7 +23,7 @@ State::State(){
 	objectArray.emplace_back(background);
 
 	GameObject *tileObj = new GameObject(this);
-	TileSet *tileSet = new TileSet(64,64,"assets/img/tileset.png");
+	TileSet *tileSet = new TileSet(tileObj,64,64,"assets/img/tileset.png");
 	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMap.txt",tileSet);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
@@ -32,13 +32,7 @@ State::State(){
 
     GameObject *alienObj = new GameObject(this);
     Alien *alien = new Alien(*alienObj,1);
-    Component* component = alienObj->GetComponent("Sprite");
-    if(component != nullptr){
-        Sprite *aliensprite = dynamic_cast<Sprite*>(component);
-        alienObj->box.Transform(512 - (aliensprite->GetWidth()/2),300 - (aliensprite->GetHeight()/2));
-    }else{
-        alienObj->box.Transform(512,300);
-    }
+    alienObj->box.Transform(512 - (alienObj->box.w/2),300 - (alienObj->box.h/2));
     alienObj->AddComponent(alien);
     objectArray.emplace_back(alienObj);
 
@@ -71,9 +65,8 @@ std::weak_ptr<GameObject> State::AddObject(GameObject *go){
 }
 
 std::weak_ptr<GameObject> State::GetObjectPtr(GameObject *go){
-    std::shared_ptr<GameObject> object(go);
     for(unsigned int i = 0; i < objectArray.size();i++){
-        if(objectArray[i] == object){
+        if(objectArray[i].get() == go){
             std::weak_ptr<GameObject> weakptr = objectArray[i];
             return weakptr;
         }
