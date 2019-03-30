@@ -53,10 +53,13 @@ void Alien::Update(float dt){
             if(associated.box.Follow(x,y,speed.x,speed.y,dt)){
                 taskQueue.pop();
             }
-            // std::cout << "X: " << associated.box.x << " Y: " << associated.box.y << std::endl;
-            // std::cout << "DestX: " << x << " DestY: " << y << std::endl;
         }   
         if(taskQueue.front().type == Action::SHOOT){
+            Component* component = minionArray[ (rand() % minionArray.size())].lock().get()->GetComponent("Minion");
+            if(component){
+                Minion *minion = dynamic_cast<Minion*>(component);
+                minion->Shoot(taskQueue.front().pos);
+            }
             taskQueue.pop();
         }
     }

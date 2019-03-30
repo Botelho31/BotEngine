@@ -31,7 +31,7 @@ State::State(){
 	objectArray.emplace_back(tileObj);
 
     GameObject *alienObj = new GameObject(this);
-    Alien *alien = new Alien(*alienObj,30);
+    Alien *alien = new Alien(*alienObj,1);
     alienObj->box.Transform(512 - (alienObj->box.w/2),300 - (alienObj->box.h/2));
     alienObj->AddComponent(alien);
     objectArray.emplace_back(alienObj);

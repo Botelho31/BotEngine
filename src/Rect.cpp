@@ -1,4 +1,5 @@
 #include "../include/Rect.h"
+#include "../include/Vec2.h"
 
 Rect::Rect(){
     w = 0;
@@ -33,6 +34,18 @@ float Rect::Magnitude(){
 
 float Rect::MultiplyVector(float x,float y){
     return (this->x * this->y) + (x*y);
+}
+
+float Rect::GetDistance(float x,float y){
+    return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
+}
+
+float Rect::GetAngle(float x,float y,float offsetX,float offsetY){
+    float boxX = this->x + offsetX;
+    float boxY = this->y + offsetY;
+    float difX = x - boxX;
+    float difY = boxY - y;
+    return atan2(difY,difX);
 }
 
 bool Rect::Follow(float x,float y, float speedX,float speedY,float dt){
