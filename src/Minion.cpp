@@ -20,7 +20,7 @@ void Minion::Update(float dt){
     if(alien){
         arc += (PI/8) * dt;
         associated.angleDeg = arc * 180 / PI;
-        Vec2 vector = Vec2(200,0).GetRotated(arc) + Vec2(alien->box.x + alien->box.w/2,alien->box.y + alien->box.h/2);
+        Vec2 vector = Vec2(110,0).GetRotated(arc) + Vec2(alien->box.x + alien->box.w/2,alien->box.y + alien->box.h/2);
         associated.box.Transform(vector.x - associated.box.w/2,vector.y - associated.box.h/2);
     }else{
         associated.RequestDelete();

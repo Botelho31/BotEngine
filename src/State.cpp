@@ -23,7 +23,8 @@ State::State(){
 	objectArray.emplace_back(background);
 
 	GameObject *tileObj = new GameObject(this);
-	TileSet *tileSet = new TileSet(tileObj,64,64,"assets/img/tileset.png");
+    GameObject *tilesetObj = new GameObject(this);
+	TileSet *tileSet = new TileSet(tilesetObj,64,64,"assets/img/tileset.png");
 	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMap.txt",tileSet);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;

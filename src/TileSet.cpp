@@ -15,6 +15,7 @@ TileSet::TileSet(GameObject *owner,int tileWidth,int tileHeight,std::string file
 }
 
 TileSet::~TileSet(){
+    delete owner;
 }
 
 void TileSet::RenderTile(unsigned index,float x,float y){
