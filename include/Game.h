@@ -17,6 +17,7 @@
   #include <cstdlib>
   #include <bits/stdc++.h> 
   #include <ctime>
+  #include <cmath>
   #include "math.h"
   #include "State.h"
   #include "Resources.h"
