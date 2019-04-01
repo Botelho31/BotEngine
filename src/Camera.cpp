@@ -16,7 +16,9 @@ void Camera::UnFollow(){
 void Camera::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
     if(focus){
-
+        speed.x = 100;
+        speed.y = 100;
+        pos.Follow(focus->box.x - 512 + (focus->box.w/2),focus->box.y - 300 + (focus->box.h/2),speed.x,speed.y,dt);
     }else{
         speed.x = 100;
         speed.y = 100;

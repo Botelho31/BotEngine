@@ -8,6 +8,7 @@
 #include "../include/Camera.h"
 #include "../include/CameraFollower.h"
 #include "../include/Alien.h"
+#include "../include/PenguinBody.h"
 
 State::State(){
     quitRequested = false;
@@ -36,6 +37,13 @@ State::State(){
     alienObj->box.Transform(512 - (alienObj->box.w/2),300 - (alienObj->box.h/2));
     alienObj->AddComponent(alien);
     objectArray.emplace_back(alienObj);
+
+    GameObject *penguinObj = new GameObject(this);
+    PenguinBody *penguin = new PenguinBody(*penguinObj);
+    penguinObj->box.Transform(704,640);
+    penguinObj->AddComponent(penguin);
+    objectArray.emplace_back(penguinObj);
+    Camera::Follow(penguinObj);
 
 }
 

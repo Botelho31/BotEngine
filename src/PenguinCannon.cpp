@@ -2,9 +2,13 @@
 #include "../include/InputManager.h"
 #include "../include/Camera.h"
 #include "../include/Bullet.h"
+#include "../include/Sprite.h"
 
 PenguinCannon::PenguinCannon(GameObject& associated,std::weak_ptr<GameObject> penguinBody) : 
     Component(associated),pbody(penguinBody){
+        angle = 0;
+        Sprite *cannon = new Sprite(associated,"assets/img/cubngun.png");
+
 
 }
 
