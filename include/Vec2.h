@@ -12,6 +12,8 @@
             float Magnitude();
             bool Follow(float x,float y,float speedX,float speedY,float dt);
             Vec2& GetRotated(float R);
+            void Transform(float x,float y);
+            void Transform(Vec2 pos);
             float x,y;
 
             //OPERATORS

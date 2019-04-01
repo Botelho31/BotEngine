@@ -23,6 +23,16 @@ Vec2& Vec2::GetRotated(float R){
     return *this;
 }
 
+void Vec2::Transform(float x,float y){
+    this->x = x;
+    this->y = y;
+}
+
+void Vec2::Transform(Vec2 pos){
+    this->x = pos.x;
+    this->y = pos.y;
+}
+
 bool Vec2::Follow(float x,float y, float speedX,float speedY,float dt){
     bool DoneX = false;
     bool DoneY = false;
