@@ -12,11 +12,11 @@
                 ~PenguinBody();
 
                 void Start();
-                void Update();
+                void Update(float dt);
                 void Render();
                 bool Is(std::string type);
 
-                PenguinBody *player;
+                static PenguinBody *player;
             private:
                 std::weak_ptr<GameObject> pcannon;
                 Vec2 speed;

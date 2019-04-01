@@ -13,7 +13,7 @@
             float Magnitude();
             float MultiplyVector(float x,float y);
             float GetDistance(float x,float y);
-            float GetAngle(float x,float y,float offsetX,float offsetY);
+            float GetAngle(float x,float y,float offsetX = 0,float offsetY = 0);
             bool Follow(float x,float y,float speedX,float speedY,float dt);
             float w,h,x,y;
     };
