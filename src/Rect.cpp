@@ -40,6 +40,10 @@ float Rect::GetDistance(float x,float y){
     return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
 }
 
+Vec2 Rect::GetCenter(){
+    return Vec2(x + w/2,y + h/2);
+}
+
 float Rect::GetAngle(float x,float y,float offsetX,float offsetY){
     float boxX = this->x + offsetX;
     float boxY = this->y + offsetY;

@@ -14,12 +14,16 @@
             Vec2& GetRotated(float R);
             float x,y;
 
-            //ADDITION
+            //OPERATORS
             Vec2 operator+(const Vec2& other){
-                x += other.x;
-                y += other.y;
+                return Vec2(x + other.x,y + other.y);
+            }
+            Vec2 operator-(const Vec2& rhs) const {
+               return Vec2(x - rhs.x, y - rhs.y);
+            }
 
-                return *this;
+            Vec2 operator*(const float rhs) const {
+               return Vec2(x * rhs, y * rhs);
             }
     };
 #endif
