@@ -4,14 +4,13 @@
 PenguinBody *PenguinBody::player;
 
 PenguinBody::PenguinBody(GameObject& associated) : Component(associated){
-    speed.x = 150;
-    speed.y = 150;
-    linearSpeed = 150;
+    speed.x = 0;
+    speed.y = 0;
+    linearSpeed = 0;
     angle = 0;
     hp = 150;
     player = this;
     Sprite *penguin = new Sprite(associated,"assets/img/penguin.png");
-    std::cout << penguin->GetWidth() << std::endl;
     associated.AddComponent(penguin);
 }
 
@@ -21,63 +20,62 @@ PenguinBody::~PenguinBody(){
 }
 
 void PenguinBody::Start(){
-    // std::shared_ptr<GameObject> sharedptr(&associated);
+    // std::shared_ptr<GameObject> sharedptr(&associated);      //TEMPORARY AS POINTER
     // std::weak_ptr<GameObject> weakptr = sharedptr;
-    // GameObject *cannonObj = new GameObject(&associated.GetState());
-    // PenguinCannon *cannon = new PenguinCannon(associated,weakptr);
+    GameObject *cannonObj = new GameObject(&(associated.GetState()));
+    PenguinCannon *cannon = new PenguinCannon(*cannonObj,&associated);
     // std::shared_ptr<GameObject> sharedcannon(cannonObj);
     // std::weak_ptr<GameObject> weakcannon = sharedcannon;
-    // pcannon = weakcannon;
-    // cannonObj->AddComponent(cannon);
-    // associated.GetState().AddObject(cannonObj);
-
+    pcannon = cannonObj;
+    cannonObj->AddComponent(cannon);
+    associated.GetState().AddObject(cannonObj);
 }
 
 void PenguinBody::Update(float dt){
-    // InputManager *input =  &(InputManager::GetInstance());
-    // if(input->MousePress(UP_ARROW_KEY) == true){
-    //     speed.x += 10 * dt;
-    //     speed.y += 10 * dt;
-    //     linearSpeed += 10 * dt;
-    //     if(speed.x >= 300){
-    //         speed.x = 300;
-    //     }
-    //     if(speed.y >= 300){
-    //         speed.y = 300;
-    //     }
-    //     if(linearSpeed >= 300){
-    //         linearSpeed = 300;
-    //     }
-    // }
-    // else if(input->MousePress(DOWN_ARROW_KEY) == true){
-    //     speed.x -= 10 * dt;
-    //     speed.y -= 10 * dt;
-    //     linearSpeed -= 10 * dt;
-    //     if(speed.x <= -300){
-    //         speed.x = -300;
-    //     }
-    //     if(speed.y <= -300){
-    //         speed.y = -300;
-    //     }
-    //     if(linearSpeed <= -300){
-    //         linearSpeed = -300;
-    //     }
-    // }
-    // else if(input->MousePress(RIGHT_ARROW_KEY) == true){
-    //     angle += PI/10 * dt;
-    //     associated.angleDeg = angle;
-    // }
-    // else if(input->MousePress(LEFT_ARROW_KEY) == true){
-    //     angle -= PI/10 * dt;
-    //     associated.angleDeg = ( angle * 180 )/ PI;
-    // }
-    // associated.box.x += (cos(angle) * speed.x) * dt;
-    // associated.box.y += ((-sin(angle)) * speed.y) * dt;
+    InputManager *input =  &(InputManager::GetInstance());
+    if(input->IsKeyDown(UP_ARROW_KEY) == true){
+        speed.x += 50 * dt;
+        speed.y += 50 * dt;
+        linearSpeed += 50 * dt;
+        if(speed.x >= 300){
+            speed.x = 300;
+        }
+        if(speed.y >= 300){
+            speed.y = 300;
+        }
+        if(linearSpeed >= 300){
+            linearSpeed = 300;
+        }
+    }
+    if(input->IsKeyDown(DOWN_ARROW_KEY) == true){
+        speed.x -= 50 * dt;
+        speed.y -= 50 * dt;
+        linearSpeed -= 50 * dt;
+        if(speed.x <= -300){
+            speed.x = -300;
+        }
+        if(speed.y <= -300){
+            speed.y = -300;
+        }
+        if(linearSpeed <= -300){
+            linearSpeed = -300;
+        }
+    }
+    if(input->IsKeyDown(RIGHT_ARROW_KEY) == true){
+        angle += PI/3 * dt;
+        associated.angleDeg = ( angle * 180 )/ PI;
+    }
+    if(input->IsKeyDown(LEFT_ARROW_KEY) == true){
+        angle -= PI/3 * dt;
+        associated.angleDeg = ( angle * 180 )/ PI;
+    }
+    associated.box.x += (cos(angle) * speed.x) * dt;
+    associated.box.y += -((-sin(angle)) * speed.y) * dt;
 
-    // if(hp <= 0){
-    //     pcannon.lock()->RequestDelete();
-    //     associated.RequestDelete();
-    // }
+    if(hp <= 0){
+        pcannon->RequestDelete();
+        associated.RequestDelete();
+    }
 }
 
 void PenguinBody::Render(){

@@ -17,8 +17,8 @@ Alien::Action::Action(Action::ActionType type,float x,float y) : type(type),pos(
 }
 
 Alien::~Alien(){
-    std::queue<Action> clear;
-    taskQueue.swap(clear);
+    // std::queue<Action> clear;
+    // taskQueue.swap(clear);
 }
 
 void Alien::Start(){
@@ -44,9 +44,9 @@ void Alien::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
     associated.angleDeg -= (180/10) * dt;
     if(input->MousePress(SDL_BUTTON_LEFT) == true){
-        Action::ActionType actiontype = Action::MOVE;
-        Action *action = new Action(actiontype,(input->GetMouseX() + Camera::pos.x) - associated.box.w/2,(input->GetMouseY() + Camera::pos.y) - associated.box.h/2);
-        taskQueue.emplace(*action);
+        // Action::ActionType actiontype = Action::MOVE;
+        // Action *action = new Action(actiontype,(input->GetMouseX() + Camera::pos.x) - associated.box.w/2,(input->GetMouseY() + Camera::pos.y) - associated.box.h/2);
+        // taskQueue.emplace(*action);
     }
     else if(input->MousePress(SDL_BUTTON_RIGHT) == true){
         Action::ActionType actiontype = Action::SHOOT;
