@@ -1,5 +1,6 @@
 #include "../include/PenguinBody.h"
 #include "../include/PenguinCannon.h"
+#include "../include/Collider.h"
 
 PenguinBody *PenguinBody::player;
 
@@ -11,6 +12,8 @@ PenguinBody::PenguinBody(GameObject& associated) : Component(associated){
     hp = 150;
     player = this;
     Sprite *penguin = new Sprite(associated,"assets/img/penguin.png");
+    Collider *collider = new Collider(associated);
+    associated.AddComponent(collider);
     associated.AddComponent(penguin);
 }
 

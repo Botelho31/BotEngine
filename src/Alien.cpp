@@ -3,6 +3,7 @@
 #include "../include/Camera.h"
 #include "../include/Resources.h"
 #include "../include/Minion.h"
+#include "../include/Collider.h"
 
 Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
     speed.x = 150;
@@ -10,6 +11,8 @@ Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
     hp = 30;
     this->nMinions = nMinions;
     Sprite *alien = new Sprite(associated,"assets/img/alien.png");
+    Collider *collider = new Collider(associated);
+    associated.AddComponent(collider);
     associated.AddComponent(alien);
 }
 

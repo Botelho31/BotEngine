@@ -1,9 +1,12 @@
 #include "../include/Bullet.h"
 #include "../include/Sprite.h"
+#include "../include/Collider.h"
 
 Bullet::Bullet(GameObject& associated,float angle,float speed,int damage,float maxDistance,std::string sprite,int frameCount,float frameTime) : 
     Component(associated){
         Sprite *bullet = new Sprite(associated,sprite,frameCount,frameTime);
+        Collider *collider = new Collider(associated);
+        associated.AddComponent(collider);        
         associated.AddComponent(bullet);
         associated.angleDeg = -((angle * 180)/PI);
         this->speed.x = speed;

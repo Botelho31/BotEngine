@@ -3,11 +3,14 @@
 #include "../include/Camera.h"
 #include "../include/Bullet.h"
 #include "../include/Sprite.h"
+#include "../include/Collider.h"
 
 PenguinCannon::PenguinCannon(GameObject& associated,GameObject* penguinBody) : 
     Component(associated),pbody(penguinBody){
         angle = 0;
         Sprite *cannon = new Sprite(associated,"assets/img/cubngun.png");
+        Collider *collider = new Collider(associated);
+        associated.AddComponent(collider);
         associated.AddComponent(cannon);
 }
 

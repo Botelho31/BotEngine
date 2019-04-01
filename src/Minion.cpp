@@ -3,11 +3,14 @@
 #include "../include/Vec2.h"
 #include "../include/Camera.h"
 #include "../include/Bullet.h"
+#include "../include/Collider.h"
 
 Minion::Minion(GameObject& associated,std::weak_ptr<GameObject> alienCenter,float arcOffsetDeg) : 
     Component(associated),alienCenter(alienCenter), arc(arcOffsetDeg){
     Sprite* minion = new Sprite(associated,"assets/img/minion.png");
     associated.box.Transform(0,0);
+    Collider *collider = new Collider(associated);
+    associated.AddComponent(collider);
     associated.AddComponent(minion);
 }
 
