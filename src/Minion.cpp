@@ -4,6 +4,7 @@
 #include "../include/Camera.h"
 #include "../include/Bullet.h"
 #include "../include/Collider.h"
+#include "../include/Alien.h"
 
 Minion::Minion(GameObject& associated,std::weak_ptr<GameObject> alienCenter,float arcOffsetDeg) : 
     Component(associated),alienCenter(alienCenter), arc(arcOffsetDeg){
@@ -54,6 +55,10 @@ void Minion::Shoot(Vec2 target){
 void Minion::NotifyCollision(GameObject& other){
     Component *component = other.GetComponent("Bullet");    
     if(component){
-        alienCenter.lock().get()->NotifyCollision(other);
+        Component *alien = alienCenter.lock().get()->GetComponent("Alien");
+        if(alien){
+            Alien *alien = dynamic_cast<Alien*>(component);
+            
+        }
     }
 }

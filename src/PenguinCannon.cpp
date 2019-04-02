@@ -20,7 +20,6 @@ void PenguinCannon::Update(float dt){
         associated.RequestDelete();
     }
     if(input->MousePress(SDL_BUTTON_LEFT) == true){
-        std::cout << "shoot";
         Shoot();
     }
     // associated.box.x = pbody.lock().get()->box.x + pbody.lock().get()->box.w - associated.box.w;
