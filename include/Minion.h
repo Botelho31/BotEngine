@@ -15,6 +15,7 @@
             void Update(float dt);
             void Render();
             bool Is(std::string type);
+            void NotifyCollision(GameObject& other);
             void Shoot(Vec2 target);
         private:
             std::weak_ptr<GameObject> alienCenter;

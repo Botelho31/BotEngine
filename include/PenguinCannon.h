@@ -12,6 +12,7 @@
             void Update(float dt);
             void Render();
             bool Is(std::string);
+            void NotifyCollision(GameObject& other);
             void Shoot();
         private:
             GameObject* pbody;

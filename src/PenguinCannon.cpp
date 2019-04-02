@@ -20,6 +20,7 @@ void PenguinCannon::Update(float dt){
         associated.RequestDelete();
     }
     if(input->MousePress(SDL_BUTTON_LEFT) == true){
+        std::cout << "shoot";
         Shoot();
     }
     // associated.box.x = pbody.lock().get()->box.x + pbody.lock().get()->box.w - associated.box.w;
@@ -43,9 +44,16 @@ bool PenguinCannon::Is(std::string type){
     }
 }
 
+void PenguinCannon::NotifyCollision(GameObject& other){
+    Component *component = other.GetComponent("Bullet");
+    if(component){
+        pbody->NotifyCollision(other);
+    }
+}
+
 void PenguinCannon::Shoot(){
     GameObject *bulletObj = new GameObject(&associated.GetState());
-    Bullet *bullet = new Bullet(*bulletObj,-(associated.angleDeg * PI)/180,100,100,1000,"assets/img/minionbullet2.png",3,0.5);
+    Bullet *bullet = new Bullet(*bulletObj,-(associated.angleDeg * PI)/180,100,100,1000,"assets/img/minionbullet2.png",3,0.5,false);
     Vec2 vec = Vec2(70,0);
     vec = vec.GetRotated((associated.angleDeg * PI)/180);
     bulletObj->box.Transform(vec.x + associated.box.x + (associated.box.w/2) - 15,vec.y + associated.box.y + associated.box.h/2 - 5);

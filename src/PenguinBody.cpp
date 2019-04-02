@@ -1,6 +1,8 @@
 #include "../include/PenguinBody.h"
 #include "../include/PenguinCannon.h"
 #include "../include/Collider.h"
+#include "../include/Bullet.h"
+#include "../include/Camera.h"
 
 PenguinBody *PenguinBody::player;
 
@@ -76,6 +78,7 @@ void PenguinBody::Update(float dt){
     associated.box.y += -((-sin(angle)) * speed.y) * dt;
 
     if(hp <= 0){
+        Camera::UnFollow();
         pcannon->RequestDelete();
         associated.RequestDelete();
     }
@@ -90,5 +93,15 @@ bool PenguinBody::Is(std::string type){
         return true;
     }else{
         return false;
+    }
+}
+
+void PenguinBody::NotifyCollision(GameObject& other){
+    Component *component = other.GetComponent("Bullet");
+    if(component){
+        Bullet *bullet = dynamic_cast<Bullet*>(component);
+        if(bullet->targetsPlayer){
+            hp -= bullet->GetDamage();
+        }
     }
 }

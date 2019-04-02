@@ -4,6 +4,7 @@
 #include "../include/Resources.h"
 #include "../include/Minion.h"
 #include "../include/Collider.h"
+#include "../include/Bullet.h"
 
 Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
     speed.x = 150;
@@ -97,5 +98,16 @@ bool Alien::Is(std::string type){
         return true;
     }else{
         return false;
+    }
+}
+
+
+void Alien::NotifyCollision(GameObject& other){
+    Component *component = other.GetComponent("Bullet");    
+    if(component){
+        Bullet *bullet = dynamic_cast<Bullet*>(component);
+        if(!bullet->targetsPlayer){
+            hp -= bullet->GetDamage();
+        }
     }
 }

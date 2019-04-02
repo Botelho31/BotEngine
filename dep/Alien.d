@@ -5,7 +5,8 @@ bin/Alien.o: src/Alien.cpp src/../include/Alien.h src/../include/Game.h \
  src/../include/Resources.h src/../include/Music.h \
  src/../include/InputManager.h src/../include/InputManager.h \
  src/../include/Camera.h src/../include/Resources.h \
- src/../include/Minion.h
+ src/../include/Minion.h src/../include/Collider.h \
+ src/../include/Bullet.h
 
 src/../include/Alien.h:
 
@@ -38,3 +39,7 @@ src/../include/Camera.h:
 src/../include/Resources.h:
 
 src/../include/Minion.h:
+
+src/../include/Collider.h:
+
+src/../include/Bullet.h:

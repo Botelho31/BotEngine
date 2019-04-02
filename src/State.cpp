@@ -9,6 +9,8 @@
 #include "../include/CameraFollower.h"
 #include "../include/Alien.h"
 #include "../include/PenguinBody.h"
+#include "../include/Collision.h"
+#include "../include/Collider.h"
 
 State::State(){
     quitRequested = false;
@@ -84,19 +86,6 @@ std::weak_ptr<GameObject> State::GetObjectPtr(GameObject *go){
     return weakptr;
 }
 
-// void State::AddObject(int mouseX,int mouseY){
-//     GameObject *object = new GameObject();
-//     Sprite *penguin  =  new Sprite(*object,resources,"assets/img/penguinface.png");
-//     object->AddComponent(penguin);
-//     object->box.x = (mouseX - (object->box.w/2)) + Camera::pos.x;
-//     object->box.y = (mouseY - (object->box.h/2)) + Camera::pos.y;
-//     Sound *sound = new Sound(*object,resources,"assets/audio/boom.wav");
-//     object->AddComponent(sound);
-//     Face *face = new Face(*object);
-//     object->AddComponent(face);
-//     objectArray.emplace_back(object);
-// }
-
 void State::LoadAssets(){
 
 }
@@ -107,12 +96,24 @@ void State::Update(float dt){
 	if(input->IsKeyDown(ESCAPE_KEY) || input->QuitRequested()){
 		quitRequested = true;
 	}
-	// if(input->IsKeyDown(SDLK_SPACE)){
-	// 	Vec2 objPos = Vec2( 200, 0 ).GetRotated( -PI + PI*(rand() % 1001)/500.0 ) + Vec2( input->GetMouseX(), input->GetMouseY() );
-	// 	// AddObject((int)objPos.x, (int)objPos.y);
-	// }
     for(unsigned int i = 0; i < objectArray.size();i++){
         objectArray[i]->Update(dt);
+    }
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        Component *component1 = objectArray[i]->GetComponent("Collider");
+        if((component1) && ((i + 1) < objectArray.size())){
+            Collider *collider1 = dynamic_cast<Collider*>(component1);
+            for(unsigned int j = i + 1; j < objectArray.size();j++){
+                Component *component2 = objectArray[j]->GetComponent("Collider");
+                if(component2){
+                    Collider *collider2 = dynamic_cast<Collider*>(component2);
+                    if(Collision::IsColliding(collider1->box,collider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
+                        objectArray[i]->NotifyCollision(*objectArray[j]);
+                        objectArray[j]->NotifyCollision(*objectArray[i]);
+                    }
+                }
+            }
+        }
     }
     for(unsigned int i = 0; i < objectArray.size();i++){
         if(objectArray[i]->IsDead()){
