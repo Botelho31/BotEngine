@@ -3,6 +3,7 @@
 #include "../include/Collider.h"
 #include "../include/Bullet.h"
 #include "../include/Camera.h"
+#include "../include/Sound.h"
 
 PenguinBody *PenguinBody::player;
 
@@ -78,6 +79,11 @@ void PenguinBody::Update(float dt){
     associated.box.y += -((-sin(angle)) * speed.y) * dt;
 
     if(hp <= 0){
+        GameObject *explosionObj = new GameObject(&associated.GetState());
+        Sprite *explosion = new Sprite(*explosionObj,"assets/img/penguindeath.png",5,0.2,1.2);
+        Sound *sound =  new Sound(*explosionObj,"assets/audio/boom.wav");
+        explosionObj->AddComponent(explosion);
+        associated.GetState().AddObject(explosionObj);
         Camera::UnFollow();
         pcannon->RequestDelete();
         associated.RequestDelete();

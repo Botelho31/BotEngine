@@ -2,10 +2,13 @@
 #include "../include/State.h"
 #include "../include/Camera.h"
 
-Sprite::Sprite(GameObject& associated,int frameCount,float frameTime) : 
+Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secondsToSelfDestruct) : 
     Component(associated){
     this->frameCount = frameCount;
     this->frameTime = frameTime;
+    this->secondsToSelfDestruct = secondsToSelfDestruct;
+    this->selfDestructCount = new Timer();
+    selfDestructCount->Restart();
     scale.x = 1;
     scale.y = 1;
     texture = nullptr;
@@ -14,8 +17,8 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime) :
     timeElapsed = 0;
 }
 
-Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime) :
-    Sprite(associated,frameCount,frameTime){
+Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime,float secondsToSelfDestruct) :
+    Sprite(associated,frameCount,frameTime,secondsToSelfDestruct){
 
     Open(file);
 }
@@ -80,6 +83,13 @@ void Sprite::Update(float dt){
             currentFrame = 0;
         }
         SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
+    }
+
+    if(secondsToSelfDestruct > 0){
+        selfDestructCount->Update(dt);
+        if(selfDestructCount->Get() > secondsToSelfDestruct){
+            associated.RequestDelete();
+        }
     }
 
 }

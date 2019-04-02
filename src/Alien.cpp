@@ -5,6 +5,7 @@
 #include "../include/Minion.h"
 #include "../include/Collider.h"
 #include "../include/Bullet.h"
+#include "../include/Sound.h"
 
 Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
     speed.x = 150;
@@ -84,6 +85,13 @@ void Alien::Update(float dt){
         }
     }
     if(hp <= 0){
+        GameObject *explosionObj = new GameObject(&associated.GetState());
+        Sprite *explosion = new Sprite(*explosionObj,"assets/img/aliendeath.png",4,0.2,1.0);
+        explosionObj->box.Transform(associated.box.x + associated.box.w/2 - explosionObj->box.w/2,associated.box.y + associated.box.h/2 - explosionObj->box.h/2);
+        explosionObj->angleDeg = associated.angleDeg;
+        Sound *sound =  new Sound(*explosionObj,"assets/audio/boom.wav");
+        explosionObj->AddComponent(explosion);
+        associated.GetState().AddObject(explosionObj);
         associated.RequestDelete();
     }
 

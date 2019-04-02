@@ -10,7 +10,7 @@
 *.d
 dep
 bin
-.vscode
+.vscode/
 
 # Packages #
 ############

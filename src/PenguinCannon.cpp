@@ -21,7 +21,7 @@ void PenguinCannon::Update(float dt){
     if(pbody == nullptr){
         associated.RequestDelete();
     }
-    if((input->MousePress(SDL_BUTTON_LEFT) == true) && (timer->Get() > 0.5)){
+    if((input->MousePress(SDL_BUTTON_LEFT) == true) && (timer->Get() >= 0.4)){
         timer->Restart();
         Shoot();
     }
