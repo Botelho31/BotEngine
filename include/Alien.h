@@ -17,18 +17,15 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+            static int alienCount;
         private:
-            class Action{
-                public:
-                    enum ActionType {MOVE,SHOOT};
-                    Action(Action::ActionType type,float x,float y);
-                    ActionType type;
-                    Vec2 pos;
-            };
             Vec2 speed;
             int hp;
             int nMinions;
-            std::queue<Action>  taskQueue;
+            enum AlienState { MOVING, RESTING };
+            AlienState state;
+            Timer *restTimer;
+            Vec2 destination;
             std::vector<std::weak_ptr<GameObject>> minionArray;
     };
 
