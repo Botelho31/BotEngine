@@ -5,6 +5,7 @@
 #ifndef PENGUINCANNON_H
     #define PENGUINCANNON_H
     #include "Component.h"
+    #include "Timer.h"
 
     class PenguinCannon : public Component{
         public:
@@ -17,6 +18,7 @@
         private:
             GameObject* pbody;
             float angle;
+            Timer *timer;
     };
 
 #endif

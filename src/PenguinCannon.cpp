@@ -8,6 +8,7 @@
 PenguinCannon::PenguinCannon(GameObject& associated,GameObject* penguinBody) : 
     Component(associated),pbody(penguinBody){
         angle = 0;
+        timer = new Timer();
         Sprite *cannon = new Sprite(associated,"assets/img/cubngun.png");
         Collider *collider = new Collider(associated);
         associated.AddComponent(collider);
@@ -16,10 +17,12 @@ PenguinCannon::PenguinCannon(GameObject& associated,GameObject* penguinBody) :
 
 void PenguinCannon::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
+    timer->Update(dt);
     if(pbody == nullptr){
         associated.RequestDelete();
     }
-    if(input->MousePress(SDL_BUTTON_LEFT) == true){
+    if((input->MousePress(SDL_BUTTON_LEFT) == true) && (timer->Get() > 0.5)){
+        timer->Restart();
         Shoot();
     }
     // associated.box.x = pbody.lock().get()->box.x + pbody.lock().get()->box.w - associated.box.w;
