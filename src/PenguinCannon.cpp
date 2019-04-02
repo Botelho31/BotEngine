@@ -15,6 +15,10 @@ PenguinCannon::PenguinCannon(GameObject& associated,GameObject* penguinBody) :
         associated.AddComponent(cannon);
 }
 
+PenguinCannon::~PenguinCannon(){
+    delete timer;
+}
+
 void PenguinCannon::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
     timer->Update(dt);

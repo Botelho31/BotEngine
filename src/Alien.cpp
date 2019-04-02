@@ -28,6 +28,7 @@ Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
 
 Alien::~Alien(){
     alienCount --;
+    delete restTimer;
 }
 
 void Alien::Start(){

@@ -24,6 +24,7 @@ Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float fram
 }
 
 Sprite::~Sprite(){
+    delete selfDestructCount;
 }
 
 void Sprite::Open(std::string file){

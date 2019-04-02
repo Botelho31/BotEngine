@@ -10,6 +10,7 @@
     class PenguinCannon : public Component{
         public:
             PenguinCannon(GameObject& associated,GameObject* penguinBody);
+            ~PenguinCannon();
             void Update(float dt);
             void Render();
             bool Is(std::string);
