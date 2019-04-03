@@ -17,7 +17,6 @@
   #include <cstdlib>
   #include <bits/stdc++.h> 
   #include <ctime>
-  // #include <cmath>
   #include "math.h"
   #include "State.h"
   #include "Resources.h"
@@ -26,27 +25,32 @@
   class Game {
 
     public:
+      Game(std::string Title,int Width,int Height);
       ~Game();
 
       void Run();
       SDL_Renderer* GetRenderer();
-      State& GetState();
+      State& GetCurrentState();
+
+      void Push(State *state);
 
       static Game& GetInstance();
 
       float GetDeltaTime();
 
     private:
-      Game(std::string Title,int Width,int Height);
       
       void CalculateDeltaTime();
+      float dt;
+      int frameStart;
+
       static Game *instance;
       SDL_Window *window;
       SDL_Renderer *renderer;
-      State *state;
+      State *storedstate;
       Resources *resources;
-      float dt;
-      int frameStart;
+      
+      // std::stack<std::unique_ptr<State>> stateStack;
   };
 
 #endif

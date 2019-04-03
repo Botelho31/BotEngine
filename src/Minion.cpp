@@ -8,6 +8,7 @@
 
 Minion::Minion(GameObject& associated,std::weak_ptr<GameObject> alienCenter,float arcOffsetDeg) : 
     Component(associated),alienCenter(alienCenter), arc(arcOffsetDeg){
+    std::cout << "OI" << std::endl;
     Sprite* minion = new Sprite(associated,"assets/img/minion.png");
     associated.box.Transform(0,0);
     Collider *collider = new Collider(associated);

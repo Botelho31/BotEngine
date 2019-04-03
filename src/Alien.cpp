@@ -34,6 +34,7 @@ Alien::~Alien(){
 
 void Alien::Start(){
     for(int i = 0; i < nMinions;i ++){
+        std::cout  << "MINON" << std::endl;
         GameObject *minionObj = new GameObject();
         std::weak_ptr<GameObject> alienCenter = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
         Minion *minion = new Minion(*minionObj,alienCenter,i*(PI*2/(float)nMinions));
