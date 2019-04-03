@@ -6,6 +6,7 @@
     #define ALIEN_H
     #include "Component.h"
     #include "Vec2.h"
+    #include "Timer.h"
 
     class Alien : public Component{
         public:

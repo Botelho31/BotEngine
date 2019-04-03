@@ -12,7 +12,7 @@
     class GameObject{
         public:
         
-            GameObject(State* state);
+            GameObject();
             ~GameObject();
             void Update(float dt);
             void Render();
@@ -23,13 +23,10 @@
             void RemoveComponent(Component* cpt);
             Component* GetComponent(std::string type);
             void NotifyCollision (GameObject& other);
-            State& GetState();
             Rect box;
             bool started;
             double angleDeg; // SENTIDO HORARIO EM GRAUS
         private:
-
-            State* state;
             std::vector<std::unique_ptr<Component>> components;
             bool isDead;
 

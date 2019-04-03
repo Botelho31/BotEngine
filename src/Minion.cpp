@@ -45,11 +45,11 @@ bool Minion::Is(std::string type){
 
 void Minion::Shoot(Vec2 target){
     float angle = associated.box.GetAngle(target.x,target.y,associated.box.w/2,associated.box.h/2);
-    GameObject *bulletObj = new GameObject(&associated.GetState());
+    GameObject *bulletObj = new GameObject();
     Bullet *bullet = new Bullet(*bulletObj,angle,100,100,1000,"assets/img/minionbullet2.png",3,0.5,true);
     bulletObj->box.Transform(associated.box.x + associated.box.w/2 - bulletObj->box.w/2,associated.box.y + associated.box.h/2 - bulletObj->box.h); 
     bulletObj->AddComponent(bullet);
-    associated.GetState().AddObject(bulletObj);
+    Game::GetInstance().GetCurrentState().AddObject(bulletObj);
 }
 
 void Minion::NotifyCollision(GameObject& other){

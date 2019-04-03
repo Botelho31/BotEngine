@@ -8,6 +8,7 @@
 #include "../include/Sound.h"
 #include "../include/Timer.h"
 #include "../include/PenguinBody.h"
+#include "../include/Sprite.h"
 
 int Alien::alienCount;
 
@@ -33,8 +34,8 @@ Alien::~Alien(){
 
 void Alien::Start(){
     for(int i = 0; i < nMinions;i ++){
-        GameObject *minionObj = new GameObject(&associated.GetState());
-        std::weak_ptr<GameObject> alienCenter = associated.GetState().GetObjectPtr(&associated);
+        GameObject *minionObj = new GameObject();
+        std::weak_ptr<GameObject> alienCenter = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
         Minion *minion = new Minion(*minionObj,alienCenter,i*(PI*2/(float)nMinions));
         Component *component = minionObj->GetComponent("Sprite");
         if(component != nullptr){
@@ -44,7 +45,7 @@ void Alien::Start(){
             sprite->SetScaleX(scale,scale);
         }
         minionObj->AddComponent(minion);
-        std::weak_ptr<GameObject> minionWeakPtr = associated.GetState().AddObject(minionObj);
+        std::weak_ptr<GameObject> minionWeakPtr = Game::GetInstance().GetCurrentState().AddObject(minionObj);
         minionArray.emplace_back(minionWeakPtr);
 
     }
@@ -58,7 +59,8 @@ void Alien::Update(float dt){
         if(restTimer->Get() >= 5){
             if(PenguinBody::player != nullptr){
                 state = MOVING;
-                destination.Transform(Camera::pos.x + 512,Camera::pos.y + 300);
+                Vec2 position = PenguinBody::player->GetPosition();
+                destination.Transform(position.x - associated.box.w/2,position.y - associated.box.h/2);
             }
         }
     }
@@ -68,7 +70,8 @@ void Alien::Update(float dt){
         if(associated.box.Follow(x,y,speed.x,speed.y,dt)){ 
             state = RESTING;
             restTimer->Restart();
-            destination.Transform(Camera::pos.x + 512,Camera::pos.y + 300);
+            Vec2 position = PenguinBody::player->GetPosition();
+            destination.Transform(position.x - associated.box.w/2,position.y - associated.box.h/2);
             float lastDistance = minionArray[0].lock().get()->box.GetDistance(destination.x,destination.y);
             int chosen = 0;
             for(int i = 0; i < minionArray.size();i++){
@@ -87,7 +90,7 @@ void Alien::Update(float dt){
     }   
 
     if(hp <= 0){
-        GameObject *explosionObj = new GameObject(&associated.GetState());
+        GameObject *explosionObj = new GameObject();
         Sprite *explosion = new Sprite(*explosionObj,"assets/img/aliendeath.png",4,0.2,0.8);
         explosionObj->box.Transform(associated.box.x + associated.box.w/2 - explosionObj->box.w/2,associated.box.y + associated.box.h/2 - explosionObj->box.h/2);
         explosionObj->angleDeg = associated.angleDeg;
@@ -95,7 +98,7 @@ void Alien::Update(float dt){
         sound->Play(1);
         explosionObj->AddComponent(explosion);
         explosionObj->AddComponent(sound);
-        associated.GetState().AddObject(explosionObj);
+        Game::GetInstance().GetCurrentState().AddObject(explosionObj);
         associated.RequestDelete();
     }
 

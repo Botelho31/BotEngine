@@ -9,7 +9,7 @@
 
     class PenguinCannon : public Component{
         public:
-            PenguinCannon(GameObject& associated,GameObject* penguinBody);
+            PenguinCannon(GameObject& associated,std::weak_ptr<GameObject> penguinBody);
             ~PenguinCannon();
             void Update(float dt);
             void Render();
@@ -17,7 +17,7 @@
             void NotifyCollision(GameObject& other);
             void Shoot();
         private:
-            GameObject* pbody;
+            std::weak_ptr<GameObject> pbody;
             float angle;
             Timer *timer;
     };

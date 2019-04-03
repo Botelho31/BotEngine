@@ -4,6 +4,7 @@
 #include "../include/Bullet.h"
 #include "../include/Camera.h"
 #include "../include/Sound.h"
+#include "../include/Sprite.h"
 
 PenguinBody *PenguinBody::player;
 
@@ -26,15 +27,11 @@ PenguinBody::~PenguinBody(){
 }
 
 void PenguinBody::Start(){
-    // std::shared_ptr<GameObject> sharedptr(&associated);      //TEMPORARY AS POINTER
-    // std::weak_ptr<GameObject> weakptr = sharedptr;
-    GameObject *cannonObj = new GameObject(&(associated.GetState()));
-    PenguinCannon *cannon = new PenguinCannon(*cannonObj,&associated);
-    // std::shared_ptr<GameObject> sharedcannon(cannonObj);
-    // std::weak_ptr<GameObject> weakcannon = sharedcannon;
-    pcannon = cannonObj;
+    std::weak_ptr<GameObject> weakbody = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+    GameObject *cannonObj = new GameObject();
+    PenguinCannon *cannon = new PenguinCannon(*cannonObj,weakbody);
     cannonObj->AddComponent(cannon);
-    associated.GetState().AddObject(cannonObj);
+    pcannon = Game::GetInstance().GetCurrentState().AddObject(cannonObj);
 }
 
 void PenguinBody::Update(float dt){
@@ -79,16 +76,16 @@ void PenguinBody::Update(float dt){
     associated.box.y += -((-sin(angle)) * speed.y) * dt;
 
     if(hp <= 0){
-        GameObject *explosionObj = new GameObject(&associated.GetState());
+        GameObject *explosionObj = new GameObject();
         Sprite *explosion = new Sprite(*explosionObj,"assets/img/penguindeath.png",5,0.2,1.0);
         explosionObj->box.Transform(associated.box.x + associated.box.w/2 - explosionObj->box.w/2,associated.box.y + associated.box.h/2 - explosionObj->box.h/2);
         Sound *sound =  new Sound(*explosionObj,"assets/audio/boom.wav");
         sound->Play(1);
         explosionObj->AddComponent(explosion);
         explosionObj->AddComponent(sound);
-        associated.GetState().AddObject(explosionObj);
+        Game::GetInstance().GetCurrentState().AddObject(explosionObj);
         Camera::UnFollow();
-        pcannon->RequestDelete();
+        pcannon.lock()->RequestDelete();
         associated.RequestDelete();
     }
 }
@@ -113,4 +110,8 @@ void PenguinBody::NotifyCollision(GameObject& other){
             hp -= bullet->GetDamage();
         }
     }
+}
+
+Vec2 PenguinBody::GetPosition(){
+    return Vec2(associated.box.x + associated.box.w/2,associated.box.y + associated.box.h/2);
 }

@@ -16,10 +16,11 @@
                 void Render();
                 bool Is(std::string type);
                 void NotifyCollision(GameObject& other);
+                Vec2 GetPosition();
 
                 static PenguinBody *player;
             private:
-                GameObject* pcannon;
+                std::weak_ptr<GameObject> pcannon;
                 Vec2 speed;
                 float linearSpeed;
                 float angle;
