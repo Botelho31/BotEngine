@@ -72,8 +72,10 @@ void PenguinBody::Update(float dt){
         angle -= PI/3 * dt;
         associated.angleDeg = ( angle * 180 )/ PI;
     }
-    associated.box.x += (cos(angle) * speed.x) * dt;
-    associated.box.y += -((-sin(angle)) * speed.y) * dt;
+    if (((associated.box.x >= 0) && (associated.box.x <= 1408)) && ((associated.box.y >= 0) && (associated.box.y <= 1280))){
+        associated.box.x += (cos(angle) * speed.x) * dt;
+        associated.box.y += -((-sin(angle)) * speed.y) * dt;
+    }
 
     if(hp <= 0){
         GameObject *explosionObj = new GameObject();

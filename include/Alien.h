@@ -10,7 +10,7 @@
 
     class Alien : public Component{
         public:
-            Alien(GameObject& associated,int nMinions);
+            Alien(GameObject& associated,int nMinions,float timeOffSet);
             ~Alien();
 
             void Start();

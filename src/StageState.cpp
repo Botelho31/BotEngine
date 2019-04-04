@@ -37,12 +37,14 @@ StageState::StageState(){
 	tileObj->AddComponent(tileMap);
 	objectArray.emplace_back(tileObj);
 
-    GameObject *alienObj = new GameObject();
-    Alien *alien = new Alien(*alienObj,2);
-    alienObj->box.Transform(512 - (alienObj->box.w/2),300 - (alienObj->box.h/2));
-    alienObj->AddComponent(alien);
-    objectArray.emplace_back(alienObj);
-
+    for(int i = 0;i < 6;i++){
+        GameObject *alienObj = new GameObject();
+        Alien *alien = new Alien(*alienObj,5,rand() % 6);
+        alienObj->box.Transform(rand() % 1408,rand() % 1280);
+        alienObj->AddComponent(alien);
+        objectArray.emplace_back(alienObj);
+    }
+    
     GameObject *penguinObj = new GameObject();
     PenguinBody *penguin = new PenguinBody(*penguinObj);
     penguinObj->box.Transform(704,640);

@@ -12,14 +12,15 @@
 
 int Alien::alienCount;
 
-Alien::Alien(GameObject& associated,int nMinions) : Component(associated){
+Alien::Alien(GameObject& associated,int nMinions,float timeOffSet) : Component(associated){
     alienCount ++;
     state = RESTING;
     restTimer = new Timer();
     restTimer->Restart();
+    restTimer->Update(timeOffSet);
     speed.x = 150;
     speed.y = 150;
-    hp = 30;
+    hp = 100;
     this->nMinions = nMinions;
     Sprite *alien = new Sprite(associated,"assets/img/alien.png");
     Collider *collider = new Collider(associated);
