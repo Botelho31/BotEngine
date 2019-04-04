@@ -1,10 +1,11 @@
 #include "../include/Resources.h"
 
-std::unordered_map<std::string, SDL_Texture*> Resources::imageTable;
+std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable;
 std::unordered_map<std::string, Mix_Music*> Resources::musicTable;
 std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
-SDL_Texture* Resources::GetImage(std::string file){
-    std::unordered_map<std::string, SDL_Texture*>::iterator it;
+
+std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file){
+    std::unordered_map<std::string, std::shared_ptr<SDL_Texture>>::iterator it;
 	it = imageTable.find(file);
 	if (it != imageTable.end()){
 		return it->second;
@@ -12,8 +13,9 @@ SDL_Texture* Resources::GetImage(std::string file){
     else{
 		SDL_Texture *texture = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
         if(texture !=  nullptr){
-            imageTable.insert({file,texture});
-            return texture;
+            std::shared_ptr<SDL_Texture> textptr(texture,DeleteImage);
+            imageTable.insert({file,textptr});
+            return textptr;
         }else{
             std::cout << "Failed to load resource: " << file << std::endl;
             return nullptr;
@@ -21,13 +23,20 @@ SDL_Texture* Resources::GetImage(std::string file){
 	}
 }
 
+void Resources::DeleteImage(SDL_Texture *texture){
+    SDL_DestroyTexture(texture);
+}
+
 void Resources::ClearImages(){
-    std::unordered_map<std::string, SDL_Texture*>::iterator it = imageTable.begin();
+    std::unordered_map<std::string, std::shared_ptr<SDL_Texture>>::iterator it = imageTable.begin();
 
     while(it != imageTable.end()){
-        it = imageTable.erase(it);
+        if(it->second.unique()){
+            it = imageTable.erase(it);
+        }else{
+            it++;
+        }
     }
-    imageTable.clear();
 
 }
 

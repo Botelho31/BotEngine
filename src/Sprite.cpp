@@ -33,7 +33,7 @@ void Sprite::Open(std::string file){
         std::cout << "Error Loading Image: " << SDL_GetError() << std::endl;
         return;
     }else{
-        SDL_QueryTexture(texture,nullptr,nullptr, &width, &height);
+        SDL_QueryTexture(texture.get(),nullptr,nullptr, &width, &height);
         this->associated.box.w = width/frameCount;
         this->associated.box.h = height;
         SetClip(0,0,width/frameCount,height);
@@ -105,7 +105,7 @@ void Sprite::Render(int x,int y){
     dst_rect.y = y;
     dst_rect.w = clip_rect.w * scale.x;
     dst_rect.h = clip_rect.h * scale.y;
-    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture,&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
+    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
 }
 
 int Sprite::GetWidth(){
