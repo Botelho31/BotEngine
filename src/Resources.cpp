@@ -3,6 +3,7 @@
 std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable;
 std::unordered_map<std::string, Mix_Music*> Resources::musicTable;
 std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
+std::unordered_map<std::string, TTF_Font*> Resources::fontTable;
 
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file){
     std::unordered_map<std::string, std::shared_ptr<SDL_Texture>>::iterator it;
@@ -94,4 +95,34 @@ void Resources::ClearSounds(){
         it = soundTable.erase(it);
     }
     soundTable.clear();
+}
+
+TTF_Font* Resources::GetFont(std::string file,int ptsize){
+    std::unordered_map<std::string, TTF_Font*>::iterator it;
+    std::stringstream key;
+    key << file << ptsize;
+	it = fontTable.find(key.str());
+	if (it != fontTable.end()){
+		return it->second;
+	}
+    else{
+		TTF_Font* font = TTF_OpenFont(file.c_str(),ptsize);
+        if(font !=  nullptr){
+            fontTable.insert({key.str(),font});
+            return font;
+        }else{
+            std::cout << "Failed to load resource: " << file << std::endl;
+            return nullptr;
+        }
+	}
+}
+
+void Resources::ClearFonts(){
+    std::unordered_map<std::string, TTF_Font*>::iterator it = fontTable.begin();
+
+    while(it != fontTable.end()){
+        TTF_CloseFont(it->second);
+        it = fontTable.erase(it);
+    }
+    fontTable.clear();
 }
