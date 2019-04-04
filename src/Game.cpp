@@ -32,7 +32,7 @@ Game::Game(std::string Title,int Width,int Height){
             }
             std::cout << "Number of Mix Libraries Initialized: " << Mix_Init(MIX_INIT_MP3) << "\n" << std::endl;
             if(TTF_Init() == 0){
-                std::cout << "TTF Initialized" << std::endl;
+                std::cout << "TTF Initialized" << "\n" <<  std::endl;
             }else{
                 std::cout << "Fatal Error Loading TTF: " << SDL_GetError() << "\n" << std::endl; 
             }

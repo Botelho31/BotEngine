@@ -5,6 +5,7 @@
 #ifndef TITLESTATE_H
     #define TITLESTATE_H
     #include "State.h"
+    #include "Timer.h"
 
     class TitleState : public State{
         public:
@@ -18,6 +19,8 @@
             void Start();
             void Resume();
             void Pause();
+        private:
+            Timer *texttimer;
     };
 
 #endif
