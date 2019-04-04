@@ -1,0 +1,13 @@
+#ifndef GAME_H
+    #include "Game.h"
+#endif
+
+#ifndef GAMEDATA_H
+    #define GAMEDATA_H
+
+    class GameData{
+        public:
+            static bool playerVictory;
+    };
+
+#endif
