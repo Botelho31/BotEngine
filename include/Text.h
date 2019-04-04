@@ -23,7 +23,7 @@
             void SetFontSize(int fontSize);
         private:
             void RemakeTexture();
-            TTF_Font *font;
+            std::shared_ptr<TTF_Font> font;
             SDL_Texture *texture;
             std::string text;
             TextStyle style;

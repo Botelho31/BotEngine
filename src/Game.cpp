@@ -110,6 +110,9 @@ void Game::Run(){
         if(stateStack.top()->PopRequested()){
             stateStack.pop();
             resources->ClearImages();
+            resources->ClearMusics();
+            resources->ClearSounds();
+            resources->ClearFonts();
             stateStack.top()->Resume();
         }
         if(storedstate){

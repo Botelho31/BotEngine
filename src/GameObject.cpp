@@ -5,6 +5,7 @@
 GameObject::GameObject(){
     this->isDead = false;
     this->started = false;
+    this->angleDeg = 0;
 }
 
 GameObject::~GameObject(){

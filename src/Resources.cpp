@@ -1,9 +1,9 @@
 #include "../include/Resources.h"
 
 std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable;
-std::unordered_map<std::string, Mix_Music*> Resources::musicTable;
-std::unordered_map<std::string, Mix_Chunk*> Resources::soundTable;
-std::unordered_map<std::string, TTF_Font*> Resources::fontTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Music>> Resources::musicTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> Resources::soundTable;
+std::unordered_map<std::string, std::shared_ptr<TTF_Font>> Resources::fontTable;
 
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file){
     std::unordered_map<std::string, std::shared_ptr<SDL_Texture>>::iterator it;
@@ -41,8 +41,8 @@ void Resources::ClearImages(){
 
 }
 
-Mix_Music* Resources::GetMusic(std::string file){
-    std::unordered_map<std::string, Mix_Music*>::iterator it;
+std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file){
+    std::unordered_map<std::string, std::shared_ptr<Mix_Music>>::iterator it;
 	it = musicTable.find(file);
 	if (it != musicTable.end()){
 		return it->second;
@@ -50,8 +50,9 @@ Mix_Music* Resources::GetMusic(std::string file){
     else{
 		Mix_Music *music = Mix_LoadMUS(file.c_str());
         if(music !=  nullptr){
-            musicTable.insert({file,music});
-            return music;
+            std::shared_ptr<Mix_Music> musicptr(music,DeleteMusic);
+            musicTable.insert({file,musicptr});
+            return musicptr;
         }else{
             std::cout << "Failed to load resource: " << file << std::endl;
             return nullptr;
@@ -59,18 +60,21 @@ Mix_Music* Resources::GetMusic(std::string file){
 	}
 }
 
+void Resources::DeleteMusic(Mix_Music *music){
+    Mix_FreeMusic(music);
+}
+
 void Resources::ClearMusics(){
-    std::unordered_map<std::string, Mix_Music*>::iterator it = musicTable.begin();
+    std::unordered_map<std::string, std::shared_ptr<Mix_Music>>::iterator it = musicTable.begin();
 
     while(it != musicTable.end()){
-        Mix_FreeMusic(it->second);
         it = musicTable.erase(it);
     }
     musicTable.clear();
 }
 
-Mix_Chunk* Resources::GetSound(std::string file){
-    std::unordered_map<std::string, Mix_Chunk*>::iterator it;
+std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file){
+    std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>>::iterator it;
 	it = soundTable.find(file);
 	if (it != soundTable.end()){
 		return it->second;
@@ -78,8 +82,9 @@ Mix_Chunk* Resources::GetSound(std::string file){
     else{
 		Mix_Chunk* chunk = Mix_LoadWAV(file.c_str());
         if(chunk !=  nullptr){
-            soundTable.insert({file,chunk});
-            return chunk;
+            std::shared_ptr<Mix_Chunk> chunkptr (chunk,DeleteSound);
+            soundTable.insert({file,chunkptr});
+            return chunkptr;
         }else{
             std::cout << "Failed to load resource: " << file << std::endl;
             return nullptr;
@@ -87,18 +92,21 @@ Mix_Chunk* Resources::GetSound(std::string file){
 	}
 }
 
+void Resources::DeleteSound(Mix_Chunk *chunk){
+    Mix_FreeChunk(chunk);
+}
+
 void Resources::ClearSounds(){
-    std::unordered_map<std::string, Mix_Chunk*>::iterator it = soundTable.begin();
+    std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>>::iterator it = soundTable.begin();
 
     while(it != soundTable.end()){
-        Mix_FreeChunk(it->second);
         it = soundTable.erase(it);
     }
     soundTable.clear();
 }
 
-TTF_Font* Resources::GetFont(std::string file,int ptsize){
-    std::unordered_map<std::string, TTF_Font*>::iterator it;
+std::shared_ptr<TTF_Font> Resources::GetFont(std::string file,int ptsize){
+    std::unordered_map<std::string, std::shared_ptr<TTF_Font>>::iterator it;
     std::stringstream key;
     key << file << ptsize;
 	it = fontTable.find(key.str());
@@ -108,8 +116,9 @@ TTF_Font* Resources::GetFont(std::string file,int ptsize){
     else{
 		TTF_Font* font = TTF_OpenFont(file.c_str(),ptsize);
         if(font){
-            fontTable.insert({key.str(),font});
-            return font;
+            std::shared_ptr<TTF_Font> fontptr (font,DeleteFont);
+            fontTable.insert({key.str(),fontptr});
+            return fontptr;
         }else{
             std::cout << "Failed to load resource: " << file << std::endl;
             return nullptr;
@@ -117,11 +126,14 @@ TTF_Font* Resources::GetFont(std::string file,int ptsize){
 	}
 }
 
+void Resources::DeleteFont(TTF_Font *font){
+    TTF_CloseFont(font);
+}
+
 void Resources::ClearFonts(){
-    std::unordered_map<std::string, TTF_Font*>::iterator it = fontTable.begin();
+    std::unordered_map<std::string, std::shared_ptr<TTF_Font>>::iterator it = fontTable.begin();
 
     while(it != fontTable.end()){
-        TTF_CloseFont(it->second);
         it = fontTable.erase(it);
     }
     fontTable.clear();

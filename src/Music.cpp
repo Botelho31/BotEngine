@@ -10,7 +10,6 @@ Music::Music(std::string file){
 }
 
 Music::~Music(){
-    Stop();
 }
 
 void Music::Open(std::string file){
@@ -22,7 +21,7 @@ void Music::Open(std::string file){
 
 void Music::Play(int times){
     if(music){
-        Mix_PlayMusic(music,times);
+        Mix_PlayMusic(music.get(),times);
     }else{
         std::cout << "No Music Loaded to Play\n" << std::endl;
     }

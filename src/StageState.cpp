@@ -56,7 +56,7 @@ StageState::StageState(){
 
 StageState::~StageState(){
     if(backgroundMusic){
-        backgroundMusic = nullptr; // DELETE LATER
+        delete backgroundMusic;
     }
 	std::cout << "Cleared "<< objectArray.size() << " Objects" << std::endl;
     objectArray.clear();

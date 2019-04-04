@@ -30,6 +30,9 @@ EndState::EndState(){
 }
 
 EndState::~EndState(){
+    if(backgroundMusic){
+        delete backgroundMusic;
+    }
 }
 
 void EndState::LoadAssets(){

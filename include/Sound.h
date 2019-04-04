@@ -21,7 +21,7 @@
             void Render();
             bool Is(std::string type);
         private:
-            Mix_Chunk* chunk;
+            std::shared_ptr<Mix_Chunk> chunk;
             int channel;
     };
 

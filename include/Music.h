@@ -16,7 +16,7 @@
             void Open(std::string file);
             bool IsOpen();
         private:
-            Mix_Music *music;
+            std::shared_ptr<Mix_Music> music;
     };
 
 #endif
