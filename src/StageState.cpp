@@ -11,6 +11,8 @@
 #include "../include/PenguinBody.h"
 #include "../include/Collision.h"
 #include "../include/Collider.h"
+#include "../include/GameData.h"
+#include "../include/EndState.h"
 
 StageState::StageState(){
     quitRequested = false;
@@ -51,9 +53,9 @@ StageState::StageState(){
 }
 
 StageState::~StageState(){
-	if(backgroundMusic != nullptr){
-		delete backgroundMusic;
-	}
+    if(backgroundMusic){
+        backgroundMusic = nullptr; // DELETE LATER
+    }
 	std::cout << "Cleared "<< objectArray.size() << " Objects" << std::endl;
     objectArray.clear();
 }
@@ -95,6 +97,16 @@ void StageState::Update(float dt){
             objectArray.erase(objectArray.begin() + i);
         }
     }
+    if(Alien::alienCount == 0){
+        GameData::playerVictory = true;
+        popRequested = true;
+        Game::GetInstance().Push(new EndState());
+    }
+    else if(PenguinBody::player == nullptr){
+        GameData::playerVictory = false;
+        popRequested = true;
+        Game::GetInstance().Push(new EndState());
+    }   
 }
 
 void StageState::Render(){

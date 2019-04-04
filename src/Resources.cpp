@@ -107,7 +107,7 @@ TTF_Font* Resources::GetFont(std::string file,int ptsize){
 	}
     else{
 		TTF_Font* font = TTF_OpenFont(file.c_str(),ptsize);
-        if(font !=  nullptr){
+        if(font){
             fontTable.insert({key.str(),font});
             return font;
         }else{

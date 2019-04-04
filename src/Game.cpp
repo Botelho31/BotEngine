@@ -75,6 +75,8 @@ Game::~Game(){
         resources->ClearImages();
         resources->ClearMusics();
         resources->ClearSounds();
+        resources->ClearFonts();
+        delete resources;
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);

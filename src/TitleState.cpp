@@ -27,7 +27,7 @@ TitleState::TitleState(){
 }
 
 TitleState::~TitleState(){
-
+    delete texttimer;
 }
 
 void TitleState::LoadAssets(){
