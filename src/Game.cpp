@@ -31,6 +31,11 @@ Game::Game(std::string Title,int Width,int Height){
                 std::cout << "Fatal Error Loading OpenAudio: " << SDL_GetError() << "\n" << std::endl; 
             }
             std::cout << "Number of Mix Libraries Initialized: " << Mix_Init(MIX_INIT_MP3) << "\n" << std::endl;
+            if(TTF_Init() == 0){
+                std::cout << "TTF Initialized" << std::endl;
+            }else{
+                std::cout << "Fatal Error Loading TTF: " << SDL_GetError() << "\n" << std::endl; 
+            }
             Mix_AllocateChannels(32);
             window = SDL_CreateWindow(Title.c_str(),SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,Width,Height,0); 
             if(window){
@@ -73,6 +78,7 @@ Game::~Game(){
     }
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     Mix_Quit();
     Mix_CloseAudio();
     IMG_Quit();
