@@ -49,8 +49,8 @@
       SDL_Renderer *renderer;
       State *storedstate;
       Resources *resources;
-      
-      // std::stack<std::unique_ptr<State>> stateStack;
+
+      std::stack<std::unique_ptr<State>> stateStack;
   };
 
 #endif

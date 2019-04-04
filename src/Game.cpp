@@ -48,8 +48,8 @@ Game::Game(std::string Title,int Width,int Height){
                 SDL_GetRendererInfo(renderer,&info);
                 std::cout << "Driver in use: " << info.name << "\n" << std::endl;
             }
-            // resources = new Resources();
-            // storedstate = nullptr;
+            resources = new Resources();
+            storedstate = nullptr;
             
 
         }else{
@@ -63,9 +63,9 @@ Game::~Game(){
     if(storedstate != nullptr){
         delete storedstate;
     }
-    // while(!stateStack.empty()){
-    //     stateStack.pop();
-    // }
+    while(!stateStack.empty()){
+        stateStack.pop();
+    }
     if(resources != nullptr){
         resources->ClearImages();
         resources->ClearMusics();
@@ -85,8 +85,7 @@ SDL_Renderer* Game::GetRenderer(){
 }
 
 State& Game::GetCurrentState(){
-    // return *(stateStack.top().get());
-    return *storedstate;
+    return *(stateStack.top().get());
 }
 
 void Game::Push(State *state){
@@ -94,29 +93,29 @@ void Game::Push(State *state){
 }
 
 void Game::Run(){
-    // if(storedstate){
-    //     stateStack.emplace(storedstate);
-    //     storedstate = nullptr;
-    //     stateStack.top()->Start();
-    // }
-    // while((stateStack.top()->QuitRequested() == false) && (!(stateStack.empty()))){
-    //     if(stateStack.top()->PopRequested()){
-    //         stateStack.pop();
-    //         stateStack.top()->Resume();
-    //     }
-    //     if(storedstate){
-    //         stateStack.top()->Pause();
-    //         stateStack.emplace(storedstate);
-    //         storedstate = nullptr;
-    //         stateStack.top()->Start();
-    //     }
-    //     CalculateDeltaTime();
-    //     InputManager::GetInstance().Update();
-    //     stateStack.top()->Update(GetDeltaTime());
-    //     stateStack.top()->Render();
-    //     SDL_RenderPresent(renderer);
-    //     SDL_Delay(33);
-    // }
+    if(storedstate){
+        stateStack.emplace(storedstate);
+        storedstate = nullptr;
+        stateStack.top()->Start();
+    }
+    while((stateStack.top()->QuitRequested() == false) && (!(stateStack.empty()))){
+        if(stateStack.top()->PopRequested()){
+            stateStack.pop();
+            stateStack.top()->Resume();
+        }
+        if(storedstate){
+            stateStack.top()->Pause();
+            stateStack.emplace(storedstate);
+            storedstate = nullptr;
+            stateStack.top()->Start();
+        }
+        CalculateDeltaTime();
+        InputManager::GetInstance().Update();
+        stateStack.top()->Update(GetDeltaTime());
+        stateStack.top()->Render();
+        SDL_RenderPresent(renderer);
+        SDL_Delay(33);
+    }
 }
 
 void Game::CalculateDeltaTime(){
