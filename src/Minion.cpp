@@ -5,9 +5,11 @@
 #include "../include/Bullet.h"
 #include "../include/Collider.h"
 #include "../include/Alien.h"
+#include "../include/Sound.h"
 
 Minion::Minion(GameObject& associated,std::weak_ptr<GameObject> alienCenter,float arcOffsetDeg) : 
     Component(associated),alienCenter(alienCenter), arc(arcOffsetDeg){
+    hp = 15;
     Sprite* minion = new Sprite(associated,"assets/img/minion.png");
     associated.box.Transform(0,0);
     Collider *collider = new Collider(associated);
@@ -27,6 +29,19 @@ void Minion::Update(float dt){
         Vec2 vector = Vec2(110,0).GetRotated(arc) + Vec2(alien->box.x + alien->box.w/2,alien->box.y + alien->box.h/2);
         associated.box.Transform(vector.x - associated.box.w/2,vector.y - associated.box.h/2);
     }else{
+        associated.RequestDelete();
+    }
+    if(hp <= 0){
+        GameObject *explosionObj = new GameObject();
+        Sprite *explosion = new Sprite(*explosionObj,"assets/img/miniondeath.png",4,0.2,0.8);
+        explosionObj->box.Transform(associated.box.x + associated.box.w/2 - explosionObj->box.w/2,associated.box.y + associated.box.h/2 - explosionObj->box.h/2);
+        explosionObj->angleDeg = associated.angleDeg;
+        Sound *sound =  new Sound(*explosionObj,"assets/audio/boom.wav");
+        sound->Play(1);
+        explosionObj->AddComponent(explosion);
+        explosionObj->AddComponent(sound);
+        Game::GetInstance().GetCurrentState().AddObject(explosionObj);
+        associated.RequestDelete();
         associated.RequestDelete();
     }
 }
@@ -55,10 +70,9 @@ void Minion::Shoot(Vec2 target){
 void Minion::NotifyCollision(GameObject& other){
     Component *component = other.GetComponent("Bullet");    
     if(component){
-        Component *alien = alienCenter.lock().get()->GetComponent("Alien");
-        if(alien){
-            Alien *alien = dynamic_cast<Alien*>(component);
-            
+        Bullet *bullet = dynamic_cast<Bullet*>(component);
+        if(!bullet->targetsPlayer){
+            hp -= bullet->GetDamage();
         }
     }
 }

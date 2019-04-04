@@ -20,6 +20,7 @@
         private:
             std::weak_ptr<GameObject> alienCenter;
             float arc;
+            int hp;
 
     };
 

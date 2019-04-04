@@ -53,7 +53,11 @@ void Alien::Start(){
 
 void Alien::Update(float dt){
     associated.angleDeg -= (180/10) * dt;
-
+    for(int i = 0;i < minionArray.size();i++){
+        if(minionArray[i].use_count() == 0){
+            minionArray.erase(minionArray.begin() + i);
+        }
+    }
     if(state == RESTING){
         restTimer->Update(dt);
         if(restTimer->Get() >= 5){
@@ -72,7 +76,7 @@ void Alien::Update(float dt){
             restTimer->Restart();
             Vec2 position = PenguinBody::player->GetPosition();
             destination.Transform(position.x - associated.box.w/2,position.y - associated.box.h/2);
-            float lastDistance = minionArray[0].lock().get()->box.GetDistance(destination.x,destination.y);
+            float lastDistance = 10000;
             int chosen = 0;
             for(int i = 0; i < minionArray.size();i++){
                 float distance = minionArray[i].lock().get()->box.GetDistance(destination.x,destination.y);
@@ -81,10 +85,12 @@ void Alien::Update(float dt){
                     chosen = i;
                 }
             }
-            Component* component = minionArray[chosen].lock().get()->GetComponent("Minion");
-            if(component){
-                Minion *minion = dynamic_cast<Minion*>(component);
-                minion->Shoot(destination);
+            if(!minionArray.empty()){
+                Component* component = minionArray[chosen].lock().get()->GetComponent("Minion");
+                if(component){
+                    Minion *minion = dynamic_cast<Minion*>(component);
+                    minion->Shoot(destination);
+                }
             }
         }
     }   

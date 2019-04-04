@@ -18,10 +18,11 @@ Bullet::Bullet(GameObject& associated,float angle,float speed,int damage,float m
 }
 
 void Bullet::NotifyCollision(GameObject& other){
-    Component *component =  other.GetComponent("PenguinBody");
+    Component *component1 =  other.GetComponent("PenguinBody");
     Component *component2 =  other.GetComponent("PenguinCannon");
     Component *component3 =  other.GetComponent("Alien");
-    if(component){
+    Component *component4 =  other.GetComponent("Minion");
+    if(component1){
         if (targetsPlayer){
             associated.RequestDelete();
         }
@@ -32,6 +33,11 @@ void Bullet::NotifyCollision(GameObject& other){
         }
     }
     if(component3){
+        if (!(targetsPlayer)){
+            associated.RequestDelete();
+        }
+    }
+    if(component4){
         if (!(targetsPlayer)){
             associated.RequestDelete();
         }
