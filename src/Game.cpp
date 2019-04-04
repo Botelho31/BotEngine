@@ -7,7 +7,7 @@ Game& Game::GetInstance(){
         return *instance;
     }
     else{
-        Game *game = new Game("BotEngine",1024,600);
+        Game *game = new Game("BotEngine",1024,600); //
         return *game;
     }
 }
