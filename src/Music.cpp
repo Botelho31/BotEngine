@@ -10,6 +10,7 @@ Music::Music(std::string file){
 }
 
 Music::~Music(){
+    Stop();
 }
 
 void Music::Open(std::string file){

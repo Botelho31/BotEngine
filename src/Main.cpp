@@ -1,10 +1,11 @@
 #include "../include/Game.h"
 #include "../include/StageState.h"
+#include "../include/TitleState.h"
 
 int main(int argc,const char * argv[]){
     std::cout << argc << argv << "\n" << std::endl;
     Game &game = Game::GetInstance();
-    game.Push(new StageState());
+    game.Push(new TitleState());
     game.Run();
     return 0;
 }

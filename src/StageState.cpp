@@ -14,6 +14,7 @@
 
 StageState::StageState(){
     quitRequested = false;
+    popRequested = false;
     started = false;
     backgroundMusic = new Music("assets/audio/stageState.ogg");
     backgroundMusic->Play();
@@ -64,9 +65,12 @@ void StageState::LoadAssets(){
 void StageState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     Camera::Update(dt);
-	if(input->IsKeyDown(ESCAPE_KEY) || input->QuitRequested()){
+	if(input->QuitRequested()){
 		quitRequested = true;
 	}
+    if(input->KeyPress(ESCAPE_KEY)){
+        popRequested = true;
+    }
     for(unsigned int i = 0; i < objectArray.size();i++){
         objectArray[i]->Update(dt);
     }
