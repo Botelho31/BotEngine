@@ -23,4 +23,4 @@
             int hp;
     };
 
-#endif;
+#endif

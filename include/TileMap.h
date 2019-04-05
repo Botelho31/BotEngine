@@ -16,6 +16,8 @@
             void SetTileSet(TileSet *tileSet);
             int& At(int x,int y,int z = 0);
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);
+
+            int AtLocation(int x,int y); //TO GET THE TILE AT MAP COORDINATES
             
             void Render();
             void Update(float dt);

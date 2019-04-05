@@ -41,13 +41,13 @@ StageState::StageState(){
     GameObject *playerObj = new GameObject();
     Player *player = new Player(*playerObj);
     playerObj->box.x = 500;
-    playerObj->box.y = 300;
+    playerObj->box.y = 100;
     playerObj->AddComponent(player);
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
 
-    Camera::limit.x = tilemap->GetWidth();
-    Camera::limit.y = tilemap->GetHeight();
+    Camera::limit.x = tilemap->GetWidth() * tileset->GetTileWidth();
+    Camera::limit.y = tilemap->GetHeight() * tileset->GetTileHeight();
 
 
 }

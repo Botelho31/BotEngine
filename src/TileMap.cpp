@@ -57,6 +57,20 @@ int& TileMap::At(int x,int y,int z){
     }
 }
 
+int TileMap::AtLocation(int x,int y){
+    if(((x < (this->mapWidth * this->tileSet->GetTileWidth())) && (y < (this->mapHeight * this->tileSet->GetTileHeight()))) 
+      && ( (x > 0) && (y > 0) ) ){
+        int ytile,xtile;
+        xtile = x / (this->tileSet->GetTileWidth() - 1);
+        ytile = y / (this->tileSet->GetTileHeight() - 1);
+        int tilePlace = ( (ytile + (this->mapHeight * (this->mapDepth - 1))) * this->mapWidth) + xtile;
+        return tileMatrix[tilePlace];
+    }else{
+        std::cout << "Out of Bounds" << std::endl;
+        return 1;
+    }
+}
+
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
