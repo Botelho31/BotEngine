@@ -18,11 +18,13 @@ StageState::StageState(){
     quitRequested = false;
     popRequested = false;
     started = false;
+    backgroundMusic = nullptr;
+
     backgroundMusic = new Music("assets/audio/stageState.ogg");
     backgroundMusic->Play();
 
 	GameObject *background = new GameObject();
-    Sprite *bg = new Sprite(*background,"assets/img/ocean.jpg");
+    Sprite *bg = new Sprite(*background,"assets/img/fundobranco.jpg");
     CameraFollower *camerafollower = new CameraFollower(*background);
 	background->AddComponent(bg);
     background->AddComponent(camerafollower);
@@ -30,27 +32,21 @@ StageState::StageState(){
 
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
-	this->tileset = new TileSet(tilesetObj,64,64,"assets/img/tileset.png");
-	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMap.txt",tileset);
+	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/tilesettest.png");
+	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMaptest.txt",tileset);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tileMap);
 	objectArray.emplace_back(tileObj);
 
-    for(int i = 0;i < 6;i++){
-        GameObject *alienObj = new GameObject();
-        Alien *alien = new Alien(*alienObj,5,rand() % 6);
-        alienObj->box.Transform(rand() % 1408,rand() % 1280);
-        alienObj->AddComponent(alien);
-        objectArray.emplace_back(alienObj);
-    }
-    
-    GameObject *penguinObj = new GameObject();
-    PenguinBody *penguin = new PenguinBody(*penguinObj);
-    penguinObj->box.Transform(704,640);
-    penguinObj->AddComponent(penguin);
-    objectArray.emplace_back(penguinObj);
-    Camera::Follow(penguinObj);
+    GameObject *minionObj = new GameObject();
+    Sprite *minion =  new Sprite(*minionObj,"assets/img/miniontest.png");
+    minionObj->AddComponent(minion);
+    minion->SetScaleX(0.2,0.2);
+    minionObj->box.x = 500;
+    minionObj->box.y = 300;
+    objectArray.emplace_back(minionObj);
+
 
 }
 
@@ -99,16 +95,6 @@ void StageState::Update(float dt){
             objectArray.erase(objectArray.begin() + i);
         }
     }
-    if(Alien::alienCount == 0){
-        GameData::playerVictory = true;
-        popRequested = true;
-        Game::GetInstance().Push(new EndState());
-    }
-    else if(PenguinBody::player == nullptr){
-        GameData::playerVictory = false;
-        popRequested = true;
-        Game::GetInstance().Push(new EndState());
-    }   
 }
 
 void StageState::Render(){

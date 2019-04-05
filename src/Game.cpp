@@ -1,4 +1,5 @@
 #include "../include/Game.h"
+#include "../include/InputManager.h"
 
 Game* Game::instance;
 

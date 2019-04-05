@@ -11,6 +11,7 @@
 dep/
 bin/
 .vscode/
+reference/
 GAME
 valgrindlog.txt
 
