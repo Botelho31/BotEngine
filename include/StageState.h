@@ -7,6 +7,7 @@
     #include "Music.h"
     #include "State.h"
     #include "TileSet.h"
+    #include "TileMap.h"
 
     class StageState : public State{
         public:

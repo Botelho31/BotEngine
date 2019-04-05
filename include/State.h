@@ -5,6 +5,7 @@
 #ifndef STATE_H
     #define STATE_H
     #include "GameObject.h"
+    #include "TileMap.h"
 
     class State{
         public:
@@ -18,6 +19,7 @@
             virtual void Resume() = 0;
             virtual std::weak_ptr<GameObject> AddObject (GameObject* object);
             virtual std::weak_ptr<GameObject> GetObjectPtr (GameObject* object);
+            TileMap* GetTileMap();
             bool PopRequested();
             bool QuitRequested();
         protected:
@@ -27,6 +29,7 @@
             bool popRequested;
             bool quitRequested;
             bool started;
+            TileMap *tilemap;
             std::vector<std::shared_ptr<GameObject>> objectArray;
     };
 

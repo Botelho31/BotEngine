@@ -1,5 +1,6 @@
 #include "../include/Game.h"
 #include "../include/InputManager.h"
+#include "../include/Camera.h"
 
 Game* Game::instance;
 
@@ -23,6 +24,8 @@ Game::Game(std::string Title,int Width,int Height){
         instance = this;
         frameStart = 0;
         dt = 0;
+        Camera::window.x = Width;
+        Camera::window.y = Height;
         if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) == 0){
             std::cout << "Game instance Created\n" << std::endl;
             std::cout << "Number of Img Libraries Initialized: " << IMG_Init(IMG_INIT_JPG  |  IMG_INIT_PNG  |  IMG_INIT_TIF) << "\n" << std::endl;

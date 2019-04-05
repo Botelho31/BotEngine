@@ -7,12 +7,11 @@
 #include "../include/InputManager.h"
 #include "../include/Camera.h"
 #include "../include/CameraFollower.h"
-#include "../include/Alien.h"
-#include "../include/PenguinBody.h"
 #include "../include/Collision.h"
 #include "../include/Collider.h"
 #include "../include/GameData.h"
 #include "../include/EndState.h"
+#include "../include/Player.h"
 
 StageState::StageState(){
     quitRequested = false;
@@ -33,19 +32,22 @@ StageState::StageState(){
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
 	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/tilesettest.png");
-	TileMap *tileMap = new TileMap(*tileObj,"assets/map/tileMaptest.txt",tileset);
+	this->tilemap = new TileMap(*tileObj,"assets/map/tileMaptest.txt",tileset);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
-	tileObj->AddComponent(tileMap);
+	tileObj->AddComponent(tilemap);
 	objectArray.emplace_back(tileObj);
 
-    GameObject *minionObj = new GameObject();
-    Sprite *minion =  new Sprite(*minionObj,"assets/img/miniontest.png");
-    minionObj->AddComponent(minion);
-    minion->SetScaleX(0.2,0.2);
-    minionObj->box.x = 500;
-    minionObj->box.y = 300;
-    objectArray.emplace_back(minionObj);
+    GameObject *playerObj = new GameObject();
+    Player *player = new Player(*playerObj);
+    playerObj->box.x = 500;
+    playerObj->box.y = 300;
+    playerObj->AddComponent(player);
+    objectArray.emplace_back(playerObj);
+    Camera::Follow(playerObj);
+
+    Camera::limit.x = tilemap->GetWidth();
+    Camera::limit.y = tilemap->GetHeight();
 
 
 }

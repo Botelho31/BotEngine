@@ -4,9 +4,11 @@ State::State(){
     popRequested = false;
     quitRequested = false;
     started = false;
+    tilemap = nullptr;
 }
 
 State::~State(){
+    tilemap = nullptr;
     objectArray.clear();
 }
 
@@ -29,6 +31,10 @@ std::weak_ptr<GameObject> State::GetObjectPtr(GameObject *go){
     }
     std::weak_ptr<GameObject> weakptr;
     return weakptr;
+}
+
+TileMap* State::GetTileMap(){
+    return tilemap;
 }
 
 bool State::PopRequested(){

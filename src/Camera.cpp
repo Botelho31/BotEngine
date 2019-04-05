@@ -1,9 +1,12 @@
 #include "../include/Camera.h"
 #include "../include/InputManager.h"
+#include "../include/Player.h"
 
 GameObject* Camera::focus;
 Vec2 Camera::pos;
 Vec2 Camera::speed;
+Vec2 Camera::limit;
+Vec2 Camera::window;
 
 void Camera::Follow(GameObject* newFocus){
     focus = newFocus;
@@ -16,11 +19,13 @@ void Camera::UnFollow(){
 void Camera::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
     if(focus){
-        speed.x = 100;
-        speed.y = 100;
-        // pos.Follow(focus->box.x - 512 + (focus->box.w/2),focus->box.y - 300 + (focus->box.h/2),speed.x,speed.y,dt);
-        pos.x  = focus->box.x - 512 + (focus->box.w/2);
-        pos.y = focus->box.y - 300 + (focus->box.h/2);
+        if((limit.x - (focus->box.x + focus->box.w)) >= (window.x/2 - focus->box.w/2)){
+            pos.x  = focus->box.x - limit.x/2 + (focus->box.w/2);
+
+        }
+        if((limit.y - (focus->box.y + focus->box.h)) >= (window.y/2 - focus->box.h/2)){
+            pos.y = focus->box.y - limit.y/2 + (focus->box.h/2);
+        }
     }else{
         speed.x = 100;
         speed.y = 100;
