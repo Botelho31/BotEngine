@@ -22,7 +22,7 @@ void Collider::Update(float dt){
 void Collider::Render() {
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
-	if(input->IsKeyDown(SDLK_SPACE)){
+	if(input->IsKeyDown(SDLK_EQUALS)){
 		Vec2 center( box.GetCenter() );
 		SDL_Point points[5];
 

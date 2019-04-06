@@ -14,6 +14,7 @@
             Vec2& GetRotated(float R);
             void Transform(float x,float y);
             void Transform(Vec2 pos);
+            Vec2 Added(float x,float y);
             float x,y;
 
             //OPERATORS

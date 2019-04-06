@@ -31,7 +31,7 @@ StageState::StageState(){
 
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
-	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/tilesettest.png");
+	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
 	this->tilemap = new TileMap(*tileObj,"assets/map/tileMaptest.txt",tileset);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
