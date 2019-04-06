@@ -58,15 +58,15 @@ int& TileMap::At(int x,int y,int z){
 }
 
 int TileMap::AtLocation(int x,int y){
-    if(((x < (this->mapWidth * this->tileSet->GetTileWidth())) && (y < (this->mapHeight * this->tileSet->GetTileHeight()))) 
-      && ( (x > 0) && (y > 0) ) ){
+    if(((x <= (this->mapWidth * this->tileSet->GetTileWidth())) && (y <= (this->mapHeight * this->tileSet->GetTileHeight()))) 
+      && ( (x >= 0) && (y >= 0) ) ){
         int ytile,xtile;
         xtile = x / (this->tileSet->GetTileWidth());
         ytile = y / (this->tileSet->GetTileHeight());
         int tilePlace = ( (ytile + (this->mapHeight * (this->mapDepth - 1))) * this->mapWidth) + xtile;
         return tileMatrix[tilePlace];
     }else{
-        std::cout << "Out of Bounds" << std::endl;
+        // std::cout << "Out of Bounds" << std::endl;
         return 1;
     }
 }

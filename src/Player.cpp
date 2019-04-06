@@ -38,11 +38,14 @@ void Player::Update(float dt){
                         Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h)
     };
     int distground = DistanceToGround(Sprite[2],Sprite[3]);
+    int distceiling = DistanceToCeiling(Sprite[0],Sprite[1]);
 
     if(input->IsKeyDown(SDLK_w) == true){
     }
     if(input->IsKeyDown(SDLK_s) == true){
     }
+
+    //X MOVEMENT
     if(input->IsKeyDown(SDLK_d) == true){
         if(CanMove(Sprite[1].Added(speed.x * dt,0),Sprite[3].Added(speed.x * dt,0))){
             associated.box.x += speed.x * dt;
@@ -53,20 +56,30 @@ void Player::Update(float dt){
             associated.box.x -= speed.x * dt;
         }
     }
+    //END X MOVEMENT
+
+    //Y MOVEMENT
     if(input->KeyPress(SDLK_SPACE) == true){
         if(distground <= 0){
             speed.y = -300;
         }
     }
 
-    if((distground - (speed.y * dt)) < 0){
+    if(((distground - (speed.y * dt)) < 0) && (speed.y > 0)){
         associated.box.y += distground;
-    }else{
-        associated.box.y += speed.y * dt;
+    }
+    else if((distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
+        associated.box.y -= distceiling;
+        speed.y = 0;
     } 
+    else{
+        associated.box.y += speed.y * dt;
+    }
+    //END Y MOVEMENT
 
+    //GRAVITY
     if(distground > 0){
-        speed.y += 300*dt;
+        speed.y += 400*dt;
     }
     else if((distground == 0) && (speed.y > 0)){
         speed.y = 0;
@@ -75,6 +88,7 @@ void Player::Update(float dt){
         speed.y = 0;
         associated.box.y += distground;
     }
+    //END GRAVITY
 
     if(hp <= 0){
         associated.RequestDelete();
@@ -91,6 +105,21 @@ int Player::DistanceToGround(Vec2 vector1,Vec2 vector2){
     while(!CanMove(vector1,vector2)){
         vector1.y --;
         vector2.y --;
+        distance --;
+    }
+    return distance;
+}
+
+int Player::DistanceToCeiling(Vec2 vector1,Vec2 vector2){
+    int distance = 0;
+    while(CanMove(vector1,vector2)){
+        vector1.y --;
+        vector2.y --;
+        distance ++;
+    }
+    while(!CanMove(vector1,vector2)){
+        vector1.y ++;
+        vector2.y ++;
         distance --;
     }
     return distance;
