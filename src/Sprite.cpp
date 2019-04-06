@@ -8,6 +8,7 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     this->frameTime = frameTime;
     this->secondsToSelfDestruct = secondsToSelfDestruct;
     this->selfDestructCount = new Timer();
+    this->flip = false;
     selfDestructCount->Restart();
     scale.x = 1;
     scale.y = 1;
@@ -105,7 +106,11 @@ void Sprite::Render(int x,int y){
     dst_rect.y = y;
     dst_rect.w = clip_rect.w * scale.x;
     dst_rect.h = clip_rect.h * scale.y;
-    SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
+    if(flip){
+        SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_HORIZONTAL);
+    }else{
+        SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
+    }
 }
 
 int Sprite::GetWidth(){
@@ -114,6 +119,14 @@ int Sprite::GetWidth(){
 
 int Sprite::GetHeight(){
     return height * scale.y;
+}
+
+void Sprite::Flip(){
+    if(flip){
+        flip = false;
+    }else{
+        flip = true;
+    }
 }
 
 bool Sprite::IsOpen(){

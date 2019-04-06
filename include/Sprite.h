@@ -21,6 +21,7 @@
             Vec2 GetScale();
             int GetWidth();
             int GetHeight();
+            void Flip();
             bool IsOpen();
 
             void SetFrame(int frame);
@@ -36,6 +37,7 @@
             std::shared_ptr<SDL_Texture> texture;
             int width;
             int height;
+            bool flip;
             Vec2 scale;
             SDL_Rect clip_rect;
 
