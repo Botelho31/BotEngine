@@ -129,6 +129,10 @@ void Sprite::Flip(){
     }
 }
 
+bool Sprite::IsFlipped(){
+    return flip;
+}
+
 bool Sprite::IsOpen(){
     if(texture){
         return true;

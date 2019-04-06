@@ -22,6 +22,7 @@
             int GetWidth();
             int GetHeight();
             void Flip();
+            bool IsFlipped();
             bool IsOpen();
 
             void SetFrame(int frame);

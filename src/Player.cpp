@@ -32,6 +32,9 @@ void Player::Start(){
 void Player::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
     TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
+    Component *component = associated.GetComponent("Sprite");
+    Sprite *playersprite = dynamic_cast<Sprite*>(component);
+
     Vec2 Sprite[] = {   Vec2(associated.box.x,associated.box.y),
                         Vec2(associated.box.x + associated.box.w,associated.box.y),
                         Vec2(associated.box.x,associated.box.y + associated.box.h),
@@ -47,11 +50,17 @@ void Player::Update(float dt){
 
     //X MOVEMENT
     if(input->IsKeyDown(SDLK_d) == true){
+        if(playersprite->IsFlipped()){
+            playersprite->Flip();
+        }
         if(CanMove(Sprite[1].Added(speed.x * dt,0),Sprite[3].Added(speed.x * dt,0))){
             associated.box.x += speed.x * dt;
         }
     }
     if(input->IsKeyDown(SDLK_a) == true){
+        if(!playersprite->IsFlipped()){
+            playersprite->Flip();
+        }
         if(CanMove(Sprite[0].Added(-speed.x * dt,0),Sprite[2].Added(-speed.x * dt,0))){
             associated.box.x -= speed.x * dt;
         }
