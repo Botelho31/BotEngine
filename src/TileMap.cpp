@@ -67,7 +67,7 @@ int TileMap::AtLocation(int x,int y){
         return tileMatrix[tilePlace];
     }else{
         // std::cout << "Out of Bounds" << std::endl;
-        return 1;
+        return -1;
     }
 }
 

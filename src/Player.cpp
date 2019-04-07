@@ -49,6 +49,14 @@ void Player::Update(float dt){
     };
     int distground = DistanceTo(Sprite[2],Sprite[3],0,1);
     int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
+    int distright = DistanceTo(Sprite[1],Sprite[3],1,0);
+    int distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
+    // if(distright < 0){
+        std::cout << "dground: "<< distground << std::endl;
+        std::cout << "dceiling: "<< distceiling << std::endl;
+        std::cout << "dright: "<< distright << std::endl;
+        std::cout << "dleft: "<< distleft << std::endl;
+    // }
 
     if(input->IsKeyDown(SDLK_w) == true){
     }
@@ -64,16 +72,14 @@ void Player::Update(float dt){
         if(playersprite->IsFlipped()){
             playersprite->Flip();
         }
-        if(CanMove(Sprite[1].Added(speed.x * dt,0),Sprite[3].Added(speed.x * dt,0))){
-            if(speed.x >= 0){
-                if((speed.x + aspeed*dt) > maxspeed){
-                    speed.x = maxspeed;
-                }else{
-                    speed.x += aspeed * dt;
-                }
+        if(speed.x >= 0){
+            if((speed.x + aspeed*dt) > maxspeed){
+                speed.x = maxspeed;
             }else{
-                speed.x += aspeed * dt + despeed * dt; 
+                speed.x += aspeed * dt;
             }
+        }else{
+           speed.x += aspeed * dt + despeed * dt; 
         }
     }
     if(input->IsKeyDown(SDLK_a) == true){
@@ -84,16 +90,14 @@ void Player::Update(float dt){
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
         }
-        if(CanMove(Sprite[0].Added(-speed.x * dt,0),Sprite[2].Added(-speed.x * dt,0))){
-            if(speed.x <= 0){
-                if(abs(speed.x - aspeed*dt) > maxspeed){
+        if(speed.x <= 0){
+            if(abs(speed.x - aspeed*dt) > maxspeed){
                 speed.x = -maxspeed;
-                }else{
-                    speed.x -= aspeed * dt;
-                }
             }else{
-                speed.x -= aspeed *dt + despeed *dt;
+                speed.x -= aspeed * dt;
             }
+        }else{
+            speed.x -= aspeed *dt + despeed *dt;
         }
     }
 
@@ -112,11 +116,22 @@ void Player::Update(float dt){
             }
         }
     }
-    if(CanMove(Sprite[0].Added(speed.x * dt,0),Sprite[2].Added(speed.x * dt,0)) && CanMove(Sprite[1].Added(speed.x * dt,0),Sprite[3].Added(speed.x * dt,0))){
-        associated.box.x += speed.x * dt;
-    }else{
+    if((distright - (speed.x * dt)) < 0){
+        associated.box.x += distright;
         speed.x = 0;
+    }else if((distleft + (speed.x * dt)) < 0){
+        associated.box.x += distleft;
+        speed.x = 0;
+    }else if((distright < 0) && (speed.x > 0)){
+        associated.box.x += distright;
+        speed.x = 0;
+    }else if((distleft < 0) && (speed.x < 0)){
+        associated.box.x -= distleft;
+        speed.x = 0;
+    }else{
+        associated.box.x += speed.x * dt;
     }
+    
     //END X MOVEMENT
 
     //Y MOVEMENT
@@ -165,8 +180,11 @@ void Player::Update(float dt){
         speed.y = 0;
     }
     else if((distground < 0) && (speed.y >= 0)){
-        speed.y = 0;
         associated.box.y += distground;
+        speed.y = 0;
+    }else if((distceiling < 0) && (speed.y <= 0)){
+        associated.box.y -= distceiling;
+        speed.y = 0;
     }
     //END GRAVITY
 
@@ -205,14 +223,14 @@ void Player::SetSprite(std::string file,int framecount,float frametime,bool repe
 
 int Player::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum){
     int distance = 0;
-    while(CanMove(vector1,vector2) && (distance < 200)){
+    while(CanMove(vector1,vector2) && (distance < 150)){
         vector1.y += ysum;
         vector2.y += ysum;
         vector1.x += xsum;
         vector2.x += xsum;
         distance ++;
     }
-    while(!CanMove(vector1,vector2) && (distance > -200)){
+    while(!CanMove(vector1,vector2) && (distance > -150)){
         vector1.y += -ysum;
         vector2.y += -ysum;
         vector1.x += -xsum;
