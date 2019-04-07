@@ -9,7 +9,7 @@ Game& Game::GetInstance(){
         return *instance;
     }
     else{
-        Game *game = new Game("BotEngine",1024,600); ////
+        Game *game = new Game("BotEngine",960,540); ////
         return *game;
     }
 }
@@ -50,6 +50,12 @@ Game::Game(std::string Title,int Width,int Height){
             renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_SOFTWARE | SDL_RENDERER_TARGETTEXTURE);
             if(renderer){
                 std::cout << "Renderer Initialized\n" << std::endl;
+                SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY,"1");
+                SDL_RenderSetLogicalSize(renderer,1920,1080);
+                Camera::window.x = 1920;
+                Camera::window.y = 1080;
+
+                // SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
             }else{
                 std::cout << "Fatal Error Loading Renderer: " << SDL_GetError() << "\n" << std::endl; 
                 std::cout << "Number of Drivers: " << SDL_GetNumRenderDrivers() << "\n" << std::endl;
