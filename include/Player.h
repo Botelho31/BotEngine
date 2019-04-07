@@ -24,6 +24,9 @@
             static Player *player;
         private:
             Vec2 speed;
+            int maxspeed;
+            int aspeed;
+            int despeed;
             int hp;
             Sprite *playersprite;
             Timer *idletimer;

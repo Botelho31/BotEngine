@@ -10,14 +10,16 @@
 Player *Player::player;
 
 Player::Player(GameObject& associated) : Component(associated){
-    speed.x = 300;
+    speed.x = 0;
+    maxspeed = 400;
+    aspeed = 180;
+    despeed = 250;
     speed.y = 0;
     hp = 150;
     player = this;
     idletimer = new Timer();
     idle = false;
-    Sprite *player =  new Sprite(associated,"assets/img/beltest.png");
-    player->SetScaleX(0.5,0.5);
+    Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
     this->playersprite = player;
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
@@ -54,35 +56,71 @@ void Player::Update(float dt){
     //X MOVEMENT
     if(input->IsKeyDown(SDLK_d) == true){
         if(idle == true){
-            SetSprite("assets/img/beltest.png",1,1);
+            SetSprite("assets/img/beltest2.png",1,1);
             idle = false;
         }
         if(playersprite->IsFlipped()){
             playersprite->Flip();
         }
         if(CanMove(Sprite[1].Added(speed.x * dt,0),Sprite[3].Added(speed.x * dt,0))){
-            associated.box.x += speed.x * dt;
+            if(speed.x >= 0){
+                if((speed.x + aspeed*dt) > maxspeed){
+                    speed.x = maxspeed;
+                }else{
+                    speed.x += aspeed * dt;
+                }
+            }else{
+                speed.x += aspeed * dt + despeed * dt; 
+            }
         }
     }
     if(input->IsKeyDown(SDLK_a) == true){
         if(idle == true){
-            SetSprite("assets/img/beltest.png",1,1);
+            SetSprite("assets/img/beltest2.png",1,1);
             idle = false;
         }
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
         }
         if(CanMove(Sprite[0].Added(-speed.x * dt,0),Sprite[2].Added(-speed.x * dt,0))){
-            associated.box.x -= speed.x * dt;
+            if(speed.x <= 0){
+                if(abs(speed.x - aspeed*dt) > maxspeed){
+                speed.x = -maxspeed;
+                }else{
+                    speed.x -= aspeed * dt;
+                }
+            }else{
+                speed.x -= aspeed *dt + despeed *dt;
+            }
         }
     }
+
+    if((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)){
+        if(speed.x > 0){
+            if((speed.x - despeed * dt) < 0){
+                speed.x = 0;
+            }else{
+                speed.x -= despeed * dt;
+            }
+        }else{
+            if((speed.x + despeed * dt) > 0){
+                speed.x = 0;
+            }else{
+                speed.x += despeed * dt;
+            }
+        }
+    }
+    if(CanMove(Sprite[0].Added(speed.x * dt,0),Sprite[2].Added(speed.x * dt,0)) && CanMove(Sprite[1].Added(speed.x * dt,0),Sprite[3].Added(speed.x * dt,0))){
+        associated.box.x += speed.x * dt;
+    }
+    std::cout << speed.x << std::endl;
     //END X MOVEMENT
 
     //Y MOVEMENT
     if(input->KeyPress(SDLK_SPACE) == true){
         if(distground <= 0){
             if(idle == true){
-                SetSprite("assets/img/beltest.png",1,1);
+                SetSprite("assets/img/beltest2.png",1,1);
                 idle = false;
             }
             speed.y = -600;
@@ -104,7 +142,7 @@ void Player::Update(float dt){
     //GRAVITY
     if(distground > 0){
         if(idle == true){
-            SetSprite("assets/img/beltest.png",1,1);
+            SetSprite("assets/img/beltest2.png",1,1);
             idle = false;
         }
         speed.y += 600*dt;
@@ -119,10 +157,10 @@ void Player::Update(float dt){
     //END GRAVITY
 
     //IDLE HANDLING
-    if((idle == false) && ((speed.y == 0) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
+    if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
         idletimer->Update(dt);
-        if((idletimer->Get() > 3) && (idle == false)){
-            SetSprite("assets/img/belidletest.png",8,0.08);
+        if((idletimer->Get() > 2) && (idle == false)){
+            SetSprite("assets/img/belidletest2.png",8,0.08);
             idle = true;
         }
     }else{

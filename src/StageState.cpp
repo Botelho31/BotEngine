@@ -25,6 +25,7 @@ StageState::StageState(){
 	GameObject *background = new GameObject();
     Sprite *bg = new Sprite(*background,"assets/img/fundobranco.jpg");
     CameraFollower *camerafollower = new CameraFollower(*background);
+    bg->SetScaleX(4,4);
 	background->AddComponent(bg);
     background->AddComponent(camerafollower);
 	objectArray.emplace_back(background);
