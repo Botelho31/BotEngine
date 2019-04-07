@@ -16,6 +16,7 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
             Vec2 GetPosition();
+            void SetSprite(std::string file,int framecount,float frametime);
             int DistanceToGround(Vec2 vector1,Vec2 vector2);
             int DistanceToCeiling(Vec2 vector1,Vec2 vector2);
             bool CanMove(Vec2 vector1,Vec2 vector2);
@@ -24,6 +25,9 @@
         private:
             Vec2 speed;
             int hp;
+            Sprite *playersprite;
+            Timer *idletimer;
+            bool idle;
     };
 
 #endif

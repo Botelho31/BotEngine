@@ -10,19 +10,24 @@
 Player *Player::player;
 
 Player::Player(GameObject& associated) : Component(associated){
-    speed.x = 100;
-    speed.y = 100;
+    speed.x = 300;
+    speed.y = 0;
     hp = 150;
     player = this;
-    Sprite *minion =  new Sprite(associated,"assets/img/beltest.png");
-    minion->SetScaleX(0.4,0.4);
+    idletimer = new Timer();
+    idle = false;
+    Sprite *player =  new Sprite(associated,"assets/img/beltest.png");
+    player->SetScaleX(0.5,0.5);
+    this->playersprite = player;
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
-    associated.AddComponent(minion);
+    associated.AddComponent(player);
 }
 
 Player::~Player(){
     player = nullptr;
+    playersprite = nullptr;
+    delete idletimer;
 
 }
 
@@ -32,8 +37,6 @@ void Player::Start(){
 void Player::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
     TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
-    Component *component = associated.GetComponent("Sprite");
-    Sprite *playersprite = dynamic_cast<Sprite*>(component);
 
     Vec2 Sprite[] = {   Vec2(associated.box.x,associated.box.y),
                         Vec2(associated.box.x + associated.box.w,associated.box.y),
@@ -50,6 +53,10 @@ void Player::Update(float dt){
 
     //X MOVEMENT
     if(input->IsKeyDown(SDLK_d) == true){
+        if(idle == true){
+            SetSprite("assets/img/beltest.png",1,1);
+            idle = false;
+        }
         if(playersprite->IsFlipped()){
             playersprite->Flip();
         }
@@ -58,6 +65,10 @@ void Player::Update(float dt){
         }
     }
     if(input->IsKeyDown(SDLK_a) == true){
+        if(idle == true){
+            SetSprite("assets/img/beltest.png",1,1);
+            idle = false;
+        }
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
         }
@@ -70,7 +81,11 @@ void Player::Update(float dt){
     //Y MOVEMENT
     if(input->KeyPress(SDLK_SPACE) == true){
         if(distground <= 0){
-            speed.y = -300;
+            if(idle == true){
+                SetSprite("assets/img/beltest.png",1,1);
+                idle = false;
+            }
+            speed.y = -600;
         }
     }
 
@@ -88,7 +103,11 @@ void Player::Update(float dt){
 
     //GRAVITY
     if(distground > 0){
-        speed.y += 400*dt;
+        if(idle == true){
+            SetSprite("assets/img/beltest.png",1,1);
+            idle = false;
+        }
+        speed.y += 600*dt;
     }
     else if((distground == 0) && (speed.y > 0)){
         speed.y = 0;
@@ -99,9 +118,27 @@ void Player::Update(float dt){
     }
     //END GRAVITY
 
+    //IDLE HANDLING
+    if((idle == false) && ((speed.y == 0) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
+        idletimer->Update(dt);
+        if((idletimer->Get() > 3) && (idle == false)){
+            SetSprite("assets/img/belidletest.png",8,0.08);
+            idle = true;
+        }
+    }else{
+        idletimer->Restart();
+    }
+    //END IDLE HANDLING
+
     if(hp <= 0){
         associated.RequestDelete();
     }
+}
+
+void Player::SetSprite(std::string file,int framecount,float frametime){
+    playersprite->SetFrameCount(framecount);
+    playersprite->SetFrameTime(frametime);
+    playersprite->Open(file);
 }
 
 int Player::DistanceToGround(Vec2 vector1,Vec2 vector2){
