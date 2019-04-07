@@ -11,14 +11,17 @@ Player *Player::player;
 
 Player::Player(GameObject& associated) : Component(associated){
     speed.x = 0;
-    maxspeed = 400;
-    aspeed = 180;
-    despeed = 250;
+    maxspeed = 600;
+    aspeed = 500;
+    despeed = 800;
     speed.y = 0;
+    ajump = -1000;
+    gravspeed = 2000;
     hp = 150;
     player = this;
     idletimer = new Timer();
     idle = false;
+    jumpsquat = new Timer();
     Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
     this->playersprite = player;
     Collider *collider = new Collider(associated);
@@ -38,7 +41,6 @@ void Player::Start(){
 
 void Player::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
-    TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
 
     Vec2 Sprite[] = {   Vec2(associated.box.x,associated.box.y),
                         Vec2(associated.box.x + associated.box.w,associated.box.y),
@@ -55,8 +57,8 @@ void Player::Update(float dt){
 
     //X MOVEMENT
     if(input->IsKeyDown(SDLK_d) == true){
-        if(idle == true){
-            SetSprite("assets/img/beltest2.png",1,1);
+        if((idle == true) && (distground == 0)){
+            SetSprite("assets/img/beltest2.png");
             idle = false;
         }
         if(playersprite->IsFlipped()){
@@ -75,8 +77,8 @@ void Player::Update(float dt){
         }
     }
     if(input->IsKeyDown(SDLK_a) == true){
-        if(idle == true){
-            SetSprite("assets/img/beltest2.png",1,1);
+        if((idle == true) && (distground == 0)){
+            SetSprite("assets/img/beltest2.png");
             idle = false;
         }
         if(!playersprite->IsFlipped()){
@@ -95,7 +97,7 @@ void Player::Update(float dt){
         }
     }
 
-    if((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)){
+    if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (distground == 0)){
         if(speed.x > 0){
             if((speed.x - despeed * dt) < 0){
                 speed.x = 0;
@@ -112,23 +114,34 @@ void Player::Update(float dt){
     }
     if(CanMove(Sprite[0].Added(speed.x * dt,0),Sprite[2].Added(speed.x * dt,0)) && CanMove(Sprite[1].Added(speed.x * dt,0),Sprite[3].Added(speed.x * dt,0))){
         associated.box.x += speed.x * dt;
+    }else{
+        speed.x = 0;
     }
-    std::cout << speed.x << std::endl;
     //END X MOVEMENT
 
     //Y MOVEMENT
     if(input->KeyPress(SDLK_SPACE) == true){
         if(distground <= 0){
             if(idle == true){
-                SetSprite("assets/img/beltest2.png",1,1);
                 idle = false;
             }
-            speed.y = -600;
+            SetSprite("assets/img/jumpbeltest2.png",13,0.04,false);
+            jumpsquat->Update(0.000001);
+        }
+    }
+    if(jumpsquat->Get() > 0){
+        if(!(jumpsquat->Get() == 0.000001)){
+            jumpsquat->Update(dt);
+        }
+        if(jumpsquat->Get() >= 0.12){
+            speed.y = ajump;
+            jumpsquat->Restart();
         }
     }
 
     if(((distground - (speed.y * dt)) < 0) && (speed.y > 0)){
         associated.box.y += distground;
+        SetSprite("assets/img/beltest2.png");
     }
     else if((distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
         associated.box.y -= distceiling;
@@ -145,7 +158,7 @@ void Player::Update(float dt){
             SetSprite("assets/img/beltest2.png",1,1);
             idle = false;
         }
-        speed.y += 600*dt;
+        speed.y += gravspeed*dt;
     }
     else if((distground == 0) && (speed.y > 0)){
         speed.y = 0;
@@ -173,9 +186,10 @@ void Player::Update(float dt){
     }
 }
 
-void Player::SetSprite(std::string file,int framecount,float frametime){
+void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat){
     playersprite->SetFrameCount(framecount);
     playersprite->SetFrameTime(frametime);
+    playersprite->SetRepeat(repeat);
     playersprite->Open(file);
 }
 
