@@ -16,6 +16,7 @@ Player::Player(GameObject& associated) : Component(associated){
     despeed = 800;
     speed.y = 0;
     ajump = -1000;
+    awalljump = 400;
     gravspeed = 2000;
     hp = 150;
     player = this;
@@ -120,7 +121,7 @@ void Player::Update(float dt){
         associated.box.x += distright;
         speed.x = 0;
     }else if((distleft + (speed.x * dt)) < 0){
-        associated.box.x += distleft;
+        associated.box.x -= distleft;
         speed.x = 0;
     }else if((distright < 0) && (speed.x > 0)){
         associated.box.x += distright;
@@ -142,6 +143,12 @@ void Player::Update(float dt){
             }
             SetSprite("assets/img/jumpbeltest2.png",13,0.04,false);
             jumpsquat->Update(0.000001);
+        }else if(distright == 0){
+            speed.y = ajump;
+            speed.x = -awalljump;
+        }else if(distleft == 0){
+            speed.y = ajump;
+            speed.x = awalljump;
         }
     }
     if(jumpsquat->Get() > 0){

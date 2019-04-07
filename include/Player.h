@@ -31,6 +31,7 @@
 
             int gravspeed;
             int ajump;
+            int awalljump;
 
             int hp;
             Sprite *playersprite;
