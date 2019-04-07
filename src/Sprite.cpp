@@ -35,8 +35,8 @@ void Sprite::Open(std::string file){
         return;
     }else{
         SDL_QueryTexture(texture.get(),nullptr,nullptr, &width, &height);
-        this->associated.box.w = width/frameCount;
-        this->associated.box.h = height;
+        this->associated.box.w = (width/frameCount) * scale.x;
+        this->associated.box.h = (height) * scale.y;
         SetClip(0,0,width/frameCount,height);
         
     }
