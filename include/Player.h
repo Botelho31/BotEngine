@@ -17,6 +17,7 @@
             void NotifyCollision(GameObject& other);
             Vec2 GetPosition();
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true);
+            int DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum);
             int DistanceToGround(Vec2 vector1,Vec2 vector2);
             int DistanceToCeiling(Vec2 vector1,Vec2 vector2);
             bool CanMove(Vec2 vector1,Vec2 vector2);

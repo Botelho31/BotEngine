@@ -47,8 +47,8 @@ void Player::Update(float dt){
                         Vec2(associated.box.x,associated.box.y + associated.box.h),
                         Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h)
     };
-    int distground = DistanceToGround(Sprite[2],Sprite[3]);
-    int distceiling = DistanceToCeiling(Sprite[0],Sprite[1]);
+    int distground = DistanceTo(Sprite[2],Sprite[3],0,1);
+    int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
 
     if(input->IsKeyDown(SDLK_w) == true){
     }
@@ -138,7 +138,9 @@ void Player::Update(float dt){
             jumpsquat->Restart();
         }
     }
-
+    if((distground == 0) && (speed.y > 0)){
+        speed.y = 0;
+    }
     if(((distground - (speed.y * dt)) < 0) && (speed.y > 0)){
         associated.box.y += distground;
         SetSprite("assets/img/beltest2.png");
@@ -155,7 +157,6 @@ void Player::Update(float dt){
     //GRAVITY
     if(distground > 0){
         if(idle == true){
-            SetSprite("assets/img/beltest2.png",1,1);
             idle = false;
         }
         speed.y += gravspeed*dt;
@@ -181,6 +182,14 @@ void Player::Update(float dt){
     }
     //END IDLE HANDLING
 
+    //HANDLE ERROR POS
+    if((associated.box.x < 0) || (associated.box.x > Camera::limit.x )){
+        associated.box.x = Camera::limit.x/2;
+    }else if((associated.box.y < 0) || (associated.box.y > Camera::limit.y )){
+        associated.box.y = Camera::limit.y/2;
+    }
+    //END HANDLE ERROR POS
+
     if(hp <= 0){
         associated.RequestDelete();
     }
@@ -193,31 +202,21 @@ void Player::SetSprite(std::string file,int framecount,float frametime,bool repe
     playersprite->Open(file);
 }
 
-int Player::DistanceToGround(Vec2 vector1,Vec2 vector2){
-    int distance = 0;
-    while(CanMove(vector1,vector2)){
-        vector1.y ++;
-        vector2.y ++;
-        distance ++;
-    }
-    while(!CanMove(vector1,vector2)){
-        vector1.y --;
-        vector2.y --;
-        distance --;
-    }
-    return distance;
-}
 
-int Player::DistanceToCeiling(Vec2 vector1,Vec2 vector2){
+int Player::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum){
     int distance = 0;
-    while(CanMove(vector1,vector2)){
-        vector1.y --;
-        vector2.y --;
+    while(CanMove(vector1,vector2) && (distance < 200)){
+        vector1.y += ysum;
+        vector2.y += ysum;
+        vector1.x += xsum;
+        vector2.x += xsum;
         distance ++;
     }
-    while(!CanMove(vector1,vector2)){
-        vector1.y ++;
-        vector2.y ++;
+    while(!CanMove(vector1,vector2) && (distance > -200)){
+        vector1.y += -ysum;
+        vector2.y += -ysum;
+        vector1.x += -xsum;
+        vector2.x += -xsum;
         distance --;
     }
     return distance;
