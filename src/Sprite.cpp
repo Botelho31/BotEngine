@@ -2,13 +2,14 @@
 #include "../include/State.h"
 #include "../include/Camera.h"
 
-Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secondsToSelfDestruct) : 
+Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secondsToSelfDestruct,bool repeat) : 
     Component(associated){
     this->frameCount = frameCount;
     this->frameTime = frameTime;
     this->secondsToSelfDestruct = secondsToSelfDestruct;
     this->selfDestructCount = new Timer();
     this->flip = false;
+    this->repeat = repeat;
     selfDestructCount->Restart();
     scale.x = 1;
     scale.y = 1;
@@ -18,8 +19,8 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     timeElapsed = 0;
 }
 
-Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime,float secondsToSelfDestruct) :
-    Sprite(associated,frameCount,frameTime,secondsToSelfDestruct){
+Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime,float secondsToSelfDestruct,bool repeat) :
+    Sprite(associated,frameCount,frameTime,secondsToSelfDestruct,repeat){
 
     Open(file);
 }
@@ -64,7 +65,7 @@ void Sprite::SetScaleX(float scaleX,float scaleY){
 
 void Sprite::SetFrame(int frame){
     currentFrame = frame;
-    SetClip(width*currentFrame,0,width,height);
+    SetClip(width*currentFrame,0,width/frameCount,height);
 }
 
 void Sprite::SetFrameCount(int frameCount){
@@ -82,7 +83,11 @@ void Sprite::Update(float dt){
         timeElapsed = 0;
         currentFrame += 1;
         if(currentFrame >= frameCount){
-            currentFrame = 0;
+            if(repeat){
+                currentFrame = 0;
+            }else{
+                currentFrame -= 1;
+            }
         }
         SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
     }
@@ -131,6 +136,10 @@ void Sprite::Flip(){
 
 bool Sprite::IsFlipped(){
     return flip;
+}
+
+void Sprite::SetRepeat(bool repeat){
+    this->repeat = repeat;
 }
 
 bool Sprite::IsOpen(){

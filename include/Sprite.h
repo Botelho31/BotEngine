@@ -12,8 +12,8 @@
 
     class Sprite : public Component{
         public:
-            Sprite(GameObject& associated,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0);
-            Sprite(GameObject& associated,std::string file ,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0);
+            Sprite(GameObject& associated,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0,bool repeat = true);
+            Sprite(GameObject& associated,std::string file ,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0,bool repeat = true);
             ~Sprite();
             void Open(std::string file); 
             void SetClip(int x,int y,int w,int h);
@@ -23,6 +23,7 @@
             int GetHeight();
             void Flip();
             bool IsFlipped();
+            void SetRepeat(bool repeat);
             bool IsOpen();
 
             void SetFrame(int frame);
@@ -46,6 +47,7 @@
             int currentFrame;
             float timeElapsed;
             float frameTime;
+            bool repeat;
 
             float secondsToSelfDestruct;
             Timer *selfDestructCount;
