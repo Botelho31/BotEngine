@@ -52,12 +52,10 @@ void Player::Update(float dt){
     int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
     int distright = DistanceTo(Sprite[1],Sprite[3],1,0);
     int distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
-    // if(distright < 0){
-        std::cout << "dground: "<< distground << std::endl;
-        std::cout << "dceiling: "<< distceiling << std::endl;
-        std::cout << "dright: "<< distright << std::endl;
-        std::cout << "dleft: "<< distleft << std::endl;
-    // }
+    // std::cout << "dground: "<< distground << std::endl;
+    // std::cout << "dceiling: "<< distceiling << std::endl;
+    // std::cout << "dright: "<< distright << std::endl;
+    // std::cout << "dleft: "<< distleft << std::endl;
 
     if(input->IsKeyDown(SDLK_w) == true){
     }
@@ -208,11 +206,11 @@ void Player::Update(float dt){
     //END IDLE HANDLING
 
     //HANDLE ERROR POS
-    if((associated.box.x < 0) || (associated.box.x > Camera::limit.x )){
-        associated.box.x = Camera::limit.x/2;
-    }else if((associated.box.y < 0) || (associated.box.y > Camera::limit.y )){
-        associated.box.y = Camera::limit.y/2;
-    }
+    // if((associated.box.x < 0) || (associated.box.x > Camera::limit.x )){
+    //     associated.box.x = Camera::limit.x/2;
+    // }else if((associated.box.y < 0) || (associated.box.y > Camera::limit.y )){
+    //     associated.box.y = Camera::limit.y/2;
+    // }
     //END HANDLE ERROR POS
 
     if(hp <= 0){
@@ -253,13 +251,17 @@ bool Player::CanMove(Vec2 vector1,Vec2 vector2){
     x = (vector2.x - vector1.x)/10;
     y = (vector2.y - vector1.y)/10;
     for(int i = 0;i < 10;i++){
-        if(tilemap->AtLocation(vector1.x,vector1.y) != -1){
+        if(tilemap->AtLocation(vector1.x,vector1.y) > -1){
             return false;
         }
         vector1.x += x;
         vector1.y += y;
     }
     return true;
+}
+
+void Player::MovePlayer(float x,float y){
+    associated.box.Transform(x,y);
 }
 
 void Player::Render(){

@@ -19,7 +19,7 @@ TileSet::~TileSet(){
 }
 
 void TileSet::RenderTile(unsigned index,float x,float y){
-    if(index < (rows*columns)){
+    if((index < (rows*columns)) && (index >= 0)){
         int row = (index/columns);
         int column = (index%columns);
         tileset->SetClip(column * tileWidth,row * tileHeight,tileWidth,tileHeight);

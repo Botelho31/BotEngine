@@ -14,6 +14,7 @@ void TileMap::Load(std::string file){
     FileReader.open(file);
     std::stringstream num;
     std::string number;
+    tileMatrix.clear();
     int numint = 0;
     int iterator = 0;
     if (FileReader.is_open()) {
@@ -36,7 +37,10 @@ void TileMap::Load(std::string file){
             }
             iterator ++;
         }
+    }else{
+        std::cout << "Couldnt open tilemap: " << file << std::endl;
     }
+    std::cout << "test" << std::endl;
     FileReader.close();
     associated.box.w = this->mapWidth * tileSet->GetTileWidth();
     associated.box.h = this->mapHeight * tileSet->GetTileHeight();
@@ -68,6 +72,16 @@ int TileMap::AtLocation(int x,int y){
     }else{
         // std::cout << "Out of Bounds" << std::endl;
         return -1;
+    }
+}
+
+Vec2 TileMap::FindTileLoc(int tile){
+    for(int i = 0;i < tileMatrix.size();i++){
+        if(tileMatrix[i] == tile){
+            Vec2 tileloc = Vec2(((i % this->mapWidth)-1) * tileSet->GetTileWidth(),(i/this->mapWidth) * tileSet->GetTileHeight());
+            std::cout << tileloc.x << std::endl;
+            return tileloc;
+        }
     }
 }
 

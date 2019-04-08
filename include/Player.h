@@ -22,6 +22,7 @@
             int DistanceToCeiling(Vec2 vector1,Vec2 vector2);
             bool CanMove(Vec2 vector1,Vec2 vector2);
 
+            void MovePlayer(float x,float y);
             static Player *player;
         private:
             Vec2 speed;

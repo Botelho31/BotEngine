@@ -24,6 +24,7 @@
             bool QuitRequested();
 
         private:
+            int currentMap;
             TileSet *tileset;
             Music *backgroundMusic;
     };

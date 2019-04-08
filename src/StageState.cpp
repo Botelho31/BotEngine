@@ -33,7 +33,8 @@ StageState::StageState(){
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
 	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
-	this->tilemap = new TileMap(*tileObj,"assets/map/tileMaptest.txt",tileset);
+	this->tilemap = new TileMap(*tileObj,"assets/map/tileMaptest-1.txt",tileset);
+    this->currentMap = -1;
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
@@ -97,6 +98,18 @@ void StageState::Update(float dt){
         if(objectArray[i]->IsDead()){
             objectArray.erase(objectArray.begin() + i);
         }
+    }
+    Vec2 PlayerPos = Player::player->GetPosition();
+    int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+    if(tilemapLoc < -1){    
+        tilemapLoc ++;
+        std::stringstream newmap;
+        newmap << "assets/map/tileMaptest" << tilemapLoc << ".txt";
+        std::cout  << newmap.str() << std::endl;
+        tilemap->Load(newmap.str());
+        Vec2 newplayerloc = tilemap->FindTileLoc(currentMap - 1);
+        currentMap = tilemapLoc;
+        Player::player->MovePlayer(newplayerloc.x,newplayerloc.y);
     }
 }
 

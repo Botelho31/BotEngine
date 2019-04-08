@@ -18,6 +18,7 @@
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);
 
             int AtLocation(int x,int y); //TO GET THE TILE AT MAP COORDINATES
+            Vec2 FindTileLoc(int tile);
             
             void Render();
             void Update(float dt);
