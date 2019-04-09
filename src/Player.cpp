@@ -42,12 +42,18 @@ void Player::Start(){
 
 void Player::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
-
-    Vec2 Sprite[] = {   Vec2(associated.box.x,associated.box.y),
-                        Vec2(associated.box.x + associated.box.w,associated.box.y),
-                        Vec2(associated.box.x,associated.box.y + associated.box.h),
-                        Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h)
+    Component *component = associated.GetComponent("Collider");
+    Collider *collider = dynamic_cast<Collider*>(component);
+    Vec2 Sprite[] = {   Vec2(collider->box.x,collider->box.y),
+                        Vec2(collider->box.x + collider->box.w,collider->box.y),
+                        Vec2(collider->box.x,collider->box.y + collider->box.h),
+                        Vec2(collider->box.x + collider->box.w,collider->box.y + collider->box.h)
     };
+    // Vec2 Sprite[] = {   Vec2(associated.box.x,associated.box.y),
+    //                     Vec2(associated.box.x + associated.box.w,associated.box.y),
+    //                     Vec2(associated.box.x,associated.box.y + associated.box.h),
+    //                     Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h)
+    // };
     int distground = DistanceTo(Sprite[2],Sprite[3],0,1);
     int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
     int distright = DistanceTo(Sprite[1],Sprite[3],1,0);
@@ -66,6 +72,7 @@ void Player::Update(float dt){
     if(input->IsKeyDown(SDLK_d) == true){
         if((idle == true) && (distground == 0)){
             SetSprite("assets/img/beltest2.png");
+            SetCollider(0.5,1);
             idle = false;
         }
         if(playersprite->IsFlipped()){
@@ -84,6 +91,7 @@ void Player::Update(float dt){
     if(input->IsKeyDown(SDLK_a) == true){
         if((idle == true) && (distground == 0)){
             SetSprite("assets/img/beltest2.png");
+            SetCollider(0.5,1);
             idle = false;
         }
         if(!playersprite->IsFlipped()){
@@ -141,6 +149,7 @@ void Player::Update(float dt){
                 idle = false;
             }
             SetSprite("assets/img/beljumptest2.png",14,0.04,false);
+            SetCollider(0.5,1);
             jumpsquat->Update(0.000001);
         }else if(distright == 0){
             speed.y = ajump;
@@ -167,6 +176,7 @@ void Player::Update(float dt){
         associated.box.y += distground;
         falling = false;
         SetSprite("assets/img/beltest2.png");
+        SetCollider(0.5,1);
     }
     else if((distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
         associated.box.y -= distceiling;
@@ -235,6 +245,13 @@ void Player::SetSprite(std::string file,int framecount,float frametime,bool repe
     playersprite->Open(file);
     associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2);
     associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2);
+}
+
+void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
+    Component *component = associated.GetComponent("Collider");
+    Collider *collider = dynamic_cast<Collider*>(component);
+    collider->SetScale(Vec2(scaleX,scaleY));
+    collider->SetOffSet(Vec2(offsetX,offsetY));
 }
 
 
