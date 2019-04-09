@@ -28,7 +28,7 @@ Player::Player(GameObject& associated) : Component(associated){
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
     associated.AddComponent(player);
-    SetCollider(0.5,1);
+    SetCollider(0.6,1);
 }
 
 Player::~Player(){
@@ -54,10 +54,10 @@ void Player::Update(float dt){
     int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
     int distright = DistanceTo(Sprite[1],Sprite[3],1,0);
     int distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
-    std::cout << "dground: "<< distground << std::endl;
-    std::cout << "dceiling: "<< distceiling << std::endl;
-    std::cout << "dright: "<< distright << std::endl;
-    std::cout << "dleft: "<< distleft << std::endl;
+    // std::cout << "dground: "<< distground << std::endl;
+    // std::cout << "dceiling: "<< distceiling << std::endl;
+    // std::cout << "dright: "<< distright << std::endl;
+    // std::cout << "dleft: "<< distleft << std::endl;
 
     CorrectDistance(distground,distceiling,distright,distleft);
 
@@ -70,7 +70,7 @@ void Player::Update(float dt){
     if(input->IsKeyDown(SDLK_d) == true){
         if((idle == true) && (distground == 0)){
             SetSprite("assets/img/beltest2.png");
-            SetCollider(0.5,1);
+            SetCollider(0.6,1);
             idle = false;
         }
         if(playersprite->IsFlipped()){
@@ -89,7 +89,7 @@ void Player::Update(float dt){
     if(input->IsKeyDown(SDLK_a) == true){
         if((idle == true) && (distground == 0)){
             SetSprite("assets/img/beltest2.png");
-            SetCollider(0.5,1);
+            SetCollider(0.6,1);
             idle = false;
         }
         if(!playersprite->IsFlipped()){
@@ -145,7 +145,7 @@ void Player::Update(float dt){
                 idle = false;
             }
             SetSprite("assets/img/beljumptest2.png",14,0.04,false);
-            SetCollider(0.5,0.8);
+            SetCollider(0.261,0.8);
             jumpsquat->Update(0.000001);
         }else if(distright == 0){
             speed.y = ajump;
@@ -156,6 +156,7 @@ void Player::Update(float dt){
         }
     }
     if(jumpsquat->Get() > 0){
+        speed.y = 0;
         if(!(jumpsquat->Get() == 0.000001)){
             jumpsquat->Update(dt);
         }
@@ -164,24 +165,25 @@ void Player::Update(float dt){
             jumpsquat->Restart();
         }
     }
-    if((distground == 0) && (speed.y > 0)){
+    if((distground <= 0) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
+        SetSprite("assets/img/beltest2.png");
+        SetCollider(0.6,1);
+    }
+    if((distground > 0) && (speed.y > 0) && (falling == false)){
+        SetSprite("assets/img/beljumptest2.png",14,0.04,false);
+        playersprite->SetFrame(13);
+        playersprite->SetFrameTime(0);
+        SetCollider(0.261,0.8);
+        falling = true;
     }
     if(((distground - (speed.y * dt)) < 0) && (speed.y > 0)){
         associated.box.y += distground;
-        falling = false;
-        SetSprite("assets/img/beltest2.png");
-        SetCollider(0.5,1);
     }
     else if((distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
         associated.box.y -= distceiling;
         speed.y = 0;
-    }else if((speed.y > 0) && (falling == false)){
-        // SetSprite("assets/img/beljumptest2.png",14,0.04,false);
-        // playersprite->SetFrame(13);
-        // playersprite->SetFrameTime(0);
-        falling = true;
     } 
     else{
         associated.box.y += speed.y * dt;
@@ -189,7 +191,7 @@ void Player::Update(float dt){
     //END Y MOVEMENT
 
     //GRAVITY
-    if(distground > 0){
+    if((distground > 0) && (jumpsquat->Get() == 0)){
         if(idle == true){
             idletimer->Restart();
             idle = false;
@@ -201,9 +203,10 @@ void Player::Update(float dt){
     }
     else if((distground < 0) && (speed.y >= 0)){
         speed.y = 0;
-    }else if((distceiling < 0) && (speed.y <= 0)){
-        // speed.y = 0;
     }
+    // else if((distceiling < 0) && (speed.y <= 0)){
+    // speed.y = 0;
+    // }
     //END GRAVITY
 
     //IDLE HANDLING

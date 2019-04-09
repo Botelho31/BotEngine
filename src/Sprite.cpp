@@ -66,7 +66,7 @@ void Sprite::SetScaleX(float scaleX,float scaleY){
 
 void Sprite::SetFrame(int frame){
     currentFrame = frame;
-    SetClip(width*currentFrame,0,width/frameCount,height);
+    SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
 }
 
 void Sprite::SetFrameCount(int frameCount){

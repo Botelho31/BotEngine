@@ -85,26 +85,6 @@ int TileMap::AtLocation(int x,int y){
     }
 }
 
-// Vec2 TileMap::FindPortalLoc(int tile){
-//     int count = 0;
-//     std::vector<Vec2> portallocs;
-//     for(int i = 0;i < tileMatrix.size();i++){
-//         if((tileMatrix[i] == tile) && (count == 0)){
-//             Vec2 tileloc = Vec2(((i % this->mapWidth)-1) * tileSet->GetTileWidth(),(i/this->mapWidth) * tileSet->GetTileHeight());
-//             portallocs.push_back(tileloc);
-//             count ++;
-//         }
-//         if((tileMatrix[i] == tile) && (count == 1)){
-//             Vec2 tileloc = Vec2(((i % this->mapWidth)-1) * tileSet->GetTileWidth(),(i/this->mapWidth) * tileSet->GetTileHeight());
-//             portallocs.push_back(tileloc);
-//         }
-//     }
-//     Vec2 portalloc;
-//     portalloc.x = portallocs[0].x + (portallocs[1].x - portallocs[0].x)/2;
-//     portalloc.y = portallocs[0].y + (portallocs[1].y - portallocs[0].y)/2;
-//     return portalloc;
-// }
-
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
