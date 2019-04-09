@@ -18,6 +18,7 @@
             Vec2 GetPosition();
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true);
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);
+            void CorrectDistance(int distground,int distceiling,int distright,int distleft);
             int DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum);
             int DistanceToGround(Vec2 vector1,Vec2 vector2);
             int DistanceToCeiling(Vec2 vector1,Vec2 vector2);

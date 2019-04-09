@@ -28,6 +28,7 @@ Player::Player(GameObject& associated) : Component(associated){
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
     associated.AddComponent(player);
+    SetCollider(0.5,1);
 }
 
 Player::~Player(){
@@ -49,19 +50,16 @@ void Player::Update(float dt){
                         Vec2(collider->box.x,collider->box.y + collider->box.h),
                         Vec2(collider->box.x + collider->box.w,collider->box.y + collider->box.h)
     };
-    // Vec2 Sprite[] = {   Vec2(associated.box.x,associated.box.y),
-    //                     Vec2(associated.box.x + associated.box.w,associated.box.y),
-    //                     Vec2(associated.box.x,associated.box.y + associated.box.h),
-    //                     Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h)
-    // };
     int distground = DistanceTo(Sprite[2],Sprite[3],0,1);
     int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
     int distright = DistanceTo(Sprite[1],Sprite[3],1,0);
     int distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
-    // std::cout << "dground: "<< distground << std::endl;
-    // std::cout << "dceiling: "<< distceiling << std::endl;
-    // std::cout << "dright: "<< distright << std::endl;
-    // std::cout << "dleft: "<< distleft << std::endl;
+    std::cout << "dground: "<< distground << std::endl;
+    std::cout << "dceiling: "<< distceiling << std::endl;
+    std::cout << "dright: "<< distright << std::endl;
+    std::cout << "dleft: "<< distleft << std::endl;
+
+    CorrectDistance(distground,distceiling,distright,distleft);
 
     if(input->IsKeyDown(SDLK_w) == true){
     }
@@ -130,10 +128,8 @@ void Player::Update(float dt){
         associated.box.x -= distleft;
         speed.x = 0;
     }else if((distright < 0) && (speed.x > 0)){
-        associated.box.x += distright;
         speed.x = 0;
     }else if((distleft < 0) && (speed.x < 0)){
-        associated.box.x -= distleft;
         speed.x = 0;
     }else{
         associated.box.x += speed.x * dt;
@@ -149,7 +145,7 @@ void Player::Update(float dt){
                 idle = false;
             }
             SetSprite("assets/img/beljumptest2.png",14,0.04,false);
-            SetCollider(0.5,1);
+            SetCollider(0.5,0.8);
             jumpsquat->Update(0.000001);
         }else if(distright == 0){
             speed.y = ajump;
@@ -204,11 +200,9 @@ void Player::Update(float dt){
         speed.y = 0;
     }
     else if((distground < 0) && (speed.y >= 0)){
-        associated.box.y += distground;
         speed.y = 0;
     }else if((distceiling < 0) && (speed.y <= 0)){
-        associated.box.y -= distceiling;
-        speed.y = 0;
+        // speed.y = 0;
     }
     //END GRAVITY
 
@@ -223,14 +217,6 @@ void Player::Update(float dt){
         idletimer->Restart();
     }
     //END IDLE HANDLING
-
-    //HANDLE ERROR POS
-    // if((associated.box.x < 0) || (associated.box.x > Camera::limit.x )){
-    //     associated.box.x = Camera::limit.x/2;
-    // }else if((associated.box.y < 0) || (associated.box.y > Camera::limit.y )){
-    //     associated.box.y = Camera::limit.y/2;
-    // }
-    //END HANDLE ERROR POS
 
     if(hp <= 0){
         associated.RequestDelete();
@@ -252,6 +238,50 @@ void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
     Collider *collider = dynamic_cast<Collider*>(component);
     collider->SetScale(Vec2(scaleX,scaleY));
     collider->SetOffSet(Vec2(offsetX,offsetY));
+}
+
+void Player::CorrectDistance(int distground,int distceiling,int distright,int distleft){
+    std::map<int,int> dists;
+    dists.insert({0,distground});
+    dists.insert({1,distceiling});
+    dists.insert({2,distright});
+    dists.insert({3,distleft});
+    std::deque<int> disttofix;
+    for(int i = 0;i < 4;i++){
+        if(dists[i] < 0){
+            if(disttofix.empty()){
+                disttofix.push_front(i);
+            }else{
+                bool inserted = false;
+                for(int j = 0;j < disttofix.size();j++){
+                    if(dists[i] > dists[disttofix[j]]){
+                        disttofix.push_front(i);
+                        j = disttofix.size();
+                        inserted = true;
+                    }
+                }
+                if(!inserted){
+                    disttofix.push_back(i);
+                }
+            }
+        }
+    }
+    // for(int i = 0;i < disttofix.size();i++){
+    //     std::cout << disttofix[i] << std::endl;
+    // }
+    if(disttofix[0] == 0){
+        associated.box.y += distground;
+    }
+    if(disttofix[0] == 1){
+        associated.box.y -= distceiling;
+    }
+    if(disttofix[0] == 2){
+        associated.box.x += distright;
+    }
+    if(disttofix[0] == 3){
+        associated.box.x -= distleft;
+    }
+
 }
 
 
