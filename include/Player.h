@@ -38,6 +38,7 @@
             Sprite *playersprite;
             Timer *idletimer;
             Timer *jumpsquat;
+            bool falling;
             bool idle;
     };
 

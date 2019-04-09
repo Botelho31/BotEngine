@@ -29,10 +29,14 @@
             int GetWidth();
             int GetHeight();
             int GetDepth();
+
+            // Vec2 GetPortalLoc(int portalID);
+                
+
         private:
             std::vector<int> tileMatrix;
             TileSet* tileSet;
-            TileMapInfo* tilemapinfo;
+            TileMapInfo* tileMapInfo;
             int mapWidth;
             int mapHeight;
             int mapDepth;

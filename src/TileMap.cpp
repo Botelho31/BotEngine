@@ -7,8 +7,8 @@ TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Com
 
 TileMap::~TileMap(){
     delete tileSet;
-    if(tilemapinfo){
-        delete tilemapinfo;
+    if(tileMapInfo){
+        delete tileMapInfo;
     }
 }
 
@@ -49,10 +49,10 @@ void TileMap::Load(std::string file){
 }
 
 void TileMap::LoadInfo(std::string file){
-    if(this->tilemapinfo){
-        this->tilemapinfo->Open(file);
+    if(this->tileMapInfo){
+        this->tileMapInfo->Open(file);
     }else{
-        this->tilemapinfo = new TileMapInfo(file);
+        this->tileMapInfo = new TileMapInfo(file);
     }
 }
 

@@ -35,6 +35,7 @@ void Sprite::Open(std::string file){
         std::cout << "Error Loading Image: " << SDL_GetError() << std::endl;
         return;
     }else{
+        SetFrame(0);
         SDL_QueryTexture(texture.get(),nullptr,nullptr, &width, &height);
         this->associated.box.w = (width/frameCount) * scale.x;
         this->associated.box.h = (height) * scale.y;

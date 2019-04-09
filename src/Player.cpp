@@ -15,7 +15,7 @@ Player::Player(GameObject& associated) : Component(associated){
     aspeed = 500;
     despeed = 800;
     speed.y = 0;
-    ajump = -1000;
+    ajump = -1150;
     awalljump = 400;
     gravspeed = 2000;
     hp = 150;
@@ -137,9 +137,10 @@ void Player::Update(float dt){
     if(input->KeyPress(SDLK_SPACE) == true){
         if(distground <= 0){
             if(idle == true){
+                idletimer->Restart();
                 idle = false;
             }
-            SetSprite("assets/img/jumpbeltest2.png",13,0.04,false);
+            SetSprite("assets/img/beljumptest2.png",14,0.04,false);
             jumpsquat->Update(0.000001);
         }else if(distright == 0){
             speed.y = ajump;
@@ -160,14 +161,21 @@ void Player::Update(float dt){
     }
     if((distground == 0) && (speed.y > 0)){
         speed.y = 0;
+        falling = false;
     }
     if(((distground - (speed.y * dt)) < 0) && (speed.y > 0)){
         associated.box.y += distground;
+        falling = false;
         SetSprite("assets/img/beltest2.png");
     }
     else if((distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
         associated.box.y -= distceiling;
         speed.y = 0;
+    }else if((speed.y > 0) && (falling == false)){
+        // SetSprite("assets/img/beljumptest2.png",14,0.04,false);
+        // playersprite->SetFrame(13);
+        // playersprite->SetFrameTime(0);
+        falling = true;
     } 
     else{
         associated.box.y += speed.y * dt;
@@ -177,6 +185,7 @@ void Player::Update(float dt){
     //GRAVITY
     if(distground > 0){
         if(idle == true){
+            idletimer->Restart();
             idle = false;
         }
         speed.y += gravspeed*dt;
@@ -219,10 +228,13 @@ void Player::Update(float dt){
 }
 
 void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat){
+    Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
     playersprite->SetFrameCount(framecount);
     playersprite->SetFrameTime(frametime);
     playersprite->SetRepeat(repeat);
     playersprite->Open(file);
+    associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2);
+    associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2);
 }
 
 
