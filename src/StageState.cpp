@@ -102,14 +102,16 @@ void StageState::Update(float dt){
     Vec2 PlayerPos = Player::player->GetPosition();
     int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
     if(tilemapLoc < -1){    
-        tilemapLoc ++;
-        std::stringstream newmap;
-        newmap << "assets/map/tileMaptest" << tilemapLoc << ".txt";
-        std::cout  << newmap.str() << std::endl;
-        tilemap->Load(newmap.str());
-        Vec2 newplayerloc = tilemap->FindTileLoc(currentMap - 1);
-        currentMap = tilemapLoc;
-        Player::player->MovePlayer(newplayerloc.x,newplayerloc.y);
+        // tilemapLoc ++;
+        // std::stringstream newmap;
+        // newmap << "assets/map/tileMaptest" << tilemapLoc << ".txt";
+        // // std::cout  << newmap.str() << std::endl;
+        // tilemap->Load(newmap.str());
+        // Vec2 newplayerloc = tilemap->FindPortalLoc(currentMap - 1);
+        // std::cout << newplayerloc.x <<  newplayerloc.y << std::endl;
+        // currentMap = tilemapLoc;
+        // Player::player->MovePlayer(newplayerloc.x,newplayerloc.y);
+        // std::cout<< Player::player->GetPosition().x <<  Player::player->GetPosition().y << std::endl;
     }
 }
 

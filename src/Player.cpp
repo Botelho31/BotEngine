@@ -52,10 +52,10 @@ void Player::Update(float dt){
     int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
     int distright = DistanceTo(Sprite[1],Sprite[3],1,0);
     int distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
-    std::cout << "dground: "<< distground << std::endl;
-    std::cout << "dceiling: "<< distceiling << std::endl;
-    std::cout << "dright: "<< distright << std::endl;
-    std::cout << "dleft: "<< distleft << std::endl;
+    // std::cout << "dground: "<< distground << std::endl;
+    // std::cout << "dceiling: "<< distceiling << std::endl;
+    // std::cout << "dright: "<< distright << std::endl;
+    // std::cout << "dleft: "<< distleft << std::endl;
 
     if(input->IsKeyDown(SDLK_w) == true){
     }
@@ -264,7 +264,8 @@ bool Player::CanMove(Vec2 vector1,Vec2 vector2){
 }
 
 void Player::MovePlayer(float x,float y){
-    associated.box.Transform(x,y);
+    associated.box.x = x;//- associated.box.w/2;
+    associated.box.y = y;// - associated.box.h/2;
 }
 
 void Player::Render(){
