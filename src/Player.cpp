@@ -35,6 +35,7 @@ Player::~Player(){
     player = nullptr;
     playersprite = nullptr;
     delete idletimer;
+    delete jumpsquat;
 
 }
 
@@ -269,9 +270,6 @@ void Player::CorrectDistance(int distground,int distceiling,int distright,int di
             }
         }
     }
-    // for(int i = 0;i < disttofix.size();i++){
-    //     std::cout << disttofix[i] << std::endl;
-    // }
     if(disttofix[0] == 0){
         associated.box.y += distground;
     }
@@ -314,9 +312,6 @@ bool Player::CanMove(Vec2 vector1,Vec2 vector2){
     y = (vector2.y - vector1.y)/10;
     for(int i = 0;i < 10;i++){
         if(tilemap->AtLocation(vector1.x,vector1.y) > -1){
-            if(tilemap->AtLocation(vector1.x,vector1.y) == -2){
-                std::cout << "oi" << std::endl;
-            }
             return false;
         }
         vector1.x += x;

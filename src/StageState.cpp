@@ -104,7 +104,7 @@ void StageState::Update(float dt){
     }
 
     //TILE MAP EXCHANGE
-    std::cout << Player::player->GetPosition().x << Player::player->GetPosition().y << std::endl;
+    // std::cout << Player::player->GetPosition().x << Player::player->GetPosition().y << std::endl;
     Vec2 PlayerPos = Player::player->GetPosition();
     int tilemapID = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
     if((tilemapID < -1) || (changingMap)){
@@ -121,7 +121,9 @@ void StageState::Update(float dt){
             tilemap->LoadInfo(files[1]);
             Player::player->MovePlayer(portalloc.x,portalloc.y);
             changingMap = false;
-        } 
+        }else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
+            changingMap = false;
+        }
     }
     //END TILEMAP EXCHANGE
 }

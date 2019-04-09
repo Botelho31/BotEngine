@@ -6,3 +6,11 @@ Portal
     tilemapfile assets/map/tileMaptest-2.txt
     tilemapinfofile assets/map/info/tileMaptest-2.txt
   ]
+Portal
+  [
+    portalID -3
+    portalX 1520
+    portalY 100
+    tilemapfile assets/map/tileMaptest-3.txt
+    tilemapinfofile assets/map/info/tileMaptest-3.txt
+  ]
