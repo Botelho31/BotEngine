@@ -144,7 +144,7 @@ void Player::Update(float dt){
                 idletimer->Restart();
                 idle = false;
             }
-            SetSprite("assets/img/beljumptest2.png",14,0.04,false);
+            SetSprite("assets/img/beljumptest3.png",14,0.04,false);
             SetCollider(0.261,0.8);
             jumpsquat->Update(0.000001);
         }else if(distright == 0){
@@ -172,7 +172,7 @@ void Player::Update(float dt){
         SetCollider(0.6,1);
     }
     if((distground > 0) && (speed.y > 0) && (falling == false)){
-        SetSprite("assets/img/beljumptest2.png",14,0.04,false);
+        SetSprite("assets/img/beljumptest3.png",14,0.04,false);
         playersprite->SetFrame(13);
         playersprite->SetFrameTime(0);
         SetCollider(0.261,0.8);
@@ -326,8 +326,8 @@ bool Player::CanMove(Vec2 vector1,Vec2 vector2){
 }
 
 void Player::MovePlayer(float x,float y){
-    associated.box.x = x;//- associated.box.w/2;
-    associated.box.y = y;// - associated.box.h/2;
+    associated.box.x = x - associated.box.w/2;
+    associated.box.y = y - associated.box.h/2;
 }
 
 void Player::Render(){

@@ -1,4 +1,5 @@
 #include "../include/TileMap.h"
+#include "../include/StageState.h"
 
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
     this->tileSet = tileSet;
@@ -56,6 +57,20 @@ void TileMap::LoadInfo(std::string file){
     }
 }
 
+Vec2 TileMap::GetPortalLoc(int portalID){
+    if(tileMapInfo){
+        return Vec2(this->tileMapInfo->portals[portalID].x,this->tileMapInfo->portals[portalID].y);
+    }
+    return Vec2(0,0);
+}
+
+std::vector<std::string> TileMap::GetPortalFiles(int portalID){
+    std::vector<std::string> error;
+    if(tileMapInfo){
+        return tileMapInfo->portalfiles[portalID];
+    }
+}
+
 void TileMap::SetTileSet(TileSet* tileSet){
     this->tileSet = tileSet;
 }
@@ -80,8 +95,12 @@ int TileMap::AtLocation(int x,int y){
         int tilePlace = ( (ytile + (this->mapHeight * (this->mapDepth - 1))) * this->mapWidth) + xtile;
         return tileMatrix[tilePlace];
     }else{
-        // std::cout << "Out of Bounds" << std::endl;
-        return 1;
+        if(StageState::ChangingMap()){
+            return -1000;
+        }else{
+            // std::cout << "Out of Bounds" << std::endl;
+            return 1;
+        }
     }
 }
 

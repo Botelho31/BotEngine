@@ -40,7 +40,7 @@ void TileMapInfo::Open(std::string file){
             }
         }
     }else{
-        std::cout << "Error reading TileMapInfo File: " << file << std::endl; //Printa um erro caso nao consiga dar load na file
+        std::cout << "No TileMapInfo File for: " << file << std::endl; //Printa um erro caso nao consiga dar load na file
     }
     FileReader.close();
 }

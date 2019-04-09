@@ -14,8 +14,6 @@ void Collider::Update(float dt){
     box.h *= scale.y;
     box.x = associated.box.x + associated.box.w/2 - box.w/2 + offset.x;
     box.y = associated.box.y + associated.box.h/2 - box.h/2 + offset.y;
-    // Vec2 origin = Vec2(-box.w/2,-box.h/2).GetRotated(associated.angleDeg * 180 / PI); 
-    // box.Transform(origin.x + box.x,origin.y + box.y);
 }
 
 

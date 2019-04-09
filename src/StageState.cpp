@@ -13,11 +13,14 @@
 #include "../include/EndState.h"
 #include "../include/Player.h"
 
+bool StageState::changingMap;
+
 StageState::StageState(){
     quitRequested = false;
     popRequested = false;
     started = false;
     backgroundMusic = nullptr;
+    changingMap = false;
 
     backgroundMusic = new Music("assets/audio/stageState.ogg");
     backgroundMusic->Play();
@@ -34,7 +37,7 @@ StageState::StageState(){
     GameObject *tilesetObj = new GameObject();
 	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
 	this->tilemap = new TileMap(*tileObj,"assets/map/tileMaptest-1.txt",tileset);
-    this->currentMap = -1;
+    this->tilemap->LoadInfo("assets/map/info/tileMaptest-1.txt");
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
@@ -99,20 +102,28 @@ void StageState::Update(float dt){
             objectArray.erase(objectArray.begin() + i);
         }
     }
+
+    //TILE MAP EXCHANGE
+    std::cout << Player::player->GetPosition().x << Player::player->GetPosition().y << std::endl;
     Vec2 PlayerPos = Player::player->GetPosition();
-    int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
-    if(tilemapLoc < -1){    
-        // tilemapLoc ++;
-        // std::stringstream newmap;
-        // newmap << "assets/map/tileMaptest" << tilemapLoc << ".txt";
-        // // std::cout  << newmap.str() << std::endl;
-        // tilemap->Load(newmap.str());
-        // Vec2 newplayerloc = tilemap->FindPortalLoc(currentMap - 1);
-        // std::cout << newplayerloc.x <<  newplayerloc.y << std::endl;
-        // currentMap = tilemapLoc;
-        // Player::player->MovePlayer(newplayerloc.x,newplayerloc.y);
-        // std::cout<< Player::player->GetPosition().x <<  Player::player->GetPosition().y << std::endl;
+    int tilemapID = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+    if((tilemapID < -1) || (changingMap)){
+        if(!changingMap){
+            nextMap = tilemapID + 1;
+            changingMap = true; 
+        }
+        Vec2 PlayerPos = Player::player->GetPosition();
+        int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y); 
+        if(tilemapLoc == -1000){
+            std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
+            Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
+            tilemap->Load(files[0]);
+            tilemap->LoadInfo(files[1]);
+            Player::player->MovePlayer(portalloc.x,portalloc.y);
+            changingMap = false;
+        } 
     }
+    //END TILEMAP EXCHANGE
 }
 
 void StageState::Render(){
@@ -128,6 +139,10 @@ void StageState::Render(){
 
 bool StageState::QuitRequested(){
     return quitRequested;
+}
+
+bool StageState::ChangingMap(){
+    return changingMap;
 }
 
 void StageState::Start(){

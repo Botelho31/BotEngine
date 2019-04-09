@@ -22,11 +22,12 @@
             void Pause();
 
             bool QuitRequested();
-
+            static bool ChangingMap();
         private:
-            int currentMap;
             TileSet *tileset;
             Music *backgroundMusic;
+            static bool changingMap;
+            int nextMap;
     };
 
 #endif

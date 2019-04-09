@@ -20,7 +20,6 @@
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);
 
             int AtLocation(int x,int y); //TO GET THE TILE AT MAP COORDINATES
-            // Vec2 FindPortalLoc(int tile);
             
             void Render();
             void Update(float dt);
@@ -30,10 +29,9 @@
             int GetHeight();
             int GetDepth();
 
-            // Vec2 GetPortalLoc(int portalID);
-                
-
-        private:
+            Vec2 GetPortalLoc(int portalID);
+            std::vector<std::string> GetPortalFiles(int portalID);
+            private:
             std::vector<int> tileMatrix;
             TileSet* tileSet;
             TileMapInfo* tileMapInfo;
