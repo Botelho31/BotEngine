@@ -14,7 +14,7 @@
             Vec2& GetRotated(float R);
             void Transform(float x,float y);
             void Transform(Vec2 pos);
-            Vec2 Added(float x,float y);
+            Vec2 Added(float x,float y);    //Returns a new Vec with the added values
             float x,y;
 
             //OPERATORS
@@ -24,7 +24,6 @@
             Vec2 operator-(const Vec2& rhs) const {
                return Vec2(x - rhs.x, y - rhs.y);
             }
-
             Vec2 operator*(const float rhs) const {
                return Vec2(x * rhs, y * rhs);
             }

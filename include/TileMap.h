@@ -14,7 +14,7 @@
             TileMap(GameObject& associated,std::string file,TileSet* tileSet);
             ~TileMap();
             void Load(std::string file);
-            void LoadInfo(std::string file);
+            void LoadInfo(std::string file);    //Load the TileMapInfo
             void SetTileSet(TileSet *tileSet);
             int& At(int x,int y,int z = 0);
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);
@@ -29,8 +29,9 @@
             int GetHeight();
             int GetDepth();
 
-            Vec2 GetPortalLoc(int portalID);
-            std::vector<std::string> GetPortalFiles(int portalID);
+            Vec2 GetPortalLoc(int portalID);    //Get the place where the player will be teleported to
+            std::vector<std::string> GetPortalFiles(int portalID);  //Gets the new map files
+
             private:
             std::vector<int> tileMatrix;
             TileSet* tileSet;

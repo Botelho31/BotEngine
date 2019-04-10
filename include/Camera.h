@@ -15,7 +15,7 @@
 
             static Vec2 pos;
             static Vec2 speed;
-            static Vec2 limit;
+            static Vec2 limit;  //Checks the limit of the current tilemap
             static Vec2 window;
         private:
             static GameObject* focus;

@@ -1,5 +1,6 @@
 #include "../include/TileMap.h"
 #include "../include/StageState.h"
+#include "../include/Camera.h"
 
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
     this->tileSet = tileSet;
@@ -47,6 +48,9 @@ void TileMap::Load(std::string file){
     FileReader.close();
     associated.box.w = this->mapWidth * tileSet->GetTileWidth();
     associated.box.h = this->mapHeight * tileSet->GetTileHeight();
+
+    Camera::limit.x = associated.box.w;
+    Camera::limit.y = associated.box.h;
 }
 
 void TileMap::LoadInfo(std::string file){

@@ -14,15 +14,17 @@ Player::Player(GameObject& associated) : Component(associated){
     maxspeed = 600;
     aspeed = 500;
     despeed = 800;
+
     speed.y = 0;
     ajump = -1150;
     awalljump = 400;
     gravspeed = 2000;
+    jumpsquat = new Timer();
+
     hp = 150;
     player = this;
     idletimer = new Timer();
     idle = false;
-    jumpsquat = new Timer();
     Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
     this->playersprite = player;
     Collider *collider = new Collider(associated);

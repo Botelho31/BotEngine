@@ -22,12 +22,12 @@
             void Pause();
 
             bool QuitRequested();
-            static bool ChangingMap();
+            static bool ChangingMap();  //Check if the tilemap is changing
         private:
             TileSet *tileset;
             Music *backgroundMusic;
             static bool changingMap;
-            int nextMap;
+            int nextMap;    //Keeps the value of the portal that references the new map
     };
 
 #endif

@@ -51,9 +51,6 @@ StageState::StageState(){
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
 
-    Camera::limit.x = tilemap->GetWidth() * tileset->GetTileWidth();
-    Camera::limit.y = tilemap->GetHeight() * tileset->GetTileHeight();
-
 
 }
 
