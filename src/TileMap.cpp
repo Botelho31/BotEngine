@@ -48,7 +48,6 @@ void TileMap::Load(std::string file){
     FileReader.close();
     associated.box.w = this->mapWidth * tileSet->GetTileWidth();
     associated.box.h = this->mapHeight * tileSet->GetTileHeight();
-
     Camera::limit.x = associated.box.w;
     Camera::limit.y = associated.box.h;
 }

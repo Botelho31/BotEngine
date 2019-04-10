@@ -12,7 +12,7 @@ Player *Player::player;
 Player::Player(GameObject& associated) : Component(associated){
     speed.x = 0;
     maxspeed = 600;
-    aspeed = 500;
+    aspeed = 700;
     despeed = 800;
 
     speed.y = 0;
@@ -20,6 +20,7 @@ Player::Player(GameObject& associated) : Component(associated){
     awalljump = 400;
     gravspeed = 2000;
     jumpsquat = new Timer();
+    hittheground = new Timer();
 
     hp = 150;
     player = this;
@@ -141,13 +142,13 @@ void Player::Update(float dt){
     //END X MOVEMENT
 
     //Y MOVEMENT
-    if(input->KeyPress(SDLK_SPACE) == true){
+    if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
         if(distground <= 0){
             if(idle == true){
                 idletimer->Restart();
                 idle = false;
             }
-            SetSprite("assets/img/beljumptest3.png",14,0.04,false);
+            SetSprite("assets/img/beljumptest4.png",15,0.04,false);
             SetCollider(0.261,0.8);
             jumpsquat->Update(0.000001);
         }else if(distright == 0){
@@ -171,12 +172,24 @@ void Player::Update(float dt){
     if((distground <= 0) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
-        SetSprite("assets/img/beltest2.png");
-        SetCollider(0.6,1);
+        SetSprite("assets/img/belhitthegroundtest2.png",16,0.02,false);
+        SetCollider(0.2264150,1);
+        hittheground->Update(0.000001);
     }
-    if((distground > 0) && (speed.y > 0) && (falling == false)){
-        SetSprite("assets/img/beljumptest3.png",14,0.04,false);
-        playersprite->SetFrame(13);
+    if(hittheground->Get() > 0){
+        speed.y = 0;
+        if(!(hittheground->Get() == 0.000001)){
+            hittheground->Update(dt);
+        }
+        if(hittheground->Get() >= 0.36){
+            SetSprite("assets/img/beltest2.png");
+            SetCollider(0.6,1);
+            hittheground->Restart();
+        }
+    }
+    if((distground > 0) && (speed.y > 0) && (falling == false) && (playersprite->GetHeight() < 220)){
+        SetSprite("assets/img/beljumptest4.png",15,0.04,false);
+        playersprite->SetFrame(14);
         playersprite->SetFrameTime(0);
         SetCollider(0.261,0.8);
         falling = true;
@@ -344,4 +357,8 @@ void Player::NotifyCollision(GameObject& other){
 
 Vec2 Player::GetPosition(){
     return Vec2(associated.box.x + associated.box.w/2,associated.box.y + associated.box.h/2);
+}
+
+Vec2 Player::GetSpeed(){
+    return Vec2(speed.x,speed.y);
 }

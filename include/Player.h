@@ -16,6 +16,7 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
             Vec2 GetPosition(); //Returns vector with center position of player
+            Vec2 GetSpeed(); //Returns speed on the two vectors
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true); //changes the sprite in usage
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
             void CorrectDistance(int distground,int distceiling,int distright,int distleft);    //Correct the distance if the player is inside a wall
@@ -38,6 +39,7 @@
             Sprite *playersprite;
             Timer *idletimer;
             Timer *jumpsquat;
+            Timer *hittheground;
             bool falling;
             bool idle;
     };
