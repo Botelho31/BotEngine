@@ -32,4 +32,4 @@
             SDL_Color color;
     };
 
-#endif;
+#endif
