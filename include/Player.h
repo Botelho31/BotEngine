@@ -15,16 +15,14 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
-            Vec2 GetPosition();
-            void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true);
-            void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);
-            void CorrectDistance(int distground,int distceiling,int distright,int distleft);
-            int DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum);
-            int DistanceToGround(Vec2 vector1,Vec2 vector2);
-            int DistanceToCeiling(Vec2 vector1,Vec2 vector2);
-            bool CanMove(Vec2 vector1,Vec2 vector2);
+            Vec2 GetPosition(); //Returns vector with center position of player
+            void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true); //changes the sprite in usage
+            void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
+            void CorrectDistance(int distground,int distceiling,int distright,int distleft);    //Correct the distance if the player is inside a wall
+            int DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum);    //Gets the distance to a unpassable tile block in a direction
+            bool CanMove(Vec2 vector1,Vec2 vector2);    //Checks it the side of a rect can move
 
-            void MovePlayer(float x,float y);
+            void MovePlayer(float x,float y);   //Moves the center of a player to a certain spot
             static Player *player;
         private:
             Vec2 speed;
