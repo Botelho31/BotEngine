@@ -6,6 +6,7 @@
 #include "../include/TileMap.h"
 #include "../include/StageState.h"
 #include "../include/Vec2.h"
+#include "../include/HitBox.h"
 
 Player *Player::player;
 
@@ -46,6 +47,12 @@ Player::~Player(){
 void Player::Start(){
 }
 
+void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
+    Component *component = owner.GetComponent("Player");
+    Player *player = dynamic_cast<Player*>(component);
+    
+}
+
 void Player::Update(float dt){
     InputManager *input =  &(InputManager::GetInstance());
     Component *component = associated.GetComponent("Collider");
@@ -66,7 +73,13 @@ void Player::Update(float dt){
 
     CorrectDistance(distground,distceiling,distright,distleft);
 
-    if(input->IsKeyDown(SDLK_w) == true){
+    if(input->KeyPress(SDLK_w) == true){
+        GameObject *swordObj = new GameObject();
+        std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+        HitBox *swordhitbox = new HitBox(*swordObj,owner,Rect(collider->box.x + 20,collider->box.y - 100,40,100),true,3);
+        swordhitbox->SetFunction(SwordHitbox);
+        swordObj->AddComponent(swordhitbox);
+        Game::GetInstance().GetCurrentState().AddObject(swordObj);
     }
     if(input->IsKeyDown(SDLK_s) == true){
     }

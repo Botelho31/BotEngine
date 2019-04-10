@@ -24,6 +24,9 @@
             bool CanMove(Vec2 vector1,Vec2 vector2);    //Checks it the side of a rect can move
 
             void MovePlayer(float x,float y);   //Moves the center of a player to a certain spot
+
+            static void SwordHitbox(GameObject &hitbox,GameObject& owner,float dt);
+
             static Player *player;
         private:
             Vec2 speed;
