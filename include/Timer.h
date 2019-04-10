@@ -9,10 +9,13 @@
         public:
             Timer();
             void Update(float dt);
+            void Delay(float dt);
             void Restart();
             float Get();
+            bool Started();
         private:
             float time;
+            bool started;
     };
 
 #endif

@@ -39,6 +39,7 @@ Player::~Player(){
     playersprite = nullptr;
     delete idletimer;
     delete jumpsquat;
+    delete hittheground;
 
 }
 
@@ -150,7 +151,7 @@ void Player::Update(float dt){
             }
             SetSprite("assets/img/beljumptest4.png",15,0.04,false);
             SetCollider(0.261,0.8);
-            jumpsquat->Update(0.000001);
+            jumpsquat->Delay(dt);
         }else if(distright == 0){
             speed.y = ajump;
             speed.x = -awalljump;
@@ -159,11 +160,9 @@ void Player::Update(float dt){
             speed.x = awalljump;
         }
     }
-    if(jumpsquat->Get() > 0){
+    if(jumpsquat->Started()){
         speed.y = 0;
-        if(!(jumpsquat->Get() == 0.000001)){
-            jumpsquat->Update(dt);
-        }
+        jumpsquat->Update(dt);
         if(jumpsquat->Get() >= 0.12){
             speed.y = ajump;
             jumpsquat->Restart();
@@ -174,13 +173,11 @@ void Player::Update(float dt){
         falling = false;
         SetSprite("assets/img/belhitthegroundtest2.png",16,0.02,false);
         SetCollider(0.2264150,1);
-        hittheground->Update(0.000001);
+        hittheground->Delay(dt);
     }
-    if(hittheground->Get() > 0){
+    if(hittheground->Started()){
         speed.y = 0;
-        if(!(hittheground->Get() == 0.000001)){
-            hittheground->Update(dt);
-        }
+        hittheground->Update(dt);
         if(hittheground->Get() >= 0.36){
             SetSprite("assets/img/beltest2.png");
             SetCollider(0.6,1);
