@@ -10,15 +10,21 @@
 
     class HitBox : public Component{    //COLLIDER WITHOUT NO SPRITE BEHIND IT
         public:
-            HitBox(GameObject& associated,Rect hitbox,double angledeg,bool HitPlayer,bool HitEnemy);
+            HitBox(GameObject& associated,Rect hitbox,bool HitPlayer = true,float secondsToSelfDestruct = 0,bool HitEnemy = true,double angledeg = 0);
             ~HitBox();
             void Update(float dt);
             void Render();
             bool Is(std::string type);
+            void NotifyCollision(GameObject& other);
+
+            void SetFunction(void(*Move)(GameObject&));
         private:
+            float secondsToSelfDestruct;
+            float time;
             bool HitPlayer;
             bool HitEnemy;
             Collider *collider;
+            void (*Move)(GameObject&);
     };
 
 #endif
