@@ -149,7 +149,7 @@ void Player::Update(float dt){
                 idletimer->Restart();
                 idle = false;
             }
-            SetSprite("assets/img/beljumptest4.png",15,0.04,false);
+            SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
             SetCollider(0.261,0.8);
             jumpsquat->Delay(dt);
         }else if(distright == 0){
@@ -239,14 +239,14 @@ void Player::Update(float dt){
     }
 }
 
-void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat){
+void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
     Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
     playersprite->SetFrameCount(framecount);
     playersprite->SetFrameTime(frametime);
     playersprite->SetRepeat(repeat);
     playersprite->Open(file);
-    associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2);
-    associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2);
+    associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2) + offset.x;
+    associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2) + offset.y;
 }
 
 void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
