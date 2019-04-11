@@ -4,6 +4,7 @@
 
 #ifndef PLAYER_H
     #define PLAYER_H
+    #include "Physics.h"
 
     class Player : public Component{
         public:
@@ -52,6 +53,8 @@
             Timer *hittheground;
             bool falling;
             bool idle;
+
+            Physics *physics;
 
             int distground,distceiling,distright,distleft;
     };

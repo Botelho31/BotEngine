@@ -33,6 +33,7 @@ Player::Player(GameObject& associated) : Component(associated){
     idle = false;
 
     input =  &(InputManager::GetInstance());
+    this->physics = new Physics(&associated);
 
     Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
     this->playersprite = player;
@@ -49,6 +50,7 @@ Player::~Player(){
     delete idletimer;
     delete jumpsquat;
     delete hittheground;
+    delete physics;
 
 }
 
@@ -296,81 +298,81 @@ void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
     collider->SetOffSet(Vec2(offsetX,offsetY));
 }
 
-void Player::CorrectDistance(){
-    std::map<int,int> dists;
-    dists.insert({0,distground});
-    dists.insert({1,distceiling});
-    dists.insert({2,distright});
-    dists.insert({3,distleft});
-    std::deque<int> disttofix;
-    for(int i = 0;i < 4;i++){
-        if(dists[i] < 0){
-            if(disttofix.empty()){
-                disttofix.push_front(i);
-            }else{
-                bool inserted = false;
-                for(int j = 0;j < disttofix.size();j++){
-                    if(dists[i] > dists[disttofix[j]]){
-                        disttofix.push_front(i);
-                        j = disttofix.size();
-                        inserted = true;
-                    }
-                }
-                if(!inserted){
-                    disttofix.push_back(i);
-                }
-            }
-        }
-    }
-    if(disttofix[0] == 0){
-        associated.box.y += distground;
-    }
-    if(disttofix[0] == 1){
-        associated.box.y -= distceiling;
-    }
-    if(disttofix[0] == 2){
-        associated.box.x += distright;
-    }
-    if(disttofix[0] == 3){
-        associated.box.x -= distleft;
-    }
+// void Player::CorrectDistance(){
+//     std::map<int,int> dists;
+//     dists.insert({0,distground});
+//     dists.insert({1,distceiling});
+//     dists.insert({2,distright});
+//     dists.insert({3,distleft});
+//     std::deque<int> disttofix;
+//     for(int i = 0;i < 4;i++){
+//         if(dists[i] < 0){
+//             if(disttofix.empty()){
+//                 disttofix.push_front(i);
+//             }else{
+//                 bool inserted = false;
+//                 for(int j = 0;j < disttofix.size();j++){
+//                     if(dists[i] > dists[disttofix[j]]){
+//                         disttofix.push_front(i);
+//                         j = disttofix.size();
+//                         inserted = true;
+//                     }
+//                 }
+//                 if(!inserted){
+//                     disttofix.push_back(i);
+//                 }
+//             }
+//         }
+//     }
+//     if(disttofix[0] == 0){
+//         associated.box.y += distground;
+//     }
+//     if(disttofix[0] == 1){
+//         associated.box.y -= distceiling;
+//     }
+//     if(disttofix[0] == 2){
+//         associated.box.x += distright;
+//     }
+//     if(disttofix[0] == 3){
+//         associated.box.x -= distleft;
+//     }
 
-}
+// }
 
 
-int Player::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum){
-    int distance = 0;
-    while(CanMove(vector1,vector2) && (distance < 150)){
-        vector1.y += ysum;
-        vector2.y += ysum;
-        vector1.x += xsum;
-        vector2.x += xsum;
-        distance ++;
-    }
-    while(!CanMove(vector1,vector2) && (distance > -150)){
-        vector1.y += -ysum;
-        vector2.y += -ysum;
-        vector1.x += -xsum;
-        vector2.x += -xsum;
-        distance --;
-    }
-    return distance;
-}
+// int Player::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum){
+//     int distance = 0;
+//     while(CanMove(vector1,vector2) && (distance < 150)){
+//         vector1.y += ysum;
+//         vector2.y += ysum;
+//         vector1.x += xsum;
+//         vector2.x += xsum;
+//         distance ++;
+//     }
+//     while(!CanMove(vector1,vector2) && (distance > -150)){
+//         vector1.y += -ysum;
+//         vector2.y += -ysum;
+//         vector1.x += -xsum;
+//         vector2.x += -xsum;
+//         distance --;
+//     }
+//     return distance;
+// }
 
-bool Player::CanMove(Vec2 vector1,Vec2 vector2){
-    TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
-    int x,y;
-    x = (vector2.x - vector1.x)/10;
-    y = (vector2.y - vector1.y)/10;
-    for(int i = 0;i < 10;i++){
-        if(tilemap->AtLocation(vector1.x,vector1.y) > -1){
-            return false;
-        }
-        vector1.x += x;
-        vector1.y += y;
-    }
-    return true;
-}
+// bool Player::CanMove(Vec2 vector1,Vec2 vector2){
+//     TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
+//     int x,y;
+//     x = (vector2.x - vector1.x)/10;
+//     y = (vector2.y - vector1.y)/10;
+//     for(int i = 0;i < 10;i++){
+//         if(tilemap->AtLocation(vector1.x,vector1.y) > -1){
+//             return false;
+//         }
+//         vector1.x += x;
+//         vector1.y += y;
+//     }
+//     return true;
+// }
 
 void Player::MovePlayer(float x,float y){
     associated.box.x = x - associated.box.w/2;
