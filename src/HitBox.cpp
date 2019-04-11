@@ -1,10 +1,12 @@
 #include "../include/HitBox.h"
 
-HitBox::HitBox(GameObject& associated,std::weak_ptr<GameObject> owner,Rect hitbox,bool HitPlayer,float secondsToSelfDestruct,bool HitEnemy,double angledeg) : 
+HitBox::HitBox(GameObject& associated,std::weak_ptr<GameObject> owner,Rect hitbox,int damage,float damageCooldown,bool HitPlayer,bool HitEnemy,float secondsToSelfDestruct,double angledeg) : 
     Component(associated),HitPlayer(HitPlayer),HitEnemy(HitEnemy),Move(NULL),owner(owner){
         associated.box = hitbox;
         associated.angleDeg = angledeg;
-        this->time = 0;
+        this->damage = damage;
+        this->damageCooldown = damageCooldown;
+        this->selfDestruct = new Timer();
         this->secondsToSelfDestruct = secondsToSelfDestruct;
         this->collider = new Collider(associated);
         associated.AddComponent(collider);
@@ -20,8 +22,8 @@ void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
 
 void HitBox::Update(float dt){
     if(secondsToSelfDestruct > 0){
-        time += dt;
-        if(time >= secondsToSelfDestruct){
+        selfDestruct->Update(dt);
+        if(selfDestruct->Get() >= secondsToSelfDestruct){
             associated.RequestDelete();
         }
     }

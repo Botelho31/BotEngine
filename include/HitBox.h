@@ -10,7 +10,7 @@
 
     class HitBox : public Component{    //COLLIDER WITHOUT NO SPRITE BEHIND IT
         public:
-            HitBox(GameObject& associated,std::weak_ptr<GameObject> owner,Rect hitbox,bool HitPlayer = true,float secondsToSelfDestruct = 0,bool HitEnemy = true,double angledeg = 0);
+            HitBox(GameObject& associated,std::weak_ptr<GameObject> owner,Rect hitbox,int damage,float damageCooldownbool,bool HitPlayer = true,bool HitEnemy = true,float secondsToSelfDestruct = 0,double angledeg = 0);
             ~HitBox();
             void Update(float dt);
             void Render();
@@ -20,7 +20,9 @@
             void SetFunction(void(*Move)(GameObject&,GameObject&,float));
         private:
             float secondsToSelfDestruct;
-            float time;
+            Timer *selfDestruct;
+            float damageCooldown;
+            int damage;
             bool HitPlayer;
             bool HitEnemy;
             std::weak_ptr<GameObject> owner;

@@ -31,7 +31,7 @@ void Camera::Update(float dt){
         if(((limit.y - (focus->box.y + focus->box.h/2)) >= (window.y/2)) &&
         ((focus->box.y + focus->box.h/2) >= (window.y/2))){
             pos.y = focus->box.y - window.y/2 + (focus->box.h/2);
-        }else if((focus->box.y + focus->box.h/2) >= (window.y/2)){
+        }else if((focus->box.y + focus->box.h/2) < (window.y/2)){
             pos.y = 0;
         }else if((limit.y - (focus->box.y + focus->box.h)) < (window.y/2 - focus->box.h/2)){
             pos.y = limit.y - window.y;
