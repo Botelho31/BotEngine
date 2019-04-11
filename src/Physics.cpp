@@ -68,21 +68,33 @@ void Physics::CorrectDistance(){
 }
 
 
-int Physics::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum){
+int Physics::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum,int max){
     int distance = 0;
-    while(CanMove(vector1,vector2) && (distance < 150)){
+    while(CanMove(vector1,vector2) && (distance < max)){
         vector1.y += ysum;
         vector2.y += ysum;
         vector1.x += xsum;
         vector2.x += xsum;
         distance ++;
     }
-    while(!CanMove(vector1,vector2) && (distance > -150)){
+    while(!CanMove(vector1,vector2) && (distance > -max)){
         vector1.y += -ysum;
         vector2.y += -ysum;
         vector1.x += -xsum;
         vector2.x += -xsum;
         distance --;
+    }
+    return distance;
+}
+
+int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
+    int distance = 0;
+    
+    float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
+    while(CanMove(vector) && (distance < max) && ((vectorTo.x != vector.x) || (vectorTo.y != vector.y))){
+        vector.x += 1;
+        vector.y += vector.x * angle;
+        distance ++;
     }
     return distance;
 }
@@ -100,4 +112,13 @@ bool Physics::CanMove(Vec2 vector1,Vec2 vector2){
         vector1.y += y;
     }
     return true;
+}
+
+bool Physics::CanMove(Vec2 vector){
+    TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
+    if(tilemap->AtLocation(vector.x,vector.y) > -1){
+        return false;
+    }else{
+        return true;
+    }
 }

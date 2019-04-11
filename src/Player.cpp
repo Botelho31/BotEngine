@@ -186,7 +186,7 @@ void Player::XMovement(float dt){
     
 }
 void Player::YMovement(float dt){
-    
+
     //Handles when it hits the ground
     if((physics->distground <= 0) && (speed.y > 0)){
         speed.y = 0;

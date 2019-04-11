@@ -15,6 +15,7 @@
             void Transform(float x,float y);
             void Transform(Vec2 pos);
             Vec2 Added(float x,float y);    //Returns a new Vec with the added values
+            float GetAngle(float x,float y,float offsetX = 0,float offsetY = 0);
             float x,y;
 
             //OPERATORS

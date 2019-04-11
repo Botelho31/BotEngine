@@ -37,6 +37,14 @@ Vec2 Vec2::Added(float x,float y){
     return Vec2(this->x + x,this->y + y);
 }
 
+float Vec2::GetAngle(float x,float y,float offsetX,float offsetY){
+    float boxX = this->x + offsetX;
+    float boxY = this->y + offsetY;
+    float difX = x - boxX;
+    float difY = boxY - y;
+    return atan2(difY,difX);
+}
+
 bool Vec2::Follow(float x,float y, float speedX,float speedY,float dt){
     bool DoneX = false;
     bool DoneY = false;

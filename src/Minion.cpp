@@ -1,5 +1,6 @@
 #include "../include/Minion.h"
 #include "../include/Collider.h"
+#include "../include/Player.h"
 
 Minion::Minion(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -16,6 +17,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     idletimer = new Timer();
     idle = false;
 
+    state = IDLE;
     this->physics = new Physics(&associated);
 
     Sprite *minion =  new Sprite(associated,"assets/img/miniontest.png");
@@ -23,7 +25,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
     associated.AddComponent(minion);
-    // SetCollider(0.6,1);
+    SetCollider(0.5,0.9);
 }
 
 Minion::~Minion(){
@@ -42,7 +44,7 @@ void Minion::Update(float dt){
     Collider *collider = dynamic_cast<Collider*>(component);
     physics->Update(collider->box);
     physics->CorrectDistance();
-
+    std::cout << physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500) << std::endl;
     XMovement(dt);
     YMovement(dt);
     IdleHandle(dt);
@@ -53,10 +55,35 @@ void Minion::Update(float dt){
 }
 
 void Minion::XMovement(float dt){
-
+    //Perfoms Movement if Allowed
+    if((physics->distright - (speed.x * dt)) < 0){
+        associated.box.x += physics->distright;
+        speed.x = 0;
+    }else if((physics->distleft + (speed.x * dt)) < 0){
+        associated.box.x -= physics->distleft;
+        speed.x = 0;
+    }else if((physics->distright < 0) && (speed.x > 0)){
+        speed.x = 0;
+    }else if((physics->distleft < 0) && (speed.x < 0)){
+        speed.x = 0;
+    }else{
+        associated.box.x += speed.x * dt;
+    }
 }
 void Minion::YMovement(float dt){
 
+
+    //Performs movement if it is allowed
+    if(((physics->distground - (speed.y * dt)) < 0) && (speed.y > 0)){
+        associated.box.y += physics->distground;
+    }
+    else if((physics->distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
+        associated.box.y -= physics->distceiling;
+        speed.y = 0;
+    } 
+    else{
+        associated.box.y += speed.y * dt;
+    }
     //GRAVITY
     if(physics->distground > 0){
         if(idle == true){
@@ -108,4 +135,8 @@ bool Minion::Is(std::string type){
 
 void Minion::NotifyCollision(GameObject& other){
 
+}
+
+Vec2 Minion::GetPosition(){
+    return Vec2(associated.box.x + associated.box.w/2,associated.box.y + associated.box.h/2);
 }
