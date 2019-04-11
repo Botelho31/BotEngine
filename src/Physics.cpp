@@ -93,7 +93,6 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     Vec2 original = vector;
     float angle = (vectorTo.y - vector.y)/(vectorTo.x - vector.x);
     float b = vector.y - (angle * vector.x);
-    float distanceTo = vector.GetDistance(vectorTo.x,vectorTo.y);
     if(vector.x > vectorTo.x){
         sum = -1.0;
     }else{
@@ -104,10 +103,10 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
         vector.y = (vector.x * angle) + b;
         distance  =  vector.GetDistance(original.x,original.y);
     }
-    // std::cout << original.y << " " << (original.x * angle) + b << std::endl;
-    // std::cout << vector.x << " - " << vector.y << std::endl;
-    // std::cout << vectorTo.x << " - " << vectorTo.y << std::endl;
-    std::cout << distance << std::endl;
+    if(!CanMove(vector)){
+        distance = max;
+    }
+    
     return distance;
 }
 

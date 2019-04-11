@@ -44,7 +44,7 @@ void Minion::Update(float dt){
     Collider *collider = dynamic_cast<Collider*>(component);
     physics->Update(collider->box);
     physics->CorrectDistance();
-    physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500);
+    std::cout << physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500) << std::endl;
     XMovement(dt);
     YMovement(dt);
     IdleHandle(dt);
