@@ -23,6 +23,7 @@ Player::Player(GameObject& associated) : Component(associated){
     jumpsquat = new Timer();
     hittheground = new Timer();
 
+    swordarc = -1;
     hp = 150;
     player = this;
     idletimer = new Timer();
@@ -48,8 +49,16 @@ void Player::Start(){
 }
 
 void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
-    Component *component = owner.GetComponent("Player");
-    Player *player = dynamic_cast<Player*>(component);
+    Component *component1 = owner.GetComponent("Player");
+    Player *player = dynamic_cast<Player*>(component1);
+    Component *component2 = owner.GetComponent("Collider");
+    Collider *collider = dynamic_cast<Collider*>(component2);
+
+    
+    hitbox.angleDeg += 70 * dt;
+    player->swordarc += (PI*2) * dt;
+    Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
     
 }
 
@@ -73,10 +82,13 @@ void Player::Update(float dt){
 
     CorrectDistance(distground,distceiling,distright,distleft);
 
-    if(input->KeyPress(SDLK_w) == true){
+    if(input->KeyPress(SDLK_w) == true){    //TESTING SWORD ON W
+        swordarc = -1;
+        Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+        Rect hitbox = Rect(vector.x - 20,vector.y - 50,40,100);
         GameObject *swordObj = new GameObject();
         std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-        HitBox *swordhitbox = new HitBox(*swordObj,owner,Rect(collider->box.x + 20,collider->box.y - 100,40,100),true,3);
+        HitBox *swordhitbox = new HitBox(*swordObj,owner,hitbox,true,0.3,true,75);
         swordhitbox->SetFunction(SwordHitbox);
         swordObj->AddComponent(swordhitbox);
         Game::GetInstance().GetCurrentState().AddObject(swordObj);

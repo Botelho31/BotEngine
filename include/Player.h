@@ -39,6 +39,7 @@
             int awalljump;
 
             int hp;
+            float swordarc;
             Sprite *playersprite;
             Timer *idletimer;
             Timer *jumpsquat;
