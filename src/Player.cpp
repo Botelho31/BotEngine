@@ -30,6 +30,7 @@ Player::Player(GameObject& associated) : Component(associated){
     player = this;
     idletimer = new Timer();
     idle = false;
+    input =  &(InputManager::GetInstance());
     Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
     this->playersprite = player;
     Collider *collider = new Collider(associated);
@@ -41,6 +42,7 @@ Player::Player(GameObject& associated) : Component(associated){
 Player::~Player(){
     player = nullptr;
     playersprite = nullptr;
+    input = nullptr;
     delete idletimer;
     delete jumpsquat;
     delete hittheground;
@@ -65,7 +67,6 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 }
 
 void Player::Update(float dt){
-    InputManager *input =  &(InputManager::GetInstance());
     Component *component = associated.GetComponent("Collider");
     Collider *collider = dynamic_cast<Collider*>(component);
     Vec2 Sprite[] = {   Vec2(collider->box.x,collider->box.y),
@@ -73,16 +74,16 @@ void Player::Update(float dt){
                         Vec2(collider->box.x,collider->box.y + collider->box.h),
                         Vec2(collider->box.x + collider->box.w,collider->box.y + collider->box.h)
     };
-    int distground = DistanceTo(Sprite[2],Sprite[3],0,1);
-    int distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
-    int distright = DistanceTo(Sprite[1],Sprite[3],1,0);
-    int distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
+    distground = DistanceTo(Sprite[2],Sprite[3],0,1);
+    distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
+    distright = DistanceTo(Sprite[1],Sprite[3],1,0);
+    distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
     // std::cout << "dground: "<< distground << std::endl;
     // std::cout << "dceiling: "<< distceiling << std::endl;
     // std::cout << "dright: "<< distright << std::endl;
     // std::cout << "dleft: "<< distleft << std::endl;
 
-    CorrectDistance(distground,distceiling,distright,distleft);
+    CorrectDistance();
 
     if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
         swordarc = -1;
@@ -101,6 +102,29 @@ void Player::Update(float dt){
     }
 
     //X MOVEMENT
+    XMovement(dt);
+
+    //Y MOVEMENT
+    YMovement(dt);
+
+    //IDLE HANDLING
+    if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
+        idletimer->Update(dt);
+        if((idletimer->Get() > 2) && (idle == false)){
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            idle = true;
+        }
+    }else{
+        idletimer->Restart();
+    }
+    //END IDLE HANDLING
+
+    if(hp <= 0){
+        associated.RequestDelete();
+    }
+}
+
+void Player::XMovement(float dt){
     if(input->IsKeyDown(SDLK_d) == true){
         if((idle == true) && (distground == 0)){
             SetSprite("assets/img/beltest2.png");
@@ -169,8 +193,8 @@ void Player::Update(float dt){
         associated.box.x += speed.x * dt;
     }
     
-    //END X MOVEMENT
-
+}
+void Player::YMovement(float dt){
     //Y MOVEMENT
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
         if(distground <= 0){
@@ -240,32 +264,7 @@ void Player::Update(float dt){
         }
         speed.y += gravspeed*dt;
     }
-    else if((distground == 0) && (speed.y > 0)){
-        speed.y = 0;
-    }
-    else if((distground < 0) && (speed.y >= 0)){
-        speed.y = 0;
-    }
-    // else if((distceiling < 0) && (speed.y <= 0)){
-    // speed.y = 0;
-    // }
     //END GRAVITY
-
-    //IDLE HANDLING
-    if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
-        idletimer->Update(dt);
-        if((idletimer->Get() > 2) && (idle == false)){
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            idle = true;
-        }
-    }else{
-        idletimer->Restart();
-    }
-    //END IDLE HANDLING
-
-    if(hp <= 0){
-        associated.RequestDelete();
-    }
 }
 
 void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
@@ -285,7 +284,7 @@ void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
     collider->SetOffSet(Vec2(offsetX,offsetY));
 }
 
-void Player::CorrectDistance(int distground,int distceiling,int distright,int distleft){
+void Player::CorrectDistance(){
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
