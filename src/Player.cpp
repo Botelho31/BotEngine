@@ -28,9 +28,12 @@ Player::Player(GameObject& associated) : Component(associated){
 
     hp = 150;
     player = this;
+
     idletimer = new Timer();
     idle = false;
+
     input =  &(InputManager::GetInstance());
+
     Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
     this->playersprite = player;
     Collider *collider = new Collider(associated);
@@ -78,10 +81,15 @@ void Player::Update(float dt){
     distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
     distright = DistanceTo(Sprite[1],Sprite[3],1,0);
     distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
-    // std::cout << "dground: "<< distground << std::endl;
-    // std::cout << "dceiling: "<< distceiling << std::endl;
-    // std::cout << "dright: "<< distright << std::endl;
-    // std::cout << "dleft: "<< distleft << std::endl;
+
+    #ifdef DEBUG
+        if(input->IsKeyDown(SDLK_MINUS)){
+            std::cout << "dground: "<< distground << std::endl;
+            std::cout << "dceiling: "<< distceiling << std::endl;
+            std::cout << "dright: "<< distright << std::endl;
+            std::cout << "dleft: "<< distleft << std::endl;
+        }
+    #endif
 
     CorrectDistance();
 
@@ -101,13 +109,16 @@ void Player::Update(float dt){
     if(input->IsKeyDown(SDLK_s) == true){   //CROUCH?
     }
 
-    //X MOVEMENT
-    XMovement(dt);
+    XMovement(dt); //X MOVEMENT
+    YMovement(dt); //Y MOVEMENT
+    IdleHandle(dt);//IDLE HANDLING
 
-    //Y MOVEMENT
-    YMovement(dt);
+    if(hp <= 0){
+        associated.RequestDelete();
+    }
+}
 
-    //IDLE HANDLING
+void Player::IdleHandle(float dt){
     if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
@@ -117,14 +128,10 @@ void Player::Update(float dt){
     }else{
         idletimer->Restart();
     }
-    //END IDLE HANDLING
-
-    if(hp <= 0){
-        associated.RequestDelete();
-    }
 }
 
 void Player::XMovement(float dt){
+    //Handles input and acceleration
     if(input->IsKeyDown(SDLK_d) == true){
         if((idle == true) && (distground == 0)){
             SetSprite("assets/img/beltest2.png");
@@ -179,6 +186,8 @@ void Player::XMovement(float dt){
             }
         }
     }
+
+    //Perfoms Movement if Allowed
     if((distright - (speed.x * dt)) < 0){
         associated.box.x += distright;
         speed.x = 0;
@@ -195,7 +204,7 @@ void Player::XMovement(float dt){
     
 }
 void Player::YMovement(float dt){
-    //Y MOVEMENT
+    //Handles Jump input and acceleration
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
         if(distground <= 0){
             if(idle == true){
@@ -221,6 +230,7 @@ void Player::YMovement(float dt){
             jumpsquat->Restart();
         }
     }
+    //Handles when it hits the ground
     if((distground <= 0) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
@@ -237,6 +247,8 @@ void Player::YMovement(float dt){
             hittheground->Restart();
         }
     }
+
+    //Handles when it is falling
     if((distground > 0) && (speed.y > 0) && (falling == false) && (playersprite->GetHeight() < 220)){
         SetSprite("assets/img/beljumptest4.png",15,0.04,false);
         playersprite->SetFrame(14);
@@ -244,6 +256,8 @@ void Player::YMovement(float dt){
         SetCollider(0.261,0.8);
         falling = true;
     }
+    
+    //Performs movement if it is allowed
     if(((distground - (speed.y * dt)) < 0) && (speed.y > 0)){
         associated.box.y += distground;
     }
@@ -254,7 +268,6 @@ void Player::YMovement(float dt){
     else{
         associated.box.y += speed.y * dt;
     }
-    //END Y MOVEMENT
 
     //GRAVITY
     if((distground > 0) && (jumpsquat->Get() == 0)){
@@ -264,7 +277,6 @@ void Player::YMovement(float dt){
         }
         speed.y += gravspeed*dt;
     }
-    //END GRAVITY
 }
 
 void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){

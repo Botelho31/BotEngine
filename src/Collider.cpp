@@ -2,8 +2,6 @@
 #include "../include/Camera.h"
 #include "../include/InputManager.h"
 
-#define DEBUG
-
 Collider::Collider(GameObject& associated,Vec2 scale,Vec2 offset) : 
     Component(associated),scale(scale),offset(offset){
 }

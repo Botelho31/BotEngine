@@ -10,6 +10,7 @@
 
 #ifndef GAME_H
   #define GAME_H
+  #define DEBUG
   #define PI 3.14159265
   #include <iostream>
   #include <fstream>

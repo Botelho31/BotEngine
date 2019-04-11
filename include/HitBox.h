@@ -21,12 +21,15 @@
         private:
             float secondsToSelfDestruct;
             Timer *selfDestruct;
+
             float damageCooldown;
             int damage;
+
             bool HitPlayer;
             bool HitEnemy;
+
             std::weak_ptr<GameObject> owner;
-            Collider *collider;
+            
             void (*Move)(GameObject&,GameObject&,float);
     };
 

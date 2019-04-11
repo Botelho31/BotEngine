@@ -8,12 +8,11 @@ HitBox::HitBox(GameObject& associated,std::weak_ptr<GameObject> owner,Rect hitbo
         this->damageCooldown = damageCooldown;
         this->selfDestruct = new Timer();
         this->secondsToSelfDestruct = secondsToSelfDestruct;
-        this->collider = new Collider(associated);
+        Collider *collider = new Collider(associated);
         associated.AddComponent(collider);
 }
 
 HitBox::~HitBox(){
-    collider = nullptr;
 }
 
 void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){

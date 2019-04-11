@@ -17,8 +17,9 @@
             void NotifyCollision(GameObject& other);
             Vec2 GetPosition(); //Returns vector with center position of player
             Vec2 GetSpeed(); //Returns speed on the two vectors
-            void XMovement(float dt);
-            void YMovement(float dt);
+            void XMovement(float dt);   //Performs X Movement
+            void YMovement(float dt);   //Performs Y Movement
+            void IdleHandle(float dt); //Handles player Idle
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
             void CorrectDistance();    //Correct the distance if the player is inside a wall
