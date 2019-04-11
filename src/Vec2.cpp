@@ -45,6 +45,10 @@ float Vec2::GetAngle(float x,float y,float offsetX,float offsetY){
     return atan2(difY,difX);
 }
 
+float Vec2::GetDistance(float x,float y){
+    return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
+}
+
 bool Vec2::Follow(float x,float y, float speedX,float speedY,float dt){
     bool DoneX = false;
     bool DoneY = false;

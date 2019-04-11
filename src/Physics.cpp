@@ -89,12 +89,21 @@ int Physics::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum,int max){
 
 int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     int distance = 0;
-    
-    float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
+    Vec2 original = vector;
+    int sum = 0;
+    float angle = abs(vector.y - vectorTo.y)/abs(vector.x - vectorTo.x);
+    float distanceTo = vector.GetDistance(vectorTo.x,vectorTo.y);
+    std::cout << distanceTo << std::endl;
+    std::cout << angle << std::endl;
+    if(vector.x > vectorTo.x){
+        sum = -1;
+    }else{
+        sum = 1;
+    }
     while(CanMove(vector) && (distance < max) && ((vectorTo.x != vector.x) || (vectorTo.y != vector.y))){
-        vector.x += 1;
+        vector.x += sum;
         vector.y += vector.x * angle;
-        distance ++;
+        distance  =  vector.GetDistance(original.x,original.y);
     }
     return distance;
 }
