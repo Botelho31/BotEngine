@@ -25,7 +25,7 @@
 
             void MovePlayer(float x,float y);   //Moves the center of a player to a certain spot
 
-            static void SwordHitbox(GameObject &hitbox,GameObject& owner,float dt);
+            static void SwordHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the sword
 
             static Player *player;
         private:

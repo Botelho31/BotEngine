@@ -46,3 +46,18 @@ void Camera::Update(float dt){
     }
 
 }
+
+void Camera::Correct(){
+    if((pos.x + window.x) > limit.x){
+        pos.x = limit.x - window.x;
+    }
+    if(pos.x < 0){
+        pos.x = 0;
+    }
+    if((pos.y + window.y) > limit.y){
+        pos.y = limit.y - window.y;
+    }
+    if(pos.y < 0){
+        pos.y = 0;
+    }
+}
