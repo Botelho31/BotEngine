@@ -48,6 +48,7 @@
             Timer *idletimer;
             Timer *jumpsquat;
             Timer *hittheground;
+            Timer *jumpanimation;
             bool falling;
             bool idle;
 

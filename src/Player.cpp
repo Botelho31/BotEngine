@@ -22,6 +22,7 @@ Player::Player(GameObject& associated) : Component(associated){
     gravspeed = 2000;
     jumpsquat = new Timer();
     hittheground = new Timer();
+    jumpanimation =  new Timer();
 
     swordarc = -1;
     asword = (PI*2);
@@ -214,6 +215,7 @@ void Player::YMovement(float dt){
             }
             SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
             SetCollider(0.261,0.8);
+            jumpanimation->Delay(dt);
             jumpsquat->Delay(dt);
         }else if(physics->distright == 0){
             speed.y = ajump;
@@ -231,12 +233,16 @@ void Player::YMovement(float dt){
             jumpsquat->Restart();
         }
     }
+    if(jumpanimation->Started()){
+        jumpanimation->Update(dt);
+        if(jumpanimation->Get() >= 0.6){
+            jumpanimation->Restart();
+        }
+    }
 
     //Handles when it is falling
-    if((physics->distground > 0) && (speed.y > 0) && (falling == false) && (playersprite->GetHeight() < 220)){
-        SetSprite("assets/img/beljumptest4.png",15,0.04,false);
-        playersprite->SetFrame(14);
-        playersprite->SetFrameTime(0);
+    if((physics->distground > 0) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
+        SetSprite("assets/img/belfreefallingtest.png",4,0.04,false);
         SetCollider(0.261,0.8);
         falling = true;
     }
