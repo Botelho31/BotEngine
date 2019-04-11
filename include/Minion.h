@@ -4,6 +4,7 @@
 
 #ifndef MINION_H
     #define MINION_H
+    #include "Physics.h"
 
     class Minion : public Component{
         public:
@@ -14,7 +15,16 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+
+            void XMovement(float dt);   //Performs X Movement
+            void YMovement(float dt);   //Performs Y Movement
+            void IdleHandle(float dt); //Handles player Idle
+            void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
+            void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
         private:
+            enum minionState{IDLE,MOVING,ATTACKING};
+            minionState state;
+
             int hp;
 
             Vec2 speed;
@@ -30,7 +40,7 @@
             bool falling;
             bool idle;
 
-            int distground,distceiling,distright,distleft;
+            Physics *physics;
     };
 
 #endif

@@ -15,15 +15,15 @@ Physics::~Physics(){
 }
 
 void Physics::Update(Rect collider){
-    Vec2 Sprite[] = {   Vec2(collider.x,collider.y),
+    Vec2 BoxCollider[] = {   Vec2(collider.x,collider.y),
                         Vec2(collider.x + collider.w,collider.y),
                         Vec2(collider.x,collider.y + collider.h),
                         Vec2(collider.x + collider.w,collider.y + collider.h)
     };
-    distground = DistanceTo(Sprite[2],Sprite[3],0,1);
-    distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
-    distright = DistanceTo(Sprite[1],Sprite[3],1,0);
-    distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
+    distground = DistanceTo( BoxCollider[2], BoxCollider[3],0,1);
+    distceiling = DistanceTo( BoxCollider[0], BoxCollider[1],0,-1);
+    distright = DistanceTo( BoxCollider[1], BoxCollider[3],1,0);
+    distleft = DistanceTo( BoxCollider[0], BoxCollider[2],-1,0);
 }
 
 void Physics::CorrectDistance(){

@@ -18,6 +18,7 @@
             int distground,distceiling,distright,distleft;
         private:
             GameObject *associated;
+            
     };
 
 #endif

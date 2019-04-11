@@ -112,18 +112,6 @@ void Player::Update(float dt){
     }
 }
 
-void Player::IdleHandle(float dt){
-    if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
-        idletimer->Update(dt);
-        if((idletimer->Get() > 2) && (idle == false)){
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            idle = true;
-        }
-    }else{
-        idletimer->Restart();
-    }
-}
-
 void Player::XMovement(float dt){
     //Handles input and acceleration
     if(input->IsKeyDown(SDLK_d) == true){
@@ -270,6 +258,18 @@ void Player::YMovement(float dt){
             idle = false;
         }
         speed.y += gravspeed*dt;
+    }
+}
+
+void Player::IdleHandle(float dt){
+    if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
+        idletimer->Update(dt);
+        if((idletimer->Get() > 2) && (idle == false)){
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            idle = true;
+        }
+    }else{
+        idletimer->Restart();
     }
 }
 
