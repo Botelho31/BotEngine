@@ -1,6 +1,8 @@
 #include "../include/TileMapInfo.h"
 
 TileMapInfo::TileMapInfo(std::string file){
+    portalfiles.clear();
+    portals.clear();
     Open(file);
 }
 

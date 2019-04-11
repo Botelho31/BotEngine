@@ -4,6 +4,7 @@
 
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
     this->tileSet = tileSet;
+    this->tileMapInfo = nullptr;
     Load(file);
 }
 
@@ -71,6 +72,8 @@ std::vector<std::string> TileMap::GetPortalFiles(int portalID){
     std::vector<std::string> error;
     if(tileMapInfo){
         return tileMapInfo->portalfiles[portalID];
+    }else{
+        return error;
     }
 }
 
