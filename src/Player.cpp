@@ -74,26 +74,18 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 void Player::Update(float dt){
     Component *component = associated.GetComponent("Collider");
     Collider *collider = dynamic_cast<Collider*>(component);
-    Vec2 Sprite[] = {   Vec2(collider->box.x,collider->box.y),
-                        Vec2(collider->box.x + collider->box.w,collider->box.y),
-                        Vec2(collider->box.x,collider->box.y + collider->box.h),
-                        Vec2(collider->box.x + collider->box.w,collider->box.y + collider->box.h)
-    };
-    distground = DistanceTo(Sprite[2],Sprite[3],0,1);
-    distceiling = DistanceTo(Sprite[0],Sprite[1],0,-1);
-    distright = DistanceTo(Sprite[1],Sprite[3],1,0);
-    distleft = DistanceTo(Sprite[0],Sprite[2],-1,0);
+    physics->Update(collider->box);
 
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
-            std::cout << "dground: "<< distground << std::endl;
-            std::cout << "dceiling: "<< distceiling << std::endl;
-            std::cout << "dright: "<< distright << std::endl;
-            std::cout << "dleft: "<< distleft << std::endl;
+            std::cout << "dground: "<< physics->distground << std::endl;
+            std::cout << "dceiling: "<< physics->distceiling << std::endl;
+            std::cout << "dright: "<< physics->distright << std::endl;
+            std::cout << "dleft: "<< physics->distleft << std::endl;
         }
     #endif
 
-    CorrectDistance();
+    physics->CorrectDistance();
 
     if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
         swordarc = -1;
@@ -135,7 +127,7 @@ void Player::IdleHandle(float dt){
 void Player::XMovement(float dt){
     //Handles input and acceleration
     if(input->IsKeyDown(SDLK_d) == true){
-        if((idle == true) && (distground == 0)){
+        if((idle == true) && (physics->distground == 0)){
             SetSprite("assets/img/beltest2.png");
             SetCollider(0.6,1);
             idle = false;
@@ -154,7 +146,7 @@ void Player::XMovement(float dt){
         }
     }
     if(input->IsKeyDown(SDLK_a) == true){
-        if((idle == true) && (distground == 0)){
+        if((idle == true) && (physics->distground == 0)){
             SetSprite("assets/img/beltest2.png");
             SetCollider(0.6,1);
             idle = false;
@@ -173,7 +165,7 @@ void Player::XMovement(float dt){
         }
     }
 
-    if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (distground == 0)){
+    if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->distground == 0)){
         if(speed.x > 0){
             if((speed.x - despeed * dt) < 0){
                 speed.x = 0;
@@ -190,15 +182,15 @@ void Player::XMovement(float dt){
     }
 
     //Perfoms Movement if Allowed
-    if((distright - (speed.x * dt)) < 0){
-        associated.box.x += distright;
+    if((physics->distright - (speed.x * dt)) < 0){
+        associated.box.x += physics->distright;
         speed.x = 0;
-    }else if((distleft + (speed.x * dt)) < 0){
-        associated.box.x -= distleft;
+    }else if((physics->distleft + (speed.x * dt)) < 0){
+        associated.box.x -= physics->distleft;
         speed.x = 0;
-    }else if((distright < 0) && (speed.x > 0)){
+    }else if((physics->distright < 0) && (speed.x > 0)){
         speed.x = 0;
-    }else if((distleft < 0) && (speed.x < 0)){
+    }else if((physics->distleft < 0) && (speed.x < 0)){
         speed.x = 0;
     }else{
         associated.box.x += speed.x * dt;
@@ -208,7 +200,7 @@ void Player::XMovement(float dt){
 void Player::YMovement(float dt){
     //Handles Jump input and acceleration
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
-        if(distground <= 0){
+        if(physics->distground <= 0){
             if(idle == true){
                 idletimer->Restart();
                 idle = false;
@@ -216,10 +208,10 @@ void Player::YMovement(float dt){
             SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
             SetCollider(0.261,0.8);
             jumpsquat->Delay(dt);
-        }else if(distright == 0){
+        }else if(physics->distright == 0){
             speed.y = ajump;
             speed.x = -awalljump;
-        }else if(distleft == 0){
+        }else if(physics->distleft == 0){
             speed.y = ajump;
             speed.x = awalljump;
         }
@@ -233,7 +225,7 @@ void Player::YMovement(float dt){
         }
     }
     //Handles when it hits the ground
-    if((distground <= 0) && (speed.y > 0)){
+    if((physics->distground <= 0) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
         SetSprite("assets/img/belhitthegroundtest2.png",16,0.02,false);
@@ -251,7 +243,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((distground > 0) && (speed.y > 0) && (falling == false) && (playersprite->GetHeight() < 220)){
+    if((physics->distground > 0) && (speed.y > 0) && (falling == false) && (playersprite->GetHeight() < 220)){
         SetSprite("assets/img/beljumptest4.png",15,0.04,false);
         playersprite->SetFrame(14);
         playersprite->SetFrameTime(0);
@@ -260,11 +252,11 @@ void Player::YMovement(float dt){
     }
     
     //Performs movement if it is allowed
-    if(((distground - (speed.y * dt)) < 0) && (speed.y > 0)){
-        associated.box.y += distground;
+    if(((physics->distground - (speed.y * dt)) < 0) && (speed.y > 0)){
+        associated.box.y += physics->distground;
     }
-    else if((distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
-        associated.box.y -= distceiling;
+    else if((physics->distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
+        associated.box.y -= physics->distceiling;
         speed.y = 0;
     } 
     else{
@@ -272,7 +264,7 @@ void Player::YMovement(float dt){
     }
 
     //GRAVITY
-    if((distground > 0) && (jumpsquat->Get() == 0)){
+    if((physics->distground > 0) && (jumpsquat->Get() == 0)){
         if(idle == true){
             idletimer->Restart();
             idle = false;
@@ -297,82 +289,6 @@ void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
     collider->SetScale(Vec2(scaleX,scaleY));
     collider->SetOffSet(Vec2(offsetX,offsetY));
 }
-
-// void Player::CorrectDistance(){
-//     std::map<int,int> dists;
-//     dists.insert({0,distground});
-//     dists.insert({1,distceiling});
-//     dists.insert({2,distright});
-//     dists.insert({3,distleft});
-//     std::deque<int> disttofix;
-//     for(int i = 0;i < 4;i++){
-//         if(dists[i] < 0){
-//             if(disttofix.empty()){
-//                 disttofix.push_front(i);
-//             }else{
-//                 bool inserted = false;
-//                 for(int j = 0;j < disttofix.size();j++){
-//                     if(dists[i] > dists[disttofix[j]]){
-//                         disttofix.push_front(i);
-//                         j = disttofix.size();
-//                         inserted = true;
-//                     }
-//                 }
-//                 if(!inserted){
-//                     disttofix.push_back(i);
-//                 }
-//             }
-//         }
-//     }
-//     if(disttofix[0] == 0){
-//         associated.box.y += distground;
-//     }
-//     if(disttofix[0] == 1){
-//         associated.box.y -= distceiling;
-//     }
-//     if(disttofix[0] == 2){
-//         associated.box.x += distright;
-//     }
-//     if(disttofix[0] == 3){
-//         associated.box.x -= distleft;
-//     }
-
-// }
-
-
-// int Player::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum){
-//     int distance = 0;
-//     while(CanMove(vector1,vector2) && (distance < 150)){
-//         vector1.y += ysum;
-//         vector2.y += ysum;
-//         vector1.x += xsum;
-//         vector2.x += xsum;
-//         distance ++;
-//     }
-//     while(!CanMove(vector1,vector2) && (distance > -150)){
-//         vector1.y += -ysum;
-//         vector2.y += -ysum;
-//         vector1.x += -xsum;
-//         vector2.x += -xsum;
-//         distance --;
-//     }
-//     return distance;
-// }
-
-// bool Player::CanMove(Vec2 vector1,Vec2 vector2){
-//     TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
-//     int x,y;
-//     x = (vector2.x - vector1.x)/10;
-//     y = (vector2.y - vector1.y)/10;
-//     for(int i = 0;i < 10;i++){
-//         if(tilemap->AtLocation(vector1.x,vector1.y) > -1){
-//             return false;
-//         }
-//         vector1.x += x;
-//         vector1.y += y;
-//     }
-//     return true;
-// }
 
 void Player::MovePlayer(float x,float y){
     associated.box.x = x - associated.box.w/2;

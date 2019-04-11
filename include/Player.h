@@ -23,9 +23,6 @@
             void IdleHandle(float dt); //Handles player Idle
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
-            void CorrectDistance();    //Correct the distance if the player is inside a wall
-            int DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum);    //Gets the distance to a unpassable tile block in a direction
-            bool CanMove(Vec2 vector1,Vec2 vector2);    //Checks it the side of a rect can move
 
             void MovePlayer(float x,float y);   //Moves the center of a player to a certain spot
 
@@ -55,8 +52,6 @@
             bool idle;
 
             Physics *physics;
-
-            int distground,distceiling,distright,distleft;
     };
 
 #endif
