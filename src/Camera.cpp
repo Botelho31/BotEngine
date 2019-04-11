@@ -19,14 +19,22 @@ void Camera::UnFollow(){
 void Camera::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
     if(focus){
-        if( ((limit.x - (focus->box.x + focus->box.w)) >= (window.x/2 - focus->box.w/2)) &&
-            (focus->box.x >= (window.x/2 - focus->box.w/2)) ){
+        if( ((limit.x - (focus->box.x + focus->box.w/2)) >= window.x/2) &&
+            ((focus->box.x + focus->box.w/2) >= (window.x/2)) ){
             pos.x  = focus->box.x - window.x/2 + (focus->box.w/2);
 
+        }else if((focus->box.x + focus->box.w/2) < (window.x/2)){
+            pos.x = 0;
+        }else if((limit.x - (focus->box.x + focus->box.w/2)) < window.x/2){
+            pos.x = limit.x - window.x;
         }
-        if(((limit.y - (focus->box.y + focus->box.h)) >= (window.y/2 - focus->box.h/2)) &&
-        (focus->box.y >= (window.y/2 - focus->box.h/2))){
+        if(((limit.y - (focus->box.y + focus->box.h/2)) >= (window.y/2)) &&
+        ((focus->box.y + focus->box.h/2) >= (window.y/2))){
             pos.y = focus->box.y - window.y/2 + (focus->box.h/2);
+        }else if((focus->box.y + focus->box.h/2) >= (window.y/2)){
+            pos.y = 0;
+        }else if((limit.y - (focus->box.y + focus->box.h)) < (window.y/2 - focus->box.h/2)){
+            pos.y = limit.y - window.y;
         }
     }else{
         speed.x = 100;

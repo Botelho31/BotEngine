@@ -52,6 +52,7 @@ void TileMap::Load(std::string file){
     Camera::limit.x = associated.box.w;
     Camera::limit.y = associated.box.h;
     Camera::Correct();
+    Camera::Update(0);
 }
 
 void TileMap::LoadInfo(std::string file){
