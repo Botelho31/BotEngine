@@ -12,6 +12,7 @@
 #include "../include/GameData.h"
 #include "../include/EndState.h"
 #include "../include/Player.h"
+#include "../include/Minion.h"
 
 bool StageState::changingMap;
 
@@ -50,6 +51,13 @@ StageState::StageState(){
     playerObj->AddComponent(player);
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
+
+    GameObject *minionObj = new GameObject();
+    Minion *minion = new Minion(*minionObj);
+    minionObj->box.x = 1000;
+    minionObj->box.y = 300;
+    minionObj->AddComponent(minion);
+    objectArray.emplace_back(minionObj);
 
 
 }

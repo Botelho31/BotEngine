@@ -186,6 +186,25 @@ void Player::XMovement(float dt){
     
 }
 void Player::YMovement(float dt){
+    
+    //Handles when it hits the ground
+    if((physics->distground <= 0) && (speed.y > 0)){
+        speed.y = 0;
+        falling = false;
+        SetSprite("assets/img/belhitthegroundtest3.png",4,0.08,false);
+        SetCollider(0.276,1);
+        hittheground->Delay(dt);
+    }
+    if(hittheground->Started()){
+        speed.y = 0;
+        hittheground->Update(dt);
+        if(hittheground->Get() >= 0.24){
+            SetSprite("assets/img/beltest2.png");
+            SetCollider(0.6,1);
+            hittheground->Restart();
+        }
+    }
+
     //Handles Jump input and acceleration
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
         if(physics->distground <= 0){
@@ -210,23 +229,6 @@ void Player::YMovement(float dt){
         if(jumpsquat->Get() >= 0.12){
             speed.y = ajump;
             jumpsquat->Restart();
-        }
-    }
-    //Handles when it hits the ground
-    if((physics->distground <= 0) && (speed.y > 0)){
-        speed.y = 0;
-        falling = false;
-        SetSprite("assets/img/belhitthegroundtest2.png",16,0.02,false);
-        SetCollider(0.2264150,1);
-        hittheground->Delay(dt);
-    }
-    if(hittheground->Started()){
-        speed.y = 0;
-        hittheground->Update(dt);
-        if(hittheground->Get() >= 0.36){
-            SetSprite("assets/img/beltest2.png");
-            SetCollider(0.6,1);
-            hittheground->Restart();
         }
     }
 
