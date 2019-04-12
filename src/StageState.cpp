@@ -97,7 +97,7 @@ void StageState::Update(float dt){
             objectArray.erase(objectArray.begin() + i);
         }
     }
-
+    
     //TILE MAP EXCHANGE
     Vec2 PlayerPos = Vec2(0,0);
     int tilemapID = 0;

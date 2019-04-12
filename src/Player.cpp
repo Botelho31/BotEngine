@@ -80,7 +80,6 @@ void Player::Update(float dt){
     Component *component = associated.GetComponent("Collider");
     Collider *collider = dynamic_cast<Collider*>(component);
     physics->Update(collider->box);
-
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
             std::cout << "dground: "<< physics->distground << std::endl;
@@ -89,9 +88,9 @@ void Player::Update(float dt){
             std::cout << "dleft: "<< physics->distleft << std::endl;
         }
     #endif
-
     physics->CorrectDistance();
 
+    //HANDLING ATTACK
     if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
         if(!swordattack->Started()){
             swordarc = -1;
@@ -103,6 +102,8 @@ void Player::Update(float dt){
             swordhitbox->SetFunction(SwordHitbox);
             swordObj->AddComponent(swordhitbox);
             Game::GetInstance().GetCurrentState().AddObject(swordObj);
+            idle = false;
+            idletimer->Restart();
             swordattack->Delay(dt);
         }
     }
@@ -112,6 +113,7 @@ void Player::Update(float dt){
             swordattack->Restart();
         }
     }
+    //END HANDLING ATTACK
 
 
     if(input->IsKeyDown(SDLK_s) == true){   //CROUCH?

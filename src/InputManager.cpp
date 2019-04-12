@@ -1,4 +1,5 @@
 #include "../include/InputManager.h"
+#include "../include/Camera.h"
 
 InputManager::InputManager(){
     quitRequested = false;
