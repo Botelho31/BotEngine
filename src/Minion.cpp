@@ -123,8 +123,8 @@ void Minion::Update(float dt){
             GameObject *hitboxObj = new GameObject();
 
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,0,1,1,false,true,false,{400,400});
-
+            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,0,1,1,false,true,false,{400,400},this);
+            minionhitbox->SetFunction(BiteHitbox);
             hitboxObj->AddComponent(minionhitbox);
             Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
             attacktimer->Delay(dt);
@@ -150,6 +150,17 @@ void Minion::Update(float dt){
     if(hp <= 0){
         associated.RequestDelete();
     }
+}
+
+void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
+    Component *component = owner.GetComponent("Collider");
+    Collider *collider = dynamic_cast<Collider*>(component);
+    if(hitbox.box.x < collider->box.x){
+        hitbox.box.x = collider->box.x - collider->box.w;
+    }else{
+        hitbox.box.x = collider->box.x + collider->box.w;
+    }
+    hitbox.box.y = collider->box.y;
 }
 
 void Minion::XMovement(float dt){

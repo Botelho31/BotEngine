@@ -1,8 +1,8 @@
 #include "../include/HitBox.h"
 
 
-HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback) : 
-    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown),hitPlayer(hitPlayer),hitEnemy(hitEnemy),disconnected(disconnected),damage(damage),knockback(knockback){
+HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component) : 
+    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown),hitPlayer(hitPlayer),hitEnemy(hitEnemy),disconnected(disconnected),damage(damage),knockback(knockback),component(component){
     associated.box = hitbox;
     associated.angleDeg = angledeg;
     this->selfDestruct = new Timer();
@@ -11,6 +11,7 @@ HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owne
 }
 
 HitBox::~HitBox(){
+    component = nullptr;
 }
 
 void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
@@ -41,7 +42,9 @@ void HitBox::Render(){
 
 void HitBox::NotifyCollision(GameObject& other){
     if(!disconnected){
-        
+        if(component){
+            component->NotifyCollision(other);
+        }
     }
 }
 
