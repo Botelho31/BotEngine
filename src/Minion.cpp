@@ -144,7 +144,7 @@ void Minion::Update(float dt){
         invincibilitytimer->Update(dt);
         if(invincibilitytimer->Get() >= damageCooldown){
             invincibilitytimer->Restart();
-            damageCooldown = 0;
+            this->damageCooldown = 0;
         }
     }
     if(hp <= 0){
@@ -232,16 +232,17 @@ bool Minion::Is(std::string type){
 }
 
 void Minion::NotifyCollision(GameObject& other){
-     if(invincibilitytimer->Started()){
-
+    if(invincibilitytimer->Started()){
     }else{
         Component *component1 = other.GetComponent("HitBox");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
-            if(hitbox->GetOwner() && hitbox->HitEnemy()){
+            if((hitbox)  && hitbox->HitEnemy()){
+                std::cout << "oi" << std::endl;
                 physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
-                this->damageCooldown = hitbox->GetDamageCooldown();
-                invincibilitytimer->Delay(0);
+                damageCooldown = hitbox->GetDamageCooldown();
+                std::cout << damageCooldown << std::endl;
+                invincibilitytimer->Update(0);
             }
         }
     }

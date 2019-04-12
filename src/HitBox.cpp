@@ -1,12 +1,10 @@
 #include "../include/HitBox.h"
 
 
-HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,float secondsToSelfDestruct,int damage,float damageCooldownbool,bool hitPlayer,bool hitEnemy,Vec2 knockback) : 
-    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner){
+HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,float secondsToSelfDestruct,int damage,float damageCooldown,bool hitPlayer,bool hitEnemy,Vec2 knockback) : 
+    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown),hitPlayer(hitPlayer),hitEnemy(hitEnemy),damage(damage),knockback(knockback){
     associated.box = hitbox;
     associated.angleDeg = angledeg;
-    SetHit(hitPlayer,hitEnemy);
-    SetDamageValues(damage,damageCooldown,knockback);
     this->selfDestruct = new Timer();
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
@@ -62,7 +60,7 @@ Collider* HitBox::GetCollider(){
 }
 
 std::shared_ptr<GameObject> HitBox::GetOwner(){
-    if(owner.lock()){
+    if(!owner.expired()){
         return owner.lock();
     }else{
         return nullptr;
