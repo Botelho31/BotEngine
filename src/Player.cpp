@@ -321,12 +321,15 @@ void Player::NotifyCollision(GameObject& other){
     Component *component1 = other.GetComponent("HitBox");
     Component *component2 = other.GetComponent("Minion");
     if(component1){
-        // physics->KnockBack(other.box,&speed,Vec2(400,400));
+        HitBox *hitbox = dynamic_cast<HitBox*>(component1);
+        if(hitbox->GetOwner()){
+            physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
+        }
     }
     else if(component2){
         Component *collidercomponent = other.GetComponent("Collider");
         Collider *collider = dynamic_cast<Collider*>(collidercomponent);
-        // physics->KnockBack(collider->box,&speed,Vec2(400,400));
+        physics->KnockBack(collider->box,&speed,Vec2(400,400));
     }
 }
 

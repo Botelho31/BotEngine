@@ -18,6 +18,7 @@
             void NotifyCollision(GameObject& other);
             
             Collider* GetCollider();
+            std::shared_ptr<GameObject> GetOwner();
             Vec2 GetKnockBack();
             float GetDamageCooldown();
             int GetDamage();

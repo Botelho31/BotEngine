@@ -61,6 +61,14 @@ Collider* HitBox::GetCollider(){
     }
 }
 
+std::shared_ptr<GameObject> HitBox::GetOwner(){
+    if(owner.lock()){
+        return owner.lock();
+    }else{
+        return nullptr;
+    }
+}
+
 Vec2 HitBox::GetKnockBack(){
     return this->knockback;
 }
