@@ -238,10 +238,8 @@ void Minion::NotifyCollision(GameObject& other){
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
-                std::cout << "oi" << std::endl;
                 physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
                 damageCooldown = hitbox->GetDamageCooldown();
-                std::cout << damageCooldown << std::endl;
                 invincibilitytimer->Update(0);
             }
         }

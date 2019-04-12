@@ -20,6 +20,7 @@ void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
 void HitBox::Update(float dt){
     if(secondsToSelfDestruct > 0){
         selfDestruct->Update(dt);
+        damageCooldown -= dt;
         if(selfDestruct->Get() >= secondsToSelfDestruct){
             associated.RequestDelete();
         }

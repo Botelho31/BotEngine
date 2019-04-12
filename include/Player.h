@@ -43,6 +43,7 @@
 
             float swordarc;
             float asword;
+            Timer *swordattack;
 
             int hp;
             Sprite *playersprite;
