@@ -134,13 +134,13 @@ bool Physics::CanMove(Vec2 vector){
     }
 }
 
-void Physics::KnockBack(Rect hitbox,Vec2 *speed,float aknockbackX,float aknockbackY){
+void Physics::KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback){
     Component *component = associated->GetComponent("Collider");
     Collider *collider = dynamic_cast<Collider*>(component);
     if(collider->box.x < hitbox.x){
-        speed->x = -aknockbackX;
+        speed->x = -knockback.x;
     }else{
-        speed->x = aknockbackX;
+        speed->x = knockback.x;
     }
-    speed->y = -aknockbackY;
+    speed->y = -knockback.y;
 }
