@@ -16,6 +16,7 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+            
             Vec2 GetPosition(); //Returns vector with center position of player
             Vec2 GetSpeed(); //Returns speed on the two vectors
             void XMovement(float dt);   //Performs X Movement

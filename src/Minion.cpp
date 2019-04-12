@@ -13,7 +13,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     gravspeed = 2000;
     hittheground = new Timer();
 
-    hp = 150;
+    hp = 50;
 
     idletimer = new Timer();
     idle = false;
@@ -113,9 +113,9 @@ void Minion::Update(float dt){
         if(!attacktimer->Started()){
             Rect hitbox;
             if(player.x < GetPosition().x){
-                hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,100,100);
+                hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
             }else{
-                hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,100,100);
+                hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
             }
             GameObject *hitboxObj = new GameObject();
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);

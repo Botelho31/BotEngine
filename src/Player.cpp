@@ -318,9 +318,17 @@ bool Player::Is(std::string type){
 }
 
 void Player::NotifyCollision(GameObject& other){
-    Component *minioncomponent = other.GetComponent("Minion");
-    if(minioncomponent){
-        Minion *minion = dynamic_cast<Minion*>(minioncomponent);
+    Component *component1 = other.GetComponent("Minion");
+    Component *component2 = other.GetComponent("HitBox");
+    if(component2){
+        Component *collidercomponent = other.GetComponent("Collider");
+        Collider *collider = dynamic_cast<Collider*>(collidercomponent);
+        physics->KnockBack(collider->box,&speed,400,400);
+    }
+    else if(component1){
+        Component *collidercomponent = other.GetComponent("Collider");
+        Collider *collider = dynamic_cast<Collider*>(collidercomponent);
+        physics->KnockBack(collider->box,&speed,400,400);
     }
 }
 
