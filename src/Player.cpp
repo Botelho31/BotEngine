@@ -95,7 +95,7 @@ void Player::Update(float dt){
         Rect hitbox = Rect(vector.x - 20,vector.y - 50,40,100);
         GameObject *swordObj = new GameObject();
         std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-        HitBox *swordhitbox = new HitBox(*swordObj,owner,hitbox,0,0,true,true,0.3,75);
+        HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,75,0.3,0,0.3,false,true);
         swordhitbox->SetFunction(SwordHitbox);
         swordObj->AddComponent(swordhitbox);
         Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -318,17 +318,15 @@ bool Player::Is(std::string type){
 }
 
 void Player::NotifyCollision(GameObject& other){
-    Component *component1 = other.GetComponent("Minion");
-    Component *component2 = other.GetComponent("HitBox");
-    if(component2){
-        Component *collidercomponent = other.GetComponent("Collider");
-        Collider *collider = dynamic_cast<Collider*>(collidercomponent);
-        physics->KnockBack(collider->box,&speed,400,400);
+    Component *component1 = other.GetComponent("HitBox");
+    Component *component2 = other.GetComponent("Minion");
+    if(component1){
+        // physics->KnockBack(other.box,&speed,Vec2(400,400));
     }
-    else if(component1){
+    else if(component2){
         Component *collidercomponent = other.GetComponent("Collider");
         Collider *collider = dynamic_cast<Collider*>(collidercomponent);
-        physics->KnockBack(collider->box,&speed,400,400);
+        // physics->KnockBack(collider->box,&speed,Vec2(400,400));
     }
 }
 

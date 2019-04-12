@@ -1,15 +1,15 @@
 #include "../include/HitBox.h"
 
-HitBox::HitBox(GameObject& associated,std::weak_ptr<GameObject> owner,Rect hitbox,int damage,float damageCooldown,bool HitPlayer,bool HitEnemy,float secondsToSelfDestruct,double angledeg) : 
-    Component(associated),HitPlayer(HitPlayer),HitEnemy(HitEnemy),Move(NULL),owner(owner){
-        associated.box = hitbox;
-        associated.angleDeg = angledeg;
-        this->damage = damage;
-        this->damageCooldown = damageCooldown;
-        this->selfDestruct = new Timer();
-        this->secondsToSelfDestruct = secondsToSelfDestruct;
-        Collider *collider = new Collider(associated);
-        associated.AddComponent(collider);
+
+HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,float secondsToSelfDestruct,int damage,float damageCooldownbool,bool hitPlayer,bool hitEnemy) : 
+    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner){
+    associated.box = hitbox;
+    associated.angleDeg = angledeg;
+    SetHit(hitPlayer,hitEnemy);
+    SetDamageValues(damage,damageCooldown,Vec2(0,0));
+    this->selfDestruct = new Timer();
+    Collider *collider = new Collider(associated);
+    associated.AddComponent(collider);
 }
 
 HitBox::~HitBox(){
@@ -41,7 +41,6 @@ void HitBox::Render(){
 }
 
 void HitBox::NotifyCollision(GameObject& other){
-
 }
 
 bool HitBox::Is(std::string type){
@@ -50,5 +49,50 @@ bool HitBox::Is(std::string type){
     }else{
         return false;
     }
+}
+
+Collider* HitBox::GetCollider(){
+    Component *component = associated.GetComponent("Collider");
+    if(component){
+        Collider *collider = dynamic_cast<Collider*>(component);
+        return collider;
+    }else{
+        return nullptr;
+    }
+}
+
+Vec2 HitBox::GetKnockBack(){
+    return this->knockback;
+}
+
+bool HitBox::HitPlayer(){
+    return hitPlayer;
+}
+
+bool HitBox::HitEnemy(){
+    return hitEnemy;
+}
+
+float HitBox::GetDamageCooldown(){
+    return damageCooldown;
+}
+
+int HitBox::GetDamage(){
+    return damage;
+}
+
+void HitBox::SetSelfDestruct(float secondsToSelfDestruct){
+    this->secondsToSelfDestruct = secondsToSelfDestruct;
+}
+
+void HitBox::SetDamageValues(int damage,float damageCooldown,Vec2 knockback){
+    this->damage = damage;
+    this->damageCooldown = damageCooldown;
+    this->knockback = knockback;
+}
+
+void HitBox::SetHit(bool HitPlayer,bool HitEnemy){
+    this->hitPlayer = HitPlayer;
+    this->hitEnemy = HitEnemy;
 }
 

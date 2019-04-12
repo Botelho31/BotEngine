@@ -118,8 +118,9 @@ void Minion::Update(float dt){
                 hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
             }
             GameObject *hitboxObj = new GameObject();
+
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,owner,hitbox,0,1,true,false,1);
+            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,1,0,1,true,false);
             hitboxObj->AddComponent(minionhitbox);
             Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
             attacktimer->Delay(dt);
