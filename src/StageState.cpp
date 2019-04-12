@@ -92,7 +92,7 @@ void StageState::Update(float dt){
             }
         }
     }
-    for(unsigned int i = 0; i < objectArray.size();i++){
+    for(int i = (objectArray.size() - 1); i >= 0;--i){
         if(objectArray[i]->IsDead()){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -115,8 +115,8 @@ void StageState::Update(float dt){
         if(tilemapLoc == -1000){
             std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
             Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
-            tilemap->Load(files[0]);
             ClearMobs();
+            tilemap->Load(files[0]);
             tilemap->LoadInfo(files[1]);
             Player::player->MovePlayer(portalloc.x,portalloc.y);
             changingMap = false;
@@ -138,8 +138,8 @@ void StageState::Render(){
     }
 }
 
-void StageState::ClearMobs(){
-    for(unsigned int i = 0; i < objectArray.size();i++){
+void StageState::ClearMobs(){    
+    for(int i = (objectArray.size() - 1); i >= 0; --i){
         Component *component = objectArray[i]->GetComponent("Minion");
         if(component){
             objectArray.erase(objectArray.begin() + i);

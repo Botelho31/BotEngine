@@ -62,7 +62,7 @@ void State::UpdateArray(float dt){
     for(unsigned int i = 0; i < objectArray.size();i++){
         objectArray[i]->Update(dt);
     }
-    for(unsigned int i = 0; i < objectArray.size();i++){
+    for(int i = (objectArray.size() - 1); i >= 0;--i){
         if(objectArray[i]->IsDead()){
             objectArray.erase(objectArray.begin() + i);
         }

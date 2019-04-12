@@ -119,14 +119,14 @@ void Minion::Update(float dt){
             }
             GameObject *hitboxObj = new GameObject();
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,owner,hitbox,0,0.3,true,false,0.3);
+            HitBox *minionhitbox = new HitBox(*hitboxObj,owner,hitbox,0,1,true,false,1);
             hitboxObj->AddComponent(minionhitbox);
             Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
             attacktimer->Delay(dt);
         }else{
             attacktimer->Update(dt);
         }
-        if(attacktimer->Get() >= 0.3){
+        if(attacktimer->Get() >= 1){
             attacktimer->Restart();
             if((distanceToPlayer >= 100) && (distanceToPlayer < 500)){
                 state = CHASING;

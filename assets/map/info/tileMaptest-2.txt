@@ -6,3 +6,21 @@ Portal
     tilemapfile assets/map/tileMaptest-1.txt
     tilemapinfofile assets/map/info/tileMaptest-1.txt
   ]
+
+Minion
+  [
+    minionX 1400
+    minionY 500
+  ]
+
+Minion
+  [
+    minionX 1400
+    minionY 40
+  ]
+
+Minion
+  [
+    minionX 1000
+    minionY 300
+  ]
