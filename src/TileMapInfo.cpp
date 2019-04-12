@@ -18,7 +18,7 @@ void TileMapInfo::Open(std::string file){
     if (FileReader.is_open()) {
         while (!FileReader.eof()) {
             FileReader >> checkline;    //Checa as palavras do grafo
-            if(checkline == "Portal"){        //se for igual a node entra e espera checar em ID
+            if(checkline == "Portal"){        
                 int ID = 0;
                 Vec2 portalloc;
                 std::string tilemapfile,tilemapinfofile;
@@ -41,8 +41,7 @@ void TileMapInfo::Open(std::string file){
                 portalfiles.insert({ID,tilemapfiles});
 
             }
-            if(checkline == "Minion"){        //se for igual a node entra e espera checar em ID
-                std::cout << "oi" << std::endl;
+            if(checkline == "Minion"){       
                 Vec2 MinionPos;
                 while(checkline != "minionX"){
                     FileReader >> checkline;

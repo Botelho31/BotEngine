@@ -38,7 +38,6 @@ StageState::StageState(){
     GameObject *tilesetObj = new GameObject();
 	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
 	this->tilemap = new TileMap(*tileObj,"assets/map/tileMaptest-1.txt",tileset);
-    this->tilemap->LoadInfo("assets/map/info/tileMaptest-1.txt");
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
@@ -100,8 +99,12 @@ void StageState::Update(float dt){
     }
 
     //TILE MAP EXCHANGE
-    Vec2 PlayerPos = Player::player->GetPosition();
-    int tilemapID = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+    Vec2 PlayerPos = Vec2(0,0);
+    int tilemapID = 0;
+    if(Player::player){
+        PlayerPos = Player::player->GetPosition();
+        tilemapID = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+    }
     if((tilemapID < -1) || (changingMap)){
         if(!changingMap){
             nextMap = tilemapID + 1;
@@ -113,14 +116,9 @@ void StageState::Update(float dt){
             std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
             Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
             tilemap->Load(files[0]);
+            ClearMobs();
             tilemap->LoadInfo(files[1]);
             Player::player->MovePlayer(portalloc.x,portalloc.y);
-            for(unsigned int i = 0; i < objectArray.size();i++){
-                Component *component = objectArray[i]->GetComponent("Minion");
-                if(component){
-                    objectArray.erase(objectArray.begin() + i);
-                }
-            }
             changingMap = false;
         }else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
             changingMap = false;
@@ -140,6 +138,15 @@ void StageState::Render(){
     }
 }
 
+void StageState::ClearMobs(){
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        Component *component = objectArray[i]->GetComponent("Minion");
+        if(component){
+            objectArray.erase(objectArray.begin() + i);
+        }
+    }
+}
+
 bool StageState::QuitRequested(){
     return quitRequested;
 }
@@ -150,6 +157,7 @@ bool StageState::ChangingMap(){
 
 void StageState::Start(){
     StartArray();
+    this->tilemap->LoadInfo("assets/map/info/tileMaptest-1.txt");
 }
 
 void StageState::Pause(){

@@ -110,6 +110,7 @@ void Player::Update(float dt){
     IdleHandle(dt);//IDLE HANDLING
 
     if(hp <= 0){
+        Camera::UnFollow();
         associated.RequestDelete();
     }
 }

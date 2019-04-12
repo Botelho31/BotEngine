@@ -21,6 +21,8 @@
             void Resume();
             void Pause();
 
+            void ClearMobs();
+            
             bool QuitRequested();
             static bool ChangingMap();  //Check if the tilemap is changing
         private:
