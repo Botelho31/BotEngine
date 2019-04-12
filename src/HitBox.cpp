@@ -1,8 +1,8 @@
 #include "../include/HitBox.h"
 
 
-HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,float secondsToSelfDestruct,int damage,float damageCooldown,bool hitPlayer,bool hitEnemy,Vec2 knockback) : 
-    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown),hitPlayer(hitPlayer),hitEnemy(hitEnemy),damage(damage),knockback(knockback){
+HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback) : 
+    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown),hitPlayer(hitPlayer),hitEnemy(hitEnemy),disconnected(disconnected),damage(damage),knockback(knockback){
     associated.box = hitbox;
     associated.angleDeg = angledeg;
     this->selfDestruct = new Timer();
@@ -40,6 +40,9 @@ void HitBox::Render(){
 }
 
 void HitBox::NotifyCollision(GameObject& other){
+    if(!disconnected){
+        
+    }
 }
 
 bool HitBox::Is(std::string type){

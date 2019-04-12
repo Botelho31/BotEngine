@@ -98,10 +98,13 @@ void Player::Update(float dt){
             Rect hitbox = Rect(vector.x - 20,vector.y - 50,40,100);
             GameObject *swordObj = new GameObject();
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,75,0.3,0,0.3,false,true,{400,400});
+            HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,75,0,0.3,0.3,true,false,true,{400,400});
             swordhitbox->SetFunction(SwordHitbox);
             swordObj->AddComponent(swordhitbox);
             Game::GetInstance().GetCurrentState().AddObject(swordObj);
+            if(physics->distground > 0){
+                speed.y = -200;
+            }
             idle = false;
             idletimer->Restart();
             swordattack->Delay(dt);

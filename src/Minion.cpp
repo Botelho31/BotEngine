@@ -123,7 +123,7 @@ void Minion::Update(float dt){
             GameObject *hitboxObj = new GameObject();
 
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,1,0,1,true,false,{400,400});
+            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,0,1,1,false,true,false,{400,400});
 
             hitboxObj->AddComponent(minionhitbox);
             Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
