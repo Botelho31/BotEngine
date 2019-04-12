@@ -29,6 +29,7 @@ Player::Player(GameObject& associated) : Component(associated){
     asword = (PI*2);
 
     hp = 150;
+    invincibilitytimer = new Timer();
     player = this;
 
     idletimer = new Timer();
@@ -53,7 +54,7 @@ Player::~Player(){
     delete jumpsquat;
     delete hittheground;
     delete physics;
-
+    delete invincibilitytimer;
 }
 
 void Player::Start(){
@@ -109,6 +110,12 @@ void Player::Update(float dt){
     YMovement(dt); //Y MOVEMENT
     IdleHandle(dt);//IDLE HANDLING
 
+    if(invincibilitytimer->Started()){
+        invincibilitytimer->Update(dt);
+        if(invincibilitytimer->Get() >= 2){
+            invincibilitytimer->Restart();
+        }
+    }
     if(hp <= 0){
         Camera::UnFollow();
         associated.RequestDelete();
@@ -318,18 +325,24 @@ bool Player::Is(std::string type){
 }
 
 void Player::NotifyCollision(GameObject& other){
-    Component *component1 = other.GetComponent("HitBox");
-    Component *component2 = other.GetComponent("Minion");
-    if(component1){
-        HitBox *hitbox = dynamic_cast<HitBox*>(component1);
-        if(hitbox->GetOwner()){
-            physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
+    if(invincibilitytimer->Started()){
+
+    }else{
+        Component *component1 = other.GetComponent("HitBox");
+        Component *component2 = other.GetComponent("Minion");
+        if(component1){
+            HitBox *hitbox = dynamic_cast<HitBox*>(component1);
+            if(hitbox->GetOwner()){
+                physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
+                invincibilitytimer->Delay(0);
+            }
         }
-    }
-    else if(component2){
-        Component *collidercomponent = other.GetComponent("Collider");
-        Collider *collider = dynamic_cast<Collider*>(collidercomponent);
-        physics->KnockBack(collider->box,&speed,Vec2(400,400));
+        else if(component2){
+            Component *collidercomponent = other.GetComponent("Collider");
+            Collider *collider = dynamic_cast<Collider*>(collidercomponent);
+            physics->KnockBack(collider->box,&speed,Vec2(400,400));
+            invincibilitytimer->Delay(0);
+        }
     }
 }
 

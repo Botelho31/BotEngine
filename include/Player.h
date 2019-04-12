@@ -50,6 +50,7 @@
             Timer *jumpsquat;
             Timer *hittheground;
             Timer *jumpanimation;
+            Timer *invincibilitytimer;
             bool falling;
             bool idle;
 
