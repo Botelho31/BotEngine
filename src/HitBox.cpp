@@ -1,12 +1,12 @@
 #include "../include/HitBox.h"
 
 
-HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,float secondsToSelfDestruct,int damage,float damageCooldownbool,bool hitPlayer,bool hitEnemy) : 
+HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,float secondsToSelfDestruct,int damage,float damageCooldownbool,bool hitPlayer,bool hitEnemy,Vec2 knockback) : 
     Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner){
     associated.box = hitbox;
     associated.angleDeg = angledeg;
     SetHit(hitPlayer,hitEnemy);
-    SetDamageValues(damage,damageCooldown,Vec2(0,0));
+    SetDamageValues(damage,damageCooldown,knockback);
     this->selfDestruct = new Timer();
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
