@@ -51,15 +51,6 @@ StageState::StageState(){
     playerObj->AddComponent(player);
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
-
-    GameObject *minionObj = new GameObject();
-    Minion *minion = new Minion(*minionObj);
-    minionObj->box.x = 1000;
-    minionObj->box.y = 300;
-    minionObj->AddComponent(minion);
-    objectArray.emplace_back(minionObj);
-
-
 }
 
 StageState::~StageState(){
@@ -109,7 +100,6 @@ void StageState::Update(float dt){
     }
 
     //TILE MAP EXCHANGE
-    // std::cout << Player::player->GetPosition().x << Player::player->GetPosition().y << std::endl;
     Vec2 PlayerPos = Player::player->GetPosition();
     int tilemapID = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
     if((tilemapID < -1) || (changingMap)){
@@ -125,6 +115,12 @@ void StageState::Update(float dt){
             tilemap->Load(files[0]);
             tilemap->LoadInfo(files[1]);
             Player::player->MovePlayer(portalloc.x,portalloc.y);
+            for(unsigned int i = 0; i < objectArray.size();i++){
+                Component *component = objectArray[i]->GetComponent("Minion");
+                if(component){
+                    objectArray.erase(objectArray.begin() + i);
+                }
+            }
             changingMap = false;
         }else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
             changingMap = false;

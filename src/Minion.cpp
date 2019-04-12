@@ -1,6 +1,7 @@
 #include "../include/Minion.h"
 #include "../include/Collider.h"
 #include "../include/Player.h"
+#include "../include/HitBox.h"
 
 Minion::Minion(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -19,6 +20,8 @@ Minion::Minion(GameObject& associated) : Component(associated){
 
     state = IDLE;
     this->physics = new Physics(&associated);
+
+    this->attacktimer = new Timer();
 
     Sprite *minion =  new Sprite(associated,"assets/img/miniontest.png");
     this->minionsprite = minion;
@@ -44,11 +47,90 @@ void Minion::Update(float dt){
     Collider *collider = dynamic_cast<Collider*>(component);
     physics->Update(collider->box);
     physics->CorrectDistance();
-    std::cout << physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500) << std::endl;
+    float distanceToPlayer = physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500);
+    Vec2 player = Player::player->GetPosition();
     XMovement(dt);
     YMovement(dt);
-    IdleHandle(dt);
-
+    if(state == IDLE){
+        if(distanceToPlayer < 500){
+            state = CHASING;
+        }
+        IdleHandle(dt);
+        if(speed.x > 0){
+            if((speed.x - despeed * dt) < 0){
+                speed.x = 0;
+            }else{
+                speed.x -= despeed * dt;
+            }
+        }else{
+            if((speed.x + despeed * dt) > 0){
+                speed.x = 0;
+            }else{
+                speed.x += despeed * dt;
+            }
+        }
+    }
+    if(state == CHASING){
+        if(distanceToPlayer >= 500){
+            state = IDLE;
+        }else if(distanceToPlayer <= 100){
+            state = ATTACKING;
+        }
+        if(player.x < GetPosition().x){
+            if(!minionsprite->IsFlipped()){
+                minionsprite->Flip();
+            }
+            if(speed.x <= 0){
+                if(abs(speed.x - aspeed*dt) > maxspeed){
+                    speed.x = -maxspeed;
+                }else{
+                    speed.x -= aspeed * dt;
+                }
+            }else{
+                speed.x -= aspeed *dt + despeed *dt;
+            }
+        }else{
+            if(minionsprite->IsFlipped()){
+                minionsprite->Flip();
+            }
+            if(speed.x >= 0){
+                if((speed.x + aspeed*dt) > maxspeed){
+                    speed.x = maxspeed;
+                }else{
+                    speed.x += aspeed * dt;
+                }
+            }else{
+                speed.x += aspeed * dt + despeed * dt; 
+            }
+        }
+    }
+    if(state == ATTACKING){
+        speed.x = 0;
+        if(!attacktimer->Started()){
+            Rect hitbox;
+            if(player.x < GetPosition().x){
+                hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,100,100);
+            }else{
+                hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,100,100);
+            }
+            GameObject *hitboxObj = new GameObject();
+            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+            HitBox *minionhitbox = new HitBox(*hitboxObj,owner,hitbox,0,0.3,true,false,0.3);
+            hitboxObj->AddComponent(minionhitbox);
+            Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
+            attacktimer->Delay(dt);
+        }else{
+            attacktimer->Update(dt);
+        }
+        if(attacktimer->Get() >= 0.3){
+            attacktimer->Restart();
+            if((distanceToPlayer >= 100) && (distanceToPlayer < 500)){
+                state = CHASING;
+            }else if(distanceToPlayer >= 500){
+                state = IDLE;
+            }
+        }
+    }
     if(hp <= 0){
         associated.RequestDelete();
     }

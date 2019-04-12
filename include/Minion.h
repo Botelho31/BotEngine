@@ -24,7 +24,7 @@
 
             Vec2 GetPosition();
         private:
-            enum minionState{IDLE,MOVING,ATTACKING};
+            enum minionState{IDLE,CHASING,ATTACKING};
             minionState state;
 
             int hp;
@@ -39,8 +39,10 @@
             Sprite *minionsprite;
             Timer *idletimer;
             Timer *hittheground;
+            Timer *attacktimer;
             bool falling;
             bool idle;
+
 
             Physics *physics;
     };

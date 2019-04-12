@@ -1,4 +1,5 @@
 #include "../include/TileMapInfo.h"
+#include "../include/Minion.h"
 
 TileMapInfo::TileMapInfo(std::string file){
     portalfiles.clear();
@@ -39,6 +40,22 @@ void TileMapInfo::Open(std::string file){
                 tilemapfiles.push_back(tilemapinfofile);
                 portalfiles.insert({ID,tilemapfiles});
 
+            }
+            if(checkline == "Minion"){        //se for igual a node entra e espera checar em ID
+                std::cout << "oi" << std::endl;
+                Vec2 MinionPos;
+                while(checkline != "minionX"){
+                    FileReader >> checkline;
+                } 
+                FileReader >> MinionPos.x;
+                FileReader >> checkline;
+                FileReader >> MinionPos.y;
+                GameObject *minionObj = new GameObject();
+                Minion *minion = new Minion(*minionObj);
+                minionObj->box.x = MinionPos.x;
+                minionObj->box.y = MinionPos.y;
+                minionObj->AddComponent(minion);
+                Game::GetInstance().GetCurrentState().AddObject(minionObj);
             }
         }
     }else{

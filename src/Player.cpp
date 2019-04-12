@@ -7,6 +7,7 @@
 #include "../include/StageState.h"
 #include "../include/Vec2.h"
 #include "../include/HitBox.h"
+#include "../include/Minion.h"
 
 Player *Player::player;
 
@@ -242,7 +243,7 @@ void Player::YMovement(float dt){
 
     //Handles when it is falling
     if((physics->distground > 0) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
-        SetSprite("assets/img/belfreefallingtest.png",4,0.04,false);
+        SetSprite("assets/img/belfreefallingtest.png",4,0.04);
         SetCollider(0.261,0.8);
         falling = true;
     }
@@ -316,6 +317,10 @@ bool Player::Is(std::string type){
 }
 
 void Player::NotifyCollision(GameObject& other){
+    Component *minioncomponent = other.GetComponent("Minion");
+    if(minioncomponent){
+        Minion *minion = dynamic_cast<Minion*>(minioncomponent);
+    }
 }
 
 Vec2 Player::GetPosition(){
