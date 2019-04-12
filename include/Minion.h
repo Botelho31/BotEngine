@@ -40,6 +40,8 @@
             Timer *idletimer;
             Timer *hittheground;
             Timer *attacktimer;
+            Timer *invincibilitytimer;
+            float damageCooldown;
             bool falling;
             bool idle;
 

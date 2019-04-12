@@ -14,6 +14,8 @@ Minion::Minion(GameObject& associated) : Component(associated){
     hittheground = new Timer();
 
     hp = 50;
+    damageCooldown = 0;
+    invincibilitytimer =  new Timer();
 
     idletimer = new Timer();
     idle = false;
@@ -36,6 +38,7 @@ Minion::~Minion(){
     minionsprite = nullptr;
     delete idletimer;
     delete hittheground;
+    delete invincibilitytimer;
 }
 
 void Minion::Start(){
@@ -121,7 +124,7 @@ void Minion::Update(float dt){
 
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
             HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,1,0,1,true,false,{400,400});
-            
+
             hitboxObj->AddComponent(minionhitbox);
             Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
             attacktimer->Delay(dt);
@@ -135,6 +138,13 @@ void Minion::Update(float dt){
             }else if(distanceToPlayer >= 500){
                 state = IDLE;
             }
+        }
+    }
+    if(invincibilitytimer->Started()){
+        invincibilitytimer->Update(dt);
+        if(invincibilitytimer->Get() >= damageCooldown){
+            invincibilitytimer->Restart();
+            damageCooldown = 0;
         }
     }
     if(hp <= 0){
@@ -222,7 +232,19 @@ bool Minion::Is(std::string type){
 }
 
 void Minion::NotifyCollision(GameObject& other){
+     if(invincibilitytimer->Started()){
 
+    }else{
+        Component *component1 = other.GetComponent("HitBox");
+        if(component1){
+            HitBox *hitbox = dynamic_cast<HitBox*>(component1);
+            if(hitbox->GetOwner() && hitbox->HitEnemy()){
+                physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
+                this->damageCooldown = hitbox->GetDamageCooldown();
+                invincibilitytimer->Delay(0);
+            }
+        }
+    }
 }
 
 Vec2 Minion::GetPosition(){

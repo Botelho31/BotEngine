@@ -332,7 +332,7 @@ void Player::NotifyCollision(GameObject& other){
         Component *component2 = other.GetComponent("Minion");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
-            if(hitbox->GetOwner()){
+            if(hitbox->GetOwner() && hitbox->HitPlayer()){
                 physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
                 invincibilitytimer->Delay(0);
             }
