@@ -57,7 +57,7 @@ void Minion::Update(float dt){
         distanceToPlayer = physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500);
         player = Player::player->GetPosition();
     }
-    
+
     XMovement(dt);
     YMovement(dt);
     if(state == IDLE){
@@ -65,19 +65,7 @@ void Minion::Update(float dt){
             state = CHASING;
         }
         IdleHandle(dt);
-        if(speed.x > 0){
-            if((speed.x - despeed * dt) < 0){
-                speed.x = 0;
-            }else{
-                speed.x -= despeed * dt;
-            }
-        }else{
-            if((speed.x + despeed * dt) > 0){
-                speed.x = 0;
-            }else{
-                speed.x += despeed * dt;
-            }
-        }
+        physics->PerformXDeceleration(&speed,despeed,dt);
     }
     if(state == CHASING){
         if(distanceToPlayer >= 500){
@@ -171,7 +159,7 @@ void Minion::XMovement(float dt){
 void Minion::YMovement(float dt){
     physics->PerformYMovement(&speed,dt);//Performs movement if it is allowed
     //GRAVITY
-    if(physics->distground > 0){
+    if(!physics->IsGrounded()){
         if(idle == true){
             idletimer->Restart();
             idle = false;

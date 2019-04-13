@@ -19,6 +19,8 @@
             bool CanMove(Vec2 vector);    //Checks it vector can move
 
             bool IsGrounded();
+
+            void PerformXDeceleration(Vec2 *speed,float despeed,float dt);
             void PerformXMovement(Vec2 *speed,float dt);
             void PerformYMovement(Vec2 *speed,float dt);
             void KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback); //Applies knockback to rect

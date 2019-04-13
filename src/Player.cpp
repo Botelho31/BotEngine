@@ -105,7 +105,7 @@ void Player::Update(float dt){
             swordhitbox->SetFunction(SwordHitbox);
             swordObj->AddComponent(swordhitbox);
             Game::GetInstance().GetCurrentState().AddObject(swordObj);
-            if(physics->distground > 0){
+            if(!physics->IsGrounded()){
                 speed.y = -200;
             }
             idle = false;
@@ -145,7 +145,7 @@ void Player::Update(float dt){
 void Player::XMovement(float dt){
     //Handles input and acceleration
     if(input->IsKeyDown(SDLK_d) == true){
-        if((idle == true) && (physics->distground == 0)){
+        if((idle == true) && (physics->IsGrounded())){
             SetSprite("assets/img/beltest2.png");
             SetCollider(0.6,1);
             idle = false;
@@ -165,7 +165,7 @@ void Player::XMovement(float dt){
         }
     }
     if(input->IsKeyDown(SDLK_a) == true){
-        if((idle == true) && (physics->distground == 0)){
+        if((idle == true) && (physics->IsGrounded())){
             SetSprite("assets/img/beltest2.png");
             SetCollider(0.6,1);
             idle = false;
@@ -185,20 +185,8 @@ void Player::XMovement(float dt){
         }
     }
 
-    if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->distground == 0)){
-        if(speed.x > 0){
-            if((speed.x - despeed * dt) < 0){
-                speed.x = 0;
-            }else{
-                speed.x -= despeed * dt;
-            }
-        }else{
-            if((speed.x + despeed * dt) > 0){
-                speed.x = 0;
-            }else{
-                speed.x += despeed * dt;
-            }
-        }
+    if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
+        physics->PerformXDeceleration(&speed,despeed,dt);
     }
 
     physics->PerformXMovement(&speed,dt);//Perfoms Movement if Allowed
@@ -206,7 +194,7 @@ void Player::XMovement(float dt){
 void Player::YMovement(float dt){
 
     //Handles when it hits the ground
-    if((physics->distground <= 0) && (speed.y > 0)){
+    if((physics->IsGrounded()) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
         SetSprite("assets/img/belhitthegroundtest3.png",4,0.08,false);
@@ -225,7 +213,7 @@ void Player::YMovement(float dt){
 
     //Handles Jump input and acceleration
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
-        if(physics->distground <= 0){
+        if(physics->IsGrounded()){
             if(idle == true){
                 idletimer->Restart();
                 idle = false;
@@ -258,7 +246,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((physics->distground > 0) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
+    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
         SetSprite("assets/img/belfreefallingtest.png",4,0.04);
         SetCollider(0.261,0.8);
         falling = true;
@@ -267,7 +255,7 @@ void Player::YMovement(float dt){
     physics->PerformYMovement(&speed,dt); //Performs movement if it is allowed
 
     //GRAVITY
-    if((physics->distground > 0) && (jumpsquat->Get() == 0)){
+    if((!physics->IsGrounded()) && (jumpsquat->Get() == 0)){
         if(idle == true){
             idletimer->Restart();
             idle = false;

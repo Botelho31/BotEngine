@@ -145,6 +145,22 @@ bool Physics::IsGrounded(){
     }
 }
 
+void Physics::PerformXDeceleration(Vec2 *speed,float despeed,float dt){
+    if(speed->x > 0){
+        if((speed->x - despeed * dt) < 0){
+            speed->x = 0;
+        }else{
+            speed->x -= despeed * dt;
+        }
+    }else{
+        if((speed->x + despeed * dt) > 0){
+            speed->x = 0;
+        }else{
+            speed->x += despeed * dt;
+        }
+    }
+}
+
 void Physics::PerformXMovement(Vec2 *speed,float dt){
     if((distright - (speed->x * dt)) < 0){
         associated->box.x += distright;
