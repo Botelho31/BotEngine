@@ -8,6 +8,7 @@
     #include "State.h"
     #include "TileSet.h"
     #include "TileMap.h"
+    #include "Text.h"
 
     class StageState : public State{
         public:
@@ -22,6 +23,7 @@
             void Pause();
 
             void ClearMobs();
+            void UpdateHP();
             
             bool QuitRequested();
             static bool ChangingMap();  //Check if the tilemap is changing
@@ -30,6 +32,7 @@
             Music *backgroundMusic;
             static bool changingMap;
             int nextMap;    //Keeps the value of the portal that references the new map
+            Text *playerhp;
     };
 
 #endif

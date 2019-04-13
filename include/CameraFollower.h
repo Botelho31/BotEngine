@@ -13,6 +13,8 @@
             void Update(float dt);
             void Render();
             bool Is(std::string type);
+        private:
+            Vec2 originalpos;
     };
 
 #endif

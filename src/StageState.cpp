@@ -51,6 +51,17 @@ StageState::StageState(){
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
 
+    GameObject *playerhpObj = new GameObject();
+    std::stringstream playerLife;
+    playerLife << player->GetLife();
+    this->playerhp = new Text(*playerhpObj,"assets/font/Callmemaybe.ttf",100,Text::BLENDED,playerLife.str(),{0,0,0});
+    CameraFollower *camerafollower2 = new CameraFollower(*playerhpObj);
+    playerhpObj->AddComponent(camerafollower2);
+    playerhpObj->AddComponent(playerhp);
+    playerhpObj->box.x = 0;
+    playerhpObj->box.y = 0;
+    objectArray.emplace_back(playerhpObj);
+
     GameData::playerAlive = true;
     GameData::checkpointMap = "assets/map/tileMaptest-1.txt";
     GameData::checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
@@ -58,6 +69,7 @@ StageState::StageState(){
 }
 
 StageState::~StageState(){
+    playerhp = nullptr;
     if(backgroundMusic){
         delete backgroundMusic;
     }
@@ -102,8 +114,7 @@ void StageState::Update(float dt){
             objectArray.erase(objectArray.begin() + i);
         }
     }
-
-    std::cout << Player::player->GetLife() << std::endl;
+    UpdateHP();
     
     //TILE MAP EXCHANGE
     Vec2 PlayerPos = Vec2(0,0);
@@ -170,6 +181,12 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
     }
+}
+
+void StageState::UpdateHP(){
+    std::stringstream playerhptext;
+    playerhptext << Player::player->GetLife();
+    this->playerhp->SetText(playerhptext.str());
 }
 
 bool StageState::QuitRequested(){
