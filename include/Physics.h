@@ -17,6 +17,10 @@
             bool CanMove(Vec2 vector1,Vec2 vector2);    //Checks it the side of a rect can move
             int DistanceTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets the from one vector to another throught the tilemap
             bool CanMove(Vec2 vector);    //Checks it vector can move
+
+            bool IsGrounded();
+            void PerformXMovement(Vec2 *speed,float dt);
+            void PerformYMovement(Vec2 *speed,float dt);
             void KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback); //Applies knockback to rect
             int distground,distceiling,distright,distleft;
         private:

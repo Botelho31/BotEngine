@@ -137,6 +137,43 @@ bool Physics::CanMove(Vec2 vector){
     }
 }
 
+bool Physics::IsGrounded(){
+    if(distground <= 0){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void Physics::PerformXMovement(Vec2 *speed,float dt){
+    if((distright - (speed->x * dt)) < 0){
+        associated->box.x += distright;
+        speed->x = 0;
+    }else if((distleft + (speed->x * dt)) < 0){
+        associated->box.x -= distleft;
+        speed->x = 0;
+    }else if((distright < 0) && (speed->x > 0)){
+        speed->x = 0;
+    }else if((distleft < 0) && (speed->x < 0)){
+        speed->x = 0;
+    }else{
+        associated->box.x += speed->x * dt;
+    }
+}
+
+void Physics::PerformYMovement(Vec2 *speed,float dt){
+    if(((distground - (speed->y * dt)) < 0) && (speed->y > 0)){
+        associated->box.y += distground;
+    }
+    else if((distceiling + (speed->y * dt) < 0) && (speed->y < 0)){
+        associated->box.y -= distceiling;
+        speed->y = 0;
+    } 
+    else{
+        associated->box.y += speed->y * dt;
+    }
+}
+
 void Physics::KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback){
     Component *component = associated->GetComponent("Collider");
     Collider *collider = dynamic_cast<Collider*>(component);

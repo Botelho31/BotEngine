@@ -149,6 +149,7 @@ void Player::XMovement(float dt){
             SetSprite("assets/img/beltest2.png");
             SetCollider(0.6,1);
             idle = false;
+            idletimer->Restart();
         }
         if(playersprite->IsFlipped()){
             playersprite->Flip();
@@ -168,6 +169,7 @@ void Player::XMovement(float dt){
             SetSprite("assets/img/beltest2.png");
             SetCollider(0.6,1);
             idle = false;
+            idletimer->Restart();
         }
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
@@ -199,21 +201,7 @@ void Player::XMovement(float dt){
         }
     }
 
-    //Perfoms Movement if Allowed
-    if((physics->distright - (speed.x * dt)) < 0){
-        associated.box.x += physics->distright;
-        speed.x = 0;
-    }else if((physics->distleft + (speed.x * dt)) < 0){
-        associated.box.x -= physics->distleft;
-        speed.x = 0;
-    }else if((physics->distright < 0) && (speed.x > 0)){
-        speed.x = 0;
-    }else if((physics->distleft < 0) && (speed.x < 0)){
-        speed.x = 0;
-    }else{
-        associated.box.x += speed.x * dt;
-    }
-    
+    physics->PerformXMovement(&speed,dt);//Perfoms Movement if Allowed
 }
 void Player::YMovement(float dt){
 
@@ -276,17 +264,7 @@ void Player::YMovement(float dt){
         falling = true;
     }
     
-    //Performs movement if it is allowed
-    if(((physics->distground - (speed.y * dt)) < 0) && (speed.y > 0)){
-        associated.box.y += physics->distground;
-    }
-    else if((physics->distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
-        associated.box.y -= physics->distceiling;
-        speed.y = 0;
-    } 
-    else{
-        associated.box.y += speed.y * dt;
-    }
+    physics->PerformYMovement(&speed,dt); //Performs movement if it is allowed
 
     //GRAVITY
     if((physics->distground > 0) && (jumpsquat->Get() == 0)){
@@ -355,9 +333,7 @@ bool Player::Is(std::string type){
 }
 
 void Player::NotifyCollision(GameObject& other){
-    if(invincibilitytimer->Started()){
-
-    }else{
+    if(!invincibilitytimer->Started()){
         Component *component1 = other.GetComponent("HitBox");
         Component *component2 = other.GetComponent("Minion");
         if(component1){

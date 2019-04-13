@@ -57,6 +57,7 @@ void Minion::Update(float dt){
         distanceToPlayer = physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500);
         player = Player::player->GetPosition();
     }
+    
     XMovement(dt);
     YMovement(dt);
     if(state == IDLE){
@@ -165,35 +166,10 @@ void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
 }
 
 void Minion::XMovement(float dt){
-    //Perfoms Movement if Allowed
-    if((physics->distright - (speed.x * dt)) < 0){
-        associated.box.x += physics->distright;
-        speed.x = 0;
-    }else if((physics->distleft + (speed.x * dt)) < 0){
-        associated.box.x -= physics->distleft;
-        speed.x = 0;
-    }else if((physics->distright < 0) && (speed.x > 0)){
-        speed.x = 0;
-    }else if((physics->distleft < 0) && (speed.x < 0)){
-        speed.x = 0;
-    }else{
-        associated.box.x += speed.x * dt;
-    }
+    physics->PerformXMovement(&speed,dt);//Perfoms Movement if Allowed
 }
 void Minion::YMovement(float dt){
-
-
-    //Performs movement if it is allowed
-    if(((physics->distground - (speed.y * dt)) < 0) && (speed.y > 0)){
-        associated.box.y += physics->distground;
-    }
-    else if((physics->distceiling + (speed.y * dt) < 0) && (speed.y < 0)){
-        associated.box.y -= physics->distceiling;
-        speed.y = 0;
-    } 
-    else{
-        associated.box.y += speed.y * dt;
-    }
+    physics->PerformYMovement(&speed,dt);//Performs movement if it is allowed
     //GRAVITY
     if(physics->distground > 0){
         if(idle == true){
