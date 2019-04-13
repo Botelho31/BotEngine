@@ -25,6 +25,7 @@ Player::Player(GameObject& associated) : Component(associated){
     jumpsquat = new Timer();
     hittheground = new Timer();
     jumpanimation =  new Timer();
+    falling = false;
 
     swordarc = -1;
     asword = (PI*2);
@@ -55,9 +56,10 @@ Player::~Player(){
     delete idletimer;
     delete jumpsquat;
     delete hittheground;
-    delete physics;
     delete invincibilitytimer;
     delete swordattack;
+    delete jumpanimation;
+    delete physics;
 }
 
 void Player::Start(){

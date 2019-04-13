@@ -12,6 +12,7 @@ HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owne
 
 HitBox::~HitBox(){
     component = nullptr;
+    delete selfDestruct;
 }
 
 void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){

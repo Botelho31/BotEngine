@@ -34,11 +34,12 @@ Minion::Minion(GameObject& associated) : Component(associated){
 }
 
 Minion::~Minion(){
-    physics = nullptr;
     minionsprite = nullptr;
     delete idletimer;
     delete hittheground;
     delete invincibilitytimer;
+    delete physics;
+    delete attacktimer;
 }
 
 void Minion::Start(){

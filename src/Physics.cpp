@@ -27,6 +27,9 @@ void Physics::Update(Rect collider){
 }
 
 void Physics::CorrectDistance(){
+    // if((distground == -150) && (distceiling == -150) && (distright == -150) && (distleft == -150)){
+
+    // }
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
