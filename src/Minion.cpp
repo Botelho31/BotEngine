@@ -81,7 +81,7 @@ void Minion::Update(float dt){
     if(state == CHASING){
         if(distanceToPlayer >= 500){
             state = IDLE;
-        }else if(distanceToPlayer <= 100){
+        }else if(distanceToPlayer <= 150){
             state = ATTACKING;
         }
         if(player.x < GetPosition().x){

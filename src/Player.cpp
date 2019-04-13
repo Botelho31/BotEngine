@@ -336,6 +336,8 @@ void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
 }
 
 void Player::MovePlayer(float x,float y){
+    speed.y = 0;
+    speed.x = 0;
     associated.box.x = x - associated.box.w/2;
     associated.box.y = y - associated.box.h/2;
 }
