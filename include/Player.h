@@ -19,6 +19,7 @@
             
             Vec2 GetPosition(); //Returns vector with center position of player
             Vec2 GetSpeed(); //Returns speed on the two vectors
+            int GetLife(); // Returns current hp
             void XMovement(float dt);   //Performs X Movement
             void YMovement(float dt);   //Performs Y Movement
             void IdleHandle(float dt); //Handles player Idle
@@ -26,6 +27,8 @@
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
 
             void MovePlayer(float x,float y);   //Moves the center of a player to a certain spot
+            void DamagePlayer(int damage);
+            void HealPlayer(int heal);
 
             static void SwordHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the sword
 

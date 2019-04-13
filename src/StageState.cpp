@@ -52,8 +52,8 @@ StageState::StageState(){
     Camera::Follow(playerObj);
 
     GameData::playerAlive = true;
-    GameData::checkpointMap = "assets/img/basictiletest.png";
-    GameData::checkpointMapInfo = "assets/map/tileMaptest-1.txt";
+    GameData::checkpointMap = "assets/map/tileMaptest-1.txt";
+    GameData::checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
     GameData::checkpointPos =   Vec2(playerObj->box.x,playerObj->box.y);
 }
 
@@ -102,6 +102,8 @@ void StageState::Update(float dt){
             objectArray.erase(objectArray.begin() + i);
         }
     }
+
+    std::cout << Player::player->GetLife() << std::endl;
     
     //TILE MAP EXCHANGE
     Vec2 PlayerPos = Vec2(0,0);
@@ -135,6 +137,19 @@ void StageState::Update(float dt){
         }
     }
     //END TILEMAP EXCHANGE
+
+    //HANDLES PLAYER DEATH
+    if(!GameData::playerAlive){
+        if(Player::player){
+            ClearMobs();
+            tilemap->Load(GameData::checkpointMap);
+            tilemap->LoadInfo(GameData::checkpointMapInfo);
+            Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y);
+            Player::player->HealPlayer(150);
+            GameData::playerAlive = true;
+        }
+    }
+    //END HANDLE PLAYER DEATH
 }
 
 void StageState::Render(){

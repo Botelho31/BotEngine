@@ -308,6 +308,14 @@ void Player::IdleHandle(float dt){
     }
 }
 
+void Player::DamagePlayer(int damage){
+    hp -= damage;
+}
+
+void Player::HealPlayer(int heal){
+    hp += heal;
+}
+
 void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
     Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
     playersprite->SetFrameCount(framecount);
@@ -352,6 +360,7 @@ void Player::NotifyCollision(GameObject& other){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if(hitbox->GetOwner() && hitbox->HitPlayer()){
                 physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
+                DamagePlayer(hitbox->GetDamage());
                 invincibilitytimer->Delay(0);
             }
         }
@@ -370,4 +379,8 @@ Vec2 Player::GetPosition(){
 
 Vec2 Player::GetSpeed(){
     return Vec2(speed.x,speed.y);
+}
+
+int Player::GetLife(){
+    return hp;
 }

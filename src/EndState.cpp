@@ -7,7 +7,7 @@
 
 EndState::EndState(){
     GameObject *bgObj = new GameObject();
-    if(GameData::playerVictory){
+    if(GameData::playerAlive){
         Sprite *bg = new Sprite(*bgObj,"assets/img/win.jpg");
         backgroundMusic = new Music("assets/audio/endStateWin.ogg");
         backgroundMusic->Play();
