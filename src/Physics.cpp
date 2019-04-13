@@ -200,3 +200,12 @@ void Physics::KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback){
     }
     speed->y = -knockback.y;
 }
+
+void Physics::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
+    Component *component = associated->GetComponent("Collider");
+    if(component){
+        Collider *collider = dynamic_cast<Collider*>(component);
+        collider->SetScale(Vec2(scaleX,scaleY));
+        collider->SetOffSet(Vec2(offsetX,offsetY));
+    }
+}

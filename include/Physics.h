@@ -24,6 +24,8 @@
             void PerformXMovement(Vec2 *speed,float dt);
             void PerformYMovement(Vec2 *speed,float dt);
             void KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback); //Applies knockback to rect
+
+            void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
             int distground,distceiling,distright,distleft;
         private:
             GameObject *associated;
