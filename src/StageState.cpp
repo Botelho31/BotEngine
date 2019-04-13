@@ -50,6 +50,11 @@ StageState::StageState(){
     playerObj->AddComponent(player);
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
+
+    GameData::playerAlive = true;
+    GameData::checkpointMap = "assets/img/basictiletest.png";
+    GameData::checkpointMapInfo = "assets/map/tileMaptest-1.txt";
+    GameData::checkpointPos =   Vec2(playerObj->box.x,playerObj->box.y);
 }
 
 StageState::~StageState(){
@@ -118,6 +123,11 @@ void StageState::Update(float dt){
             ClearMobs();
             tilemap->Load(files[0]);
             tilemap->LoadInfo(files[1]);
+
+            GameData::checkpointMap = files[0];
+            GameData::checkpointMapInfo = files[1];
+            GameData::checkpointPos = portalloc;
+
             Player::player->MovePlayer(portalloc.x,portalloc.y);
             changingMap = false;
         }else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){

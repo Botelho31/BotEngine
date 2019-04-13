@@ -8,6 +8,7 @@
 #include "../include/Vec2.h"
 #include "../include/HitBox.h"
 #include "../include/Minion.h"
+#include "../include/GameData.h"
 
 Player *Player::player;
 
@@ -133,8 +134,9 @@ void Player::Update(float dt){
         }
     }
     if(hp <= 0){
-        Camera::UnFollow();
-        associated.RequestDelete();
+        // Camera::UnFollow();
+        // associated.RequestDelete();
+        GameData::playerAlive = false;
     }
 }
 
