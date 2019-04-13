@@ -46,7 +46,7 @@ Player::Player(GameObject& associated) : Component(associated){
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
     associated.AddComponent(player);
-    SetCollider(0.6,1);
+    physics->SetCollider(0.6,1);
 }
 
 Player::~Player(){
@@ -147,7 +147,7 @@ void Player::XMovement(float dt){
     if(input->IsKeyDown(SDLK_d) == true){
         if((idle == true) && (physics->IsGrounded())){
             SetSprite("assets/img/beltest2.png");
-            SetCollider(0.6,1);
+            physics->SetCollider(0.6,1);
             idle = false;
             idletimer->Restart();
         }
@@ -167,7 +167,7 @@ void Player::XMovement(float dt){
     if(input->IsKeyDown(SDLK_a) == true){
         if((idle == true) && (physics->IsGrounded())){
             SetSprite("assets/img/beltest2.png");
-            SetCollider(0.6,1);
+            physics->SetCollider(0.6,1);
             idle = false;
             idletimer->Restart();
         }
@@ -198,7 +198,7 @@ void Player::YMovement(float dt){
         speed.y = 0;
         falling = false;
         SetSprite("assets/img/belhitthegroundtest3.png",4,0.08,false);
-        SetCollider(0.276,1);
+        physics->SetCollider(0.276,1);
         hittheground->Delay(dt);
     }
     if(hittheground->Started()){
@@ -206,7 +206,7 @@ void Player::YMovement(float dt){
         hittheground->Update(dt);
         if(hittheground->Get() >= 0.24){
             SetSprite("assets/img/beltest2.png");
-            SetCollider(0.6,1);
+            physics->SetCollider(0.6,1);
             hittheground->Restart();
         }
     }
@@ -219,7 +219,7 @@ void Player::YMovement(float dt){
                 idle = false;
             }
             SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
-            SetCollider(0.261,0.8);
+            physics->SetCollider(0.261,0.8);
             jumpanimation->Delay(dt);
             jumpsquat->Delay(dt);
         }else if(physics->distright == 0){
@@ -248,7 +248,7 @@ void Player::YMovement(float dt){
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
         SetSprite("assets/img/belfreefallingtest.png",4,0.04);
-        SetCollider(0.261,0.8);
+        physics->SetCollider(0.261,0.8);
         falling = true;
     }
     
@@ -294,16 +294,11 @@ void Player::SetSprite(std::string file,int framecount,float frametime,bool repe
     associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2) + offset.y;
 }
 
-void Player::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
-    Component *component = associated.GetComponent("Collider");
-    Collider *collider = dynamic_cast<Collider*>(component);
-    collider->SetScale(Vec2(scaleX,scaleY));
-    collider->SetOffSet(Vec2(offsetX,offsetY));
-}
-
-void Player::MovePlayer(float x,float y){
-    speed.y = 0;
-    speed.x = 0;
+void Player::MovePlayer(float x,float y,bool keepMomentum){
+    if(!keepMomentum){
+        speed.y = 0;
+        speed.x = 0;
+    }
     associated.box.x = x - associated.box.w/2;
     associated.box.y = y - associated.box.h/2;
 }
