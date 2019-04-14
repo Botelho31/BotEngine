@@ -155,7 +155,7 @@ void StageState::Update(float dt){
             ClearMobs();
             tilemap->Load(GameData::checkpointMap);
             tilemap->LoadInfo(GameData::checkpointMapInfo);
-            Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y);
+            Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
             Player::player->HealPlayer(150);
             GameData::playerAlive = true;
         }
@@ -176,8 +176,12 @@ void StageState::Render(){
 
 void StageState::ClearMobs(){    
     for(int i = (objectArray.size() - 1); i >= 0; --i){
-        Component *component = objectArray[i]->GetComponent("Minion");
-        if(component){
+        Component *component1 = objectArray[i]->GetComponent("HItBox");
+        Component *component2 = objectArray[i]->GetComponent("Minion");
+        if(component1){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        if(component2){
             objectArray.erase(objectArray.begin() + i);
         }
     }
@@ -187,10 +191,6 @@ void StageState::UpdateHP(){
     std::stringstream playerhptext;
     playerhptext << Player::player->GetLife();
     this->playerhp->SetText(playerhptext.str());
-}
-
-bool StageState::QuitRequested(){
-    return quitRequested;
 }
 
 bool StageState::ChangingMap(){

@@ -25,7 +25,6 @@
             void ClearMobs();
             void UpdateHP();
             
-            bool QuitRequested();
             static bool ChangingMap();  //Check if the tilemap is changing
         private:
             TileSet *tileset;

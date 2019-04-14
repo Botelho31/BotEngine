@@ -136,8 +136,6 @@ void Player::Update(float dt){
         }
     }
     if(hp <= 0){
-        // Camera::UnFollow();
-        // associated.RequestDelete();
         GameData::playerAlive = false;
     }
 }
@@ -331,6 +329,7 @@ void Player::NotifyCollision(GameObject& other){
             Component *collidercomponent = other.GetComponent("Collider");
             Collider *collider = dynamic_cast<Collider*>(collidercomponent);
             physics->KnockBack(collider->box,&speed,Vec2(400,400));
+            DamagePlayer(10);
             invincibilitytimer->Delay(0);
         }
     }
