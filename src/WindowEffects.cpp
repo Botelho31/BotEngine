@@ -17,7 +17,6 @@ void WindowEffects::Update(float dt){
             alphapersecond = 255/currenteffectseconds;
             if((a + (alphapersecond *dt)) >= 255){
                 a = 255;
-                currentEffect = NOTHING;
                 currenteffectseconds = 0;
             }else{
                 a += alphapersecond * dt;
@@ -48,6 +47,11 @@ void WindowEffects::Render(){
     }
 }
 
+void WindowEffects::Reset(){
+    currentEffect = NOTHING;
+    currenteffectseconds = 0;
+}
+
 void WindowEffects::FadeToBlack(int seconds){
     r = 0;
     g = 0;
@@ -75,6 +79,10 @@ void WindowEffects::DrawToScreen(int r,int g,int b,int a){
     rect.w = Camera::window.x;
     rect.h = Camera::window.y;
     SDL_RenderFillRect(Game::GetInstance().GetRenderer(),&rect);
+}
+
+WindowEffects::Effect WindowEffects::GetCurrentEffect(){
+    return currentEffect;
 }
 
 bool WindowEffects::Drawing(){

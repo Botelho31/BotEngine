@@ -9,16 +9,17 @@
         public:
             WindowEffects();
             ~WindowEffects();
-
+            enum Effect {NOTHING,FADETOBLACK,FADEFROMBLACK};
             void Update(float dt);
             void Render();
+            void Reset();
             void FadeToBlack(int seconds);
             void FadeFromBlack(int seconds);
             void DrawToScreen(int r,int g,int b,int a);
+            Effect GetCurrentEffect();
             bool Drawing();
             bool IsBlack();
         private:
-            enum Effect {NOTHING,FADETOBLACK,FADEFROMBLACK};
             Effect currentEffect;
             float currenteffectseconds;
             float r,g,b,a;
