@@ -23,6 +23,7 @@
             void Resume();
             void Pause();
 
+            void HandleTileEvents(Vec2 PlayerPos);
             void ClearMobs();
             void UpdateHP();
             

@@ -123,9 +123,9 @@ void Player::Update(float dt){
     if(input->IsKeyDown(SDLK_s) == true){   //CROUCH?
     }
 
+    IdleHandle(dt);//IDLE HANDLING
     XMovement(dt); //X MOVEMENT
     YMovement(dt); //Y MOVEMENT
-    IdleHandle(dt);//IDLE HANDLING
 
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);

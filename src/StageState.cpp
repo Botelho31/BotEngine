@@ -120,21 +120,60 @@ void StageState::Update(float dt){
     UpdateHP();
     windoweffects->Update(dt);
     
-    //TILE MAP EXCHANGE
-    Vec2 PlayerPos = Vec2(0,0);
-    int tilemapID = 0;
     if(Player::player){
-        PlayerPos = Player::player->GetPosition();
-        tilemapID = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+        Vec2 PlayerPos = Player::player->GetPosition(); 
+        HandleTileEvents(PlayerPos);    //HANDLE TILEMAP EXCHANGE
     }
-    if((tilemapID < -1) || (changingMap)){
+
+    //HANDLES PLAYER DEATH
+    if(!GameData::playerAlive){
+        if(Player::player){
+            ClearMobs();
+            tilemap->Load(GameData::checkpointMap);
+            tilemap->LoadInfo(GameData::checkpointMapInfo);
+            Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
+            Player::player->HealPlayer(150);
+            GameData::playerAlive = true;
+        }
+    }
+    //END HANDLE PLAYER DEATH
+}
+
+void StageState::Render(){
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        Component *component = objectArray[i]->GetComponent("TileMap");
+        if(component){
+            objectArray[i]->box.x = Camera::pos.x;
+            objectArray[i]->box.y = Camera::pos.y;
+        }
+        objectArray[i]->Render();
+    }
+    windoweffects->Render();
+}
+
+void StageState::ClearMobs(){    
+    for(int i = (objectArray.size() - 1); i >= 0; --i){
+        Component *component1 = objectArray[i]->GetComponent("HitBox");
+        Component *component2 = objectArray[i]->GetComponent("Minion");
+        if(component1){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        if(component2){
+            objectArray.erase(objectArray.begin() + i);
+        }
+    }
+}
+
+void StageState::HandleTileEvents(Vec2 PlayerPos){
+    int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+
+    //TILEMAP EXCHANGE
+    if((tilemapLoc < -1) || (changingMap)){
         if(!changingMap){
-            nextMap = tilemapID + 1;
+            nextMap = tilemapLoc + 1;
             changingMap = true; 
         }
-
-        Vec2 PlayerPos = Player::player->GetPosition();
-        int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y); 
+        tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y); 
         
         if(tilemapLoc == -1000){
             if(windoweffects->GetCurrentEffect() == WindowEffects::FADEFROMBLACK){
@@ -175,45 +214,6 @@ void StageState::Update(float dt){
         }
         else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
             changingMap = false;
-        }
-    }
-    //END TILEMAP EXCHANGE
-
-    //HANDLES PLAYER DEATH
-    if(!GameData::playerAlive){
-        if(Player::player){
-            ClearMobs();
-            tilemap->Load(GameData::checkpointMap);
-            tilemap->LoadInfo(GameData::checkpointMapInfo);
-            Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
-            Player::player->HealPlayer(150);
-            GameData::playerAlive = true;
-        }
-    }
-    //END HANDLE PLAYER DEATH
-}
-
-void StageState::Render(){
-    for(unsigned int i = 0; i < objectArray.size();i++){
-        Component *component = objectArray[i]->GetComponent("TileMap");
-        if(component){
-            objectArray[i]->box.x = Camera::pos.x;
-            objectArray[i]->box.y = Camera::pos.y;
-        }
-        objectArray[i]->Render();
-    }
-    windoweffects->Render();
-}
-
-void StageState::ClearMobs(){    
-    for(int i = (objectArray.size() - 1); i >= 0; --i){
-        Component *component1 = objectArray[i]->GetComponent("HitBox");
-        Component *component2 = objectArray[i]->GetComponent("Minion");
-        if(component1){
-            objectArray.erase(objectArray.begin() + i);
-        }
-        if(component2){
-            objectArray.erase(objectArray.begin() + i);
         }
     }
 }
