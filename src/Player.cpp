@@ -44,8 +44,6 @@ Player::Player(GameObject& associated) : Component(associated){
 
     Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
     this->playersprite = player;
-    Collider *collider = new Collider(associated);
-    associated.AddComponent(collider);
     associated.AddComponent(player);
     physics->SetCollider(0.6,1);
 }
@@ -69,9 +67,7 @@ void Player::Start(){
 void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
     Component *component1 = owner.GetComponent("Player");
     Player *player = dynamic_cast<Player*>(component1);
-    Component *component2 = owner.GetComponent("Collider");
-    Collider *collider = dynamic_cast<Collider*>(component2);
-
+    Collider *collider = player->physics->GetCollider();
 
     hitbox.angleDeg += 70 * dt;
     player->swordarc += player->asword * dt;
@@ -81,8 +77,7 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 }
 
 void Player::Update(float dt){
-    Component *component = associated.GetComponent("Collider");
-    Collider *collider = dynamic_cast<Collider*>(component);
+    Collider *collider = physics->GetCollider();
     physics->Update(collider->box);
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){

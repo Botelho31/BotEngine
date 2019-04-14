@@ -1,5 +1,4 @@
 #include "../include/Physics.h"
-#include "../include/Collider.h"
 #include "../include/Component.h"
 
 
@@ -8,10 +7,14 @@ Physics::Physics(GameObject* associated) : associated(associated){
     distceiling = 0;
     distright = 0;
     distleft = 0;
+
+    this->collider = new Collider(*associated);
+    associated->AddComponent(collider);
 }
 
 Physics::~Physics(){
     associated = nullptr;
+    collider = nullptr;
 }
 
 void Physics::Update(Rect collider){
@@ -191,8 +194,6 @@ void Physics::PerformYMovement(Vec2 *speed,float dt){
 }
 
 void Physics::KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback){
-    Component *component = associated->GetComponent("Collider");
-    Collider *collider = dynamic_cast<Collider*>(component);
     if(collider->box.x < hitbox.x){
         speed->x = -knockback.x;
     }else{
@@ -201,10 +202,16 @@ void Physics::KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback){
     speed->y = -knockback.y;
 }
 
+Collider* Physics::GetCollider(){
+    if(collider){
+        return collider;
+    }else{
+        return nullptr;
+    }
+}
+
 void Physics::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
-    Component *component = associated->GetComponent("Collider");
-    if(component){
-        Collider *collider = dynamic_cast<Collider*>(component);
+    if(collider){
         collider->SetScale(Vec2(scaleX,scaleY));
         collider->SetOffSet(Vec2(offsetX,offsetY));
     }

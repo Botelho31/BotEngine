@@ -6,6 +6,7 @@
     #define PHYSICS_H
     #include "Vec2.h"
     #include "Rect.h"
+    #include "Collider.h"
 
     class Physics{
         public:
@@ -25,9 +26,11 @@
             void PerformYMovement(Vec2 *speed,float dt);
             void KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback); //Applies knockback to rect
 
+            Collider* GetCollider();
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
             int distground,distceiling,distright,distleft;
         private:
+            Collider *collider;
             GameObject *associated;
             
     };

@@ -27,10 +27,8 @@ Minion::Minion(GameObject& associated) : Component(associated){
 
     Sprite *minion =  new Sprite(associated,"assets/img/miniontest.png");
     this->minionsprite = minion;
-    Collider *collider = new Collider(associated);
-    associated.AddComponent(collider);
     associated.AddComponent(minion);
-    SetCollider(0.5,0.9);
+    physics->SetCollider(0.5,0.9);
 }
 
 Minion::~Minion(){
@@ -47,8 +45,7 @@ void Minion::Start(){
 }
 
 void Minion::Update(float dt){
-    Component *component = associated.GetComponent("Collider");
-    Collider *collider = dynamic_cast<Collider*>(component);
+    Collider *collider = physics->GetCollider();
     physics->Update(collider->box);
     physics->CorrectDistance();
     float distanceToPlayer = 500;
@@ -186,13 +183,6 @@ void Minion::SetSprite(std::string file,int framecount,float frametime,bool repe
     minionsprite->Open(file);
     associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2) + offset.x;
     associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2) + offset.y;
-}
-
-void Minion::SetCollider(float scaleX,float scaleY,float offsetX,float offsetY){
-    Component *component = associated.GetComponent("Collider");
-    Collider *collider = dynamic_cast<Collider*>(component);
-    collider->SetScale(Vec2(scaleX,scaleY));
-    collider->SetOffSet(Vec2(offsetX,offsetY));
 }
 
 void Minion::Render(){
