@@ -13,6 +13,7 @@
 #include "../include/EndState.h"
 #include "../include/Player.h"
 #include "../include/Minion.h"
+#include "../include/TransitionState.h"
 
 bool StageState::changingMap;
 

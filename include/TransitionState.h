@@ -17,13 +17,9 @@
             void Start();
             void Resume();
             void Pause();
-
-            void FadeToBlack(int alpha);
         private:
             Timer *poptimer;
             float secondsToPop;
-            float alphapersecond;
-            float currentalpha;
     };
 
 #endif
