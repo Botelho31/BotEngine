@@ -182,20 +182,15 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
             else if(windoweffects->GetCurrentEffect() == WindowEffects::NOTHING){
                 windoweffects->FadeToBlack(1.5);
                 playerspeed = Player::player->GetSpeed();
+                playerpos = Player::player->GetPosition();
                 Player::player->SetInvincibility(true);
-                if(Player::player){
-                    Player::player->KeepStill();
-                }
+                Player::player->KeepStill(playerpos);
             }
             else if((windoweffects->GetCurrentEffect() == WindowEffects::FADETOBLACK)  && (!windoweffects->IsBlack())){
-                if(Player::player){
-                    Player::player->KeepStill();
-                }
+                Player::player->KeepStill(playerpos);
             }
             else if(windoweffects->IsBlack()){
-                if(Player::player){
-                    Player::player->KeepStill();
-                }
+                Player::player->KeepStill(playerpos);
                 std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
                 Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
                 ClearMobs();

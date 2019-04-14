@@ -113,7 +113,7 @@ void Player::Update(float dt){
     }
     if(swordattack->Started()){
         swordattack->Update(dt);
-        if((swordattack->Get() >= 0.3) && (invencible == false)){
+        if(swordattack->Get() >= 0.3){
             swordattack->Restart();
         }
     }
@@ -129,7 +129,7 @@ void Player::Update(float dt){
 
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
-        if(invincibilitytimer->Get() >= 2){
+        if((invincibilitytimer->Get() >= 2) && (invencible == false)){
             invincibilitytimer->Restart();
         }
     }
@@ -227,7 +227,7 @@ void Player::YMovement(float dt){
 
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
-        SetSprite("assets/img/belfreefallingtest.png",4,0.08);
+        SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
         physics->SetCollider(0.261,0.8);
         falling = true;
     }
@@ -279,9 +279,8 @@ void Player::SetSpeed(Vec2 speed){
     this->speed.y = speed.y;
 }
 
-void Player::KeepStill(){
-    speed.x = 0;
-    speed.y = 0;
+void Player::KeepStill(Vec2 FreezePos){
+    MovePlayer(FreezePos.x,FreezePos.y,false);
 }
 
 void Player::SetInvincibility(bool Invencible){

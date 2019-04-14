@@ -28,7 +28,7 @@
 
             void SetInvincibility(bool Invencible);
             void SetSpeed(Vec2 speed);
-            void KeepStill();
+            void KeepStill(Vec2 FreezePos);
             void MovePlayer(float x,float y,bool keepMomentum = true);   //Moves the center of a player to a certain spot
             void DamagePlayer(int damage);
             void HealPlayer(int heal);
