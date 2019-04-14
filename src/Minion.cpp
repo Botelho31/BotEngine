@@ -74,28 +74,12 @@ void Minion::Update(float dt){
             if(!minionsprite->IsFlipped()){
                 minionsprite->Flip();
             }
-            if(speed.x <= 0){
-                if(abs(speed.x - aspeed*dt) > maxspeed){
-                    speed.x = -maxspeed;
-                }else{
-                    speed.x -= aspeed * dt;
-                }
-            }else{
-                speed.x -= aspeed *dt + despeed *dt;
-            }
+            physics->PerformXAcceleration(&speed,false,aspeed,maxspeed,despeed,dt);
         }else{
             if(minionsprite->IsFlipped()){
                 minionsprite->Flip();
             }
-            if(speed.x >= 0){
-                if((speed.x + aspeed*dt) > maxspeed){
-                    speed.x = maxspeed;
-                }else{
-                    speed.x += aspeed * dt;
-                }
-            }else{
-                speed.x += aspeed * dt + despeed * dt; 
-            }
+            physics->PerformXAcceleration(&speed,true,aspeed,maxspeed,despeed,dt);
         }
     }
     if(state == ATTACKING){

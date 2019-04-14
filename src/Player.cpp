@@ -150,15 +150,7 @@ void Player::XMovement(float dt){
         if(playersprite->IsFlipped()){
             playersprite->Flip();
         }
-        if(speed.x >= 0){
-            if((speed.x + aspeed*dt) > maxspeed){
-                speed.x = maxspeed;
-            }else{
-                speed.x += aspeed * dt;
-            }
-        }else{
-           speed.x += aspeed * dt + despeed * dt; 
-        }
+        physics->PerformXAcceleration(&speed,true,aspeed,maxspeed,despeed,dt);
     }
     if(input->IsKeyDown(SDLK_a) == true){
         if((idle == true) && (physics->IsGrounded())){
@@ -170,15 +162,7 @@ void Player::XMovement(float dt){
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
         }
-        if(speed.x <= 0){
-            if(abs(speed.x - aspeed*dt) > maxspeed){
-                speed.x = -maxspeed;
-            }else{
-                speed.x -= aspeed * dt;
-            }
-        }else{
-            speed.x -= aspeed *dt + despeed *dt;
-        }
+        physics->PerformXAcceleration(&speed,false,aspeed,maxspeed,despeed,dt);
     }
 
     if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){

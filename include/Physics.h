@@ -21,6 +21,7 @@
 
             bool IsGrounded();
 
+            void PerformXAcceleration(Vec2 *speed,bool increaseX,float aspeed,float maxspeed,float despeed,float dt);
             void PerformXDeceleration(Vec2 *speed,float despeed,float dt);
             void PerformXMovement(Vec2 *speed,float dt);
             void PerformYMovement(Vec2 *speed,float dt);

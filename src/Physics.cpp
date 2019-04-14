@@ -148,6 +148,30 @@ bool Physics::IsGrounded(){
     }
 }
 
+void Physics::PerformXAcceleration(Vec2 *speed,bool increaseX,float aspeed,float maxspeed,float despeed,float dt){
+    if(increaseX){
+        if(speed->x >= 0){
+            if((speed->x + aspeed*dt) > maxspeed){
+                speed->x = maxspeed;
+            }else{
+                speed->x += aspeed * dt;
+            }
+        }else{
+           speed->x += aspeed * dt + despeed * dt; 
+        }
+    }else{
+        if(speed->x <= 0){
+            if(abs(speed->x - aspeed*dt) > maxspeed){
+                speed->x = -maxspeed;
+            }else{
+                speed->x -= aspeed * dt;
+            }
+        }else{
+            speed->x -= aspeed *dt + despeed *dt;
+        }
+    }
+}
+
 void Physics::PerformXDeceleration(Vec2 *speed,float despeed,float dt){
     if(speed->x > 0){
         if((speed->x - despeed * dt) < 0){
