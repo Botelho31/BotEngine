@@ -135,34 +135,41 @@ void StageState::Update(float dt){
 
         Vec2 PlayerPos = Player::player->GetPosition();
         int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y); 
-
-        if((tilemapLoc == -1000) && (!windoweffects->Drawing()) && (!windoweffects->IsBlack())){
-            windoweffects->FadeToBlack(1.5);
-            playerspeed = Player::player->GetSpeed();
-        }
-        else if((tilemapLoc == -1000) && (windoweffects->Drawing())){
-            if(Player::player){
-                Player::player->KeepStill();
+        
+        if(tilemapLoc == -1000){
+            if(windoweffects->GetCurrentEffect() == WindowEffects::FADEFROMBLACK){
+                windoweffects->Reset();
             }
-        }
-        else if((tilemapLoc == -1000) && (windoweffects->IsBlack())){
-            if(Player::player){
-                Player::player->KeepStill();
+            else if(windoweffects->GetCurrentEffect() == WindowEffects::NOTHING){
+                windoweffects->FadeToBlack(1.5);
+                playerspeed = Player::player->GetSpeed();
+                Player::player->SetInvincibility(true);
+                std::cout << std::endl;
             }
-            std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
-            Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
-            ClearMobs();
-            tilemap->Load(files[0]);
-            tilemap->LoadInfo(files[1]);
+            else if((windoweffects->GetCurrentEffect() == WindowEffects::FADETOBLACK)  && (!windoweffects->IsBlack())){
+                if(Player::player){
+                    Player::player->KeepStill();
+                }
+            }
+            else if(windoweffects->IsBlack()){
+                if(Player::player){
+                    Player::player->KeepStill();
+                }
+                std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
+                Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
+                ClearMobs();
+                tilemap->Load(files[0]);
+                tilemap->LoadInfo(files[1]);
 
-            GameData::checkpointMap = files[0];
-            GameData::checkpointMapInfo = files[1];
-            GameData::checkpointPos = portalloc;
-
-            Player::player->SetSpeed(playerspeed);
-            Player::player->MovePlayer(portalloc.x,portalloc.y);
-            changingMap = false;
-            windoweffects->FadeFromBlack(1.5);
+                GameData::checkpointMap = files[0];
+                GameData::checkpointMapInfo = files[1];
+                GameData::checkpointPos = portalloc;
+                Player::player->SetSpeed(playerspeed);
+                Player::player->MovePlayer(portalloc.x,portalloc.y);
+                Player::player->SetInvincibility(false);
+                changingMap = false;
+                windoweffects->FadeFromBlack(1);
+            }
         }
         else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
             changingMap = false;
@@ -198,7 +205,7 @@ void StageState::Render(){
 
 void StageState::ClearMobs(){    
     for(int i = (objectArray.size() - 1); i >= 0; --i){
-        Component *component1 = objectArray[i]->GetComponent("HItBox");
+        Component *component1 = objectArray[i]->GetComponent("HitBox");
         Component *component2 = objectArray[i]->GetComponent("Minion");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
