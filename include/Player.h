@@ -26,6 +26,7 @@
             void IdleHandle(float dt); //Handles player Idle
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
 
+            void SetInvincibility(bool Invencible);
             void SetSpeed(Vec2 speed);
             void KeepStill();
             void MovePlayer(float x,float y,bool keepMomentum = true);   //Moves the center of a player to a certain spot
@@ -51,6 +52,7 @@
             Timer *swordattack;
 
             int hp;
+            bool invencible;
             Sprite *playersprite;
             Timer *idletimer;
             Timer *jumpsquat;

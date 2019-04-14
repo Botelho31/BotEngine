@@ -32,6 +32,7 @@ Player::Player(GameObject& associated) : Component(associated){
     swordattack = new Timer();
 
     hp = 150;
+    invencible = false;
     invincibilitytimer = new Timer();
     player = this;
 
@@ -89,6 +90,8 @@ void Player::Update(float dt){
             std::cout << "dceiling: "<< physics->distceiling << std::endl;
             std::cout << "dright: "<< physics->distright << std::endl;
             std::cout << "dleft: "<< physics->distleft << std::endl;
+            std::cout << "speedX: " << speed.x << std::endl;
+            std::cout << "speedY: " << speed.y << std::endl;
         }
     #endif
     physics->CorrectDistance();
@@ -115,7 +118,7 @@ void Player::Update(float dt){
     }
     if(swordattack->Started()){
         swordattack->Update(dt);
-        if(swordattack->Get() >= 0.3){
+        if((swordattack->Get() >= 0.3) && (invencible == false)){
             swordattack->Restart();
         }
     }
@@ -302,9 +305,10 @@ void Player::KeepStill(){
     speed.y = 0;
 }
 
-// void Player::SetInvincibility(){
-
-// }
+void Player::SetInvincibility(bool Invencible){
+    this->invencible = Invencible;
+    invincibilitytimer->Delay(0);
+}
 
 void Player::MovePlayer(float x,float y,bool keepMomentum){
     if(!keepMomentum){
