@@ -132,9 +132,23 @@ void StageState::Update(float dt){
             nextMap = tilemapID + 1;
             changingMap = true; 
         }
+
         Vec2 PlayerPos = Player::player->GetPosition();
         int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y); 
-        if(tilemapLoc == -1000){
+
+        if((tilemapLoc == -1000) && (!windoweffects->Drawing()) && (!windoweffects->IsBlack())){
+            windoweffects->FadeToBlack(1.5);
+            playerspeed = Player::player->GetSpeed();
+        }
+        else if((tilemapLoc == -1000) && (windoweffects->Drawing())){
+            if(Player::player){
+                Player::player->KeepStill();
+            }
+        }
+        else if((tilemapLoc == -1000) && (windoweffects->IsBlack())){
+            if(Player::player){
+                Player::player->KeepStill();
+            }
             std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
             Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
             ClearMobs();
@@ -145,10 +159,12 @@ void StageState::Update(float dt){
             GameData::checkpointMapInfo = files[1];
             GameData::checkpointPos = portalloc;
 
+            Player::player->SetSpeed(playerspeed);
             Player::player->MovePlayer(portalloc.x,portalloc.y);
             changingMap = false;
-            windoweffects->FadeToBlack(3);
-        }else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
+            windoweffects->FadeFromBlack(1.5);
+        }
+        else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
             changingMap = false;
         }
     }

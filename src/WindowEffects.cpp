@@ -84,3 +84,11 @@ bool WindowEffects::Drawing(){
         return true;
     }
 }
+
+bool WindowEffects::IsBlack(){
+    if((a == 255) && (r == 0) && (g == 0) && (b == 0)){
+        return true;
+    } else{
+        return false;
+    }
+}

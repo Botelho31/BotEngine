@@ -292,6 +292,20 @@ void Player::SetSprite(std::string file,int framecount,float frametime,bool repe
     associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2) + offset.y;
 }
 
+void Player::SetSpeed(Vec2 speed){
+    this->speed.x = speed.x;
+    this->speed.y = speed.y;
+}
+
+void Player::KeepStill(){
+    speed.x = 0;
+    speed.y = 0;
+}
+
+// void Player::SetInvincibility(){
+
+// }
+
 void Player::MovePlayer(float x,float y,bool keepMomentum){
     if(!keepMomentum){
         speed.y = 0;

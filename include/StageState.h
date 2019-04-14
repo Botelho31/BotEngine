@@ -30,10 +30,12 @@
         private:
             TileSet *tileset;
             Music *backgroundMusic;
-            static bool changingMap;
-            int nextMap;    //Keeps the value of the portal that references the new map
             Text *playerhp;
             WindowEffects *windoweffects;
+
+            static bool changingMap;    //Keeps the bool if the map is changing
+            int nextMap;    //Keeps the value of the portal that references the new map
+            Vec2 playerspeed;
     };
 
 #endif

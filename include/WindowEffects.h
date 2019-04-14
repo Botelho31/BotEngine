@@ -16,6 +16,7 @@
             void FadeFromBlack(int seconds);
             void DrawToScreen(int r,int g,int b,int a);
             bool Drawing();
+            bool IsBlack();
         private:
             enum Effect {NOTHING,FADETOBLACK,FADEFROMBLACK};
             Effect currentEffect;
