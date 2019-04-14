@@ -248,7 +248,7 @@ void Player::YMovement(float dt){
 
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
-        SetSprite("assets/img/belfreefallingtest.png",4,0.04);
+        SetSprite("assets/img/belfreefallingtest.png",4,0.08);
         physics->SetCollider(0.261,0.8);
         falling = true;
     }

@@ -144,7 +144,9 @@ void StageState::Update(float dt){
                 windoweffects->FadeToBlack(1.5);
                 playerspeed = Player::player->GetSpeed();
                 Player::player->SetInvincibility(true);
-                std::cout << std::endl;
+                if(Player::player){
+                    Player::player->KeepStill();
+                }
             }
             else if((windoweffects->GetCurrentEffect() == WindowEffects::FADETOBLACK)  && (!windoweffects->IsBlack())){
                 if(Player::player){
