@@ -11,6 +11,7 @@
             ~WindowEffects();
 
             void Update(float dt);
+            void Render();
             void FadeToBlack(int seconds);
             void FadeFromBlack(int seconds);
             void DrawToScreen(int r,int g,int b,int a);

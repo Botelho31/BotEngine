@@ -23,6 +23,7 @@ StageState::StageState(){
     started = false;
     backgroundMusic = nullptr;
     changingMap = false;
+    windoweffects = new WindowEffects();
 
     backgroundMusic = new Music("assets/audio/stageState.ogg");
     backgroundMusic->Play();
@@ -71,6 +72,7 @@ StageState::StageState(){
 
 StageState::~StageState(){
     playerhp = nullptr;
+    delete windoweffects;
     if(backgroundMusic){
         delete backgroundMusic;
     }
@@ -116,6 +118,7 @@ void StageState::Update(float dt){
         }
     }
     UpdateHP();
+    windoweffects->Update(dt);
     
     //TILE MAP EXCHANGE
     Vec2 PlayerPos = Vec2(0,0);
@@ -144,6 +147,7 @@ void StageState::Update(float dt){
 
             Player::player->MovePlayer(portalloc.x,portalloc.y);
             changingMap = false;
+            windoweffects->FadeToBlack(3);
         }else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
             changingMap = false;
         }
@@ -173,6 +177,7 @@ void StageState::Render(){
         }
         objectArray[i]->Render();
     }
+    windoweffects->Render();
 }
 
 void StageState::ClearMobs(){    

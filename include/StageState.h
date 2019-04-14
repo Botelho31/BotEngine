@@ -9,6 +9,7 @@
     #include "TileSet.h"
     #include "TileMap.h"
     #include "Text.h"
+    #include "WindowEffects.h"
 
     class StageState : public State{
         public:
@@ -32,6 +33,7 @@
             static bool changingMap;
             int nextMap;    //Keeps the value of the portal that references the new map
             Text *playerhp;
+            WindowEffects *windoweffects;
     };
 
 #endif

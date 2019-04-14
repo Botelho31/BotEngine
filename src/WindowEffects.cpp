@@ -11,29 +11,40 @@ WindowEffects::~WindowEffects(){
 }
 
 void WindowEffects::Update(float dt){
+    float alphapersecond = 0;
     switch(currentEffect){
         case FADETOBLACK:
-            float alphapersecond = 255/currenteffectseconds;
+            alphapersecond = 255/currenteffectseconds;
             if((a + (alphapersecond *dt)) >= 255){
                 a = 255;
                 currentEffect = NOTHING;
+                currenteffectseconds = 0;
             }else{
                 a += alphapersecond * dt;
             }
             DrawToScreen(r,g,b,a);
             break;
         case FADEFROMBLACK:
-            float alphapersecond = -(255/currenteffectseconds);
+            alphapersecond = -(255/currenteffectseconds);
             if((a + (alphapersecond *dt)) <= 0){
                 a = 0;
                 currentEffect = NOTHING;
+                currenteffectseconds = 0;
             }else{
                 a += alphapersecond * dt;
             }
             DrawToScreen(r,g,b,a);
             break;
+        case NOTHING:
+            break;
         default:
             break;
+    }
+}
+
+void WindowEffects::Render(){
+    if(Drawing()){
+        DrawToScreen(r,g,b,a);
     }
 }
 
