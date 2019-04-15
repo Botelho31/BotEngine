@@ -41,34 +41,39 @@ void Physics::CorrectDistance(){
     std::deque<int> disttofix;
     for(int i = 0;i < 4;i++){
         if(dists[i] < 0){
-            if(disttofix.empty()){
-                disttofix.push_front(i);
-            }else{
-                bool inserted = false;
-                for(int j = 0;j < disttofix.size();j++){
-                    if(dists[i] > dists[disttofix[j]]){
-                        disttofix.push_front(i);
-                        j = disttofix.size();
-                        inserted = true;
-                    }
-                }
-                if(!inserted){
-                    disttofix.push_back(i);
+            disttofix.push_front(i);
+        }
+    }
+    bool inserted = true;
+    while(inserted){
+        inserted = false;
+        for(int i = 0;i < disttofix.size();i++){
+            if(i != (disttofix.size() -1)){
+                if(dists[disttofix[i]] < dists[disttofix[i + 1]]){
+                    int a = disttofix[i];
+                    disttofix[i] = disttofix[i + 1];
+                    disttofix[i + 1] = a;
+                    inserted = true;
                 }
             }
         }
     }
-    if(disttofix[0] == 0){
-        associated->box.y += distground;
-    }
-    if(disttofix[0] == 1){
-        associated->box.y -= distceiling;
-    }
-    if(disttofix[0] == 2){
-        associated->box.x += distright;
-    }
-    if(disttofix[0] == 3){
-        associated->box.x -= distleft;
+    // for(int i = 0;i < disttofix.size();i++){
+    //     std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+    // }
+    if(!disttofix.empty()){
+        if(disttofix[0] == 0){
+            associated->box.y += distground;
+        }
+        if(disttofix[0] == 1){
+            associated->box.y -= distceiling;
+        }
+        if(disttofix[0] == 2){
+            associated->box.x += distright;
+        }
+        if(disttofix[0] == 3){
+            associated->box.x -= distleft;
+        }
     }
 
 }

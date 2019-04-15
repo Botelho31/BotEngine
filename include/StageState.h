@@ -36,8 +36,8 @@
 
             static bool changingMap;    //Keeps the bool if the map is changing
             int nextMap;    //Keeps the value of the portal that references the new map
-            Vec2 playerspeed;
-            Vec2 playerpos;
+            Vec2 playerspeed;   //Keeps the player speed pre map exchange
+            Vec2 playerpos;     //Keeps the player pos when he changes map
     };
 
 #endif

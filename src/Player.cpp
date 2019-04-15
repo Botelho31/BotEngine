@@ -64,18 +64,6 @@ Player::~Player(){
 void Player::Start(){
 }
 
-void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
-    Component *component1 = owner.GetComponent("Player");
-    Player *player = dynamic_cast<Player*>(component1);
-    Collider *collider = player->physics->GetCollider();
-
-    hitbox.angleDeg += 70 * dt;
-    player->swordarc += player->asword * dt;
-    Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-    hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
-    
-}
-
 void Player::Update(float dt){
     Collider *collider = physics->GetCollider();
     physics->Update(collider->box);
@@ -138,12 +126,24 @@ void Player::Update(float dt){
     }
 }
 
+void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
+    Component *component1 = owner.GetComponent("Player");
+    Player *player = dynamic_cast<Player*>(component1);
+    Collider *collider = player->physics->GetCollider();
+
+    hitbox.angleDeg += 70 * dt;
+    player->swordarc += player->asword * dt;
+    Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
+    
+}
+
 void Player::XMovement(float dt){
     //Handles input and acceleration
     if(input->IsKeyDown(SDLK_d) == true){
         if((idle == true) && (physics->IsGrounded())){
-            SetSprite("assets/img/beltest2.png");
-            physics->SetCollider(0.6,1);
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            physics->SetCollider(0.48527473,1);
             idle = false;
             idletimer->Restart();
         }
@@ -154,8 +154,8 @@ void Player::XMovement(float dt){
     }
     if(input->IsKeyDown(SDLK_a) == true){
         if((idle == true) && (physics->IsGrounded())){
-            SetSprite("assets/img/beltest2.png");
-            physics->SetCollider(0.6,1);
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            physics->SetCollider(0.48527473,1);
             idle = false;
             idletimer->Restart();
         }
@@ -171,22 +171,23 @@ void Player::XMovement(float dt){
 
     physics->PerformXMovement(&speed,dt);//Perfoms Movement if Allowed
 }
+
 void Player::YMovement(float dt){
 
     //Handles when it hits the ground
     if((physics->IsGrounded()) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
-        SetSprite("assets/img/belhitthegroundtest3.png",4,0.08,false);
+        SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false,{0,-10});
         physics->SetCollider(0.276,1);
         hittheground->Delay(dt);
     }
     if(hittheground->Started()){
         speed.y = 0;
         hittheground->Update(dt);
-        if(hittheground->Get() >= 0.24){
-            SetSprite("assets/img/beltest2.png");
-            physics->SetCollider(0.6,1);
+        if(hittheground->Get() >= 0.12){
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            physics->SetCollider(0.48527473,1);
             hittheground->Restart();
         }
     }
@@ -248,7 +249,7 @@ void Player::IdleHandle(float dt){
     if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
-            SetSprite("assets/img/belidletest2.png",8,0.08);
+            // SetSprite("assets/img/belidletest2.png",8,0.08);
             idle = true;
         }
     }else{
