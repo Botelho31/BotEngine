@@ -39,6 +39,10 @@ Player::Player(GameObject& associated) : Component(associated){
     idletimer = new Timer();
     idle = false;
 
+    runningstarttimer = new Timer();
+    runningstoptimer = new Timer();
+    running = false;
+
     input =  &(InputManager::GetInstance());
     this->physics = new Physics(&associated);
 
@@ -58,6 +62,8 @@ Player::~Player(){
     delete invincibilitytimer;
     delete swordattack;
     delete jumpanimation;
+    delete runningstarttimer;
+    delete runningstoptimer;
     delete physics;
 }
 
@@ -115,6 +121,7 @@ void Player::Update(float dt){
     XMovement(dt); //X MOVEMENT
     YMovement(dt); //Y MOVEMENT
 
+
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
         if((invincibilitytimer->Get() >= 2) && (invencible == false)){
@@ -141,32 +148,65 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 void Player::XMovement(float dt){
     //Handles input and acceleration
     if(input->IsKeyDown(SDLK_d) == true){
-        if((idle == true) && (physics->IsGrounded())){
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            physics->SetCollider(0.48527473,1);
-            idle = false;
-            idletimer->Restart();
+        if((running == false) && (physics->IsGrounded())){
+            SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
+            physics->SetCollider(0.2484,1);
+            runningstarttimer->Restart();
+            runningstarttimer->Delay(dt);
+            running = true;
         }
+        idle = false;
+        idletimer->Restart();
         if(playersprite->IsFlipped()){
             playersprite->Flip();
         }
         physics->PerformXAcceleration(&speed,true,aspeed,maxspeed,despeed,dt);
     }
     if(input->IsKeyDown(SDLK_a) == true){
-        if((idle == true) && (physics->IsGrounded())){
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            physics->SetCollider(0.48527473,1);
-            idle = false;
-            idletimer->Restart();
+        if((running == false) && (physics->IsGrounded())){
+            SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
+            physics->SetCollider(0.2484,1);
+            runningstarttimer->Restart();
+            runningstarttimer->Delay(dt);
+            running = true;
         }
+        idle = false;
+        idletimer->Restart();
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
         }
         physics->PerformXAcceleration(&speed,false,aspeed,maxspeed,despeed,dt);
     }
 
+    if(runningstarttimer->Started()){
+        runningstarttimer->Update(dt);
+        if((running == false) && (!physics->IsGrounded())){
+            runningstarttimer->Restart();
+        }
+        if(runningstarttimer->Get() > 0.16){
+            SetSprite("assets/img/belwalktest2.png",18,0.04);
+            physics->SetCollider(0.2484,1);
+            runningstarttimer->Restart();
+        }
+    }
+
     if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
         physics->PerformXDeceleration(&speed,despeed,dt);
+        if(running == true){
+            SetSprite("assets/img/belstoptest.png",4,0.04,false);
+            physics->SetCollider(0.2484,1);
+            runningstoptimer->Delay(dt);
+        }
+        running = false;
+    }
+
+    if(runningstoptimer->Started()){
+        runningstoptimer->Update(dt);
+        if(runningstoptimer->Get() > 0.16){
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            physics->SetCollider(0.48527473,1);
+            runningstoptimer->Restart();
+        }
     }
 
     physics->PerformXMovement(&speed,dt);//Perfoms Movement if Allowed
@@ -195,10 +235,8 @@ void Player::YMovement(float dt){
     //Handles Jump input and acceleration
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
         if(physics->IsGrounded()){
-            if(idle == true){
-                idletimer->Restart();
-                idle = false;
-            }
+            idletimer->Restart();
+            idle = false;
             SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
             physics->SetCollider(0.261,0.8);
             jumpanimation->Delay(dt);
@@ -213,6 +251,8 @@ void Player::YMovement(float dt){
     }
     if(jumpsquat->Started()){
         speed.y = 0;
+        idle = false;
+        idletimer->Restart();
         jumpsquat->Update(dt);
         if(jumpsquat->Get() >= 0.12){
             speed.y = ajump;
@@ -249,7 +289,8 @@ void Player::IdleHandle(float dt){
     if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
-            // SetSprite("assets/img/belidletest2.png",8,0.08);
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            physics->SetCollider(0.48527473,1);
             idle = true;
         }
     }else{

@@ -61,6 +61,9 @@
             Timer *invincibilitytimer;
             bool falling;
             bool idle;
+            Timer *runningstarttimer;
+            Timer *runningstoptimer;
+            bool running;
 
             Physics *physics;
     };
