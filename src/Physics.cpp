@@ -7,7 +7,6 @@ Physics::Physics(GameObject* associated) : associated(associated){
     distceiling = 0;
     distright = 0;
     distleft = 0;
-
     this->collider = new Collider(*associated);
     associated->AddComponent(collider);
 }
@@ -47,7 +46,7 @@ void Physics::CorrectDistance(){
     bool inserted = true;
     while(inserted){
         inserted = false;
-        for(int i = 0;i < disttofix.size();i++){
+        for(unsigned int i = 0;i < disttofix.size();i++){
             if(i != (disttofix.size() -1)){
                 if(dists[disttofix[i]] < dists[disttofix[i + 1]]){
                     int a = disttofix[i];
