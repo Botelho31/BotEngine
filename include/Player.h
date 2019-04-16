@@ -37,7 +37,6 @@
 
             static Player *player;
         private:
-            InputManager *input;
             Vec2 speed;
             int maxspeed;
             int aspeed;
@@ -47,24 +46,28 @@
             int ajump;
             int awalljump;
 
+            Timer *swordattack;
             float swordarc;
             float asword;
-            Timer *swordattack;
 
+            Timer *invincibilitytimer;
             int hp;
             bool invencible;
-            Sprite *playersprite;
-            Timer *idletimer;
+
             Timer *jumpsquat;
             Timer *hittheground;
             Timer *jumpanimation;
-            Timer *invincibilitytimer;
             bool falling;
+
+            Timer *idletimer;
             bool idle;
+
             Timer *runningstarttimer;
             Timer *runningstoptimer;
             bool running;
 
+            Sprite *playersprite;
+            InputManager *input;
             Physics *physics;
     };
 

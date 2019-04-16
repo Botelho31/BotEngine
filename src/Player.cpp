@@ -147,6 +147,10 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 
 void Player::XMovement(float dt){
     //Handles input and acceleration
+    if(!physics->IsGrounded()){
+        running = false;
+    }
+
     if(input->IsKeyDown(SDLK_d) == true){
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())){
             SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
@@ -185,8 +189,8 @@ void Player::XMovement(float dt){
         if((running == false) && (!physics->IsGrounded())){
             runningstarttimer->Restart();
         }
-        if(runningstarttimer->Get() > 0.16){
-            SetSprite("assets/img/belwalktest2.png",18,0.04);
+        if(runningstarttimer->Get() >= 0.16){
+            SetSprite("assets/img/belwalktest2.png",18,0.02);
             physics->SetCollider(0.2484,1);
             runningstarttimer->Restart();
         }
@@ -207,7 +211,7 @@ void Player::XMovement(float dt){
         if(!physics->IsGrounded()){
             runningstoptimer->Restart();
         }
-        if(runningstoptimer->Get() > 0.16){
+        if(runningstoptimer->Get() >= 0.16){
             speed.x = 0;
             SetSprite("assets/img/belidletest2.png",8,0.08);
             physics->SetCollider(0.48527473,1);
