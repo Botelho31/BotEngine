@@ -22,6 +22,7 @@ Player::Player(GameObject& associated) : Component(associated){
     ajump = -1150;
     awalljump = 400;
     gravspeed = 2000;
+
     jumpsquat = new Timer();
     hittheground = new Timer();
     jumpanimation =  new Timer();
@@ -46,10 +47,10 @@ Player::Player(GameObject& associated) : Component(associated){
     input =  &(InputManager::GetInstance());
     this->physics = new Physics(&associated);
 
-    Sprite *player =  new Sprite(associated,"assets/img/beltest2.png");
+    Sprite *player =  new Sprite(associated,"assets/img/belidletest2.png",8,0.08);
     this->playersprite = player;
     associated.AddComponent(player);
-    physics->SetCollider(0.6,1);
+    physics->SetCollider(0.48527473,1);
 }
 
 Player::~Player(){
@@ -159,9 +160,6 @@ void Player::XMovement(float dt){
             runningstarttimer->Delay(dt);
             running = true;
         }
-
-        idle = false;
-        idletimer->Restart();
         if(playersprite->IsFlipped()){
             playersprite->Flip();
         }
@@ -175,9 +173,6 @@ void Player::XMovement(float dt){
             runningstarttimer->Delay(dt);
             running = true;
         }
-        
-        idle = false;
-        idletimer->Restart();
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
         }
@@ -245,8 +240,6 @@ void Player::YMovement(float dt){
     //Handles Jump input and acceleration
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
         if(physics->IsGrounded()){
-            idletimer->Restart();
-            idle = false;
             running = false;
             SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
             physics->SetCollider(0.261,0.8);
@@ -262,8 +255,6 @@ void Player::YMovement(float dt){
     }
     if(jumpsquat->Started()){
         speed.y = 0;
-        idle = false;
-        idletimer->Restart();
         jumpsquat->Update(dt);
         if(jumpsquat->Get() >= 0.12){
             speed.y = ajump;
@@ -271,8 +262,6 @@ void Player::YMovement(float dt){
         }
     }
     if(jumpanimation->Started()){
-        idle = false;
-        idletimer->Restart();
         jumpanimation->Update(dt);
         if(jumpanimation->Get() >= 0.6){
             jumpanimation->Restart();
@@ -281,8 +270,6 @@ void Player::YMovement(float dt){
 
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
-        idle = false;
-        idletimer->Restart();
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
         physics->SetCollider(0.261,0.8);
         falling = true;
@@ -291,15 +278,13 @@ void Player::YMovement(float dt){
     physics->PerformYMovement(&speed,dt); //Performs movement if it is allowed
 
     //GRAVITY
-    if((!physics->IsGrounded()) && (jumpsquat->Get() == 0)){
-        idletimer->Restart();
-        idle = false;
+    if((!physics->IsGrounded()) && (!jumpsquat->Started())){
         speed.y += gravspeed*dt;
     }
 }
 
 void Player::IdleHandle(float dt){
-    if((idle == false) && (((speed.x == 0) && (speed.y == 0)) && ((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)))){
+    if((speed.x == 0) && (speed.y == 0) && (running == false) && (physics->IsGrounded()) && (!jumpsquat->Started())){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
             SetSprite("assets/img/belidletest2.png",8,0.08);
@@ -307,6 +292,7 @@ void Player::IdleHandle(float dt){
             idle = true;
         }
     }else{
+        idle = false;
         idletimer->Restart();
     }
 }
