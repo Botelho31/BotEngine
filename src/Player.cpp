@@ -118,6 +118,7 @@ void Player::AttackHandle(float dt){
     //HANDLING ATTACK
     if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
         if(!swordattack->Started()){
+
             // swordarc = -1;
             // Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
             // Rect hitbox = Rect(vector.x - 20,vector.y - 50,40,100);
@@ -127,10 +128,11 @@ void Player::AttackHandle(float dt){
             // swordhitbox->SetFunction(SwordHitbox);
             // swordObj->AddComponent(swordhitbox);
             // Game::GetInstance().GetCurrentState().AddObject(swordObj);
+
             SetSprite("assets/img/belattacktest.png",22,0.04,false);
             physics->SetCollider(0.15054545,1);
             if(!physics->IsGrounded()){
-                speed.y += -300;
+                speed.y += -500;
             }
             swordattack->Delay(dt);
         }
@@ -143,8 +145,13 @@ void Player::AttackHandle(float dt){
         }
         if(swordattack->Get() >= 1){
             speed.x = 0;
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            physics->SetCollider(0.48527473,1);
+            if(physics->IsGrounded()){
+                SetSprite("assets/img/belidletest2.png",8,0.08);
+                physics->SetCollider(0.48527473,1);
+            }else{
+                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+                physics->SetCollider(0.261,0.8);
+            }
             swordattack->Restart();
         }
     }
@@ -242,7 +249,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles Jump input and acceleration
-    if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
+    if((input->KeyPress(SDLK_SPACE) == true) && (!hittheground->Started()) && (!swordattack->Started())){
         if(physics->IsGrounded()){
             running = false;
 
