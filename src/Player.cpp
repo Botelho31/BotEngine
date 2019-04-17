@@ -45,7 +45,7 @@ Player::Player(GameObject& associated) : Component(associated){
     running = false;
 
     input =  &(InputManager::GetInstance());
-    this->physics = new Physics(&associated);
+    this->physics = new Physics(&associated,&speed);
 
     Sprite *player =  new Sprite(associated,"assets/img/belidletest2.png",8,0.08);
     this->playersprite = player;
@@ -141,7 +141,7 @@ void Player::AttackHandle(float dt){
         swordattack->Update(dt);
         running = false;
         if(physics->IsGrounded()){
-            physics->PerformXDeceleration(&speed,1500,dt);
+            physics->PerformXDeceleration(1500,dt);
         }
         if(swordattack->Get() >= 1){
             speed.x = 0;
@@ -174,7 +174,7 @@ void Player::XMovement(float dt){
         if(playersprite->IsFlipped()){
             playersprite->Flip();
         }
-        physics->PerformXAcceleration(&speed,true,aspeed,maxspeed,despeed,dt);
+        physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
     }
     if(input->IsKeyDown(SDLK_a) == true){
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
@@ -187,7 +187,7 @@ void Player::XMovement(float dt){
         if(!playersprite->IsFlipped()){
             playersprite->Flip();
         }
-        physics->PerformXAcceleration(&speed,false,aspeed,maxspeed,despeed,dt);
+        physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
     }
 
     if(runningstarttimer->Started()){
@@ -203,7 +203,7 @@ void Player::XMovement(float dt){
     }
 
     if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
-        physics->PerformXDeceleration(&speed,despeed,dt);
+        physics->PerformXDeceleration(despeed,dt);
         if(running == true){
             SetSprite("assets/img/belstoptest.png",4,0.04,false);
             physics->SetCollider(0.2484,1);
@@ -225,7 +225,7 @@ void Player::XMovement(float dt){
         }
     }
 
-    physics->PerformXMovement(&speed,dt);//Perfoms Movement if Allowed
+    physics->PerformXMovement(dt);//Perfoms Movement if Allowed
 }
 
 void Player::YMovement(float dt){
@@ -287,11 +287,11 @@ void Player::YMovement(float dt){
         falling = true;
     }
     
-    physics->PerformYMovement(&speed,dt); //Performs movement if it is allowed
+    physics->PerformYMovement(dt); //Performs movement if it is allowed
 
     //GRAVITY
     if(!jumpsquat->Started()){
-        physics->PerformGravity(&speed,gravspeed,dt);
+        physics->PerformGravity(gravspeed,dt);
     }
 }
 
@@ -369,7 +369,7 @@ void Player::NotifyCollision(GameObject& other){
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if(hitbox->GetOwner() && hitbox->HitPlayer()){
-                physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
+                physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
                 DamagePlayer(hitbox->GetDamage());
                 invincibilitytimer->Delay(0);
             }
@@ -377,7 +377,7 @@ void Player::NotifyCollision(GameObject& other){
         else if(component2){
             Component *collidercomponent = other.GetComponent("Collider");
             Collider *collider = dynamic_cast<Collider*>(collidercomponent);
-            physics->KnockBack(collider->box,&speed,Vec2(400,400));
+            physics->KnockBack(collider->box,Vec2(400,400));
             DamagePlayer(10);
             invincibilitytimer->Delay(0);
         }

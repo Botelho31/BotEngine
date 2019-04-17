@@ -10,7 +10,7 @@
 
     class Physics{
         public:
-            Physics(GameObject* associated);
+            Physics(GameObject* associated,Vec2 *speed);
             ~Physics();
             void Update(Rect collider);
             void CorrectDistance();    //Correct the distance if the player is inside a wall
@@ -21,17 +21,18 @@
 
             bool IsGrounded();
 
-            void PerformXAcceleration(Vec2 *speed,bool increaseX,float aspeed,float maxspeed,float despeed,float dt);
-            void PerformXDeceleration(Vec2 *speed,float despeed,float dt);
-            void PerformXMovement(Vec2 *speed,float dt);
-            void PerformYMovement(Vec2 *speed,float dt);
-            void PerformGravity(Vec2 *speed,float gravspeed,float dt);
-            void KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback); //Applies knockback to rect
+            void PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt);
+            void PerformXDeceleration(float despeed,float dt);
+            void PerformXMovement(float dt);
+            void PerformYMovement(float dt);
+            void PerformGravity(float gravspeed,float dt);
+            void KnockBack(Rect hitbox,Vec2 knockback); //Applies knockback to rect
 
             Collider* GetCollider();
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
             int distground,distceiling,distright,distleft;
         private:
+            Vec2 *speed;
             Collider *collider;
             GameObject *associated;
             

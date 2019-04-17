@@ -2,11 +2,12 @@
 #include "../include/Component.h"
 
 
-Physics::Physics(GameObject* associated) : associated(associated){
+Physics::Physics(GameObject* associated,Vec2 *speed) : associated(associated){
     distground = 0;
     distceiling = 0;
     distright = 0;
     distleft = 0;
+    this->speed = speed;
     this->collider = new Collider(*associated);
     associated->AddComponent(collider);
 }
@@ -14,6 +15,7 @@ Physics::Physics(GameObject* associated) : associated(associated){
 Physics::~Physics(){
     associated = nullptr;
     collider = nullptr;
+    speed = nullptr;
 }
 
 void Physics::Update(Rect collider){
@@ -152,7 +154,7 @@ bool Physics::IsGrounded(){
     }
 }
 
-void Physics::PerformXAcceleration(Vec2 *speed,bool increaseX,float aspeed,float maxspeed,float despeed,float dt){
+void Physics::PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt){
     if(increaseX){
         if(speed->x >= 0){
             if((speed->x + aspeed*dt) > maxspeed){
@@ -176,7 +178,7 @@ void Physics::PerformXAcceleration(Vec2 *speed,bool increaseX,float aspeed,float
     }
 }
 
-void Physics::PerformXDeceleration(Vec2 *speed,float despeed,float dt){
+void Physics::PerformXDeceleration(float despeed,float dt){
     if(speed->x > 0){
         if((speed->x - despeed * dt) < 0){
             speed->x = 0;
@@ -192,7 +194,7 @@ void Physics::PerformXDeceleration(Vec2 *speed,float despeed,float dt){
     }
 }
 
-void Physics::PerformXMovement(Vec2 *speed,float dt){
+void Physics::PerformXMovement(float dt){
     if((distright - (speed->x * dt)) < 0){
         associated->box.x += distright;
         speed->x = 0;
@@ -208,7 +210,7 @@ void Physics::PerformXMovement(Vec2 *speed,float dt){
     }
 }
 
-void Physics::PerformYMovement(Vec2 *speed,float dt){
+void Physics::PerformYMovement(float dt){
     if(((distground - (speed->y * dt)) < 0) && (speed->y > 0)){
         associated->box.y += distground;
     }
@@ -221,13 +223,13 @@ void Physics::PerformYMovement(Vec2 *speed,float dt){
     }
 }
 
-void Physics::PerformGravity(Vec2 *speed,float gravspeed,float dt){
+void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
         speed->y += gravspeed * dt;
     }
 }
 
-void Physics::KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback){
+void Physics::KnockBack(Rect hitbox,Vec2 knockback){
     if(collider->box.x < hitbox.x){
         speed->x = -knockback.x;
     }else{

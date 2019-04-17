@@ -21,7 +21,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     idle = false;
 
     state = IDLE;
-    this->physics = new Physics(&associated);
+    this->physics = new Physics(&associated,&speed);
 
     this->attacktimer = new Timer();
 
@@ -62,7 +62,7 @@ void Minion::Update(float dt){
             state = CHASING;
         }
         IdleHandle(dt);
-        physics->PerformXDeceleration(&speed,despeed,dt);
+        physics->PerformXDeceleration(despeed,dt);
     }
     if(state == CHASING){
         if(distanceToPlayer >= 500){
@@ -74,12 +74,12 @@ void Minion::Update(float dt){
             if(!minionsprite->IsFlipped()){
                 minionsprite->Flip();
             }
-            physics->PerformXAcceleration(&speed,false,aspeed,maxspeed,despeed,dt);
+            physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
         }else{
             if(minionsprite->IsFlipped()){
                 minionsprite->Flip();
             }
-            physics->PerformXAcceleration(&speed,true,aspeed,maxspeed,despeed,dt);
+            physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
         }
     }
     if(state == ATTACKING){
@@ -135,11 +135,11 @@ void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
 }
 
 void Minion::XMovement(float dt){
-    physics->PerformXMovement(&speed,dt);//Perfoms Movement if Allowed
+    physics->PerformXMovement(dt);//Perfoms Movement if Allowed
 }
 void Minion::YMovement(float dt){
-    physics->PerformYMovement(&speed,dt);//Performs movement if it is allowed
-    physics->PerformGravity(&speed,gravspeed,dt); // Gravity
+    physics->PerformYMovement(dt);//Performs movement if it is allowed
+    physics->PerformGravity(gravspeed,dt); // Gravity
 }
 void Minion::IdleHandle(float dt){
     if((speed.x == 0) && (speed.y == 0) && (state == IDLE)){
@@ -182,7 +182,7 @@ void Minion::NotifyCollision(GameObject& other){
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
-                physics->KnockBack(hitbox->GetOwner()->box,&speed,hitbox->GetKnockBack());
+                physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
                 damageCooldown = hitbox->GetDamageCooldown();
                 invincibilitytimer->Update(0);
             }
