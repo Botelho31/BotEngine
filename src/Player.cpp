@@ -86,42 +86,48 @@ void Player::Update(float dt){
     #endif
     physics->CorrectDistance();
 
+    if(input->IsKeyDown(SDLK_s) == true){   //CROUCH?
+    }
+
+
     //HANDLING ATTACK
     if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
         if(!swordattack->Started()){
-            swordarc = -1;
-            Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-            Rect hitbox = Rect(vector.x - 20,vector.y - 50,40,100);
-            GameObject *swordObj = new GameObject();
-            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,75,0,0.3,0.3,true,false,true,{400,400});
-            swordhitbox->SetFunction(SwordHitbox);
-            swordObj->AddComponent(swordhitbox);
-            Game::GetInstance().GetCurrentState().AddObject(swordObj);
+            // swordarc = -1;
+            // Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+            // Rect hitbox = Rect(vector.x - 20,vector.y - 50,40,100);
+            // GameObject *swordObj = new GameObject();
+            // std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+            // HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,75,0,0.3,0.3,true,false,true,{400,400});
+            // swordhitbox->SetFunction(SwordHitbox);
+            // swordObj->AddComponent(swordhitbox);
+            // Game::GetInstance().GetCurrentState().AddObject(swordObj);
+            SetSprite("assets/img/belattacktest.png",22,0.04,false);
+            physics->SetCollider(0.15054545,1);
             if(!physics->IsGrounded()){
-                speed.y = -200;
+                speed.y += -300;
             }
-            idle = false;
-            idletimer->Restart();
             swordattack->Delay(dt);
         }
     }
     if(swordattack->Started()){
         swordattack->Update(dt);
-        if(swordattack->Get() >= 0.3){
+        running = false;
+        if(physics->IsGrounded()){
+            physics->PerformXDeceleration(&speed,1500,dt);
+        }
+        if(swordattack->Get() >= 1){
+            speed.x = 0;
+            SetSprite("assets/img/belidletest2.png",8,0.08);
+            physics->SetCollider(0.48527473,1);
             swordattack->Restart();
         }
     }
     //END HANDLING ATTACK
 
-
-    if(input->IsKeyDown(SDLK_s) == true){   //CROUCH?
-    }
-
     IdleHandle(dt);//IDLE HANDLING
     XMovement(dt); //X MOVEMENT
     YMovement(dt); //Y MOVEMENT
-
 
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
@@ -153,7 +159,7 @@ void Player::XMovement(float dt){
     }
 
     if(input->IsKeyDown(SDLK_d) == true){
-        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())){
+        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
             SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
             physics->SetCollider(0.2484,1);
             runningstarttimer->Restart();
@@ -166,7 +172,7 @@ void Player::XMovement(float dt){
         physics->PerformXAcceleration(&speed,true,aspeed,maxspeed,despeed,dt);
     }
     if(input->IsKeyDown(SDLK_a) == true){
-        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())){
+        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
             SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
             physics->SetCollider(0.2484,1);
             runningstarttimer->Restart();
@@ -181,7 +187,7 @@ void Player::XMovement(float dt){
 
     if(runningstarttimer->Started()){
         runningstarttimer->Update(dt);
-        if((running == false) && (!physics->IsGrounded())){
+        if((running == false) || (!physics->IsGrounded())  || (swordattack->Started())){
             runningstarttimer->Restart();
         }
         if(runningstarttimer->Get() >= 0.16){
@@ -203,7 +209,7 @@ void Player::XMovement(float dt){
 
     if(runningstoptimer->Started()){
         runningstoptimer->Update(dt);
-        if(!physics->IsGrounded()){
+        if((!physics->IsGrounded())  || (swordattack->Started())){
             runningstoptimer->Restart();
         }
         if(runningstoptimer->Get() >= 0.16){
@@ -223,7 +229,7 @@ void Player::YMovement(float dt){
     if((physics->IsGrounded()) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
-        SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false,{0,-10});
+        SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
         physics->SetCollider(0.276,1);
         hittheground->Delay(dt);
     }
@@ -241,6 +247,7 @@ void Player::YMovement(float dt){
     if((input->KeyPress(SDLK_SPACE) == true) && (hittheground->Get() == 0)){
         if(physics->IsGrounded()){
             running = false;
+
             SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
             physics->SetCollider(0.261,0.8);
             jumpanimation->Delay(dt);
@@ -269,7 +276,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started())){
+    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started()) && (!swordattack->Started())){
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
         physics->SetCollider(0.261,0.8);
         falling = true;
@@ -284,7 +291,7 @@ void Player::YMovement(float dt){
 }
 
 void Player::IdleHandle(float dt){
-    if((speed.x == 0) && (speed.y == 0) && (running == false) && (physics->IsGrounded()) && (!jumpsquat->Started())){
+    if((speed.x == 0) && (speed.y == 0) && (running == false) && (physics->IsGrounded()) && (!jumpsquat->Started())  && (!swordattack->Started())){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
             SetSprite("assets/img/belidletest2.png",8,0.08);
