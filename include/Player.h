@@ -21,6 +21,7 @@
             Vec2 GetSpeed(); //Returns speed on the two vectors
             int GetLife(); // Returns current hp
 
+            void AttackHandle(float dt); // Handles player attack
             void XMovement(float dt);   //Performs X Movement
             void YMovement(float dt);   //Performs Y Movement
             void IdleHandle(float dt); //Handles player Idle

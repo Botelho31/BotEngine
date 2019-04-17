@@ -86,10 +86,35 @@ void Player::Update(float dt){
     #endif
     physics->CorrectDistance();
 
-    if(input->IsKeyDown(SDLK_s) == true){   //CROUCH?
+    AttackHandle(dt);//HANDLING ATTACK
+    IdleHandle(dt);//IDLE HANDLING
+    XMovement(dt); //X MOVEMENT
+    YMovement(dt); //Y MOVEMENT
+
+    if(invincibilitytimer->Started()){
+        invincibilitytimer->Update(dt);
+        if((invincibilitytimer->Get() >= 2) && (invencible == false)){
+            invincibilitytimer->Restart();
+        }
     }
+    if(hp <= 0){
+        GameData::playerAlive = false;
+    }
+}
 
+void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
+    Component *component1 = owner.GetComponent("Player");
+    Player *player = dynamic_cast<Player*>(component1);
+    Collider *collider = player->physics->GetCollider();
 
+    hitbox.angleDeg += 70 * dt;
+    player->swordarc += player->asword * dt;
+    Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
+    
+}
+
+void Player::AttackHandle(float dt){
     //HANDLING ATTACK
     if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
         if(!swordattack->Started()){
@@ -123,33 +148,6 @@ void Player::Update(float dt){
             swordattack->Restart();
         }
     }
-    //END HANDLING ATTACK
-
-    IdleHandle(dt);//IDLE HANDLING
-    XMovement(dt); //X MOVEMENT
-    YMovement(dt); //Y MOVEMENT
-
-    if(invincibilitytimer->Started()){
-        invincibilitytimer->Update(dt);
-        if((invincibilitytimer->Get() >= 2) && (invencible == false)){
-            invincibilitytimer->Restart();
-        }
-    }
-    if(hp <= 0){
-        GameData::playerAlive = false;
-    }
-}
-
-void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
-    Component *component1 = owner.GetComponent("Player");
-    Player *player = dynamic_cast<Player*>(component1);
-    Collider *collider = player->physics->GetCollider();
-
-    hitbox.angleDeg += 70 * dt;
-    player->swordarc += player->asword * dt;
-    Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-    hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
-    
 }
 
 void Player::XMovement(float dt){
