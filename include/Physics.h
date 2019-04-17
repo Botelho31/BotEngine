@@ -12,7 +12,7 @@
         public:
             Physics(GameObject* associated,Vec2 *speed);
             ~Physics();
-            void Update(Rect collider);
+            void Update(Rect collider,int max = 150);
             void CorrectDistance();    //Correct the distance if the player is inside a wall
             int DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum,int max = 150);    //Gets the distance to a unpassable tile block in a direction
             bool CanMove(Vec2 vector1,Vec2 vector2);    //Checks it the side of a rect can move
@@ -30,6 +30,7 @@
 
             Collider* GetCollider();
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
+
             int distground,distceiling,distright,distleft;
         private:
             Vec2 *speed;

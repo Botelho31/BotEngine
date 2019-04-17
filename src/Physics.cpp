@@ -1,5 +1,6 @@
 #include "../include/Physics.h"
 #include "../include/Component.h"
+#include "../include/Camera.h"
 
 
 Physics::Physics(GameObject* associated,Vec2 *speed) : associated(associated){
@@ -18,22 +19,22 @@ Physics::~Physics(){
     speed = nullptr;
 }
 
-void Physics::Update(Rect collider){
+void Physics::Update(Rect collider,int max){
     Vec2 BoxCollider[] = {   Vec2(collider.x,collider.y),
                         Vec2(collider.x + collider.w,collider.y),
                         Vec2(collider.x,collider.y + collider.h),
                         Vec2(collider.x + collider.w,collider.y + collider.h)
     };
-    distground = DistanceTo( BoxCollider[2], BoxCollider[3],0,1);
-    distceiling = DistanceTo( BoxCollider[0], BoxCollider[1],0,-1);
-    distright = DistanceTo( BoxCollider[1], BoxCollider[3],1,0);
-    distleft = DistanceTo( BoxCollider[0], BoxCollider[2],-1,0);
+    distground = DistanceTo( BoxCollider[2], BoxCollider[3],0,1,max);
+    distceiling = DistanceTo( BoxCollider[0], BoxCollider[1],0,-1,max);
+    distright = DistanceTo( BoxCollider[1], BoxCollider[3],1,0,max);
+    distleft = DistanceTo( BoxCollider[0], BoxCollider[2],-1,0,max);
 }
 
 void Physics::CorrectDistance(){
-    // if((distground == -150) && (distceiling == -150) && (distright == -150) && (distleft == -150)){
-
-    // }
+    if((distground == -150) && (distceiling == -150) && (distright == -150) && (distleft == -150)){
+        Update(collider->box,Camera::limit.x);
+    }
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
