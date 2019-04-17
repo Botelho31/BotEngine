@@ -221,6 +221,12 @@ void Physics::PerformYMovement(Vec2 *speed,float dt){
     }
 }
 
+void Physics::PerformGravity(Vec2 *speed,float gravspeed,float dt){
+    if(!IsGrounded()){
+        speed->y += gravspeed * dt;
+    }
+}
+
 void Physics::KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback){
     if(collider->box.x < hitbox.x){
         speed->x = -knockback.x;

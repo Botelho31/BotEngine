@@ -25,6 +25,7 @@
             void PerformXDeceleration(Vec2 *speed,float despeed,float dt);
             void PerformXMovement(Vec2 *speed,float dt);
             void PerformYMovement(Vec2 *speed,float dt);
+            void PerformGravity(Vec2 *speed,float gravspeed,float dt);
             void KnockBack(Rect hitbox,Vec2 *speed,Vec2 knockback); //Applies knockback to rect
 
             Collider* GetCollider();

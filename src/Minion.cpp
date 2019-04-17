@@ -139,22 +139,16 @@ void Minion::XMovement(float dt){
 }
 void Minion::YMovement(float dt){
     physics->PerformYMovement(&speed,dt);//Performs movement if it is allowed
-    //GRAVITY
-    if(!physics->IsGrounded()){
-        if(idle == true){
-            idletimer->Restart();
-            idle = false;
-        }
-        speed.y += gravspeed*dt;
-    }
+    physics->PerformGravity(&speed,gravspeed,dt); // Gravity
 }
 void Minion::IdleHandle(float dt){
-    if((idle == false) && (speed.x == 0) && (speed.y == 0)){
+    if((speed.x == 0) && (speed.y == 0) && (state == IDLE)){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
             idle = true;
         }
     }else{
+        idle = false;
         idletimer->Restart();
     }
 }

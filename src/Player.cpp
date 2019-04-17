@@ -290,8 +290,8 @@ void Player::YMovement(float dt){
     physics->PerformYMovement(&speed,dt); //Performs movement if it is allowed
 
     //GRAVITY
-    if((!physics->IsGrounded()) && (!jumpsquat->Started())){
-        speed.y += gravspeed*dt;
+    if(!jumpsquat->Started()){
+        physics->PerformGravity(&speed,gravspeed,dt);
     }
 }
 
