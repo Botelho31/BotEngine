@@ -205,6 +205,10 @@ void Player::AttackHandle(float dt){
             swordattack->Restart();
         }
     }
+    if((swordattack->Get() >= attacktiming) && (input->IsKeyDown(SDLK_d) || input->IsKeyDown(SDLK_a) || input->IsKeyDown(SDLK_SPACE))){
+        currentAttack = 0;
+        swordattack->Restart();
+    }
 }
 
 void Player::XMovement(float dt){
@@ -303,20 +307,21 @@ void Player::YMovement(float dt){
     }
 
     //Handles Jump input and acceleration
-    if((input->KeyPress(SDLK_SPACE) == true) && (!hittheground->Started()) && (!swordattack->Started())){
-        if(physics->IsGrounded()){
-            running = false;
-
-            SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
-            physics->SetCollider(0.261,0.8);
-            jumpanimation->Delay(dt);
-            jumpsquat->Delay(dt);
-        }else if(physics->distright == 0){
-            speed.y = ajump;
-            speed.x = -awalljump;
-        }else if(physics->distleft == 0){
-            speed.y = ajump;
-            speed.x = awalljump;
+    if((input->KeyPress(SDLK_SPACE) == true) && (!hittheground->Started())){
+        if(!swordattack->Started()){
+            if(physics->IsGrounded()){
+                running = false;
+                SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
+                physics->SetCollider(0.261,0.8);
+                jumpanimation->Delay(dt);
+                jumpsquat->Delay(dt);
+            }else if(physics->distright == 0){
+                speed.y = ajump;
+                speed.x = -awalljump;
+            }else if(physics->distleft == 0){
+                speed.y = ajump;
+                speed.x = awalljump;
+            }
         }
     }
     if(jumpsquat->Started()){
