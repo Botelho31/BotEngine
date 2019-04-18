@@ -84,7 +84,7 @@ void Minion::Update(float dt){
     }
     if(state == ATTACKING){
         speed.x = 0;
-        if(!attacktimer->Started()){
+        if((!attacktimer->Started()) && (!invincibilitytimer->Started())){
             Rect hitbox;
             if(player.x < GetPosition().x){
                 hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);

@@ -21,6 +21,7 @@
             Vec2 GetSpeed(); //Returns speed on the two vectors
             int GetLife(); // Returns current hp
 
+            void InstanceHitbox(float asword,float swordarc);
             void AttackHandle(float dt); // Handles player attack
             void XMovement(float dt);   //Performs X Movement
             void YMovement(float dt);   //Performs Y Movement
@@ -50,6 +51,9 @@
             Timer *swordattack;
             float swordarc;
             float asword;
+            int currentAttack;
+            float attacktiming;
+            float endofattack;
             std::queue<int> nextattack; 
 
             Timer *invincibilitytimer;

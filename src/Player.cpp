@@ -30,6 +30,9 @@ Player::Player(GameObject& associated) : Component(associated){
 
     swordarc = -1;
     asword = (PI*2);
+    currentAttack = 0;
+    attacktiming = 0;
+    endofattack = 0;
     swordattack = new Timer();
 
     hp = 150;
@@ -114,38 +117,73 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
     
 }
 
+void Player::InstanceHitbox(float asword,float swordarc){
+    this->asword = asword;
+    this->swordarc = swordarc;
+    Collider *collider = physics->GetCollider();
+    Vec2 vector = Vec2(130,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    Rect hitbox = Rect(vector.x - 45,vector.y - 50,90,100);
+    GameObject *swordObj = new GameObject();
+    std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,0,0.2,0.2,true,false,true,{700,300});
+    swordhitbox->SetFunction(SwordHitbox);
+    swordObj->AddComponent(swordhitbox);
+    Game::GetInstance().GetCurrentState().AddObject(swordObj);
+}
+
 void Player::AttackHandle(float dt){
     //HANDLING ATTACK
-    if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
-        if(!swordattack->Started()){
-            asword = (PI/0.4);
-            swordarc = -1;
-            Collider *collider = physics->GetCollider();
-            Vec2 vector = Vec2(130,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-            Rect hitbox = Rect(vector.x - 45,vector.y - 50,90,100);
-            GameObject *swordObj = new GameObject();
-            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,0,0.2,0.2,true,false,true,{400,400});
-            swordhitbox->SetFunction(SwordHitbox);
-            swordObj->AddComponent(swordhitbox);
-            Game::GetInstance().GetCurrentState().AddObject(swordObj);
-
-            SetSprite("assets/img/belattacktest.png",22,0.04,false);
-            physics->SetCollider(0.15054545,1);
-            if(!physics->IsGrounded()){
-                speed.y = -700;
+    if(input->KeyPress(SDLK_e) == true){    //TESTING SWORD ON W
+        // std::cout << "press" << std::endl;
+        if(currentAttack == 1){
+            if(nextattack.size() <  2){
+                nextattack.push(1);
             }
-            swordattack->Delay(dt);
+        }
+        if(currentAttack == 0){
+            currentAttack = 1;
         }
     }
-    if(swordattack->Started()) {
+    if((currentAttack != 0) && (!swordattack->Started())){
+        if(currentAttack == 1){
+            SetSprite("assets/img/belattacktest.png",22,0.04,false);
+            physics->SetCollider(0.15054545,1);
+            attacktiming = 0.4;
+            endofattack = 1;
+            if(playersprite->IsFlipped()){
+                InstanceHitbox(-(PI/0.4),-PI + 1);
+            }else{
+                InstanceHitbox((PI/0.4),-1);
+            }
+            swordattack->Delay(dt);
+            // std::cout << "Iniciated attack" << std::endl;
+        }
+        if(!physics->IsGrounded() && (physics->distground > 100)){
+            speed.y = -400;
+        }else if(physics->IsGrounded()){
+            if(playersprite->IsFlipped()){
+                speed.x = -500;
+            }else{
+                speed.x = 500;
+            }
+        }
+    }
+    if(swordattack->Started()){
         swordattack->Update(dt);
         running = false;
         if(physics->IsGrounded()){
             physics->PerformXDeceleration(1500,dt);
         }
-        if(swordattack->Get() >= 1){
+        if((swordattack->Get() >= attacktiming) && (!nextattack.empty())){
+            // std::cout << "Reset to next attack" << std::endl;
+            currentAttack = nextattack.front();
+            nextattack.pop();
             speed.x = 0;
+            swordattack->Restart();
+        }
+        if(swordattack->Get() >= endofattack){
+            speed.x = 0;
+            currentAttack = 0;
             if(physics->IsGrounded()){
                 SetSprite("assets/img/belidletest2.png",8,0.08);
                 physics->SetCollider(0.48527473,1);
