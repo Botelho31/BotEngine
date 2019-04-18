@@ -82,27 +82,35 @@ void Minion::Update(float dt){
         }
     }
     if(state == ATTACKING){
-        if((!attacktimer->Started()) && (!invincibilitytimer->Started())){
-            speed.x = 0;
-            Rect hitbox;
-            if(player.x < GetPosition().x){
-                hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-            }else{
-                hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-            }
-            GameObject *hitboxObj = new GameObject();
+        if(!invincibilitytimer->Started()){
+            if((!attacktimer->Started())){
+                speed.x = 0;
+                Rect hitbox;
+                if(player.x < GetPosition().x){
+                    hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
+                }else{
+                    hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
+                }
+                GameObject *hitboxObj = new GameObject();
 
-            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,1,1,false,true,false,{400,400},this);
-            minionhitbox->SetFunction(BiteHitbox);
-            hitboxObj->AddComponent(minionhitbox);
-            Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
-            attacktimer->Delay(dt);
+                std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+                HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,1,1,false,true,false,{400,400},this);
+                minionhitbox->SetFunction(BiteHitbox);
+                hitboxObj->AddComponent(minionhitbox);
+                Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
+                attacktimer->Delay(dt);
+            }else{
+                attacktimer->Update(dt);
+            }
+            if(attacktimer->Get() >= 1){
+                attacktimer->Restart();
+                if((distanceToPlayer >= 100) && (distanceToPlayer < 500)){
+                    state = CHASING;
+                }else if(distanceToPlayer >= 500){
+                    state = IDLE;
+                }
+            }
         }else{
-            attacktimer->Update(dt);
-        }
-        if(attacktimer->Get() >= 1){
-            attacktimer->Restart();
             if((distanceToPlayer >= 100) && (distanceToPlayer < 500)){
                 state = CHASING;
             }else if(distanceToPlayer >= 500){
