@@ -291,17 +291,17 @@ void Player::YMovement(float dt){
     if((physics->IsGrounded()) && (speed.y > 0)){
         speed.y = 0;
         falling = false;
-        SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
-        physics->SetCollider(0.276,1);
-        hittheground->Delay(dt);
+        if(!swordattack->Started()){
+            SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
+            physics->SetCollider(0.276,1);
+            hittheground->Delay(dt);
+        }
     }
     if(hittheground->Started()){
         speed.y = 0;
         hittheground->Update(dt);
         if(hittheground->Get() >= 0.12){
-            if(swordattack->Started()){
-
-            }else{
+            if(!swordattack->Started()){
                 SetSprite("assets/img/belidletest2.png",8,0.08);
                 physics->SetCollider(0.48527473,1);
             }
