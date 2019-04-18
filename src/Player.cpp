@@ -207,6 +207,9 @@ void Player::AttackHandle(float dt){
     }
     if((swordattack->Get() >= attacktiming) && (input->IsKeyDown(SDLK_d) || input->IsKeyDown(SDLK_a) || input->IsKeyDown(SDLK_SPACE))){
         currentAttack = 0;
+        for(int i = 0;i < nextattack.size();i++){
+            nextattack.pop();
+        }
         swordattack->Restart();
     }
 }
@@ -217,7 +220,7 @@ void Player::XMovement(float dt){
         running = false;
     }
 
-    if(input->IsKeyDown(SDLK_d) == true){
+    if(input->IsKeyDown(SDLK_d)){
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
             SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
             physics->SetCollider(0.2484,1);
@@ -230,7 +233,7 @@ void Player::XMovement(float dt){
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
     }
-    if(input->IsKeyDown(SDLK_a) == true){
+    if(input->IsKeyDown(SDLK_a)){
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
             SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
             physics->SetCollider(0.2484,1);
@@ -307,7 +310,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles Jump input and acceleration
-    if((input->KeyPress(SDLK_SPACE) == true) && (!hittheground->Started())){
+    if((input->KeyPress(SDLK_SPACE)) && (!hittheground->Started())){
         if(!swordattack->Started()){
             if(physics->IsGrounded()){
                 running = false;
