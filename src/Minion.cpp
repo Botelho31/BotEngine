@@ -13,7 +13,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     gravspeed = 2000;
     hittheground = new Timer();
 
-    hp = 50;
+    hp = 60;
     damageCooldown = 0;
     invincibilitytimer =  new Timer();
 
@@ -192,7 +192,6 @@ void Minion::NotifyCollision(GameObject& other){
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
-                std::cout << "oi" << rand() << std::endl;
                 physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
                 DamageMinion(hitbox->GetDamage());
                 damageCooldown = hitbox->GetDamageCooldown();
