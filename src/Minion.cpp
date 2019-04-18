@@ -70,21 +70,23 @@ void Minion::Update(float dt){
         }else if(distanceToPlayer <= 150){
             state = ATTACKING;
         }
-        if(player.x < GetPosition().x){
-            if(!minionsprite->IsFlipped()){
-                minionsprite->Flip();
+        if(!invincibilitytimer->Started()){
+            if(player.x < GetPosition().x){
+                if(!minionsprite->IsFlipped()){
+                    minionsprite->Flip();
+                }
+                physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
+            }else{
+                if(minionsprite->IsFlipped()){
+                    minionsprite->Flip();
+                }
+                physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
             }
-            physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
-        }else{
-            if(minionsprite->IsFlipped()){
-                minionsprite->Flip();
-            }
-            physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
         }
     }
     if(state == ATTACKING){
-        speed.x = 0;
         if((!attacktimer->Started()) && (!invincibilitytimer->Started())){
+            speed.x = 0;
             Rect hitbox;
             if(player.x < GetPosition().x){
                 hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
@@ -135,6 +137,7 @@ void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
 }
 
 void Minion::XMovement(float dt){
+    std::cout << speed.x << std::endl;
     physics->PerformXMovement(dt);//Perfoms Movement if Allowed
 }
 void Minion::YMovement(float dt){

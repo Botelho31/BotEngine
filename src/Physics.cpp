@@ -232,7 +232,7 @@ void Physics::PerformGravity(float gravspeed,float dt){
 }
 
 void Physics::KnockBack(Rect hitbox,Vec2 knockback){
-    if(collider->box.x < hitbox.x){
+    if((collider->box.x + collider->box.w/2) < (hitbox.x + hitbox.w/2)){
         speed->x = -knockback.x;
     }else{
         speed->x = knockback.x;

@@ -281,8 +281,12 @@ void Player::YMovement(float dt){
         speed.y = 0;
         hittheground->Update(dt);
         if(hittheground->Get() >= 0.12){
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            physics->SetCollider(0.48527473,1);
+            if(swordattack->Started()){
+
+            }else{
+                SetSprite("assets/img/belidletest2.png",8,0.08);
+                physics->SetCollider(0.48527473,1);
+            }
             hittheground->Restart();
         }
     }
