@@ -43,8 +43,10 @@ void HitBox::Render(){
 
 void HitBox::NotifyCollision(GameObject& other){
     if(!disconnected){
-        if(component){
-            component->NotifyCollision(other);
+        if(!owner.expired()){
+            if(component){
+                component->NotifyCollision(other);
+            }
         }
     }
 }

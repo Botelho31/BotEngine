@@ -23,6 +23,7 @@
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
 
             Vec2 GetPosition();
+            void DamageMinion(int damage);
 
             static void BiteHitbox(GameObject& hitbox,GameObject& owner,float dt);
         private:

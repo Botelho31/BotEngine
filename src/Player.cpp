@@ -128,7 +128,7 @@ void Player::InstanceHitbox(float asword,float swordarc){
     Rect hitbox = Rect(vector.x - 45,vector.y - 50,90,100);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,0,0.2,0.2,true,false,true,{700,300});
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,30,0.2,0.4,true,false,true,{700,300});
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);

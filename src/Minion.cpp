@@ -130,6 +130,10 @@ void Minion::Update(float dt){
     }
 }
 
+void Minion::DamageMinion(int damage){
+    hp -= damage;
+}
+
 void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
     Component *component = owner.GetComponent("Collider");
     Collider *collider = dynamic_cast<Collider*>(component);
@@ -183,15 +187,16 @@ bool Minion::Is(std::string type){
 }
 
 void Minion::NotifyCollision(GameObject& other){
-    if(invincibilitytimer->Started()){
-    }else{
+    if(!invincibilitytimer->Started()){
         Component *component1 = other.GetComponent("HitBox");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
+                std::cout << "oi" << rand() << std::endl;
                 physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
+                DamageMinion(hitbox->GetDamage());
                 damageCooldown = hitbox->GetDamageCooldown();
-                invincibilitytimer->Update(0);
+                invincibilitytimer->Delay(0);
             }
         }
     }
