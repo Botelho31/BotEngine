@@ -50,6 +50,7 @@
             Timer *swordattack;
             float swordarc;
             float asword;
+            std::queue<int> nextattack; 
 
             Timer *invincibilitytimer;
             int hp;

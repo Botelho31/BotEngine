@@ -34,6 +34,7 @@ void Physics::Update(Rect collider,int max){
 void Physics::CorrectDistance(){
     if((distground == -150) && (distceiling == -150) && (distright == -150) && (distleft == -150)){
         Update(collider->box,Camera::limit.x);
+        std::cout << "Out of Bounds" << std::endl;
     }
     std::map<int,int> dists;
     dists.insert({0,distground});

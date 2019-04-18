@@ -107,7 +107,7 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
     Player *player = dynamic_cast<Player*>(component1);
     Collider *collider = player->physics->GetCollider();
 
-    hitbox.angleDeg += 70 * dt;
+    // hitbox.angleDeg += 70 * dt;
     player->swordarc += player->asword * dt;
     Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
     hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
@@ -118,26 +118,27 @@ void Player::AttackHandle(float dt){
     //HANDLING ATTACK
     if(input->MousePress(SDL_BUTTON_LEFT) == true){    //TESTING SWORD ON W
         if(!swordattack->Started()){
-
-            // swordarc = -1;
-            // Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-            // Rect hitbox = Rect(vector.x - 20,vector.y - 50,40,100);
-            // GameObject *swordObj = new GameObject();
-            // std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            // HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,75,0,0.3,0.3,true,false,true,{400,400});
-            // swordhitbox->SetFunction(SwordHitbox);
-            // swordObj->AddComponent(swordhitbox);
-            // Game::GetInstance().GetCurrentState().AddObject(swordObj);
+            asword = (PI/0.4);
+            swordarc = -1;
+            Collider *collider = physics->GetCollider();
+            Vec2 vector = Vec2(130,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+            Rect hitbox = Rect(vector.x - 45,vector.y - 50,90,100);
+            GameObject *swordObj = new GameObject();
+            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+            HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,0,0.2,0.2,true,false,true,{400,400});
+            swordhitbox->SetFunction(SwordHitbox);
+            swordObj->AddComponent(swordhitbox);
+            Game::GetInstance().GetCurrentState().AddObject(swordObj);
 
             SetSprite("assets/img/belattacktest.png",22,0.04,false);
             physics->SetCollider(0.15054545,1);
             if(!physics->IsGrounded()){
-                speed.y += -500;
+                speed.y = -700;
             }
             swordattack->Delay(dt);
         }
     }
-    if(swordattack->Started()){
+    if(swordattack->Started()) {
         swordattack->Update(dt);
         running = false;
         if(physics->IsGrounded()){
