@@ -49,11 +49,13 @@
             int awalljump;
 
             Timer *swordattack;
+            Timer *delayedboosttimer;
             float swordarc;
             float asword;
             int currentAttack;
             float attacktiming;
             float endofattack;
+            float delayedboost;
             std::queue<int> nextattack; 
 
             Timer *invincibilitytimer;

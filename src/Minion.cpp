@@ -54,7 +54,6 @@ void Minion::Update(float dt){
         distanceToPlayer = physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500);
         player = Player::player->GetPosition();
     }
-
     XMovement(dt);
     YMovement(dt);
     if(state == IDLE){
@@ -70,18 +69,16 @@ void Minion::Update(float dt){
         }else if(distanceToPlayer <= 150){
             state = ATTACKING;
         }
-        if(!invincibilitytimer->Started()){
-            if(player.x < GetPosition().x){
-                if(!minionsprite->IsFlipped()){
-                    minionsprite->Flip();
-                }
-                physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
-            }else{
-                if(minionsprite->IsFlipped()){
-                    minionsprite->Flip();
-                }
-                physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
+        if(player.x < GetPosition().x){
+            if(!minionsprite->IsFlipped()){
+                minionsprite->Flip();
             }
+            physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
+        }else{
+            if(minionsprite->IsFlipped()){
+                minionsprite->Flip();
+            }
+            physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
         }
     }
     if(state == ATTACKING){
@@ -137,7 +134,6 @@ void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
 }
 
 void Minion::XMovement(float dt){
-    std::cout << speed.x << std::endl;
     physics->PerformXMovement(dt);//Perfoms Movement if Allowed
 }
 void Minion::YMovement(float dt){

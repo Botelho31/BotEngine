@@ -33,7 +33,9 @@ Player::Player(GameObject& associated) : Component(associated){
     currentAttack = 0;
     attacktiming = 0;
     endofattack = 0;
+    delayedboost = 0;
     swordattack = new Timer();
+    delayedboosttimer = new Timer();
 
     hp = 150;
     invencible = false;
@@ -65,6 +67,7 @@ Player::~Player(){
     delete hittheground;
     delete invincibilitytimer;
     delete swordattack;
+    delete delayedboosttimer;
     delete jumpanimation;
     delete runningstarttimer;
     delete runningstoptimer;
@@ -133,7 +136,7 @@ void Player::InstanceHitbox(float asword,float swordarc){
 
 void Player::AttackHandle(float dt){
     //HANDLING ATTACK
-    if(input->KeyPress(SDLK_e) == true){    //TESTING SWORD ON W
+    if(input->KeyPress(SDLK_e) == true){    //TESTING SWORD ON E
         // std::cout << "press" << std::endl;
         if(currentAttack == 1){
             if(nextattack.size() <  2){
@@ -156,16 +159,25 @@ void Player::AttackHandle(float dt){
                 InstanceHitbox((PI/0.4),-1);
             }
             swordattack->Delay(dt);
-            // std::cout << "Iniciated attack" << std::endl;
+            delayedboost = 0.12;
+            delayedboosttimer->Delay(dt);
         }
         if(!physics->IsGrounded() && (physics->distground > 100)){
             speed.y = -400;
-        }else if(physics->IsGrounded()){
+        }
+    }
+    if(delayedboosttimer->Started()){
+        delayedboosttimer->Update(dt);
+        if(!physics->IsGrounded()){
+            delayedboosttimer->Restart();
+        }
+        if(delayedboosttimer->Get() >= delayedboost){
             if(playersprite->IsFlipped()){
                 speed.x = -500;
             }else{
                 speed.x = 500;
             }
+            delayedboosttimer->Restart();
         }
     }
     if(swordattack->Started()){
@@ -174,8 +186,7 @@ void Player::AttackHandle(float dt){
         if(physics->IsGrounded()){
             physics->PerformXDeceleration(1500,dt);
         }
-        if((swordattack->Get() >= attacktiming) && (!nextattack.empty())){
-            // std::cout << "Reset to next attack" << std::endl;
+        if((swordattack->Get() >= attacktiming) && ((!nextattack.empty()))){
             currentAttack = nextattack.front();
             nextattack.pop();
             speed.x = 0;
