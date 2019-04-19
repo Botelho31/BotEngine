@@ -137,7 +137,6 @@ void Player::InstanceHitbox(float asword,float swordarc){
 void Player::AttackHandle(float dt){
     //HANDLING ATTACK
     if(input->KeyPress(SDLK_e) == true){    //TESTING SWORD ON E
-        // std::cout << "press" << std::endl;
         if(currentAttack == 1){
             if(nextattack.size() <  2){
                 nextattack.push(1);
@@ -230,7 +229,7 @@ void Player::XMovement(float dt){
             runningstarttimer->Delay(dt);
             running = true;
         }
-        if(playersprite->IsFlipped()){
+        if(playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
@@ -243,7 +242,7 @@ void Player::XMovement(float dt){
             runningstarttimer->Delay(dt);
             running = true;
         }
-        if(!playersprite->IsFlipped()){
+        if(!playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
