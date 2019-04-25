@@ -52,10 +52,10 @@ Player::Player(GameObject& associated) : Component(associated){
     input =  &(InputManager::GetInstance());
     this->physics = new Physics(&associated,&speed);
 
-    Sprite *player =  new Sprite(associated,"assets/img/belidletest2.png",8,0.08);
+    Sprite *player =  new Sprite(associated,"assets/img/belidleswordtest.png",32,0.08);
     this->playersprite = player;
     associated.AddComponent(player);
-    physics->SetCollider(0.48527473,1);
+    physics->SetCollider(0.276,1);
 }
 
 Player::~Player(){
@@ -197,8 +197,8 @@ void Player::AttackHandle(float dt){
             speed.x = 0;
             currentAttack = 0;
             if(physics->IsGrounded()){
-                SetSprite("assets/img/belidletest2.png",8,0.08);
-                physics->SetCollider(0.48527473,1);
+                SetSprite("assets/img/belidleswordtest.png",32,0.08);
+                physics->SetCollider(0.276,1);
             }else{
                 SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
                 physics->SetCollider(0.261,0.8);
@@ -231,6 +231,7 @@ void Player::XMovement(float dt){
         }
         if(playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
+            speed.x = 0;
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
     }
@@ -244,6 +245,7 @@ void Player::XMovement(float dt){
         }
         if(!playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
+            speed.x = 0;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
     }
@@ -254,8 +256,8 @@ void Player::XMovement(float dt){
             runningstarttimer->Restart();
         }
         if(runningstarttimer->Get() >= 0.16){
-            SetSprite("assets/img/belwalktest2.png",18,0.02);
-            physics->SetCollider(0.2484,1);
+            SetSprite("assets/img/belwalktest4.png",14,0.04);
+            physics->SetCollider(0.184,1);
             runningstarttimer->Restart();
         }
     }
@@ -263,8 +265,8 @@ void Player::XMovement(float dt){
     if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
         physics->PerformXDeceleration(despeed,dt);
         if(running == true){
-            SetSprite("assets/img/belstoptest.png",4,0.04,false);
-            physics->SetCollider(0.2484,1);
+            SetSprite("assets/img/belstoptest2.png",2,0.04,false);
+            physics->SetCollider(0.184,1);
             runningstoptimer->Delay(dt);
             running = false;
         }
@@ -275,10 +277,10 @@ void Player::XMovement(float dt){
         if((!physics->IsGrounded())  || (swordattack->Started())){
             runningstoptimer->Restart();
         }
-        if(runningstoptimer->Get() >= 0.16){
+        if(runningstoptimer->Get() >= 0.08){
             speed.x = 0;
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            physics->SetCollider(0.48527473,1);
+            SetSprite("assets/img/belidleswordtest.png",32,0.08);
+            physics->SetCollider(0.276,1);
             runningstoptimer->Restart();
         }
     }
@@ -303,8 +305,8 @@ void Player::YMovement(float dt){
         hittheground->Update(dt);
         if(hittheground->Get() >= 0.12){
             if(!swordattack->Started()){
-                SetSprite("assets/img/belidletest2.png",8,0.08);
-                physics->SetCollider(0.48527473,1);
+                SetSprite("assets/img/belidleswordtest.png",32,0.08);
+                physics->SetCollider(0.276,1);
             }
             hittheground->Restart();
         }
@@ -362,8 +364,8 @@ void Player::IdleHandle(float dt){
     if((speed.x == 0) && (speed.y == 0) && (running == false) && (physics->IsGrounded()) && (!jumpsquat->Started())  && (!swordattack->Started())){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
-            SetSprite("assets/img/belidletest2.png",8,0.08);
-            physics->SetCollider(0.48527473,1);
+            // SetSprite("assets/img/belidleswordtest.png",32,0.08);
+            // physics->SetCollider(0.276,1);
             idle = true;
         }
     }else{
