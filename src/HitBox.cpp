@@ -1,8 +1,8 @@
 #include "../include/HitBox.h"
 
 
-HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component) : 
-    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown),hitPlayer(hitPlayer),hitEnemy(hitEnemy),disconnected(disconnected),damage(damage),knockback(knockback),component(component){
+HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
+    Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown),hitPlayer(hitPlayer),hitEnemy(hitEnemy),disconnected(disconnected),damage(damage),knockback(knockback),component(component),hitfreezetime(hitfreezetime){
     associated.box = hitbox;
     associated.angleDeg = angledeg;
     this->selfDestruct = new Timer();
@@ -46,6 +46,22 @@ void HitBox::NotifyCollision(GameObject& other){
         if(!owner.expired()){
             if(component){
                 component->NotifyCollision(other);
+            }
+        }
+    }
+    if(component && (hitfreezetime > 0)){
+        if(hitPlayer){
+            Component *component1 = other.GetComponent("Player");
+            if(component1){
+                component->KeepStill(true,hitfreezetime);
+                KeepStill(true,hitfreezetime);
+            }
+        }
+        if(hitEnemy){
+            Component *component1 = other.GetComponent("Minion");
+            if(component1){
+                component->KeepStill(true,hitfreezetime);
+                KeepStill(true,hitfreezetime);
             }
         }
     }

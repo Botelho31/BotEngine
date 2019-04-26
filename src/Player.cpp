@@ -130,7 +130,7 @@ void Player::InstanceHitbox(float asword,float swordarc){
     Rect hitbox = Rect(vector.x - 45,vector.y - 50,90,100);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,20,0.2,0.4,true,false,true,{700,300});
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,20,0.2,0.4,true,false,true,{700,300},this,0.2);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -440,8 +440,6 @@ void Player::NotifyCollision(GameObject& other){
                     physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
                     DamagePlayer(hitbox->GetDamage());
                     invincibilitytimer->Delay(0);
-                }else{
-                    KeepStill(true,0.2);
                 }
             }
         }
