@@ -39,6 +39,7 @@ Player::Player(GameObject& associated) : Component(associated){
 
     hp = 150;
     invencible = false;
+    freeze = false;
     invincibilitytimer = new Timer();
     player = this;
 
@@ -92,17 +93,21 @@ void Player::Update(float dt){
     #endif
     physics->CorrectDistance();
 
-    AttackHandle(dt);//HANDLING ATTACK
-    IdleHandle(dt);//IDLE HANDLING
-    XMovement(dt); //X MOVEMENT
-    YMovement(dt); //Y MOVEMENT
 
-    if(invincibilitytimer->Started()){
-        invincibilitytimer->Update(dt);
-        if((invincibilitytimer->Get() >= 2) && (invencible == false)){
-            invincibilitytimer->Restart();
+    if(!freeze){
+        AttackHandle(dt);//HANDLING ATTACK
+        IdleHandle(dt);//IDLE HANDLING
+        XMovement(dt); //X MOVEMENT
+        YMovement(dt); //Y MOVEMENT
+
+        if(invincibilitytimer->Started()){
+            invincibilitytimer->Update(dt);
+            if((invincibilitytimer->Get() >= 2) && (invencible == false)){
+                invincibilitytimer->Restart();
+            }
         }
     }
+
     if(hp <= 0){
         GameData::playerAlive = false;
     }
@@ -397,8 +402,8 @@ void Player::SetSpeed(Vec2 speed){
     this->speed.y = speed.y;
 }
 
-void Player::KeepStill(Vec2 FreezePos){
-    MovePlayer(FreezePos.x,FreezePos.y,false);
+void Player::KeepStill(bool freeze){
+    this->freeze = freeze;
 }
 
 void Player::SetInvincibility(bool Invencible){

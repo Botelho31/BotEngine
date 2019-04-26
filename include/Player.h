@@ -30,7 +30,7 @@
 
             void SetInvincibility(bool Invencible);
             void SetSpeed(Vec2 speed);
-            void KeepStill(Vec2 FreezePos);
+            void KeepStill(bool freeze);
             void MovePlayer(float x,float y,bool keepMomentum = true);   //Moves the center of a player to a certain spot
             void DamagePlayer(int damage);
             void HealPlayer(int heal);
@@ -61,6 +61,7 @@
             Timer *invincibilitytimer;
             int hp;
             bool invencible;
+            bool freeze;
 
             Timer *jumpsquat;
             Timer *hittheground;
