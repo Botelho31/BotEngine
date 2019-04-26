@@ -9,44 +9,17 @@
 
     class Component{
         public:
-            Component(GameObject& associated) : associated(associated){
-                freeze = false;
-                freezetime = 0;
-                freezetimer = new Timer();
-            };
-            virtual ~Component() {
-                delete freezetimer;
-            };
+            Component(GameObject& associated);
+            virtual ~Component();
             virtual void Start() {};
             virtual void Update(float dt) = 0;
             virtual void Render() = 0;
             virtual bool Is(std::string type) = 0;
+            
             virtual void NotifyCollision (GameObject& other) {};
-            virtual void KeepStill(bool freeze,float time = 0) {
-                this->freeze = freeze;
-                if((time > 0) && (freezetime <= 0)){
-                    freezetime = time;
-                    freezetimer->Delay(0);
-                }
-                if(!freeze){
-                    freezetime = 0;
-                    freezetimer->Restart();
-                }
-            };
-
-            bool GetFreeze(){
-                return freeze;
-            }
-            void UpdateFreeze(float dt) {
-                if(freezetimer->Started()){
-                    freezetimer->Update(dt);
-                    if(freezetimer->Get() >= freezetime){
-                        freeze = false;
-                        freezetime = 0;
-                        freezetimer->Restart();
-                    }
-                }
-            };
+            virtual void KeepStill(bool freeze,float time = 0);
+            virtual bool GetFreeze();
+            virtual void UpdateFreeze(float dt);
         protected:
             GameObject& associated;
             bool freeze;
