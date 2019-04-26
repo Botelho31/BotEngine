@@ -40,6 +40,8 @@ Player::Player(GameObject& associated) : Component(associated){
     hp = 150;
     invencible = false;
     freeze = false;
+    freezetime = 0;
+    freezetimer = new Timer();
     invincibilitytimer = new Timer();
     player = this;
 
@@ -67,6 +69,7 @@ Player::~Player(){
     delete jumpsquat;
     delete hittheground;
     delete invincibilitytimer;
+    delete freezetimer;
     delete swordattack;
     delete delayedboosttimer;
     delete jumpanimation;
@@ -104,6 +107,14 @@ void Player::Update(float dt){
             invincibilitytimer->Update(dt);
             if((invincibilitytimer->Get() >= 2) && (invencible == false)){
                 invincibilitytimer->Restart();
+            }
+        }
+    }else{
+        if(freezetimer->Started()){
+            freezetimer->Update(dt);
+            if(freezetimer->Get() >= freezetime){
+                freeze = false;
+                freezetime = 0;
             }
         }
     }
@@ -402,9 +413,19 @@ void Player::SetSpeed(Vec2 speed){
     this->speed.y = speed.y;
 }
 
-void Player::KeepStill(bool freeze){
+void Player::KeepStill(bool freeze,float time){
     this->freeze = freeze;
-    this->playersprite->KeepStill(freeze);
+    if(time == 0){
+        this->playersprite->KeepStill(freeze);
+    }else{
+        this->playersprite->KeepStill(freeze,time);
+        freezetime = time;
+        freezetimer->Delay(0);
+    }
+    if(!freeze){
+        freezetime = 0;
+        freezetimer->Restart();
+    }
 }
 
 void Player::SetInvincibility(bool Invencible){
@@ -443,6 +464,9 @@ void Player::NotifyCollision(GameObject& other){
                 physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
                 DamagePlayer(hitbox->GetDamage());
                 invincibilitytimer->Delay(0);
+            }else if(hitbox->GetOwner() && !hitbox->HitPlayer()){
+                // KeepStill(true,0.2);
+                std::cout << "keepstill" << std::endl;
             }
         }
         else if(component2){
