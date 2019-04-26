@@ -400,25 +400,8 @@ void Player::SetSpeed(Vec2 speed){
 }
 
 void Player::KeepStill(bool freeze,float time){
-
-    if(this->freezetime > 0){
-        if(!freeze){
-            this->freeze = freeze;
-            freezetime = 0;
-            freezetimer->Restart();
-        }
-    }else{
-        this->freeze = freeze;
-        this->playersprite->KeepStill(freeze,time);
-        if(time > 0){
-            freezetime = time;
-            freezetimer->Delay(0);
-        }
-        if(!freeze){
-            freezetime = 0;
-            freezetimer->Restart();
-        }
-    }
+    this->playersprite->KeepStill(freeze,time);
+    Component::KeepStill(freeze,time);
 }
 
 void Player::SetInvincibility(bool Invencible){

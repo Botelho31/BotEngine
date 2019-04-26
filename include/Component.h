@@ -24,9 +24,13 @@
             virtual void NotifyCollision (GameObject& other) {};
             virtual void KeepStill(bool freeze,float time = 0) {
                 this->freeze = freeze;
-                if(time > 0){
+                if((time > 0) && (freezetime <= 0)){
                     freezetime = time;
                     freezetimer->Delay(0);
+                }
+                if(!freeze){
+                    freezetime = 0;
+                    freezetimer->Restart();
                 }
             };
 
