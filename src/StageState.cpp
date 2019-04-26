@@ -184,8 +184,6 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 Player::player->SetInvincibility(true);
                 Player::player->KeepStill(true);
             }
-            else if((windoweffects->GetCurrentEffect() == WindowEffects::FADETOBLACK)  && (!windoweffects->IsBlack())){
-            }
             else if(windoweffects->IsBlack()){
                 Player::player->KeepStill(false);
                 std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
