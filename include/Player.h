@@ -70,7 +70,6 @@
             Timer *idletimer;
             bool idle;
 
-            Timer *runningstarttimer;
             Timer *runningstoptimer;
             bool running;
 

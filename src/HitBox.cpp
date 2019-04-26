@@ -50,12 +50,20 @@ void HitBox::NotifyCollision(GameObject& other){
         }
     }
     if(component && (hitfreezetime > 0)){
+        Component *hitboxcomponent = other.GetComponent("HitBox");
         if(hitPlayer){
             Component *component1 = other.GetComponent("Player");
             if(component1){
                 component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
             }
+            // if(hitboxcomponent){
+            //     HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
+            //     if(hitbox->HitEnemy()){
+            //         component->KeepStill(true,hitfreezetime);
+            //         KeepStill(true,freezetime);
+            //     }
+            // }
         }
         if(hitEnemy){
             Component *component1 = other.GetComponent("Minion");
@@ -63,6 +71,14 @@ void HitBox::NotifyCollision(GameObject& other){
                 component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
             }
+            // if(hitboxcomponent){
+            //     HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
+            //     if(hitbox->HitPlayer()){
+            //         std::cout << "hitbox" << std::endl;
+            //         component->KeepStill(true,hitfreezetime);
+            //         KeepStill(true,freezetime);
+            //     }
+            // }
         }
     }
 }

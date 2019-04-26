@@ -45,7 +45,6 @@ Player::Player(GameObject& associated) : Component(associated){
     idletimer = new Timer();
     idle = false;
 
-    runningstarttimer = new Timer();
     runningstoptimer = new Timer();
     running = false;
 
@@ -69,7 +68,6 @@ Player::~Player(){
     delete swordattack;
     delete delayedboosttimer;
     delete jumpanimation;
-    delete runningstarttimer;
     delete runningstoptimer;
     delete physics;
 }
@@ -225,11 +223,11 @@ void Player::XMovement(float dt){
 
     if(input->IsKeyDown(SDLK_d)){
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
-            SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
-            physics->SetCollider(0.2484,1);
-            runningstarttimer->Restart();
-            runningstarttimer->Delay(dt);
+            SetSprite("assets/img/belwalktest4.png",14,0.04);
+            physics->SetCollider(0.184,1);
             running = true;
+        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())){
+            running = false;
         }
         if(playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
@@ -239,29 +237,17 @@ void Player::XMovement(float dt){
     }
     if(input->IsKeyDown(SDLK_a)){
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
-            SetSprite("assets/img/belstartwalktest.png",4,0.04,false);
-            physics->SetCollider(0.2484,1);
-            runningstarttimer->Restart();
-            runningstarttimer->Delay(dt);
+            SetSprite("assets/img/belwalktest4.png",14,0.04);
+            physics->SetCollider(0.184,1);
             running = true;
+        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())){
+            running = false;
         }
         if(!playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
             speed.x = 0;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
-    }
-
-    if(runningstarttimer->Started()){
-        runningstarttimer->Update(dt);
-        if((running == false) || (!physics->IsGrounded())  || (swordattack->Started())){
-            runningstarttimer->Restart();
-        }
-        if(runningstarttimer->Get() >= 0.16){
-            SetSprite("assets/img/belwalktest4.png",14,0.04);
-            physics->SetCollider(0.184,1);
-            runningstarttimer->Restart();
-        }
     }
 
     if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
@@ -318,7 +304,6 @@ void Player::YMovement(float dt){
     if((input->KeyPress(SDLK_SPACE)) && (!hittheground->Started())){
         if(!swordattack->Started()){
             if(physics->IsGrounded()){
-                running = false;
                 SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
                 physics->SetCollider(0.261,0.8);
                 jumpanimation->Delay(dt);
