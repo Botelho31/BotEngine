@@ -16,6 +16,7 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+            void KeepStill(bool freeze,float time = 0);
             
             Vec2 GetPosition(); //Returns vector with center position of player
             Vec2 GetSpeed(); //Returns speed on the two vectors
@@ -30,7 +31,6 @@
 
             void SetInvincibility(bool Invencible);
             void SetSpeed(Vec2 speed);
-            void KeepStill(bool freeze,float time = 0);
             void MovePlayer(float x,float y,bool keepMomentum = true);   //Moves the center of a player to a certain spot
             void DamagePlayer(int damage);
             void HealPlayer(int heal);
@@ -61,9 +61,6 @@
             Timer *invincibilitytimer;
             int hp;
             bool invencible;
-            bool freeze;
-            float freezetime;
-            Timer *freezetimer;
 
             Timer *jumpsquat;
             Timer *hittheground;

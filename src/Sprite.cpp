@@ -9,9 +9,6 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     this->secondsToSelfDestruct = secondsToSelfDestruct;
     this->selfDestructCount = new Timer();
     this->flip = false;
-    this->freeze = false;
-    this->freezetime = 0;
-    this->freezetimer = new Timer();
     this->repeat = repeat;
     selfDestructCount->Restart();
     scale.x = 1;
@@ -29,7 +26,6 @@ Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float fram
 }
 
 Sprite::~Sprite(){
-    delete freezetimer;
     delete selfDestructCount;
 }
 
@@ -83,7 +79,6 @@ void Sprite::SetFrameTime(float frameTime){
 }
 
 void Sprite::Update(float dt){
-    if(!freeze){
         timeElapsed += dt;
         if(timeElapsed >= frameTime ){
             timeElapsed = 0;
@@ -104,15 +99,6 @@ void Sprite::Update(float dt){
                 associated.RequestDelete();
             }
         }
-    }else{
-        if(freezetimer->Started()){
-            freezetimer->Update(dt);
-            if(freezetimer->Get() >= freezetime){
-                freeze = false;
-                freezetime = 0;
-            }
-        }
-    }
 }
 
 void Sprite::Render(){

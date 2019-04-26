@@ -21,7 +21,11 @@ void GameObject::Start(){
 }
 void GameObject::Update(float dt){
     for(unsigned int i = 0; i < components.size();i++){
-        components[i]->Update(dt);
+        if(components[i]->GetFreeze()){
+            components[i]->UpdateFreeze(dt);
+        }else{
+            components[i]->Update(dt);
+        }
     }
 }
 

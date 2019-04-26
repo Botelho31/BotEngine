@@ -39,9 +39,6 @@ Player::Player(GameObject& associated) : Component(associated){
 
     hp = 150;
     invencible = false;
-    freeze = false;
-    freezetime = 0;
-    freezetimer = new Timer();
     invincibilitytimer = new Timer();
     player = this;
 
@@ -69,7 +66,6 @@ Player::~Player(){
     delete jumpsquat;
     delete hittheground;
     delete invincibilitytimer;
-    delete freezetimer;
     delete swordattack;
     delete delayedboosttimer;
     delete jumpanimation;
@@ -97,25 +93,15 @@ void Player::Update(float dt){
     physics->CorrectDistance();
 
 
-    if(!freeze){
-        AttackHandle(dt);//HANDLING ATTACK
-        IdleHandle(dt);//IDLE HANDLING
-        XMovement(dt); //X MOVEMENT
-        YMovement(dt); //Y MOVEMENT
+    AttackHandle(dt);//HANDLING ATTACK
+    IdleHandle(dt);//IDLE HANDLING
+    XMovement(dt); //X MOVEMENT
+    YMovement(dt); //Y MOVEMENT
 
-        if(invincibilitytimer->Started()){
-            invincibilitytimer->Update(dt);
-            if((invincibilitytimer->Get() >= 2) && (invencible == false)){
-                invincibilitytimer->Restart();
-            }
-        }
-    }else{
-        if(freezetimer->Started()){
-            freezetimer->Update(dt);
-            if(freezetimer->Get() >= freezetime){
-                freeze = false;
-                freezetime = 0;
-            }
+    if(invincibilitytimer->Started()){
+        invincibilitytimer->Update(dt);
+        if((invincibilitytimer->Get() >= 2) && (invencible == false)){
+            invincibilitytimer->Restart();
         }
     }
 
@@ -414,17 +400,24 @@ void Player::SetSpeed(Vec2 speed){
 }
 
 void Player::KeepStill(bool freeze,float time){
-    this->freeze = freeze;
-    if(time == 0){
-        this->playersprite->KeepStill(freeze);
+
+    if(this->freezetime > 0){
+        if(!freeze){
+            this->freeze = freeze;
+            freezetime = 0;
+            freezetimer->Restart();
+        }
     }else{
+        this->freeze = freeze;
         this->playersprite->KeepStill(freeze,time);
-        freezetime = time;
-        freezetimer->Delay(0);
-    }
-    if(!freeze){
-        freezetime = 0;
-        freezetimer->Restart();
+        if(time > 0){
+            freezetime = time;
+            freezetimer->Delay(0);
+        }
+        if(!freeze){
+            freezetime = 0;
+            freezetimer->Restart();
+        }
     }
 }
 
@@ -443,7 +436,6 @@ void Player::MovePlayer(float x,float y,bool keepMomentum){
 }
 
 void Player::Render(){
-
 }
 
 bool Player::Is(std::string type){
@@ -460,13 +452,14 @@ void Player::NotifyCollision(GameObject& other){
         Component *component2 = other.GetComponent("Minion");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
-            if(hitbox->GetOwner() && hitbox->HitPlayer()){
-                physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
-                DamagePlayer(hitbox->GetDamage());
-                invincibilitytimer->Delay(0);
-            }else if(hitbox->GetOwner() && !hitbox->HitPlayer()){
-                // KeepStill(true,0.2);
-                std::cout << "keepstill" << std::endl;
+            if(hitbox->GetOwner()){
+                if(hitbox->HitPlayer()){
+                    physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
+                    DamagePlayer(hitbox->GetDamage());
+                    invincibilitytimer->Delay(0);
+                }else{
+                    KeepStill(true,0.2);
+                }
             }
         }
         else if(component2){
