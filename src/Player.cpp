@@ -404,6 +404,7 @@ void Player::SetSpeed(Vec2 speed){
 
 void Player::KeepStill(bool freeze){
     this->freeze = freeze;
+    this->playersprite->KeepStill(freeze);
 }
 
 void Player::SetInvincibility(bool Invencible){

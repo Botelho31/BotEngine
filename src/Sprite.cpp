@@ -9,6 +9,9 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     this->secondsToSelfDestruct = secondsToSelfDestruct;
     this->selfDestructCount = new Timer();
     this->flip = false;
+    this->freeze = false;
+    this->freezetime = 0;
+    this->freezetimer = new Timer();
     this->repeat = repeat;
     selfDestructCount->Restart();
     scale.x = 1;
@@ -26,6 +29,7 @@ Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float fram
 }
 
 Sprite::~Sprite(){
+    delete freezetimer;
     delete selfDestructCount;
 }
 
@@ -79,27 +83,36 @@ void Sprite::SetFrameTime(float frameTime){
 }
 
 void Sprite::Update(float dt){
-    timeElapsed += dt;
-    if(timeElapsed >= frameTime ){
-        timeElapsed = 0;
-        currentFrame += 1;
-        if(currentFrame >= frameCount){
-            if(repeat){
-                currentFrame = 0;
-            }else{
-                currentFrame -= 1;
+    if(!freeze){
+        timeElapsed += dt;
+        if(timeElapsed >= frameTime ){
+            timeElapsed = 0;
+            currentFrame += 1;
+            if(currentFrame >= frameCount){
+                if(repeat){
+                    currentFrame = 0;
+                }else{
+                    currentFrame -= 1;
+                }
+            }
+            SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
+        }
+
+        if(secondsToSelfDestruct > 0){
+            selfDestructCount->Update(dt);
+            if(selfDestructCount->Get() > secondsToSelfDestruct){
+                associated.RequestDelete();
             }
         }
-        SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
-    }
-
-    if(secondsToSelfDestruct > 0){
-        selfDestructCount->Update(dt);
-        if(selfDestructCount->Get() > secondsToSelfDestruct){
-            associated.RequestDelete();
+    }else{
+        if(freezetimer->Started()){
+            freezetimer->Update(dt);
+            if(freezetimer->Get() >= freezetime){
+                freeze = false;
+                freezetime = 0;
+            }
         }
     }
-
 }
 
 void Sprite::Render(){
@@ -148,6 +161,14 @@ bool Sprite::IsOpen(){
         return true;
     }else{
         return false;
+    }
+}
+
+void Sprite::KeepStill(bool freeze,float time){
+    this->freeze = freeze;
+    if(time > 0){
+        freezetime = time;
+        freezetimer->Delay(0);
     }
 }
 
