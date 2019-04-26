@@ -25,7 +25,6 @@
             bool IsFlipped();
             void SetRepeat(bool repeat);
             bool IsOpen();
-            void KeepStill(bool freeze,float time = 0);
 
             void SetFrame(int frame);
             void SetFrameCount(int frameCount);
@@ -41,9 +40,6 @@
             int width;
             int height;
             bool flip;
-            bool freeze;
-            float freezetime;
-            Timer *freezetimer;
             Vec2 scale;
             SDL_Rect clip_rect;
 

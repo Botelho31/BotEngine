@@ -150,14 +150,6 @@ bool Sprite::IsOpen(){
     }
 }
 
-void Sprite::KeepStill(bool freeze,float time){
-    this->freeze = freeze;
-    if(time > 0){
-        freezetime = time;
-        freezetimer->Delay(0);
-    }
-}
-
 bool Sprite::Is(std::string type){
     if(type == "Sprite"){
         return true;

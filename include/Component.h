@@ -22,7 +22,13 @@
             virtual void Render() = 0;
             virtual bool Is(std::string type) = 0;
             virtual void NotifyCollision (GameObject& other) {};
-            virtual void KeepStill(bool freeze,float time = 0) {};
+            virtual void KeepStill(bool freeze,float time = 0) {
+                this->freeze = freeze;
+                if(time > 0){
+                    freezetime = time;
+                    freezetimer->Delay(0);
+                }
+            };
 
             bool GetFreeze(){
                 return freeze;
