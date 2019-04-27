@@ -21,7 +21,12 @@ void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
 
 void HitBox::Update(float dt){
     this->physics->Update(associated.box,50);
-
+    if(disconnected){
+        std::cout << "dground: "<< physics->distground << std::endl;
+        std::cout << "dceiling: "<< physics->distceiling << std::endl;
+        std::cout << "dright: "<< physics->distright << std::endl;
+        std::cout << "dleft: "<< physics->distleft << std::endl;
+    }
     if(secondsToSelfDestruct > 0){
         selfDestruct->Update(dt);
         damageCooldown -= dt;
@@ -72,12 +77,7 @@ void HitBox::NotifyCollision(GameObject& other){
             if(component1){
                 component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
-                GameObject *sparkObj = new GameObject();
-                Sprite *spark = new Sprite(*sparkObj,"assets/img/sparktest.png",4,0.04,0.16,false);
-                sparkObj->box.x = associated.box.x + associated.box.w/2 - sparkObj->box.w/2;
-                sparkObj->box.y = associated.box.y + associated.box.h/2 - sparkObj->box.h/2;
-                sparkObj->AddComponent(spark);
-                Game::GetInstance().GetCurrentState().AddObject(sparkObj);
+                HitEffect("assets/img/sparktest.png",4,0.04,0.16);
             }
             // if(hitboxcomponent){
             //     HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
@@ -97,6 +97,15 @@ bool HitBox::Is(std::string type){
     }else{
         return false;
     }
+}
+
+void HitBox::HitEffect(std::string file,int frames,float frametime,float duration){
+    GameObject *effectObj = new GameObject();
+    Sprite *effect = new Sprite(*effectObj,file,frames,frametime,duration,false);
+    effectObj->box.x = associated.box.x + associated.box.w/2 - effectObj->box.w/2;
+    effectObj->box.y = associated.box.y + associated.box.h/2 - effectObj->box.h/2;
+    effectObj->AddComponent(effect);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 Collider* HitBox::GetCollider(){
