@@ -1,4 +1,5 @@
 #include "../include/HitBox.h"
+#include "../include/Player.h"
 
 
 HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
@@ -32,8 +33,16 @@ void HitBox::Update(float dt){
         if(Move != NULL){
             Move(associated,*owner.lock().get(),dt);
         }
-        if((physics->GetCollisionPoint().x != 0) && (physics->GetCollisionPoint().y != 0)){
-            HitEffect("assets/img/sparktest.png",4,0.04,0.16,physics->GetCollisionPoint());
+        //Part that handles player hitting the wall
+        if(owner.lock().get()->GetComponent("Player")){
+            Vec2 collisionpoint = physics->GetCollisionPoint();
+            if((collisionpoint.x != 0) && (collisionpoint.y != 0)){
+                HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
+                Component *component1 = owner.lock().get()->GetComponent("Player");
+                Player *player = dynamic_cast<Player*>(component1);
+                Rect collisionrect = Rect(collisionpoint.x,collisionpoint.y,0,0);
+                player->KnockBack(collisionrect,Vec2(150,0));
+            }
         }
     }else{
         associated.RequestDelete();

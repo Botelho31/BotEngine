@@ -34,6 +34,7 @@
             void MovePlayer(float x,float y,bool keepMomentum = true);   //Moves the center of a player to a certain spot
             void DamagePlayer(int damage);
             void HealPlayer(int heal);
+            void KnockBack(Rect hitbox,Vec2 knockback);
 
             static void SwordHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the sword
 
