@@ -21,7 +21,7 @@
 
             bool IsGrounded();
 
-            Vec2 GetCollisionPoint();
+            Vec2 GetCollisionPoint(Rect hitbox);
             void PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt);
             void PerformXDeceleration(float despeed,float dt);
             void PerformXMovement(float dt);

@@ -211,12 +211,7 @@ void Player::AttackHandle(float dt){
     //HANDLES THE TIMING OF THE ATTACKS
     if(swordattack->Started()){
         swordattack->Update(dt);
-        running = false;
-        if(physics->IsGrounded()){
-            physics->PerformXDeceleration(1500,dt);
-        }else{
-             physics->PerformXDeceleration(750,dt);
-        }
+        physics->PerformXDeceleration(1500,dt);
         if((swordattack->Get() >= attacktiming) && (nextattack.size() > 1)){
             nextattack.pop();
             speed.x = 0;
@@ -236,7 +231,8 @@ void Player::AttackHandle(float dt){
         }
     }
     //HANDLES WHEN TO STOP THE ATTACK
-    if((swordattack->Get() >= attacktiming) && (input->IsKeyDown(SDLK_d) || input->IsKeyDown(SDLK_a) || input->IsKeyDown(SDLK_SPACE))){
+    if((swordattack->Started()) && (swordattack->Get() >= attacktiming) && ((input->IsKeyDown(SDLK_d) || input->IsKeyDown(SDLK_a) || input->IsKeyDown(SDLK_SPACE)))){
+        speed.x = 0;
         for(int i = 0;i < nextattack.size();i++){
             nextattack.pop();
         }

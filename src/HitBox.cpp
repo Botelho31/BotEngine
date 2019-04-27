@@ -35,7 +35,7 @@ void HitBox::Update(float dt){
         }
         //Part that handles player hitting the wall
         if(owner.lock().get()->GetComponent("Player")){
-            Vec2 collisionpoint = physics->GetCollisionPoint();
+            Vec2 collisionpoint = physics->GetCollisionPoint(owner.lock().get()->box);
             if((collisionpoint.x != 0) && (collisionpoint.y != 0)){
                 HitEffect("assets/img/sparktest.png",4,0.02,0.08,collisionpoint);
                 Component *component1 = owner.lock().get()->GetComponent("Player");

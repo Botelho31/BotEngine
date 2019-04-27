@@ -155,7 +155,8 @@ bool Physics::IsGrounded(){
     }
 }
 
-Vec2 Physics::GetCollisionPoint(){
+Vec2 Physics::GetCollisionPoint(Rect hitbox){
+    Vec2 hitboxcenter = hitbox.GetCenter();
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
