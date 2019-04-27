@@ -70,6 +70,12 @@ void HitBox::NotifyCollision(GameObject& other){
             if(component1){
                 component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
+                GameObject *sparkObj = new GameObject();
+                Sprite *spark = new Sprite(*sparkObj,"assets/img/sparktest.png",4,0.04,0.16,false);
+                sparkObj->box.x = associated.box.x + associated.box.w/2 - sparkObj->box.w/2;
+                sparkObj->box.y = associated.box.y + associated.box.h/2 - sparkObj->box.h/2;
+                sparkObj->AddComponent(spark);
+                Game::GetInstance().GetCurrentState().AddObject(sparkObj);
             }
             // if(hitboxcomponent){
             //     HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);

@@ -152,29 +152,28 @@ void Player::AttackHandle(float dt){
             physics->SetCollider(0.15054545,1);
             attacktiming = 0.4;
             endofattack = 1;
-            if(playersprite->IsFlipped()){
-                InstanceHitbox(-(PI/0.4),-PI + 1);
-            }else{
-                InstanceHitbox((PI/0.4),-1);
-            }
             swordattack->Delay(dt);
-            delayedboost = 0.12;
+            delayedboost = 0.18;
             delayedboosttimer->Delay(dt);
         }
         if(!physics->IsGrounded() && (physics->distground > 100)){
             speed.y = -400;
         }
     }
+    //HANDLES START OF HITBOX AND BOOST FROM ATTACK
     if(delayedboosttimer->Started()){
         delayedboosttimer->Update(dt);
-        if(!physics->IsGrounded()){
-            delayedboosttimer->Restart();
-        }
         if(delayedboosttimer->Get() >= delayedboost){
             if(playersprite->IsFlipped()){
-                speed.x = -500;
+                InstanceHitbox(-(PI/0.4),-PI + 1);
+                if(physics->IsGrounded()){
+                    speed.x = -500;
+                }
             }else{
-                speed.x = 500;
+                InstanceHitbox((PI/0.4),-1);
+                if(physics->IsGrounded()){
+                    speed.x = 500;
+                }
             }
             delayedboosttimer->Restart();
         }
@@ -222,30 +221,32 @@ void Player::XMovement(float dt){
     }
 
     if(input->IsKeyDown(SDLK_d)){
+        if(playersprite->IsFlipped() && (!swordattack->Started())){
+            playersprite->Flip();
+            speed.x = 0;
+            running = false;
+        }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
             physics->SetCollider(0.184,1);
             running = true;
         }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())){
             running = false;
-        }
-        if(playersprite->IsFlipped() && (!swordattack->Started())){
-            playersprite->Flip();
-            speed.x = 0;
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
     }
     if(input->IsKeyDown(SDLK_a)){
+        if(!playersprite->IsFlipped() && (!swordattack->Started())){
+            playersprite->Flip();
+            speed.x = 0;
+            running = false;
+        }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
             physics->SetCollider(0.184,1);
             running = true;
         }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())){
             running = false;
-        }
-        if(!playersprite->IsFlipped() && (!swordattack->Started())){
-            playersprite->Flip();
-            speed.x = 0;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
     }
