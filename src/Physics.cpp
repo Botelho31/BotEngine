@@ -125,12 +125,11 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
 }
 
 bool Physics::CanMove(Vec2 vector1,Vec2 vector2){
-    TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
     int x,y;
     x = (vector2.x - vector1.x)/10;
     y = (vector2.y - vector1.y)/10;
     for(int i = 0;i < 10;i++){
-        if(tilemap->AtLocation(vector1.x,vector1.y) > -1){
+        if(!CanMove(vector1)){
             return false;
         }
         vector1.x += x;
@@ -154,6 +153,59 @@ bool Physics::IsGrounded(){
     }else{
         return false;
     }
+}
+
+Vec2 Physics::GetCollisionPoint(){
+    std::map<int,int> dists;
+    dists.insert({0,distground});
+    dists.insert({1,distceiling});
+    dists.insert({2,distright});
+    dists.insert({3,distleft});
+    std::deque<int> disttofix;
+    for(int i = 0;i < 4;i++){
+        if(dists[i] < 0){
+            disttofix.push_front(i);
+        }
+    }
+    bool inserted = true;
+    while(inserted){
+        inserted = false;
+        for(unsigned int i = 0;i < disttofix.size();i++){
+            if(i != (disttofix.size() -1)){
+                if(dists[disttofix[i]] < dists[disttofix[i + 1]]){
+                    int a = disttofix[i];
+                    disttofix[i] = disttofix[i + 1];
+                    disttofix[i + 1] = a;
+                    inserted = true;
+                }
+            }
+        }
+    }
+    // for(int i = 0;i < disttofix.size();i++){
+    //     std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+    // }
+    if(!disttofix.empty()){
+        Vec2 pointofcollision = Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+        if(disttofix[0] == 0){
+            pointofcollision.y = collider->box.y + collider->box.h;
+            pointofcollision.y += distground;
+        }
+        if(disttofix[0] == 1){
+            pointofcollision.y = collider->box.y;
+            pointofcollision.y -= distceiling;
+        }
+        if(disttofix[0] == 2){
+            pointofcollision.x = collider->box.x + collider->box.w;
+            pointofcollision.x += distright;
+        }
+        if(disttofix[0] == 3){
+            pointofcollision.x = collider->box.x;
+            pointofcollision.x -= distleft;
+        }
+        return pointofcollision;
+    }
+    Vec2 error = Vec2(0,0);
+    return error;
 }
 
 void Physics::PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt){

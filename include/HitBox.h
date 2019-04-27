@@ -17,7 +17,7 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
             
-            void HitEffect(std::string file,int frames,float frametime,float duration);
+            void HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
             Collider* GetCollider();
             std::shared_ptr<GameObject> GetOwner();
             Vec2 GetKnockBack();

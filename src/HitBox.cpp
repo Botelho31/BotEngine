@@ -21,12 +21,6 @@ void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
 
 void HitBox::Update(float dt){
     this->physics->Update(associated.box,50);
-    if(disconnected){
-        std::cout << "dground: "<< physics->distground << std::endl;
-        std::cout << "dceiling: "<< physics->distceiling << std::endl;
-        std::cout << "dright: "<< physics->distright << std::endl;
-        std::cout << "dleft: "<< physics->distleft << std::endl;
-    }
     if(secondsToSelfDestruct > 0){
         selfDestruct->Update(dt);
         damageCooldown -= dt;
@@ -37,6 +31,9 @@ void HitBox::Update(float dt){
     if(!owner.expired()){
         if(Move != NULL){
             Move(associated,*owner.lock().get(),dt);
+        }
+        if((physics->GetCollisionPoint().x != 0) && (physics->GetCollisionPoint().y != 0)){
+            HitEffect("assets/img/sparktest.png",4,0.04,0.16,physics->GetCollisionPoint());
         }
     }else{
         associated.RequestDelete();
@@ -78,7 +75,7 @@ void HitBox::NotifyCollision(GameObject& other){
                 component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
                 component1->KeepStill(true,hitfreezetime);
-                HitEffect("assets/img/sparktest.png",4,0.04,0.16);
+                HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
                 hitfreezetime = 0;
                 knockback.x = 0;
                 knockback.y = 0;
@@ -103,11 +100,11 @@ bool HitBox::Is(std::string type){
     }
 }
 
-void HitBox::HitEffect(std::string file,int frames,float frametime,float duration){
+void HitBox::HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point){
     GameObject *effectObj = new GameObject();
     Sprite *effect = new Sprite(*effectObj,file,frames,frametime,duration,false);
-    effectObj->box.x = associated.box.x + associated.box.w/2 - effectObj->box.w/2;
-    effectObj->box.y = associated.box.y + associated.box.h/2 - effectObj->box.h/2;
+    effectObj->box.x = point.x - effectObj->box.w/2;
+    effectObj->box.y = point.y - effectObj->box.h/2;
     effectObj->AddComponent(effect);
     Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
