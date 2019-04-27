@@ -37,7 +37,7 @@ void HitBox::Update(float dt){
         if(owner.lock().get()->GetComponent("Player")){
             Vec2 collisionpoint = physics->GetCollisionPoint();
             if((collisionpoint.x != 0) && (collisionpoint.y != 0)){
-                HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
+                HitEffect("assets/img/sparktest.png",4,0.02,0.08,collisionpoint);
                 Component *component1 = owner.lock().get()->GetComponent("Player");
                 Player *player = dynamic_cast<Player*>(component1);
                 Rect collisionrect = Rect(collisionpoint.x,collisionpoint.y,0,0);
@@ -62,6 +62,7 @@ void HitBox::NotifyCollision(GameObject& other){
             }
         }
     }
+    //HANDLES WHEN TO FREEZE THE HIT
     if(component && (hitfreezetime > 0)){
         Component *hitboxcomponent = other.GetComponent("HitBox");
         if(hitPlayer){

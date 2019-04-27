@@ -30,6 +30,7 @@ Player::Player(GameObject& associated) : Component(associated){
 
     swordarc = -1;
     asword = (PI*2);
+    aswordangle = 70;
     currentAttack = 0;
     attacktiming = 0;
     endofattack = 0;
@@ -113,22 +114,20 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
     Player *player = dynamic_cast<Player*>(component1);
     Collider *collider = player->physics->GetCollider();
 
-    // hitbox.angleDeg += 70 * dt;
+    hitbox.angleDeg += player->aswordangle * dt;
     player->swordarc += player->asword * dt;
     Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
     hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
     
 }
 
-void Player::InstanceHitbox(float asword,float swordarc){
-    this->asword = asword;
-    this->swordarc = swordarc;
+void Player::InstanceHitbox(){
     Collider *collider = physics->GetCollider();
     Vec2 vector = Vec2(130,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-    Rect hitbox = Rect(vector.x - 45,vector.y - 50,90,100);
+    Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,90,20,0.2,0.4,true,false,true,{700,300},this,0.2);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,0.2,0.4,true,false,true,{700,300},this,0.1);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -146,13 +145,26 @@ void Player::AttackHandle(float dt){
             currentAttack = 1;
         }
     }
+    //PERFORMS THE NEXT ATTACK IN QUEUE
     if((currentAttack != 0) && (!swordattack->Started())){
         if(currentAttack == 1){
             SetSprite("assets/img/belattacktest.png",22,0.04,false);
-            physics->SetCollider(0.15054545,1);
+            physics->SetCollider(0.15771429,1);
+
             attacktiming = 0.4;
             endofattack = 1;
             swordattack->Delay(dt);
+            if(playersprite->IsFlipped()){
+                player->asword = -(PI/0.4);
+                player->swordarc =  -PI + 1;
+                player->aswordangle = -70;
+
+            }else{
+                player->asword = (PI/0.4);
+                player->swordarc =  -1;
+                player->aswordangle = 70;
+            }
+
             delayedboost = 0.18;
             delayedboosttimer->Delay(dt);
         }
@@ -164,20 +176,18 @@ void Player::AttackHandle(float dt){
     if(delayedboosttimer->Started()){
         delayedboosttimer->Update(dt);
         if(delayedboosttimer->Get() >= delayedboost){
-            if(playersprite->IsFlipped()){
-                InstanceHitbox(-(PI/0.4),-PI + 1);
-                if(physics->IsGrounded()){
+            InstanceHitbox();
+            if(physics->IsGrounded()){
+                if(playersprite->IsFlipped()){
                     speed.x = -500;
-                }
-            }else{
-                InstanceHitbox((PI/0.4),-1);
-                if(physics->IsGrounded()){
+                }else{
                     speed.x = 500;
                 }
             }
             delayedboosttimer->Restart();
         }
     }
+    //HANDLES THE TIMING OF THE ATTACKS
     if(swordattack->Started()){
         swordattack->Update(dt);
         running = false;
@@ -205,6 +215,7 @@ void Player::AttackHandle(float dt){
             swordattack->Restart();
         }
     }
+    //HANDLES WHEN TO STOP THE ATTACK
     if((swordattack->Get() >= attacktiming) && (input->IsKeyDown(SDLK_d) || input->IsKeyDown(SDLK_a) || input->IsKeyDown(SDLK_SPACE))){
         currentAttack = 0;
         for(int i = 0;i < nextattack.size();i++){
@@ -226,11 +237,11 @@ void Player::XMovement(float dt){
             speed.x = 0;
             running = false;
         }
-        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
+        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
             physics->SetCollider(0.184,1);
             running = true;
-        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())){
+        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())  || (jumpanimation->Started())){
             running = false;
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
@@ -241,11 +252,11 @@ void Player::XMovement(float dt){
             speed.x = 0;
             running = false;
         }
-        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())){
+        if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started()) && (!jumpanimation->Started())){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
             physics->SetCollider(0.184,1);
             running = true;
-        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())){
+        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
             running = false;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
@@ -263,6 +274,7 @@ void Player::XMovement(float dt){
 
     if(runningstoptimer->Started()){
         runningstoptimer->Update(dt);
+        running = false;
         if((!physics->IsGrounded())  || (swordattack->Started())){
             runningstoptimer->Restart();
         }
@@ -305,8 +317,8 @@ void Player::YMovement(float dt){
     if((input->KeyPress(SDLK_SPACE)) && (!hittheground->Started())){
         if(!swordattack->Started()){
             if(physics->IsGrounded()){
-                SetSprite("assets/img/beljumptest4.png",15,0.04,false,{0,-10});
-                physics->SetCollider(0.261,0.8);
+                SetSprite("assets/img/beljumptest4.png",15,0.04,false);
+                physics->SetCollider(0.276,0.88888888888);
                 jumpanimation->Delay(dt);
                 jumpsquat->Delay(dt);
             }else if(physics->distright == 0){

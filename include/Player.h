@@ -22,7 +22,7 @@
             Vec2 GetSpeed(); //Returns speed on the two vectors
             int GetLife(); // Returns current hp
 
-            void InstanceHitbox(float asword,float swordarc);
+            void InstanceHitbox();
             void AttackHandle(float dt); // Handles player attack
             void XMovement(float dt);   //Performs X Movement
             void YMovement(float dt);   //Performs Y Movement
@@ -53,6 +53,7 @@
             Timer *delayedboosttimer;
             float swordarc;
             float asword;
+            float aswordangle;
             int currentAttack;
             float attacktiming;
             float endofattack;
