@@ -6,7 +6,7 @@
     #define HITBOX_H
     #include "Component.h"
     #include "Vec2.h"
-    #include "Collider.h"
+    #include "Physics.h"
 
     class HitBox : public Component{    //COLLIDER WITHOUT NO SPRITE BEHIND IT
         public:
@@ -44,6 +44,8 @@
 
             std::weak_ptr<GameObject> owner;
             Component *component;
+            Physics *physics;
+
             
             void (*Move)(GameObject&,GameObject&,float);
     };

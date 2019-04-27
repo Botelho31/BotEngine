@@ -6,13 +6,13 @@ HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owne
     associated.box = hitbox;
     associated.angleDeg = angledeg;
     this->selfDestruct = new Timer();
-    Collider *collider = new Collider(associated);
-    associated.AddComponent(collider);
+    Vec2 speed;
+    this->physics = new Physics(&associated,&speed);
 }
 
 HitBox::~HitBox(){
-    component = nullptr;
     delete selfDestruct;
+    delete physics;
 }
 
 void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
@@ -20,6 +20,8 @@ void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
 }
 
 void HitBox::Update(float dt){
+    this->physics->Update(associated.box,50);
+
     if(secondsToSelfDestruct > 0){
         selfDestruct->Update(dt);
         damageCooldown -= dt;
@@ -98,13 +100,7 @@ bool HitBox::Is(std::string type){
 }
 
 Collider* HitBox::GetCollider(){
-    Component *component = associated.GetComponent("Collider");
-    if(component){
-        Collider *collider = dynamic_cast<Collider*>(component);
-        return collider;
-    }else{
-        return nullptr;
-    }
+    return physics->GetCollider();
 }
 
 std::shared_ptr<GameObject> HitBox::GetOwner(){
