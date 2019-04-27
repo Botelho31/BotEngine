@@ -15,7 +15,7 @@ Player *Player::player;
 Player::Player(GameObject& associated) : Component(associated){
     speed.x = 0;
     maxspeed = 600;
-    aspeed = 1000;
+    aspeed = 2000;
     despeed = 800;
 
     speed.y = 0;
@@ -31,7 +31,6 @@ Player::Player(GameObject& associated) : Component(associated){
     swordarc = -1;
     asword = (PI*2);
     aswordangle = 70;
-    currentAttack = 0;
     attacktiming = 0;
     endofattack = 0;
     delayedboost = 0;
@@ -127,7 +126,7 @@ void Player::InstanceHitbox(){
     Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,0.2,0.4,true,false,true,{700,300},this,0.1);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{700,300},this,0.1);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -136,36 +135,58 @@ void Player::InstanceHitbox(){
 void Player::AttackHandle(float dt){
     //HANDLING ATTACK
     if(input->KeyPress(SDLK_e) == true){    //TESTING SWORD ON E
-        if(currentAttack == 1){
+        if(nextattack.empty()){
+            nextattack.push(1);
+        }
+        else if(nextattack.back() == 1){
+            if(nextattack.size() <  2){
+                nextattack.push(2);
+            }
+        }
+        else if(nextattack.back() == 2){
             if(nextattack.size() <  2){
                 nextattack.push(1);
             }
         }
-        if(currentAttack == 0){
-            currentAttack = 1;
-        }
     }
     //PERFORMS THE NEXT ATTACK IN QUEUE
-    if((currentAttack != 0) && (!swordattack->Started())){
-        if(currentAttack == 1){
+    if((!nextattack.empty()) && (!swordattack->Started())){
+        if(nextattack.front() == 1){
             SetSprite("assets/img/belattacktest.png",22,0.04,false);
             physics->SetCollider(0.15771429,1);
-
-            attacktiming = 0.4;
-            endofattack = 1;
-            swordattack->Delay(dt);
             if(playersprite->IsFlipped()){
-                player->asword = -(PI/0.4);
+                player->asword = -((PI * 0.5)/0.22);
                 player->swordarc =  -PI + 1;
                 player->aswordangle = -70;
 
             }else{
-                player->asword = (PI/0.4);
+                player->asword = ((PI * 0.5)/0.22);
                 player->swordarc =  -1;
                 player->aswordangle = 70;
             }
-
+            attacktiming = 0.4;
+            endofattack = 1;
+            swordattack->Delay(dt);
             delayedboost = 0.18;
+            delayedboosttimer->Delay(dt);
+        }
+        if(nextattack.front() == 2){
+            SetSprite("assets/img/belattack2test2.png",23,0.04,false);
+            physics->SetCollider(0.15771429,1);
+            if(playersprite->IsFlipped()){
+                player->asword = ((PI * 0.5)/0.14);
+                player->swordarc =  PI - 0.50;
+                player->aswordangle = 70;
+
+            }else{
+                player->asword = -((PI * 0.5)/0.14);
+                player->swordarc =  0.50;
+                player->aswordangle = -70;
+            }
+            attacktiming = 0.4;
+            endofattack = 1;
+            swordattack->Delay(dt);
+            delayedboost = 0.26;
             delayedboosttimer->Delay(dt);
         }
         if(!physics->IsGrounded() && (physics->distground > 100)){
@@ -196,15 +217,14 @@ void Player::AttackHandle(float dt){
         }else{
              physics->PerformXDeceleration(750,dt);
         }
-        if((swordattack->Get() >= attacktiming) && ((!nextattack.empty()))){
-            currentAttack = nextattack.front();
+        if((swordattack->Get() >= attacktiming) && (nextattack.size() > 1)){
             nextattack.pop();
             speed.x = 0;
             swordattack->Restart();
         }
         if(swordattack->Get() >= endofattack){
             speed.x = 0;
-            currentAttack = 0;
+            nextattack.pop();
             if(physics->IsGrounded()){
                 SetSprite("assets/img/belidleswordtest.png",32,0.08);
                 physics->SetCollider(0.276,1);
@@ -217,7 +237,6 @@ void Player::AttackHandle(float dt){
     }
     //HANDLES WHEN TO STOP THE ATTACK
     if((swordattack->Get() >= attacktiming) && (input->IsKeyDown(SDLK_d) || input->IsKeyDown(SDLK_a) || input->IsKeyDown(SDLK_SPACE))){
-        currentAttack = 0;
         for(int i = 0;i < nextattack.size();i++){
             nextattack.pop();
         }

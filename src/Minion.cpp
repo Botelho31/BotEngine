@@ -189,6 +189,7 @@ bool Minion::Is(std::string type){
 void Minion::NotifyCollision(GameObject& other){
     if(!invincibilitytimer->Started()){
         Component *component1 = other.GetComponent("HitBox");
+        Component *component2 = other.GetComponent("Minion");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
