@@ -41,7 +41,7 @@ void HitBox::Update(float dt){
                 Component *component1 = owner.lock().get()->GetComponent("Player");
                 Player *player = dynamic_cast<Player*>(component1);
                 Rect collisionrect = Rect(collisionpoint.x,collisionpoint.y,0,0);
-                player->KnockBack(collisionrect,Vec2(150,0));
+                player->KnockBack(collisionrect,Vec2(200,0));
             }
         }
     }else{

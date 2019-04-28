@@ -185,27 +185,35 @@ Vec2 Physics::GetCollisionPoint(Rect hitbox){
     // for(int i = 0;i < disttofix.size();i++){
     //     std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
     // }
-    if(!disttofix.empty()){
+    Vec2 error = Vec2(0,0);
+    if((!disttofix.empty()) && (dists[disttofix[0]] > -50)){
         Vec2 pointofcollision = Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
         if(disttofix[0] == 0){
-            pointofcollision.y = collider->box.y + collider->box.h;
-            pointofcollision.y += distground;
+            pointofcollision.y = collider->box.y + collider->box.h + distground;
+            if(pointofcollision.y >= hitboxcenter.y){
+                pointofcollision.y = collider->box.y + collider->box.h - distground;
+            }
         }
         if(disttofix[0] == 1){
-            pointofcollision.y = collider->box.y;
-            pointofcollision.y -= distceiling;
+            pointofcollision.y = collider->box.y - distceiling;
+            if(pointofcollision.y <= hitboxcenter.y){
+                pointofcollision.y = collider->box.y + distceiling;
+            }
         }
         if(disttofix[0] == 2){
-            pointofcollision.x = collider->box.x + collider->box.w;
-            pointofcollision.x += distright;
+            pointofcollision.x = collider->box.x + collider->box.w + distright;
+            if(pointofcollision.x <= hitboxcenter.x){
+                pointofcollision.x = collider->box.x + collider->box.w - distright;
+            }
         }
         if(disttofix[0] == 3){
-            pointofcollision.x = collider->box.x;
-            pointofcollision.x -= distleft;
+            pointofcollision.x = collider->box.x - distleft;
+            if(pointofcollision.x >= hitboxcenter.x){
+                pointofcollision.x = collider->box.x + distleft;
+            }
         }
         return pointofcollision;
     }
-    Vec2 error = Vec2(0,0);
     return error;
 }
 

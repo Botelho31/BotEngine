@@ -174,7 +174,7 @@ void Player::AttackHandle(float dt){
             SetSprite("assets/img/belattack2test2.png",23,0.04,false);
             physics->SetCollider(0.15771429,1);
             if(playersprite->IsFlipped()){
-                player->asword = ((PI * 0.5)/0.14);
+                player->asword= ((PI * 0.5)/0.14);
                 player->swordarc =  PI - 0.50;
                 player->aswordangle = 70;
 
@@ -214,7 +214,6 @@ void Player::AttackHandle(float dt){
         physics->PerformXDeceleration(1500,dt);
         if((swordattack->Get() >= attacktiming) && (nextattack.size() > 1)){
             nextattack.pop();
-            speed.x = 0;
             swordattack->Restart();
         }
         if(swordattack->Get() >= endofattack){
