@@ -126,7 +126,7 @@ void Player::InstanceHitbox(){
     Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{700,300},this,0.1);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{400,100},this,0.1);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -152,7 +152,7 @@ void Player::AttackHandle(float dt){
     //PERFORMS THE NEXT ATTACK IN QUEUE
     if((!nextattack.empty()) && (!swordattack->Started())){
         if(nextattack.front() == 1){
-            SetSprite("assets/img/belattacktest.png",22,0.04,false);
+            SetSprite("assets/img/belattacktest2.png",22,0.04,false);
             physics->SetCollider(0.15771429,1);
             if(playersprite->IsFlipped()){
                 player->asword = -((PI * 0.5)/0.22);
@@ -232,7 +232,9 @@ void Player::AttackHandle(float dt){
     }
     //HANDLES WHEN TO STOP THE ATTACK
     if((swordattack->Started()) && (swordattack->Get() >= attacktiming) && ((input->IsKeyDown(SDLK_d) || input->IsKeyDown(SDLK_a) || input->IsKeyDown(SDLK_SPACE)))){
-        speed.x = 0;
+        if(!physics->IsGrounded()){
+            speed.x = 0;
+        }
         for(int i = 0;i < nextattack.size();i++){
             nextattack.pop();
         }

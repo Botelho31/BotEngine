@@ -25,10 +25,10 @@ void Physics::Update(Rect collider,int max){
                         Vec2(collider.x,collider.y + collider.h),
                         Vec2(collider.x + collider.w,collider.y + collider.h)
     };
-    distground = DistanceTo( BoxCollider[2], BoxCollider[3],0,1,max);
+    distground = DistanceTo( BoxCollider[2].Added(0,-20), BoxCollider[3].Added(0,-20),0,1,max);
     distceiling = DistanceTo( BoxCollider[0], BoxCollider[1],0,-1,max);
-    distright = DistanceTo( BoxCollider[1], BoxCollider[3],1,0,max);
-    distleft = DistanceTo( BoxCollider[0], BoxCollider[2],-1,0,max);
+    distright = DistanceTo( BoxCollider[1], BoxCollider[3].Added(0,-20),1,0,max);
+    distleft = DistanceTo( BoxCollider[0], BoxCollider[2].Added(0,-20),-1,0,max);
 }
 
 void Physics::CorrectDistance(){
@@ -250,15 +250,15 @@ void Physics::PerformXDeceleration(float despeed,float dt){
 }
 
 void Physics::PerformXMovement(float dt){
-    if((distright - (speed->x * dt)) < 0){
+    if(((distright - (speed->x * dt)) < 0) && (distright >= 0)){
         associated->box.x += distright;
         speed->x = 0;
-    }else if((distleft + (speed->x * dt)) < 0){
+    }else if(((distleft + (speed->x * dt)) < 0) && (distleft >= 0)){
         associated->box.x -= distleft;
         speed->x = 0;
-    }else if((distright < 0) && (speed->x > 0)){
+    }else if((distright <= 0) && (speed->x > 0)){
         speed->x = 0;
-    }else if((distleft < 0) && (speed->x < 0)){
+    }else if((distleft <= 0) && (speed->x < 0)){
         speed->x = 0;
     }else{
         associated->box.x += speed->x * dt;
@@ -266,10 +266,10 @@ void Physics::PerformXMovement(float dt){
 }
 
 void Physics::PerformYMovement(float dt){
-    if(((distground - (speed->y * dt)) < 0) && (speed->y > 0)){
+    if((((distground - (speed->y * dt)) < 0) && (speed->y > 0)) && (distground >= 0)){
         associated->box.y += distground;
     }
-    else if((distceiling + (speed->y * dt) < 0) && (speed->y < 0)){
+    else if(((distceiling + (speed->y * dt) < 0) && (speed->y < 0)) && (distceiling >= 0)){
         associated->box.y -= distceiling;
         speed->y = 0;
     } 
