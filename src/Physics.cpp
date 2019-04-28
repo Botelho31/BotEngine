@@ -25,10 +25,10 @@ void Physics::Update(Rect collider,int max){
                         Vec2(collider.x,collider.y + collider.h),
                         Vec2(collider.x + collider.w,collider.y + collider.h)
     };
-    distground = DistanceTo( BoxCollider[2].Added(0,-20), BoxCollider[3].Added(0,-20),0,1,max);
+    distground = DistanceTo( BoxCollider[2], BoxCollider[3],0,1,max);
     distceiling = DistanceTo( BoxCollider[0], BoxCollider[1],0,-1,max);
-    distright = DistanceTo( BoxCollider[1], BoxCollider[3].Added(0,-20),1,0,max);
-    distleft = DistanceTo( BoxCollider[0], BoxCollider[2].Added(0,-20),-1,0,max);
+    distright = DistanceTo( BoxCollider[1], BoxCollider[3],1,0,max);
+    distleft = DistanceTo( BoxCollider[0], BoxCollider[2],-1,0,max);
 }
 
 void Physics::CorrectDistance(){

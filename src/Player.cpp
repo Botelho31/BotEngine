@@ -77,7 +77,7 @@ void Player::Start(){
 
 void Player::Update(float dt){
     Collider *collider = physics->GetCollider();
-    physics->Update(collider->box);
+    physics->Update(collider->box,150);
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
             std::cout << "dground: "<< physics->distground << std::endl;
@@ -225,7 +225,7 @@ void Player::AttackHandle(float dt){
                 physics->SetCollider(0.276,1);
             }else{
                 SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-                physics->SetCollider(0.261,0.8);
+                physics->SetCollider(0.276,0.8);
             }
             swordattack->Restart();
         }
@@ -365,7 +365,7 @@ void Player::YMovement(float dt){
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started()) && (!swordattack->Started())){
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-        physics->SetCollider(0.261,0.8);
+        physics->SetCollider(0.276,0.8);
         falling = true;
     }
     
