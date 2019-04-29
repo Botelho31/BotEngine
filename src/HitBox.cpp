@@ -41,7 +41,13 @@ void HitBox::Update(float dt){
                 Component *component1 = owner.lock().get()->GetComponent("Player");
                 Player *player = dynamic_cast<Player*>(component1);
                 Rect collisionrect = Rect(collisionpoint.x,collisionpoint.y,0,0);
-                player->KnockBack(collisionrect,Vec2(200,0));
+                Vec2 ownercenter = owner.lock().get()->box.GetCenter();
+                float collisiondist = collisionpoint.GetDistance(ownercenter.x,ownercenter.y);
+                float wallknockback = 200 + (300 * (30/(collisiondist)));
+                // float test = (30/(collisiondist));
+                // std::cout << test << std::endl;
+                // std::cout << "dist: " << collisiondist << " KB: " << wallknockback << std::endl;
+                player->KnockBack(collisionrect,Vec2(wallknockback,0));
             }
         }
     }else{

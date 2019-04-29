@@ -122,7 +122,7 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 
 void Player::InstanceHitbox(){
     Collider *collider = physics->GetCollider();
-    Vec2 vector = Vec2(130,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    Vec2 vector = Vec2(95,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
     Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
@@ -175,12 +175,12 @@ void Player::AttackHandle(float dt){
             physics->SetCollider(0.15771429,1);
             if(playersprite->IsFlipped()){
                 player->asword= ((PI * 0.4)/0.14);
-                player->swordarc =  PI - 0.50;
+                player->swordarc =  PI - 0.5;
                 player->aswordangle = 70;
 
             }else{
                 player->asword = -((PI * 0.4)/0.14);
-                player->swordarc =  0.50;
+                player->swordarc =  0.5;
                 player->aswordangle = -70;
             }
             attacktiming = 0.4;
