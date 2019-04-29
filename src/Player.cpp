@@ -174,12 +174,12 @@ void Player::AttackHandle(float dt){
             SetSprite("assets/img/belattack2test2.png",23,0.04,false);
             physics->SetCollider(0.15771429,1);
             if(playersprite->IsFlipped()){
-                player->asword= ((PI * 0.4)/0.14);
+                player->asword= ((PI * 0.35)/0.14);
                 player->swordarc =  PI - 0.5;
                 player->aswordangle = 70;
 
             }else{
-                player->asword = -((PI * 0.4)/0.14);
+                player->asword = -((PI * 0.35)/0.14);
                 player->swordarc =  0.5;
                 player->aswordangle = -70;
             }
@@ -190,7 +190,7 @@ void Player::AttackHandle(float dt){
             delayedboosttimer->Delay(dt);
         }
         if(!physics->IsGrounded() && (physics->distground > 100)){
-            speed.y = -400;
+            speed.y = -350;
         }
     }
     //HANDLES START OF HITBOX AND BOOST FROM ATTACK
@@ -315,9 +315,26 @@ void Player::YMovement(float dt){
         if(!swordattack->Started()){
             SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
             physics->SetCollider(0.276,1);
+            Rect collider = physics->GetCollider()->box;
+            Vec2 smoke1 = Vec2(collider.x,collider.y + collider.h);
+            Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
+            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
             hittheground->Delay(dt);
         }
+    }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
+        if(physics->distright == 0){
+            Rect collider = physics->GetCollider()->box;
+            Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
+            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+        }
+        if(physics->distleft == 0){
+            Rect collider = physics->GetCollider()->box;
+            Vec2 smoke1 = Vec2(collider.x,collider.y);
+            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+        }
     }
+
     if(hittheground->Started()){
         speed.y = 0;
         hittheground->Update(dt);
@@ -339,9 +356,19 @@ void Player::YMovement(float dt){
                 jumpanimation->Delay(dt);
                 jumpsquat->Delay(dt);
             }else if(physics->distright == 0){
+                Rect collider = physics->GetCollider()->box;
+                Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
+                Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
+                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
                 speed.y = ajump;
                 speed.x = -awalljump;
             }else if(physics->distleft == 0){
+                Rect collider = physics->GetCollider()->box;
+                Vec2 smoke1 = Vec2(collider.x,collider.y);
+                Vec2 smoke2 = Vec2(collider.x,collider.y + collider.h);
+                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
                 speed.y = ajump;
                 speed.x = awalljump;
             }
@@ -352,6 +379,11 @@ void Player::YMovement(float dt){
         jumpsquat->Update(dt);
         if(jumpsquat->Get() >= 0.12){
             speed.y = ajump;
+            Rect collider = physics->GetCollider()->box;
+            Vec2 smoke1 = Vec2(collider.x,collider.y + collider.h);
+            Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
+            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
             jumpsquat->Restart();
         }
     }
@@ -401,6 +433,15 @@ void Player::HealPlayer(int heal){
 
 void Player::KnockBack(Rect hitbox,Vec2 knockback){
     physics->KnockBack(hitbox,knockback);
+}
+
+void Player::SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point){
+    GameObject *effectObj = new GameObject();
+    Sprite *effect = new Sprite(*effectObj,file,frames,frametime,duration,false);
+    effectObj->box.x = point.x - effectObj->box.w/2;
+    effectObj->box.y = point.y - effectObj->box.h/2;
+    effectObj->AddComponent(effect);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){

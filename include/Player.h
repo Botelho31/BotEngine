@@ -27,6 +27,7 @@
             void XMovement(float dt);   //Performs X Movement
             void YMovement(float dt);   //Performs Y Movement
             void IdleHandle(float dt); //Handles player Idle
+            void SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
 
             void SetInvincibility(bool Invencible);

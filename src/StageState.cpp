@@ -26,7 +26,7 @@ StageState::StageState(){
     windoweffects = new WindowEffects();
 
     backgroundMusic = new Music("assets/audio/stageState.ogg");
-    backgroundMusic->Play();
+    // backgroundMusic->Play();
 
 	GameObject *background = new GameObject();
     Sprite *bg = new Sprite(*background,"assets/img/fundobranco.jpg");
