@@ -37,6 +37,7 @@
             Vec2 *speed;
             Collider *collider;
             GameObject *associated;
+            float max;
             
     };
 

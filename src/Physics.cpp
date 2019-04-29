@@ -8,6 +8,7 @@ Physics::Physics(GameObject* associated,Vec2 *speed) : associated(associated){
     distceiling = 0;
     distright = 0;
     distleft = 0;
+    max = 150;
     this->speed = speed;
     this->collider = new Collider(*associated);
     associated->AddComponent(collider);
@@ -20,6 +21,7 @@ Physics::~Physics(){
 }
 
 void Physics::Update(Rect collider,int max){
+    this->max = max;
     Vec2 BoxCollider[] = {   Vec2(collider.x,collider.y),
                         Vec2(collider.x + collider.w,collider.y),
                         Vec2(collider.x,collider.y + collider.h),
@@ -32,7 +34,7 @@ void Physics::Update(Rect collider,int max){
 }
 
 void Physics::CorrectDistance(){
-    if((distground == -150) && (distceiling == -150) && (distright == -150) && (distleft == -150)){
+    if((distground == -max) && (distceiling == -max) && (distright == -max) && (distleft == -max)){
         Update(collider->box,Camera::limit.x);
         std::cout << "Out of Bounds" << std::endl;
     }
@@ -186,7 +188,7 @@ Vec2 Physics::GetCollisionPoint(Rect hitbox){
     //     std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
     // }
     Vec2 error = Vec2(0,0);
-    if((!disttofix.empty()) && (dists[disttofix[0]] > -50)){
+    if((!disttofix.empty()) && (dists[disttofix[0]] > -max)){
         Vec2 pointofcollision = Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
         if(disttofix[0] == 0){
             pointofcollision.y = collider->box.y + collider->box.h + distground;
