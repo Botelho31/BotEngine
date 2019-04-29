@@ -155,13 +155,13 @@ void Player::AttackHandle(float dt){
             SetSprite("assets/img/belattacktest2.png",22,0.04,false);
             physics->SetCollider(0.15771429,1);
             if(playersprite->IsFlipped()){
-                player->asword = -((PI * 0.5)/0.22);
-                player->swordarc =  -PI + 1;
+                player->asword = -((PI * 0.35)/0.22);
+                player->swordarc =  -PI + 0.5;
                 player->aswordangle = -70;
 
             }else{
-                player->asword = ((PI * 0.5)/0.22);
-                player->swordarc =  -1;
+                player->asword = ((PI * 0.35)/0.22);
+                player->swordarc =  -0.5;
                 player->aswordangle = 70;
             }
             attacktiming = 0.4;
@@ -174,12 +174,12 @@ void Player::AttackHandle(float dt){
             SetSprite("assets/img/belattack2test2.png",23,0.04,false);
             physics->SetCollider(0.15771429,1);
             if(playersprite->IsFlipped()){
-                player->asword= ((PI * 0.5)/0.14);
+                player->asword= ((PI * 0.4)/0.14);
                 player->swordarc =  PI - 0.50;
                 player->aswordangle = 70;
 
             }else{
-                player->asword = -((PI * 0.5)/0.14);
+                player->asword = -((PI * 0.4)/0.14);
                 player->swordarc =  0.50;
                 player->aswordangle = -70;
             }
@@ -214,6 +214,7 @@ void Player::AttackHandle(float dt){
         physics->PerformXDeceleration(1500,dt);
         if((swordattack->Get() >= attacktiming) && (nextattack.size() > 1)){
             nextattack.pop();
+            speed.x = 0;
             swordattack->Restart();
         }
         if(swordattack->Get() >= endofattack){
@@ -291,7 +292,7 @@ void Player::XMovement(float dt){
     if(runningstoptimer->Started()){
         runningstoptimer->Update(dt);
         running = false;
-        if((!physics->IsGrounded())  || (swordattack->Started())){
+        if((!physics->IsGrounded())  || (swordattack->Started()) || (jumpsquat->Started())){
             runningstoptimer->Restart();
         }
         if(runningstoptimer->Get() >= 0.08){
