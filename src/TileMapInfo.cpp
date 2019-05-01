@@ -56,6 +56,22 @@ void TileMapInfo::Open(std::string file){
                 minionObj->AddComponent(minion);
                 Game::GetInstance().GetCurrentState().AddObject(minionObj);
             }
+            if(checkline == "MovingTile"){
+                Vec2 tilePos;
+                while(checkline != "tileX"){
+                    FileReader >> checkline;
+                } 
+                FileReader >> tilePos.x;
+                FileReader >> checkline;
+                FileReader >> tilePos.y;
+                GameObject *tileObj = new GameObject();
+                MovingTile *movingtile = new MovingTile(*tileObj);
+                tileObj->box.x = tilePos.x;
+                tileObj->box.y = tilePos.y;
+                tileObj->AddComponent(movingtile);
+                std::weak_ptr<GameObject> tileweakptr =  Game::GetInstance().GetCurrentState().AddObject(tileObj);
+                movingtiles.emplace_back(tileweakptr);
+            }
         }
     }else{
         std::cout << "No TileMapInfo File for: " << file << std::endl; //Printa um erro caso nao consiga dar load na file
