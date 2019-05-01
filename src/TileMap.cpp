@@ -112,6 +112,17 @@ int TileMap::AtLocation(int x,int y){
     }
 }
 
+void TileMap::InsertAtLocation(int x,int y,int numberoftile){
+    if(((x < (this->mapWidth * this->tileSet->GetTileWidth())) && (y < (this->mapHeight * this->tileSet->GetTileHeight()))) 
+      && ( (x >= 0) && (y >= 0) ) ){
+        int ytile,xtile;
+        xtile = x / (this->tileSet->GetTileWidth());
+        ytile = y / (this->tileSet->GetTileHeight());
+        int tilePlace = ( (ytile + (this->mapHeight * (this->mapDepth - 1))) * this->mapWidth) + xtile;
+        tileMatrix[tilePlace] = numberoftile;
+    }
+}
+
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){

@@ -315,6 +315,7 @@ void Player::YMovement(float dt){
         if(!swordattack->Started()){
             SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
             physics->SetCollider(0.276,1);
+            
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y + collider.h);
             Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);

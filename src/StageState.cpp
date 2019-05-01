@@ -14,6 +14,7 @@
 #include "../include/Player.h"
 #include "../include/Minion.h"
 #include "../include/TransitionState.h"
+#include "../include/MovingTile.h"
 
 bool StageState::changingMap;
 
@@ -68,6 +69,14 @@ StageState::StageState(){
     GameData::checkpointMap = "assets/map/tileMaptest-1.txt";
     GameData::checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
     GameData::checkpointPos =   Vec2(playerObj->box.x,playerObj->box.y);
+
+    //TEST
+    GameObject *movingtileObj =  new GameObject();
+    MovingTile *movingtile = new MovingTile(*movingtileObj);
+    movingtileObj->AddComponent(movingtile);
+    movingtileObj->box.Transform(500,300);
+    objectArray.emplace_back(movingtileObj);
+    
 }
 
 StageState::~StageState(){
