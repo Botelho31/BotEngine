@@ -3,12 +3,13 @@
 #include "../include/Camera.h"
 
 
-Physics::Physics(GameObject* associated,Vec2 *speed) : associated(associated){
+Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(associated){
     distground = 0;
     distceiling = 0;
     distright = 0;
     distleft = 0;
     max = 150;
+    this->isTile = isTile;
     this->speed = speed;
     this->collider = new Collider(*associated);
     associated->AddComponent(collider);
@@ -142,7 +143,7 @@ bool Physics::CanMove(Vec2 vector1,Vec2 vector2){
 
 bool Physics::CanMove(Vec2 vector){
     TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
-    if(tilemap->AtLocation(vector.x,vector.y) > -1){
+    if(tilemap->AtLocation(vector.x,vector.y,isTile) > -1){
         return false;
     }else{
         return true;

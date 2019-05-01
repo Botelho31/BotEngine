@@ -19,7 +19,7 @@
             int& At(int x,int y,int z = 0);
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);
 
-            int AtLocation(int x,int y); //TO GET THE TILE AT MAP COORDINATES
+            int AtLocation(int x,int y,bool isTile = false); //TO GET THE TILE AT MAP COORDINATES
             void InsertAtLocation(int x,int y,int numberoftile);
             
             void Render();

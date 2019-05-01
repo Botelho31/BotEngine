@@ -94,12 +94,12 @@ int& TileMap::At(int x,int y,int z){
     }
 }
 
-int TileMap::AtLocation(int x,int y){
+int TileMap::AtLocation(int x,int y,bool isTile){
     if(((x < (this->mapWidth * this->tileSet->GetTileWidth())) && (y < (this->mapHeight * this->tileSet->GetTileHeight()))) 
       && ( (x >= 0) && (y >= 0) ) ){
 
         //Handles Moving Tiles
-        if(tileMapInfo){
+        if(tileMapInfo && !isTile){
             for(unsigned int i = 0;i < tileMapInfo->movingtiles.size(); i++){
                 Rect tilebox = tileMapInfo->movingtiles[i].lock().get()->box;
                 if(tilebox.Contains(x,y)){

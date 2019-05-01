@@ -10,7 +10,7 @@
 
     class Physics{
         public:
-            Physics(GameObject* associated,Vec2 *speed);
+            Physics(GameObject* associated,Vec2 *speed,bool isTile = false);
             ~Physics();
             void Update(Rect collider,int max = 150);
             void CorrectDistance();    //Correct the distance if the player is inside a wall
@@ -38,6 +38,7 @@
             Collider *collider;
             GameObject *associated;
             float max;
+            bool isTile;
             
     };
 

@@ -13,6 +13,7 @@
             MovingTile(GameObject& associated);
             void Update(float dt);
             void Render();
+            void NotifyCollision(GameObject& other);
             bool Is(std::string type);
         private:
             Vec2 speed;
