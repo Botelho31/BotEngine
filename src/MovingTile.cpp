@@ -2,7 +2,7 @@
 
 MovingTile::MovingTile(GameObject& associated) : Component(associated){
     this->physics = new Physics(&associated,&speed,true);
-    physics->SetCollider(1.0,2,0,-50);
+    physics->SetCollider(1.0,4.5,0,-100);
     this->tilesprite = new Sprite(associated,"assets/img/penguin.png");
     this->deltamov = Vec2(0,0);
     associated.AddComponent(tilesprite);   

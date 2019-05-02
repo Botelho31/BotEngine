@@ -309,7 +309,7 @@ void Player::XMovement(float dt){
 void Player::YMovement(float dt){
 
     //Handles when it hits the ground
-    if((physics->IsGrounded()) && (speed.y > 0)){
+    if((physics->IsGrounded()) && (speed.y > 0) && (falling == true)){
         falling = false;
         if(!swordattack->Started() && !hittheground->Started()){
             SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
@@ -394,7 +394,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((!physics->IsGrounded() && (physics->distground > 10)) && (speed.y > 0) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!swordattack->Started())){
+    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!swordattack->Started())){
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
         physics->SetCollider(0.276,0.8);
         falling = true;
