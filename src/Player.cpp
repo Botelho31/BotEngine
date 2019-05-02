@@ -310,12 +310,11 @@ void Player::YMovement(float dt){
 
     //Handles when it hits the ground
     if((physics->IsGrounded()) && (speed.y > 0)){
-        speed.y = 0;
         falling = false;
-        if(!swordattack->Started()){
+        if(!swordattack->Started() && !hittheground->Started()){
             SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
             physics->SetCollider(0.276,1);
-            
+
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y + collider.h);
             Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
@@ -337,7 +336,6 @@ void Player::YMovement(float dt){
     }
 
     if(hittheground->Started()){
-        speed.y = 0;
         hittheground->Update(dt);
         if(hittheground->Get() >= 0.12){
             if(!swordattack->Started()){
@@ -396,7 +394,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!jumpanimation->Started()) && (!swordattack->Started())){
+    if((!physics->IsGrounded() && (physics->distground > 10)) && (speed.y > 0) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!swordattack->Started())){
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
         physics->SetCollider(0.276,0.8);
         falling = true;

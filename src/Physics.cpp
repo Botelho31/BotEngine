@@ -281,16 +281,20 @@ float Physics::PerformXMovement(float dt){
     }
 }
 
-void Physics::PerformYMovement(float dt){
+float Physics::PerformYMovement(float dt){
     if((((distground - (speed->y * dt)) < 0) && (speed->y > 0)) && (distground >= 0)){
         associated->box.y += distground;
+        speed->y = 0;
+        return distground;
     }
     else if(((distceiling + (speed->y * dt) < 0) && (speed->y < 0)) && (distceiling >= 0)){
         associated->box.y -= distceiling;
         speed->y = 0;
+        return distceiling;
     } 
     else{
         associated->box.y += speed->y * dt;
+        return speed->y * dt;
     }
 }
 

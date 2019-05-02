@@ -2,10 +2,12 @@
 
 MovingTile::MovingTile(GameObject& associated) : Component(associated){
     this->physics = new Physics(&associated,&speed,true);
-    physics->SetCollider(1.2,1.2);
+    physics->SetCollider(1.0,2,0,-50);
     this->tilesprite = new Sprite(associated,"assets/img/penguin.png");
     this->deltamov = Vec2(0,0);
-    associated.AddComponent(tilesprite);
+    associated.AddComponent(tilesprite);   
+    speed.y = 200;
+    speed.x = 0;
 }
 
 MovingTile::~MovingTile(){
@@ -14,14 +16,22 @@ MovingTile::~MovingTile(){
 }
 
 void MovingTile::Update(float dt){
-    speed.x = 200;
     physics->Update(physics->GetCollider()->box);
     this->deltamov.x = physics->PerformXMovement(dt);
-    std::cout << speed.x << " " << physics->distright << std::endl;
-    if((physics->distright <= 0) || (physics->distleft <= 0)){
+    this->deltamov.y = physics->PerformYMovement(dt);
+    
+    if(physics->distright <= 0){
         speed.x = -200;
     }
-    std::cout << speed.x << " " << physics->distright << std::endl;
+    if(physics->distleft <= 0){
+        speed.x = 200;
+    }
+    if(physics->distceiling <= 0){
+        speed.y = 200;
+    }
+    if(physics->distground <= 0){
+        speed.y = -200;
+    }
 }
 
 void MovingTile::Render(){
@@ -29,6 +39,7 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
+    other.box.y += deltamov.y;
     other.box.x += deltamov.x;
 }
 
