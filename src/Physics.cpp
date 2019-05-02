@@ -260,19 +260,24 @@ void Physics::PerformXDeceleration(float despeed,float dt){
     }
 }
 
-void Physics::PerformXMovement(float dt){
+float Physics::PerformXMovement(float dt){
     if(((distright - (speed->x * dt)) < 0) && (distright >= 0)){
         associated->box.x += distright;
         speed->x = 0;
+        return distright;
     }else if(((distleft + (speed->x * dt)) < 0) && (distleft >= 0)){
         associated->box.x -= distleft;
         speed->x = 0;
+        return distleft;
     }else if((distright <= 0) && (speed->x > 0)){
         speed->x = 0;
+        return 0;
     }else if((distleft <= 0) && (speed->x < 0)){
         speed->x = 0;
+        return 0;
     }else{
         associated->box.x += speed->x * dt;
+        return speed->x * dt;
     }
 }
 

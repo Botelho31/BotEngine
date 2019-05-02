@@ -24,7 +24,7 @@
             Vec2 GetCollisionPoint(Rect hitbox);
             void PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt);
             void PerformXDeceleration(float despeed,float dt);
-            void PerformXMovement(float dt);
+            float PerformXMovement(float dt);
             void PerformYMovement(float dt);
             void PerformGravity(float gravspeed,float dt);
             void KnockBack(Rect hitbox,Vec2 knockback); //Applies knockback to rect
