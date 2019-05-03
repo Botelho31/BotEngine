@@ -244,7 +244,7 @@ void Player::AttackHandle(float dt){
 
 void Player::XMovement(float dt){
     //Handles input and acceleration
-    if(!physics->IsGrounded()){
+    if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())  || (jumpanimation->Started())){
         running = false;
     }
 
@@ -258,8 +258,6 @@ void Player::XMovement(float dt){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
             physics->SetCollider(0.184,1);
             running = true;
-        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())  || (jumpanimation->Started())){
-            running = false;
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
     }
@@ -273,8 +271,6 @@ void Player::XMovement(float dt){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
             physics->SetCollider(0.184,1);
             running = true;
-        }else if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
-            running = false;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
     }
@@ -292,7 +288,7 @@ void Player::XMovement(float dt){
     if(runningstoptimer->Started()){
         runningstoptimer->Update(dt);
         running = false;
-        if((!physics->IsGrounded())  || (swordattack->Started()) || (jumpsquat->Started())){
+        if( falling  || (swordattack->Started()) || (jumpanimation->Started())){
             runningstoptimer->Restart();
         }
         if(runningstoptimer->Get() >= 0.08){
@@ -388,6 +384,10 @@ void Player::YMovement(float dt){
     }
     if(jumpanimation->Started()){
         jumpanimation->Update(dt);
+        if(physics->IsGrounded() && (speed.y > 0)){
+            falling = true;
+            jumpanimation->Restart();
+        }
         if(jumpanimation->Get() >= 0.6){
             jumpanimation->Restart();
         }

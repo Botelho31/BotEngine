@@ -268,7 +268,7 @@ float Physics::PerformXMovement(float dt){
     }else if(((distleft + (speed->x * dt)) < 0) && (distleft >= 0)){
         associated->box.x -= distleft;
         speed->x = 0;
-        return distleft;
+        return -distleft;
     }else if((distright <= 0) && (speed->x > 0)){
         speed->x = 0;
         return 0;
@@ -290,9 +290,8 @@ float Physics::PerformYMovement(float dt){
     else if(((distceiling + (speed->y * dt) < 0) && (speed->y < 0)) && (distceiling >= 0)){
         associated->box.y -= distceiling;
         speed->y = 0;
-        return distceiling;
-    } 
-    else{
+        return -distceiling;
+    }else{
         associated->box.y += speed->y * dt;
         return speed->y * dt;
     }
@@ -300,6 +299,9 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
+        if(abs(distground) < 3){
+            associated->box.y += distground;
+        }
         speed->y += gravspeed * dt;
     }
 }

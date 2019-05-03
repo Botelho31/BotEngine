@@ -39,6 +39,19 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
+    // Component *component = other.GetComponent("Collider");
+    // if(component){
+    //     Collider *collider = dynamic_cast<Collider*>(component);
+    //     float difground = associated.box.y - (collider->box.y + collider->box.h);
+    //     std::cout << difground << std::endl;
+    //     std::cout << deltamov.y << std::endl;
+    //     if(difground < 0){
+    //         other.box.y += difground;
+    //     }
+    // }
+    // Component *component = other.GetComponent("Player");
+    // component->KeepStill(true);
+
     other.box.y += deltamov.y;
     other.box.x += deltamov.x;
 }
