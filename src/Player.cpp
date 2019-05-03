@@ -244,11 +244,11 @@ void Player::AttackHandle(float dt){
 
 void Player::XMovement(float dt){
     //Handles input and acceleration
-    if((!physics->IsGrounded()) || (hittheground->Started())  || (swordattack->Started())  || (jumpanimation->Started())){
+    if( falling || (hittheground->Started())  || (swordattack->Started())  || (jumpanimation->Started())){
         running = false;
     }
 
-    if(input->IsKeyDown(SDLK_d)){
+    if(input->IsKeyDown(SDLK_d) && !input->IsKeyDown(SDLK_a)){
         if(playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
             speed.x = 0;
@@ -261,7 +261,7 @@ void Player::XMovement(float dt){
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
     }
-    if(input->IsKeyDown(SDLK_a)){
+    if(input->IsKeyDown(SDLK_a) && !input->IsKeyDown(SDLK_d)){
         if(!playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
             speed.x = 0;
@@ -273,6 +273,12 @@ void Player::XMovement(float dt){
             running = true;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
+    }
+    if(input->IsKeyDown(SDLK_a) && input->IsKeyDown(SDLK_d) && (!falling) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
+            speed.x = 0;
+            running = false;
+            SetSprite("assets/img/belidleswordtest.png",32,0.08);
+            physics->SetCollider(0.276,1);
     }
 
     if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
@@ -305,7 +311,7 @@ void Player::XMovement(float dt){
 void Player::YMovement(float dt){
 
     //Handles when it hits the ground
-    if((physics->IsGrounded()) && (speed.y > 0) && (falling == true)){
+    if((physics->IsGrounded()) && (falling == true)){
         falling = false;
         if(!swordattack->Started() && !hittheground->Started()){
             SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
