@@ -275,15 +275,12 @@ void Player::XMovement(float dt){
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
     }
     if(input->IsKeyDown(SDLK_a) && input->IsKeyDown(SDLK_d) && (!falling) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
-            speed.x = 0;
+            physics->PerformXDeceleration(despeed,dt);
             if(running == true){
                 SetSprite("assets/img/belstoptest2.png",2,0.04,false);
                 physics->SetCollider(0.184,1);
                 runningstoptimer->Delay(dt);
                 running = false;
-            }else{
-                SetSprite("assets/img/belidleswordtest.png",32,0.08);
-                physics->SetCollider(0.276,1);
             }
     }
 

@@ -12,3 +12,9 @@ Minion
     minionX 1000
     minionY 500
   ]
+
+  MovingTile
+  [
+    tileX 1700
+    tileY 300
+  ]
