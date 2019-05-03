@@ -156,10 +156,14 @@ void StageState::ClearMobs(){
     for(int i = (objectArray.size() - 1); i >= 0; --i){
         Component *component1 = objectArray[i]->GetComponent("HitBox");
         Component *component2 = objectArray[i]->GetComponent("Minion");
+        Component *component3 = objectArray[i]->GetComponent("MovingTile");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
         if(component2){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        if(component3){
             objectArray.erase(objectArray.begin() + i);
         }
     }

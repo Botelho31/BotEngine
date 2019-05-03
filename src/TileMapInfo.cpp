@@ -2,15 +2,14 @@
 #include "../include/Minion.h"
 
 TileMapInfo::TileMapInfo(std::string file){
-    portalfiles.clear();
-    portals.clear();
     Open(file);
 }
 
 void TileMapInfo::Open(std::string file){
-    if((!portals.empty()) || (!portalfiles.empty())){
+    if((!portals.empty()) || (!portalfiles.empty()) || (!movingtiles.empty())){
         portals.clear();
-        portalfiles.empty();
+        portalfiles.clear();
+        movingtiles.clear();
     }
     std::fstream FileReader;
     FileReader.open(file.c_str());
