@@ -15,6 +15,9 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest) 
     this->start = start;
     this->dest = dest;
     this->going = true;
+
+    Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
+    this->angle = halfway.GetAngle(start.x,start.y);
 }
 
 MovingTile::~MovingTile(){
@@ -25,10 +28,45 @@ MovingTile::~MovingTile(){
 void MovingTile::Update(float dt){
     physics->Update(physics->GetCollider()->box);
     
+    // if(going){
+    //     deltamov = physics->Follow(dest,constspeed,dt);
+    // }else{
+    //     deltamov = physics->Follow(start,constspeed,dt);
+    // }
+
+    float difangle = 0;
+    Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
+    float radius = halfway.GetDistance(start.x,start.y);
     if(going){
-        deltamov = physics->Follow(dest,constspeed,dt);
+        float newangle = physics->Rotate(start,dest,this->angle,constspeed,dt);
+        difangle = this->angle - newangle;
+        this->angle = newangle;
     }else{
-        deltamov = physics->Follow(start,constspeed,dt);
+        float newangle = physics->Rotate(dest,start,this->angle,-constspeed,dt);
+        difangle = this->angle - newangle;
+        this->angle = newangle;
+    }
+    std::cout << difangle << std::endl;
+    if(std::fabs(difangle) > 6){
+        difangle = 0;
+    }
+    deltamov = Vec2(std::fabs(sin(this->angle) * (difangle*radius)),std::fabs(cos(this->angle) * (difangle*radius)));
+
+    if(this->angle < PI/2){
+        deltamov.y = -deltamov.y;
+    }
+    else if(this->angle < PI){
+    }
+    else if(this->angle < ((3*PI)/2)){
+        deltamov.x = -deltamov.x;
+    }
+    else if(this->angle < 2*PI){
+        deltamov.y = -deltamov.y;
+    }
+
+    if(difangle < 0){
+        deltamov.x = -deltamov.x;
+        deltamov.y = -deltamov.y;
     }
 
     if(deltamov == Vec2(0,0)){
@@ -45,19 +83,9 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
-    // Component *component = other.GetComponent("Collider");
-    // if(component){
-    //     Collider *collider = dynamic_cast<Collider*>(component);
-    //     float difground = associated.box.y - (collider->box.y + collider->box.h);
-    //     std::cout << difground << std::endl;
-    //     std::cout << deltamov.y << std::endl;
-    //     if(difground < 0){
-    //         other.box.y += difground;
-    //     }
-    // }
-    // Component *component = other.GetComponent("Player");
-    // component->KeepStill(true);
-
+    if(deltamov.y > 1000){
+        std::cout << deltamov.x << " " << deltamov.y << std::endl;
+    }
     other.box.y += deltamov.y;
     other.box.x += deltamov.x;
 }

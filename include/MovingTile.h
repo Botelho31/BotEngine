@@ -19,6 +19,7 @@
         private:
             bool going;
             float constspeed;
+            float angle;
             Vec2 start;
             Vec2 dest;
             Vec2 speed;

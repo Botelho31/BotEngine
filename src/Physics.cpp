@@ -266,6 +266,72 @@ Vec2 Physics::Follow(Vec2 dest,float constspeed,float dt){
     return delta;
 }
 
+float Physics::Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt){
+    Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
+    float startangle = halfway.GetAngle(start.x,start.y);
+    float finalangle = halfway.GetAngle(dest.x,dest.y);
+    float anglespeed = constspeed/halfway.GetDistance(start.x,start.y);
+    bool RotationMade = false;
+    //Modifies according to rotations
+    if(startangle < 0){
+        startangle = 2*PI + startangle;
+    }
+    if(finalangle < 0){
+        finalangle = 2*PI + finalangle;
+    }
+    //Checks if rotation has been made
+    if((startangle > angle) && (anglespeed >= 0)){
+        RotationMade = true;
+    }
+    else if((startangle < angle) && (anglespeed >= 0)){
+        RotationMade = false;
+    }
+    if((startangle < angle) && (anglespeed <= 0)){
+        RotationMade = true;
+    }
+    else if((startangle < angle) && (anglespeed <= 0)){
+        RotationMade = false;
+    }
+
+    angle += anglespeed * dt;
+    if(anglespeed <= 0){    //Anti-Horario
+        if(finalangle <= startangle){
+            if(angle >= finalangle){
+                angle = finalangle;
+            }
+        }else{
+            if((angle <= finalangle) && (RotationMade)){
+                angle = finalangle;
+            }
+        }
+    }else{                  //Horario
+        if(finalangle >= startangle){
+            if(angle <= finalangle){
+                angle = finalangle;
+            }
+        }else{
+            if((angle >= finalangle) && (RotationMade)){
+                angle = finalangle;
+            }
+        }
+    }
+
+    //Corrects angle according to rotation
+    if(angle < 0){
+        angle = 2*PI + angle;
+    }
+    if(std::fabs(angle * 180/PI) >= 360){
+        angle = 0;
+    }
+
+    // std::cout << anglespeed << std::endl;
+    // std::cout << "degrees: " << angle * 180/PI << std::endl;
+    // std::cout << "angle: " << angle << "finalangle: " << finalangle << std::endl;
+    Vec2 rotationVec = Vec2(halfway.GetDistance(start.x,start.y),0).GetRotated(angle) + halfway;
+    associated->box.Transform(rotationVec.x - associated->box.w/2,rotationVec.y - associated->box.h/2);
+    return angle;
+}
+
 void Physics::PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt){
     if(increaseX){
         if(speed->x >= 0){
