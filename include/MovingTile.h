@@ -10,13 +10,14 @@
 
     class MovingTile : public Component{
         public:
-            MovingTile(GameObject& associated,float constSpeed,Vec2 start,Vec2 dest);
+            MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest);
             ~MovingTile();
             void Update(float dt);
             void Render();
             void NotifyCollision(GameObject& other);
             bool Is(std::string type);
         private:
+            bool going;
             Vec2 start;
             Vec2 dest;
             Vec2 speed;
