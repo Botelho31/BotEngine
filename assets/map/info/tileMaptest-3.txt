@@ -20,4 +20,5 @@ Minion
     speed 400
     destX 1670
     destY 280
+    circular 0
   ]

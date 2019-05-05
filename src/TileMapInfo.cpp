@@ -59,7 +59,7 @@ void TileMapInfo::Open(std::string file){
                 Vec2 start;
                 Vec2 dest;
                 float speed;
-                bool horizontal;
+                bool circular;
                 while(checkline != "startX"){
                     FileReader >> checkline;
                 } 
@@ -72,8 +72,10 @@ void TileMapInfo::Open(std::string file){
                 FileReader >> dest.x;
                 FileReader >> checkline;
                 FileReader >> dest.y;
+                FileReader >> checkline;
+                FileReader >> circular;
                 GameObject *tileObj = new GameObject();
-                MovingTile *movingtile = new MovingTile(*tileObj,speed,start,dest);
+                MovingTile *movingtile = new MovingTile(*tileObj,speed,start,dest,circular);
                 tileObj->AddComponent(movingtile);
                 std::weak_ptr<GameObject> tileweakptr =  Game::GetInstance().GetCurrentState().AddObject(tileObj);
                 movingtiles.emplace_back(tileweakptr);

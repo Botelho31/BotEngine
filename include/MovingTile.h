@@ -10,7 +10,7 @@
 
     class MovingTile : public Component{
         public:
-            MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest);
+            MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular);
             ~MovingTile();
             void Update(float dt);
             void Render();
@@ -18,6 +18,7 @@
             bool Is(std::string type);
         private:
             bool going;
+            bool circular;
             float constspeed;
             float angle;
             Vec2 start;

@@ -1,6 +1,6 @@
 #include "../include/MovingTile.h"
 
-MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest) : Component(associated){
+MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular) : Component(associated){
     this->tilesprite = new Sprite(associated,"assets/img/penguin.png");
     associated.AddComponent(tilesprite);
     this->associated.box.x = start.x - associated.box.w/2;
@@ -15,6 +15,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest) 
     this->start = start;
     this->dest = dest;
     this->going = true;
+    this->circular = circular;
 
     Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
     this->angle = halfway.GetAngle(start.x,start.y);
@@ -28,45 +29,47 @@ MovingTile::~MovingTile(){
 void MovingTile::Update(float dt){
     physics->Update(physics->GetCollider()->box);
     
-    // if(going){
-    //     deltamov = physics->Follow(dest,constspeed,dt);
-    // }else{
-    //     deltamov = physics->Follow(start,constspeed,dt);
-    // }
+    if(circular){
+        float difangle = 0;
+        float newangle = 0;
+        Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
+        float radius = halfway.GetDistance(start.x,start.y);
+        if(going){
+            newangle = physics->Rotate(start,dest,this->angle,constspeed,dt);
+            difangle = this->angle - newangle;
+            this->angle = newangle;
+        }else{
+            newangle = physics->Rotate(dest,start,this->angle,-constspeed,dt);
+            difangle = this->angle - newangle;
+            this->angle = newangle;
+        }
+        if(std::fabs(difangle) > 6){
+            difangle = 0.00000001;
+        }
+        deltamov = Vec2(std::fabs(sin(this->angle) * (difangle*radius)),std::fabs(cos(this->angle) * (difangle*radius)));
+        if(this->angle < PI/2){
+            deltamov.y = -deltamov.y;
+        }
+        else if(this->angle < PI){
+        }
+        else if(this->angle < ((3*PI)/2)){
+            deltamov.x = -deltamov.x;
+        }
+        else if(this->angle < 2*PI){
+            deltamov.x = -deltamov.x;
+            deltamov.y = -deltamov.y;
+        }
 
-    float difangle = 0;
-    Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
-    float radius = halfway.GetDistance(start.x,start.y);
-    if(going){
-        float newangle = physics->Rotate(start,dest,this->angle,constspeed,dt);
-        difangle = this->angle - newangle;
-        this->angle = newangle;
+        if(difangle < 0){
+            deltamov.x = -deltamov.x;
+            deltamov.y = -deltamov.y;
+        }
     }else{
-        float newangle = physics->Rotate(dest,start,this->angle,-constspeed,dt);
-        difangle = this->angle - newangle;
-        this->angle = newangle;
-    }
-    std::cout << difangle << std::endl;
-    if(std::fabs(difangle) > 6){
-        difangle = 0;
-    }
-    deltamov = Vec2(std::fabs(sin(this->angle) * (difangle*radius)),std::fabs(cos(this->angle) * (difangle*radius)));
-
-    if(this->angle < PI/2){
-        deltamov.y = -deltamov.y;
-    }
-    else if(this->angle < PI){
-    }
-    else if(this->angle < ((3*PI)/2)){
-        deltamov.x = -deltamov.x;
-    }
-    else if(this->angle < 2*PI){
-        deltamov.y = -deltamov.y;
-    }
-
-    if(difangle < 0){
-        deltamov.x = -deltamov.x;
-        deltamov.y = -deltamov.y;
+        if(going){
+            deltamov = physics->Follow(dest,constspeed,dt);
+        }else{
+            deltamov = physics->Follow(start,constspeed,dt);
+        }
     }
 
     if(deltamov == Vec2(0,0)){
@@ -83,9 +86,6 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
-    if(deltamov.y > 1000){
-        std::cout << deltamov.x << " " << deltamov.y << std::endl;
-    }
     other.box.y += deltamov.y;
     other.box.x += deltamov.x;
 }

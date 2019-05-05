@@ -28,4 +28,5 @@ MovingTile
     speed -200
     destX 1300
     destY 600
+    circular 1
   ]
