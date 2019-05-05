@@ -1,14 +1,20 @@
 #include "../include/MovingTile.h"
 
-MovingTile::MovingTile(GameObject& associated,float constSpeed) : Component(associated){
+MovingTile::MovingTile(GameObject& associated,float constSpeed,bool horizontal,Vec2 start,Vec2 dest) : Component(associated){
     this->physics = new Physics(&associated,&speed,true);
     physics->SetCollider(1.0,4.5,0,-100);
     this->tilesprite = new Sprite(associated,"assets/img/penguin.png");
     this->deltamov = Vec2(0,0);
     this->constSpeed = constSpeed;
+    this->horizontal = horizontal;
+    this->start = start;
+    this->dest = dest;
     associated.AddComponent(tilesprite);   
-    speed.y = constSpeed;
-    speed.x = 0;
+    if(horizontal){
+        speed.x = constSpeed;
+    }else{
+        speed.y = constSpeed;
+    }
 }
 
 MovingTile::~MovingTile(){
@@ -21,18 +27,18 @@ void MovingTile::Update(float dt){
     this->deltamov.x = physics->PerformXMovement(dt);
     this->deltamov.y = physics->PerformYMovement(dt);
     
-    if(physics->distright <= 0){
-        speed.x = -constSpeed;
-    }
-    if(physics->distleft <= 0){
-        speed.x = constSpeed;
-    }
-    if(physics->distceiling <= 0){
-        speed.y = constSpeed;
-    }
-    if(physics->distground <= 0){
-        speed.y = -constSpeed;
-    }
+    // if(physics->distright <= 0){
+    //     speed.x = -constSpeed;
+    // }
+    // if(physics->distleft <= 0){
+    //     speed.x = constSpeed;
+    // }
+    // if(physics->distceiling <= 0){
+    //     speed.y = constSpeed;
+    // }
+    // if(physics->distground <= 0){
+    //     speed.y = -constSpeed;
+    // }
 }
 
 void MovingTile::Render(){

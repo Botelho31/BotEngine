@@ -10,7 +10,7 @@
 
     class MovingTile : public Component{
         public:
-            MovingTile(GameObject& associated,float constSpeed);
+            MovingTile(GameObject& associated,float constSpeed,bool horizontal,Vec2 start,Vec2 dest);
             ~MovingTile();
             void Update(float dt);
             void Render();
@@ -18,6 +18,9 @@
             bool Is(std::string type);
         private:
             float constSpeed;
+            bool horizontal;
+            Vec2 start;
+            Vec2 dest;
             Vec2 speed;
             Vec2 deltamov;
             Physics *physics;

@@ -56,20 +56,28 @@ void TileMapInfo::Open(std::string file){
                 Game::GetInstance().GetCurrentState().AddObject(minionObj);
             }
             if(checkline == "MovingTile"){
-                Vec2 tilePos;
+                Vec2 start;
+                Vec2 dest;
                 float speed;
+                bool horizontal;
                 while(checkline != "tileX"){
                     FileReader >> checkline;
                 } 
-                FileReader >> tilePos.x;
+                FileReader >> start.x;
                 FileReader >> checkline;
-                FileReader >> tilePos.y;
+                FileReader >> start.y;
                 FileReader >> checkline;
                 FileReader >> speed;
+                FileReader >> checkline;
+                FileReader >> horizontal;
+                FileReader >> checkline;
+                FileReader >> dest.x;
+                FileReader >> checkline;
+                FileReader >> dest.y;
                 GameObject *tileObj = new GameObject();
-                MovingTile *movingtile = new MovingTile(*tileObj,speed);
-                tileObj->box.x = tilePos.x;
-                tileObj->box.y = tilePos.y;
+                MovingTile *movingtile = new MovingTile(*tileObj,speed,horizontal,start,dest);
+                tileObj->box.x = start.x;
+                tileObj->box.y = start.y;
                 tileObj->AddComponent(movingtile);
                 std::weak_ptr<GameObject> tileweakptr =  Game::GetInstance().GetCurrentState().AddObject(tileObj);
                 movingtiles.emplace_back(tileweakptr);

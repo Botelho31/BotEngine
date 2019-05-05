@@ -18,4 +18,7 @@ Minion
     tileX 1700
     tileY 300
     speed 400
+    horizontal 0
+    destX 1700
+    destY 600
   ]
