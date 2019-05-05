@@ -279,6 +279,7 @@ float Physics::Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt
     if(finalangle < 0){
         finalangle = 2*PI + finalangle;
     }
+    // std::cout << startangle << " " << finalangle << std::endl;
     //Checks if rotation has been made
     if((startangle > angle) && (anglespeed >= 0)){
         RotationMade = true;
@@ -296,7 +297,7 @@ float Physics::Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt
     angle += anglespeed * dt;
     if(anglespeed <= 0){    //Anti-Horario
         if(finalangle <= startangle){
-            if(angle >= finalangle){
+            if(angle <= finalangle){
                 angle = finalangle;
             }
         }else{
@@ -306,7 +307,7 @@ float Physics::Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt
         }
     }else{                  //Horario
         if(finalangle >= startangle){
-            if(angle <= finalangle){
+            if(angle >= finalangle){
                 angle = finalangle;
             }
         }else{
