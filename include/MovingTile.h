@@ -18,6 +18,7 @@
             bool Is(std::string type);
         private:
             bool going;
+            float constspeed;
             Vec2 start;
             Vec2 dest;
             Vec2 speed;

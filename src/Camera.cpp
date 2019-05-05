@@ -18,6 +18,12 @@ void Camera::UnFollow(){
 
 void Camera::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
+    #ifdef DEBUG
+        if(input->IsKeyDown(SDLK_0)){
+            std::cout << "MouseX: " << input->GetMouseX() * 2 << std::endl;
+            std::cout << "MouseY: " << input->GetMouseY() * 2 << std::endl;
+        }
+    #endif
     if(focus){
         if( ((limit.x - (focus->box.x + focus->box.w/2)) >= window.x/2) &&
             ((focus->box.x + focus->box.w/2) >= (window.x/2)) ){

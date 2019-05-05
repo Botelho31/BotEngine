@@ -10,6 +10,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest) 
     physics->SetCollider(1.1,1.0,0,-50);
 
     this->deltamov = Vec2(0,0);
+    this->constspeed = speed;
     this->speed =  Vec2(speed,speed);
     this->start = start;
     this->dest = dest;
@@ -25,9 +26,9 @@ void MovingTile::Update(float dt){
     physics->Update(physics->GetCollider()->box);
     
     if(going){
-        deltamov = physics->Follow(dest,dt);
+        deltamov = physics->Follow(dest,constspeed,dt);
     }else{
-        deltamov = physics->Follow(start,dt);
+        deltamov = physics->Follow(start,constspeed,dt);
     }
 
     if(deltamov == Vec2(0,0)){

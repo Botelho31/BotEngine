@@ -15,9 +15,9 @@ Minion
 
   MovingTile
   [
-    startX 1700
-    startY 300
+    startX 1710
+    startY 1070
     speed 400
-    destX 1700
-    destY 600
+    destX 1670
+    destY 280
   ]
