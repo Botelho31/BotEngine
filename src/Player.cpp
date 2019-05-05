@@ -123,7 +123,7 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 void Player::InstanceHitbox(){
     Collider *collider = physics->GetCollider();
     Vec2 vector = Vec2(95,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-    Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
+    Rect hitbox = Rect(vector.x - 35,vector.y - 30,70,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
     HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{400,100},this,0.1);
@@ -171,22 +171,22 @@ void Player::AttackHandle(float dt){
             delayedboosttimer->Delay(dt);
         }
         if(nextattack.front() == 2){
-            SetSprite("assets/img/belattack2test2.png",23,0.04,false);
+            SetSprite("assets/img/belattack2test3.png",22,0.04,false);
             physics->SetCollider(0.15771429,1);
             if(playersprite->IsFlipped()){
-                player->asword= ((PI * 0.35)/0.14);
+                player->asword= ((PI * 0.35)/0.22);
                 player->swordarc =  PI - 0.5;
                 player->aswordangle = 70;
 
             }else{
-                player->asword = -((PI * 0.35)/0.14);
+                player->asword = -((PI * 0.35)/0.22);
                 player->swordarc =  0.5;
                 player->aswordangle = -70;
             }
             attacktiming = 0.4;
             endofattack = 1;
             swordattack->Delay(dt);
-            delayedboost = 0.26;
+            delayedboost = 0.18;
             delayedboosttimer->Delay(dt);
         }
         if(!physics->IsGrounded() && (physics->distground > 100)){

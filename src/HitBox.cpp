@@ -40,6 +40,8 @@ void HitBox::Update(float dt){
                 HitEffect("assets/img/sparktest.png",4,0.02,0.08,collisionpoint);
                 Component *component1 = owner.lock().get()->GetComponent("Player");
                 Player *player = dynamic_cast<Player*>(component1);
+                // component1->KeepStill(true,1);
+                // KeepStill(true,1);
                 Rect collisionrect = Rect(collisionpoint.x,collisionpoint.y,0,0);
                 Vec2 ownercenter = owner.lock().get()->box.GetCenter();
                 float collisiondist = collisionpoint.GetDistance(ownercenter.x,ownercenter.y);
