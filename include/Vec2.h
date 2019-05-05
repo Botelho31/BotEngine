@@ -10,7 +10,7 @@
             Vec2();
             Vec2(float x,float y);
             float Magnitude();
-            bool Follow(float x,float y,float speedX,float speedY,float dt);
+            // bool Follow(float x,float y,float speedX,float speedY,float dt);
             Vec2& GetRotated(float R);
             void Transform(float x,float y);
             void Transform(Vec2 pos);

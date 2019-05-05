@@ -220,8 +220,11 @@ Vec2 Physics::GetCollisionPoint(Rect hitbox){
     return error;
 }
 
-Vec2 Physics::Follow(Vec2 dest,float dt){
+Vec2 Physics::Follow(Vec2 dest,float constspeed,float dt){
     Vec2 delta;
+    float angle = associated->box.GetCenter().GetAngle(dest.x,dest.y);
+    speed->x = constspeed * cos(angle);
+    speed->y = constspeed * sin(angle);
     if(associated->box.GetCenter().x == dest.x){
         delta.x = 0;
     }
