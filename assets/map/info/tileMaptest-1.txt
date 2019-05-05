@@ -25,4 +25,5 @@ MovingTile
   [
     tileX 500
     tileY 300
+    speed 200
   ]

@@ -1,12 +1,13 @@
 #include "../include/MovingTile.h"
 
-MovingTile::MovingTile(GameObject& associated) : Component(associated){
+MovingTile::MovingTile(GameObject& associated,float constSpeed) : Component(associated){
     this->physics = new Physics(&associated,&speed,true);
     physics->SetCollider(1.0,4.5,0,-100);
     this->tilesprite = new Sprite(associated,"assets/img/penguin.png");
     this->deltamov = Vec2(0,0);
+    this->constSpeed = constSpeed;
     associated.AddComponent(tilesprite);   
-    speed.y = 200;
+    speed.y = constSpeed;
     speed.x = 0;
 }
 
@@ -21,16 +22,16 @@ void MovingTile::Update(float dt){
     this->deltamov.y = physics->PerformYMovement(dt);
     
     if(physics->distright <= 0){
-        speed.x = -200;
+        speed.x = -constSpeed;
     }
     if(physics->distleft <= 0){
-        speed.x = 200;
+        speed.x = constSpeed;
     }
     if(physics->distceiling <= 0){
-        speed.y = 200;
+        speed.y = constSpeed;
     }
     if(physics->distground <= 0){
-        speed.y = -200;
+        speed.y = -constSpeed;
     }
 }
 

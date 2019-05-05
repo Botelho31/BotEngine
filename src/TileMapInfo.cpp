@@ -57,14 +57,17 @@ void TileMapInfo::Open(std::string file){
             }
             if(checkline == "MovingTile"){
                 Vec2 tilePos;
+                float speed;
                 while(checkline != "tileX"){
                     FileReader >> checkline;
                 } 
                 FileReader >> tilePos.x;
                 FileReader >> checkline;
                 FileReader >> tilePos.y;
+                FileReader >> checkline;
+                FileReader >> speed;
                 GameObject *tileObj = new GameObject();
-                MovingTile *movingtile = new MovingTile(*tileObj);
+                MovingTile *movingtile = new MovingTile(*tileObj,speed);
                 tileObj->box.x = tilePos.x;
                 tileObj->box.y = tilePos.y;
                 tileObj->AddComponent(movingtile);

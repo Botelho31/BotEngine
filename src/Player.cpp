@@ -16,7 +16,7 @@ Player::Player(GameObject& associated) : Component(associated){
     speed.x = 0;
     maxspeed = 600;
     aspeed = 2000;
-    despeed = 800;
+    despeed = 1000;
 
     speed.y = 0;
     ajump = -1150;

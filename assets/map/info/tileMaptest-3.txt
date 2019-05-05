@@ -17,4 +17,5 @@ Minion
   [
     tileX 1700
     tileY 300
+    speed 400
   ]
