@@ -220,6 +220,49 @@ Vec2 Physics::GetCollisionPoint(Rect hitbox){
     return error;
 }
 
+Vec2 Physics::Follow(Vec2 dest,float dt){
+    Vec2 delta;
+    if(associated->box.GetCenter().x == dest.x){
+        delta.x = 0;
+    }
+    else if(associated->box.GetCenter().x < dest.x){
+        associated->box.x += speed->x * dt;
+        delta.x = speed->x * dt;
+        if(associated->box.GetCenter().x > dest.x){
+            associated->box.x = dest.x - associated->box.w/2;
+            delta.x = 0;
+        }
+    }else{
+        associated->box.x -= speed->x * dt;
+        delta.x = -(speed->x * dt);
+        if(associated->box.GetCenter().x < dest.x){
+            associated->box.x = dest.x - associated->box.w/2;
+            delta.x = 0;
+        }
+    }
+
+
+    if(associated->box.GetCenter().y == dest.y){
+        delta.y = 0;
+    }
+    else if(associated->box.GetCenter().y < dest.y){
+        associated->box.y += speed->y * dt;
+        delta.y = speed->y * dt;
+        if(associated->box.GetCenter().y > dest.y){
+            associated->box.y = dest.y - associated->box.h/2;
+            delta.y = 0;
+        }
+    }else{
+        associated->box.y -= speed->y * dt;
+        delta.y = -(speed->y * dt);
+        if(associated->box.GetCenter().y < dest.y){
+            associated->box.y = dest.y - associated->box.h/2;
+            delta.y = 0;
+        }
+    }
+    return delta;
+}
+
 void Physics::PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt){
     if(increaseX){
         if(speed->x >= 0){

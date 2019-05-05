@@ -1,20 +1,19 @@
 #include "../include/MovingTile.h"
 
-MovingTile::MovingTile(GameObject& associated,float constSpeed,bool horizontal,Vec2 start,Vec2 dest) : Component(associated){
+MovingTile::MovingTile(GameObject& associated,float constSpeed,Vec2 start,Vec2 dest) : Component(associated){
+
     this->physics = new Physics(&associated,&speed,true);
     physics->SetCollider(1.0,4.5,0,-100);
+
     this->tilesprite = new Sprite(associated,"assets/img/penguin.png");
+    associated.AddComponent(tilesprite);
+    this->associated.box.x = start.x - associated.box.w/2;
+    this->associated.box.y = start.y - associated.box.h/2;
+
     this->deltamov = Vec2(0,0);
-    this->constSpeed = constSpeed;
-    this->horizontal = horizontal;
+    this->speed =  Vec2(constSpeed,constSpeed);
     this->start = start;
     this->dest = dest;
-    associated.AddComponent(tilesprite);   
-    if(horizontal){
-        speed.x = constSpeed;
-    }else{
-        speed.y = constSpeed;
-    }
 }
 
 MovingTile::~MovingTile(){
@@ -24,9 +23,10 @@ MovingTile::~MovingTile(){
 
 void MovingTile::Update(float dt){
     physics->Update(physics->GetCollider()->box);
-    this->deltamov.x = physics->PerformXMovement(dt);
-    this->deltamov.y = physics->PerformYMovement(dt);
     
+    deltamov = physics->Follow(dest,dt);
+
+
     // if(physics->distright <= 0){
     //     speed.x = -constSpeed;
     // }

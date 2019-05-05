@@ -23,10 +23,9 @@ Minion
 
 MovingTile
   [
-    tileX 500
-    tileY 300
+    startX 500
+    startY 300
     speed 200
-    horizontal 1
     destX 1000
     destY 300
   ]
