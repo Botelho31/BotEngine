@@ -19,7 +19,6 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
 
     Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
     this->angle = halfway.GetAngle(start.x,start.y);
-    std::cout << this->angle << std::endl;
     if(this->angle < 0){
         this->angle = 2*PI + this->angle;
     }
@@ -34,20 +33,16 @@ void MovingTile::Update(float dt){
     physics->Update(physics->GetCollider()->box);
     
     if(circular){
-        float difangle = 0;
         float newangle = 0;
         Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
         float radius = halfway.GetDistance(start.x,start.y);
         if(going){
-            std::cout << this->angle << std::endl;
             newangle = physics->Rotate(start,dest,this->angle,constspeed,dt);
-            difangle = this->angle - newangle;
-            this->angle = newangle;
         }else{
             newangle = physics->Rotate(dest,start,this->angle,-constspeed,dt);
-            difangle = this->angle - newangle;
-            this->angle = newangle;
         }
+        float difangle = this->angle - newangle;
+        this->angle = newangle;
         if(std::fabs(difangle) > 6){
             difangle = 0.00000001;
         }
@@ -64,7 +59,6 @@ void MovingTile::Update(float dt){
             deltamov.x = -deltamov.x;
             deltamov.y = -deltamov.y;
         }
-
         if(difangle < 0){
             deltamov.x = -deltamov.x;
             deltamov.y = -deltamov.y;

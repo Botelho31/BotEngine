@@ -272,14 +272,13 @@ float Physics::Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt
     float finalangle = halfway.GetAngle(dest.x,dest.y);
     float anglespeed = constspeed/halfway.GetDistance(start.x,start.y);
     bool RotationMade = false;
-    //Modifies according to rotations
+    //Modifies Start and Final according to rotations
     if(startangle < 0){
         startangle = 2*PI + startangle;
     }
     if(finalangle < 0){
         finalangle = 2*PI + finalangle;
     }
-    // std::cout << startangle << " " << finalangle << std::endl;
     //Checks if rotation has been made
     if((startangle > angle) && (anglespeed >= 0)){
         RotationMade = true;

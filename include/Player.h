@@ -55,6 +55,7 @@
             float swordarc;
             float asword;
             float aswordangle;
+            float swordradius;
             float attacktiming;
             float endofattack;
             float delayedboost;

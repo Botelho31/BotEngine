@@ -31,6 +31,7 @@ Player::Player(GameObject& associated) : Component(associated){
     swordarc = -1;
     asword = (PI*2);
     aswordangle = 70;
+    swordradius = 95;
     attacktiming = 0;
     endofattack = 0;
     delayedboost = 0;
@@ -115,15 +116,15 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
 
     hitbox.angleDeg += player->aswordangle * dt;
     player->swordarc += player->asword * dt;
-    Vec2 vector = Vec2(120,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    Vec2 vector = Vec2(player->swordradius,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
     hitbox.box.Transform(vector.x - hitbox.box.w/2,vector.y - hitbox.box.h/2);
     
 }
 
 void Player::InstanceHitbox(){
     Collider *collider = physics->GetCollider();
-    Vec2 vector = Vec2(95,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-    Rect hitbox = Rect(vector.x - 35,vector.y - 30,70,60);
+    Vec2 vector = Vec2(swordradius,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
     HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{400,100},this,0.1);
@@ -164,6 +165,7 @@ void Player::AttackHandle(float dt){
                 player->swordarc =  -0.5;
                 player->aswordangle = 70;
             }
+            player->swordradius = 100;
             attacktiming = 0.4;
             endofattack = 1;
             swordattack->Delay(dt);
@@ -183,6 +185,7 @@ void Player::AttackHandle(float dt){
                 player->swordarc =  0.5;
                 player->aswordangle = -70;
             }
+            swordradius = 90;
             attacktiming = 0.4;
             endofattack = 1;
             swordattack->Delay(dt);
