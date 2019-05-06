@@ -49,7 +49,7 @@ float Rect::GetAngle(float x,float y,float offsetX,float offsetY){
     float boxY = this->y + offsetY;
     float difX = x - boxX;
     float difY = boxY - y;
-    return atan2(difY,difX);
+    return -atan2(difY,difX);
 }
 
 // bool Rect::Follow(float x,float y, float speedX,float speedY,float dt){
