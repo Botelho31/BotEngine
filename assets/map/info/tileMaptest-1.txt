@@ -27,6 +27,6 @@ MovingTile
     startY 300
     speed -200
     destX 1300
-    destY 600
-    circular 1
+    destY 300
+    circular 0
   ]

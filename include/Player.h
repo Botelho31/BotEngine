@@ -64,6 +64,7 @@
             Timer *invincibilitytimer;
             int hp;
             bool invencible;
+            Timer *damagetimer;
 
             Timer *jumpsquat;
             Timer *hittheground;

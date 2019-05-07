@@ -41,6 +41,7 @@ Player::Player(GameObject& associated) : Component(associated){
     hp = 150;
     invencible = false;
     invincibilitytimer = new Timer();
+    damagetimer = new Timer();
     player = this;
 
     idletimer = new Timer();
@@ -66,6 +67,7 @@ Player::~Player(){
     delete jumpsquat;
     delete hittheground;
     delete invincibilitytimer;
+    delete damagetimer;
     delete swordattack;
     delete delayedboosttimer;
     delete jumpanimation;
@@ -97,6 +99,22 @@ void Player::Update(float dt){
     XMovement(dt); //X MOVEMENT
     YMovement(dt); //Y MOVEMENT
 
+    if(damagetimer->Started()){
+        damagetimer->Update(dt);
+        if( (running) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
+            damagetimer->Restart();
+        }
+        if(damagetimer->Get() > 0.28){
+            damagetimer->Restart();
+            if(physics->IsGrounded()){
+                SetSprite("assets/img/belidleswordtest.png",32,0.08);
+                physics->SetCollider(0.276,1);
+            }else{
+                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+                physics->SetCollider(0.276,0.8);
+            }
+        }
+    }
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
         if((invincibilitytimer->Get() >= 2) && (invencible == false)){
@@ -214,7 +232,7 @@ void Player::AttackHandle(float dt){
     //HANDLES THE TIMING OF THE ATTACKS
     if(swordattack->Started()){
         swordattack->Update(dt);
-        physics->PerformXDeceleration(1500,dt);
+        physics->PerformXDeceleration(2000,dt);
         if((swordattack->Get() >= attacktiming) && (nextattack.size() > 1)){
             nextattack.pop();
             speed.x = 0;
@@ -406,7 +424,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!swordattack->Started())){
+    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
         physics->SetCollider(0.276,0.8);
         falling = true;
@@ -436,6 +454,10 @@ void Player::IdleHandle(float dt){
 
 void Player::DamagePlayer(int damage){
     hp -= damage;
+    SetSprite("assets/img/beldamagetest.png",7,0.04,false);
+    if(!damagetimer->Started()){
+        damagetimer->Delay(0);
+    }
 }
 
 void Player::HealPlayer(int heal){
