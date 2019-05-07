@@ -53,7 +53,12 @@ void Minion::Update(float dt){
     float distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
     if(Player::player){
-        distanceToPlayer = physics->DistanceTo(GetPosition(),Player::player->GetPosition(),sightrange);
+        float dists[] = { physics->DistanceTo(GetPosition(),Player::player->GetPosition().Added(0,-100),sightrange),
+                        physics->DistanceTo(GetPosition(),Player::player->GetPosition(),sightrange),
+                        physics->DistanceTo(GetPosition(),Player::player->GetPosition().Added(0,100),sightrange)};
+        int size = sizeof(dists)/sizeof(dists[0]);
+        std::sort(dists,dists+size);
+        distanceToPlayer = dists[0];
         player = Player::player->GetPosition();
     }
     XMovement(dt);
