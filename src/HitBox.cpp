@@ -79,13 +79,14 @@ void HitBox::NotifyCollision(GameObject& other){
                 component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
             }
-            // if(hitboxcomponent){
-            //     HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
-            //     if(hitbox->HitEnemy()){
-            //         component->KeepStill(true,hitfreezetime);
-            //         KeepStill(true,freezetime);
-            //     }
-            // }
+            if(hitboxcomponent){
+                HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
+                if(hitbox->HitEnemy()){
+                    component->KeepStill(true,hitfreezetime);
+                    KeepStill(true,hitfreezetime);
+                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
+                }
+            }
         }
         if(hitEnemy){
             Component *component1 = other.GetComponent("Minion");
@@ -98,14 +99,14 @@ void HitBox::NotifyCollision(GameObject& other){
                 knockback.x = 0;
                 knockback.y = 0;
             }
-            // if(hitboxcomponent){
-            //     HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
-            //     if(hitbox->HitPlayer()){
-            //         std::cout << "hitbox" << std::endl;
-            //         component->KeepStill(true,hitfreezetime);
-            //         KeepStill(true,freezetime);
-            //     }
-            // }
+            if(hitboxcomponent){
+                HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
+                if(hitbox->HitPlayer()){
+                    component->KeepStill(true,hitfreezetime);
+                    KeepStill(true,hitfreezetime);
+                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
+                }
+            }
         }
     }
 }

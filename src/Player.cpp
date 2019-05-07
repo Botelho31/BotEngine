@@ -104,7 +104,7 @@ void Player::Update(float dt){
         if( (running) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
             damagetimer->Restart();
         }
-        if(damagetimer->Get() > 0.28){
+        if(damagetimer->Get() > 0.14){
             damagetimer->Restart();
             if(physics->IsGrounded()){
                 SetSprite("assets/img/belidleswordtest.png",32,0.08);
@@ -145,7 +145,7 @@ void Player::InstanceHitbox(){
     Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{400,100},this,0.1);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{500,100},this,0.1);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -454,7 +454,7 @@ void Player::IdleHandle(float dt){
 
 void Player::DamagePlayer(int damage){
     hp -= damage;
-    SetSprite("assets/img/beldamagetest.png",7,0.04,false);
+    SetSprite("assets/img/beldamagetest.png",7,0.02,false);
     if(!damagetimer->Started()){
         damagetimer->Delay(0);
     }
