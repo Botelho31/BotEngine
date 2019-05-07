@@ -31,6 +31,8 @@
             minionState state;
 
             int hp;
+            int attackrange;
+            int sightrange;
 
             Vec2 speed;
             int maxspeed;

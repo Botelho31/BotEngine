@@ -14,6 +14,8 @@ Minion::Minion(GameObject& associated) : Component(associated){
     hittheground = new Timer();
 
     hp = 60;
+    attackrange = 150;
+    sightrange = 500;
     damageCooldown = 0;
     invincibilitytimer =  new Timer();
 
@@ -25,10 +27,10 @@ Minion::Minion(GameObject& associated) : Component(associated){
 
     this->attacktimer = new Timer();
 
-    Sprite *minion =  new Sprite(associated,"assets/img/miniontest.png");
+    Sprite *minion =  new Sprite(associated,"assets/img/minionidletest.png",32,0.08);
     this->minionsprite = minion;
     associated.AddComponent(minion);
-    physics->SetCollider(0.5,0.9);
+    physics->SetCollider(0.5,0.65,0,33);
 }
 
 Minion::~Minion(){
@@ -48,25 +50,27 @@ void Minion::Update(float dt){
     Collider *collider = physics->GetCollider();
     physics->Update(collider->box);
     physics->CorrectDistance();
-    float distanceToPlayer = 500;
+    float distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
     if(Player::player){
-        distanceToPlayer = physics->DistanceTo(GetPosition(),Player::player->GetPosition(),500);
+        distanceToPlayer = physics->DistanceTo(GetPosition(),Player::player->GetPosition(),sightrange);
         player = Player::player->GetPosition();
     }
     XMovement(dt);
     YMovement(dt);
+
     if(state == IDLE){
-        if(distanceToPlayer < 500){
+        if(distanceToPlayer < sightrange){
             state = CHASING;
         }
         IdleHandle(dt);
         physics->PerformXDeceleration(despeed,dt);
     }
     if(state == CHASING){
-        if(distanceToPlayer >= 500){
+        if(distanceToPlayer >= sightrange){
             state = IDLE;
-        }else if(distanceToPlayer <= 150){
+            SetSprite("assets/img/minionidletest.png",32,0.08);
+        }else if(distanceToPlayer <= attackrange){
             state = ATTACKING;
         }
         if(player.x < GetPosition().x){
@@ -104,17 +108,20 @@ void Minion::Update(float dt){
             }
             if(attacktimer->Get() >= 1){
                 attacktimer->Restart();
-                if((distanceToPlayer >= 100) && (distanceToPlayer < 500)){
+                if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
                     state = CHASING;
-                }else if(distanceToPlayer >= 500){
+                }else if(distanceToPlayer >= sightrange){
                     state = IDLE;
+                    SetSprite("assets/img/minionidletest.png",32,0.08);
+                    
                 }
             }
         }else{
-            if((distanceToPlayer >= 100) && (distanceToPlayer < 500)){
+            if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
                 state = CHASING;
-            }else if(distanceToPlayer >= 500){
+            }else if(distanceToPlayer >= sightrange){
                 state = IDLE;
+                SetSprite("assets/img/minionidletest.png",32,0.08);
             }
         }
     }
