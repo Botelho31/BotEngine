@@ -104,7 +104,7 @@ void Player::Update(float dt){
         if( (running) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
             damagetimer->Restart();
         }
-        if(damagetimer->Get() > 0.14){
+        if(damagetimer->Get() > 0.21){
             damagetimer->Restart();
             if(physics->IsGrounded()){
                 SetSprite("assets/img/belidleswordtest.png",32,0.08);
@@ -454,7 +454,7 @@ void Player::IdleHandle(float dt){
 
 void Player::DamagePlayer(int damage){
     hp -= damage;
-    SetSprite("assets/img/beldamagetest.png",7,0.02,false);
+    SetSprite("assets/img/beldamagetest.png",7,0.03,false);
     if(!damagetimer->Started()){
         damagetimer->Delay(0);
     }

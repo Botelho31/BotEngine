@@ -85,9 +85,16 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
-    other.box.y += deltamov.y;
-    other.box.x += deltamov.x;
-    
+    // if(other.box.GetCenter().y > associated.box.GetCenter().y){
+    //     if(going){
+    //         going = false;
+    //     }else{
+    //         going = true;
+    //     }
+    // }else{
+        other.box.y += deltamov.y;
+        other.box.x += deltamov.x;
+    // }
 }
 
 bool MovingTile::Is(std::string type){
