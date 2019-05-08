@@ -67,6 +67,7 @@ void Minion::Update(float dt){
     if(state == IDLE){
         if(distanceToPlayer < sightrange){
             state = CHASING;
+            SetSprite("assets/img/minionwalktest.png",8,0.08);
         }
         IdleHandle(dt);
         physics->PerformXDeceleration(despeed,dt);
@@ -115,6 +116,7 @@ void Minion::Update(float dt){
                 attacktimer->Restart();
                 if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
                     state = CHASING;
+                    SetSprite("assets/img/minionwalktest.png",8,0.08);
                 }else if(distanceToPlayer >= sightrange){
                     state = IDLE;
                     SetSprite("assets/img/minionidletest.png",32,0.08);
@@ -124,6 +126,7 @@ void Minion::Update(float dt){
         }else{
             if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
                 state = CHASING;
+                SetSprite("assets/img/minionwalktest.png",8,0.08);
             }else if(distanceToPlayer >= sightrange){
                 state = IDLE;
                 SetSprite("assets/img/minionidletest.png",32,0.08);
