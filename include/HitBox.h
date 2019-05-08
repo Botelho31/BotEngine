@@ -16,6 +16,7 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+            void KeepStill(bool freeze,float time = 0);
             
             void HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
             Collider* GetCollider();

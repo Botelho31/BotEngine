@@ -76,14 +76,15 @@ void HitBox::NotifyCollision(GameObject& other){
         if(hitPlayer){
             Component *component1 = other.GetComponent("Player");
             if(component1){
-                component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
+                hitfreezetime = 0;
             }
             if(hitboxcomponent){
                 HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
                 if(hitbox->HitEnemy()){
-                    component->KeepStill(true,hitfreezetime);
                     KeepStill(true,hitfreezetime);
+                    hitbox->KeepStill(true,hitfreezetime);
+                    hitfreezetime = 0;
                     HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
                 }
             }
@@ -91,7 +92,6 @@ void HitBox::NotifyCollision(GameObject& other){
         if(hitEnemy){
             Component *component1 = other.GetComponent("Minion");
             if(component1){
-                component->KeepStill(true,hitfreezetime);
                 KeepStill(true,hitfreezetime);
                 component1->KeepStill(true,hitfreezetime);
                 HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
@@ -102,8 +102,9 @@ void HitBox::NotifyCollision(GameObject& other){
             if(hitboxcomponent){
                 HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
                 if(hitbox->HitPlayer()){
-                    component->KeepStill(true,hitfreezetime);
                     KeepStill(true,hitfreezetime);
+                    hitbox->KeepStill(true,hitfreezetime);
+                    hitfreezetime = 0;
                     HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
                 }
             }
@@ -116,6 +117,13 @@ bool HitBox::Is(std::string type){
         return true;
     }else{
         return false;
+    }
+}
+
+void HitBox::KeepStill(bool freeze,float time){
+    Component::KeepStill(freeze,time);
+    if(component){
+        component->KeepStill(freeze,time);
     }
 }
 

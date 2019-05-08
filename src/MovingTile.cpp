@@ -7,7 +7,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->associated.box.y = start.y - associated.box.h/2;
 
     this->physics = new Physics(&associated,&this->speed,true);
-    physics->SetCollider(1.1,1.0,0,-50);
+    physics->SetCollider(1,2,0,-associated.box.h/2);
 
     this->deltamov = Vec2(0,0);
     this->constspeed = speed;
@@ -87,6 +87,7 @@ void MovingTile::Render(){
 void MovingTile::NotifyCollision(GameObject& other){
     other.box.y += deltamov.y;
     other.box.x += deltamov.x;
+    
 }
 
 bool MovingTile::Is(std::string type){
