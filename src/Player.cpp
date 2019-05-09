@@ -342,10 +342,8 @@ void Player::YMovement(float dt){
             physics->SetCollider(0.276,1);
 
             Rect collider = physics->GetCollider()->box;
-            Vec2 smoke1 = Vec2(collider.x,collider.y + collider.h);
-            Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
-            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
-            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
+            Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
+            SpriteEffect("assets/img/smoketest.png",5,0.1,0.5,smoke1);
             hittheground->Delay(dt);
         }
     }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
@@ -405,10 +403,8 @@ void Player::YMovement(float dt){
         if(jumpsquat->Get() >= 0.12){
             speed.y = ajump;
             Rect collider = physics->GetCollider()->box;
-            Vec2 smoke1 = Vec2(collider.x,collider.y + collider.h);
-            Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
-            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
-            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
+            Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
+            SpriteEffect("assets/img/smoketest.png",5,0.1,0.5,smoke1);
             jumpsquat->Restart();
         }
     }
