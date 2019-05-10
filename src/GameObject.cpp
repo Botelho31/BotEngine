@@ -67,6 +67,16 @@ Component* GameObject::GetComponent(std::string type){
     return nullptr;
 }
 
+Physics* GameObject::GetPhysics(){
+    for(unsigned int i = 0; i < components.size();i++){
+        Physics *physics = components[i]->GetPhysics();
+        if(physics){
+            return physics;
+        }
+    }
+    return nullptr;
+}
+
 void GameObject::NotifyCollision(GameObject &other){
     for(unsigned int i = 0; i < components.size();i++){
         components[i]->NotifyCollision(other);

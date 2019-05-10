@@ -27,6 +27,10 @@ bool Component::GetFreeze(){
     return freeze;
 }
 
+Physics* Component::GetPhysics(){
+    return nullptr;
+}
+
 void Component::UpdateFreeze(float dt) {
     if(freezetimer->Started()){
         freezetimer->Update(dt);

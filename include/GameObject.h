@@ -22,6 +22,7 @@
             void AddComponent(Component* cpt);
             void RemoveComponent(Component* cpt);
             Component* GetComponent(std::string type);
+            Physics* GetPhysics();
             void NotifyCollision (GameObject& other);
             Rect box;
             bool started;
