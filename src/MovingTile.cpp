@@ -86,17 +86,26 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
-    if((other.box.GetCenter().y > associated.box.GetCenter().y) && (!colliding)){
-        colliding = true;
-        if(going){
-            going = false;
-        }else{
-            going = true;
+    Physics *physics = other.GetPhysics();
+    if(physics){
+        Collider *collider = physics->GetCollider();
+        if(going && (collider->box.Contains(dest.x,dest.y))){
+            if(going){
+                going = false;
+            }else{
+                going = true;
+            }
+        }else if(!going && (collider->box.Contains(start.x,start.y))){
+            if(going){
+                going = false;
+            }else{
+                going = true;
+            }
         }
-    }else if(other.box.GetCenter().y < associated.box.GetCenter().y){
-        colliding = false;
-        other.box.y += deltamov.y;
-        other.box.x += deltamov.x;
+        else{
+            other.box.y += deltamov.y;
+            other.box.x += deltamov.x;
+        }
     }
 }
 

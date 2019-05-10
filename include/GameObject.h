@@ -6,7 +6,7 @@
     #define GAMEOBJECT_H
     #include "Rect.h"
     #include "Component.h"
-
+    class Physics;
     class State;
     
     class GameObject{

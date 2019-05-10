@@ -6,6 +6,7 @@
     #define COMPONENT_H
     #include "Timer.h"
     class GameObject;
+    class Physics;
 
     class Component{
         public:
