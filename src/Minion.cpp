@@ -78,8 +78,9 @@ void Minion::Update(float dt){
         if(distanceToPlayer >= sightrange){
             state = IDLE;
             SetSprite("assets/img/minionidletest.png",32,0.08);
-        }else if(distanceToPlayer <= attackrange){
+        }else if(distanceToPlayer - (speed.x * dt)<= attackrange){
             state = ATTACKING;
+            SetSprite("assets/img/minionidletest.png",32,0.08);
         }
         if(player.x < GetPosition().x){
             if(!minionsprite->IsFlipped()){
@@ -232,6 +233,10 @@ void Minion::NotifyCollision(GameObject& other){
             }
         }
     }
+}
+
+Physics* Minion::GetPhysics(){
+    return physics;
 }
 
 Vec2 Minion::GetPosition(){

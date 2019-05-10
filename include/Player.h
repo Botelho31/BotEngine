@@ -16,6 +16,7 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+            Physics* GetPhysics();
             void KeepStill(bool freeze,float time = 0);
             
             Vec2 GetPosition(); //Returns vector with center position of player

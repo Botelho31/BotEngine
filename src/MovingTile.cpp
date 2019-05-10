@@ -16,6 +16,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->dest = dest;
     this->going = true;
     this->circular = circular;
+    this->colliding = false;
 
     Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
     this->angle = halfway.GetAngle(start.x,start.y);
@@ -85,16 +86,18 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
-    // if(other.box.GetCenter().y > associated.box.GetCenter().y){
-    //     if(going){
-    //         going = false;
-    //     }else{
-    //         going = true;
-    //     }
-    // }else{
+    if((other.box.GetCenter().y > associated.box.GetCenter().y) && (!colliding)){
+        colliding = true;
+        if(going){
+            going = false;
+        }else{
+            going = true;
+        }
+    }else if(other.box.GetCenter().y < associated.box.GetCenter().y){
+        colliding = false;
         other.box.y += deltamov.y;
         other.box.x += deltamov.x;
-    // }
+    }
 }
 
 bool MovingTile::Is(std::string type){

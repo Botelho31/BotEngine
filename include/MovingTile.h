@@ -19,6 +19,7 @@
         private:
             bool going;
             bool circular;
+            bool colliding;
             float constspeed;
             float angle;
             Vec2 start;
