@@ -3,6 +3,8 @@
 #include "../include/Camera.h"
 #include "../include/TileCollider.h"
 
+std::vector<std::weak_ptr<Component>> TileMap::tiles;
+
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
     this->tileSet = tileSet;
     this->tileMapInfo = nullptr;
@@ -69,12 +71,16 @@ void TileMap::Start(){
 }
 
 void TileMap::LoadTileColliders(){
+    tiles.clear();
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
             if((At(w,h,this->mapDepth - 1) + 1) > 0){
                 GameObject* tileGO = new GameObject();
                 TileCollider *tilecollider = new TileCollider(*tileGO,Rect(tileSet->GetTileWidth() * w,tileSet->GetTileHeight() * h,tileSet->GetTileWidth(),tileSet->GetTileHeight()));
-                tileGO->AddComponent(tilecollider);
+                std::weak_ptr<Component> weakptrtile = tileGO->AddComponent(tilecollider);
+                if(weakptrtile.use_count() > 1){
+                    tiles.push_back(weakptrtile);
+                }
                 Game::GetInstance().GetCurrentState().AddObject(tileGO);
             }
         }
@@ -167,7 +173,11 @@ void TileMap::Render(){
 }
 
 void TileMap::Update(float dt){
-
+    for(int i = (tiles.size() - 1); i >= 0;--i){
+        if(tiles[i].expired()){
+            tiles.erase(tiles.begin() + i);
+        }
+    }
 }
 
 bool TileMap::Is(std::string type){
