@@ -343,7 +343,7 @@ void Player::YMovement(float dt){
 
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
-            SpriteEffect("assets/img/smoketest.png",5,0.1,0.5,smoke1);
+            SpriteEffect("assets/img/smoketest.png",5,0.05,0.25,smoke1);
             hittheground->Delay(dt);
         }
     }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
@@ -404,7 +404,7 @@ void Player::YMovement(float dt){
             speed.y = ajump;
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
-            SpriteEffect("assets/img/smoketest.png",5,0.1,0.5,smoke1);
+            SpriteEffect("assets/img/smoketest.png",5,0.05,0.25,smoke1);
             jumpsquat->Restart();
         }
     }
@@ -450,8 +450,8 @@ void Player::IdleHandle(float dt){
 
 void Player::DamagePlayer(int damage){
     hp -= damage;
-    SetSprite("assets/img/beldamagetest.png",7,0.03,false);
     if(!damagetimer->Started()){
+        SetSprite("assets/img/beldamagetest.png",7,0.03,false);
         damagetimer->Delay(0);
     }
 }
