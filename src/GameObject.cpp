@@ -43,11 +43,14 @@ void GameObject::RequestDelete(){
     isDead = true;
 }
 
-void GameObject::AddComponent(Component* cpt){
-    components.emplace_back(cpt);
+std::weak_ptr<Component> GameObject::AddComponent(Component* cpt){
+    std::shared_ptr<Component> component(cpt);
+    components.emplace_back(component);
     if(started){
         cpt->Start();
     }
+    std::weak_ptr<Component> weakptr = component;
+    return weakptr;
 }
 
 void GameObject::RemoveComponent(Component* cpt){

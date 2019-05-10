@@ -19,7 +19,7 @@
             bool IsDead();
             void Start();
             void RequestDelete();
-            void AddComponent(Component* cpt);
+            std::weak_ptr<Component> AddComponent(Component* cpt);
             void RemoveComponent(Component* cpt);
             Component* GetComponent(std::string type);
             Physics* GetPhysics();
@@ -28,7 +28,7 @@
             bool started;
             double angleDeg; // SENTIDO HORARIO EM GRAUS
         private:
-            std::vector<std::unique_ptr<Component>> components;
+            std::vector<std::shared_ptr<Component>> components;
             bool isDead;
 
     };
