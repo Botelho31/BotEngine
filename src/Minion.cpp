@@ -18,6 +18,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     sightrange = 500;
     damageCooldown = 0;
     invincibilitytimer =  new Timer();
+    damagetimer = new Timer();
 
     idletimer = new Timer();
     idle = false;
@@ -38,6 +39,7 @@ Minion::~Minion(){
     delete idletimer;
     delete hittheground;
     delete invincibilitytimer;
+    delete damagetimer;
     delete physics;
     delete attacktimer;
 }
@@ -133,6 +135,17 @@ void Minion::Update(float dt){
             }
         }
     }
+    if(damagetimer->Started()){
+        damagetimer->Update(dt);
+        if(damagetimer->Get() > 0.20){
+            damagetimer->Restart();
+            if(state == IDLE){
+                SetSprite("assets/img/minionidletest.png",32,0.08);
+            }else if(state == CHASING){
+                SetSprite("assets/img/minionwalktest.png",8,0.08);
+            }
+        }
+    }
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
         if(invincibilitytimer->Get() >= damageCooldown){
@@ -147,6 +160,10 @@ void Minion::Update(float dt){
 
 void Minion::DamageMinion(int damage){
     hp -= damage;
+    if(!damagetimer->Started()){
+        SetSprite("assets/img/miniondamagetest.png",5,0.04);
+        damagetimer->Delay(0);
+    }
 }
 
 void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
