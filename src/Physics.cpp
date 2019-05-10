@@ -2,6 +2,8 @@
 #include "../include/Component.h"
 #include "../include/Camera.h"
 
+std::vector<std::weak_ptr<TileCollider>> Physics::tiles;
+
 
 Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(associated){
     distground = 0;
