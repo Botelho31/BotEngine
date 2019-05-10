@@ -36,7 +36,7 @@
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
 
             int distground,distceiling,distright,distleft;
-            static std::vector<std::weak_ptr<TileCollider>> tiles;
+            static std::vector<std::weak_ptr<Component>> tiles;
         private:
             Vec2 *speed;
             Collider *collider;

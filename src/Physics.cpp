@@ -2,7 +2,7 @@
 #include "../include/Component.h"
 #include "../include/Camera.h"
 
-std::vector<std::weak_ptr<TileCollider>> Physics::tiles;
+std::vector<std::weak_ptr<Component>> Physics::tiles;
 
 
 Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(associated){
