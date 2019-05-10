@@ -1,6 +1,7 @@
 #include "../include/TileMap.h"
 #include "../include/StageState.h"
 #include "../include/Camera.h"
+#include "../include/TileCollider.h"
 
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
     this->tileSet = tileSet;
@@ -60,6 +61,23 @@ void TileMap::LoadInfo(std::string file){
         this->tileMapInfo->Open(file);
     }else{
         this->tileMapInfo = new TileMapInfo(file);
+    }
+}
+
+void TileMap::Start(){
+    LoadTileColliders();
+}
+
+void TileMap::LoadTileColliders(){
+    for(int h = 0;h < this->mapHeight;h++){
+        for(int w = 0;w < this->mapWidth;w++){
+            if((At(w,h,this->mapDepth - 1) + 1) > 0){
+                GameObject* tileGO = new GameObject();
+                TileCollider *tilecollider = new TileCollider(*tileGO,Rect(tileSet->GetTileWidth() * w,tileSet->GetTileHeight() * h,tileSet->GetTileWidth(),tileSet->GetTileHeight()));
+                tileGO->AddComponent(tilecollider);
+                Game::GetInstance().GetCurrentState().AddObject(tileGO);
+            }
+        }
     }
 }
 

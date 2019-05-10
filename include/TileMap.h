@@ -15,6 +15,7 @@
             ~TileMap();
             void Load(std::string file);
             void LoadInfo(std::string file);    //Load the TileMapInfo
+            void LoadTileColliders();   //Load the tileColliders
             void SetTileSet(TileSet *tileSet);
             int& At(int x,int y,int z = 0);
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);
@@ -22,6 +23,7 @@
             int AtLocation(int x,int y,bool isTile = false); //TO GET THE TILE AT MAP COORDINATES
             void InsertAtLocation(int x,int y,int numberoftile);
             
+            void Start();
             void Render();
             void Update(float dt);
             bool Is(std::string type);
