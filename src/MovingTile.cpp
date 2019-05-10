@@ -91,7 +91,6 @@ void MovingTile::Render(){
 void MovingTile::NotifyCollision(GameObject& other){
     Physics *physics1 = other.GetPhysics();
     if(physics1){
-        std::cout << deltamov.y << std::endl;
         Collider *collider1 = physics1->GetCollider();
         if(collider1->box.GetCenter().y > (associated.box.y + associated.box.h)){
             if((deltamov.y > 0) && (physics1->IsGrounded())){
@@ -103,12 +102,12 @@ void MovingTile::NotifyCollision(GameObject& other){
                 InvertDirection();
             }
         }
-        if((collider1->box.x + collider1->box.w) < associated.box.x){
+        if(collider1->box.GetCenter().x < associated.box.x){
             if((deltamov.x < 0) && (physics1->distleft <= 0)){
                 InvertDirection();
             }
         }
-        if(collider1->box.x > (associated.box.x + associated.box.w)){
+        if(collider1->box.GetCenter().x > (associated.box.x + associated.box.w)){
             if((deltamov.x > 0) && (physics1->distright <= 0)){
                 InvertDirection();
             }
