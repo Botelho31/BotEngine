@@ -15,6 +15,7 @@
 #include "../include/Minion.h"
 #include "../include/TransitionState.h"
 #include "../include/MovingTile.h"
+#include "../include/TileCollider.h"
 
 bool StageState::changingMap;
 
@@ -106,6 +107,22 @@ void StageState::Update(float dt){
                 if(component2){
                     Collider *collider2 = dynamic_cast<Collider*>(component2);
                     if(Collision::IsColliding(collider1->box,collider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
+                        objectArray[i]->NotifyCollision(*objectArray[j]);
+                        objectArray[j]->NotifyCollision(*objectArray[i]);
+                    }
+                }
+            }
+        }
+    }
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        Component *component1 = objectArray[i]->GetComponent("TileCollider");
+        if((component1) && ((i + 1) < objectArray.size())){
+            TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
+            for(unsigned int j = i + 1; j < objectArray.size();j++){
+                Component *component2 = objectArray[j]->GetComponent("TileCollider");
+                if(component2){
+                    TileCollider *tilecollider2 = dynamic_cast<TileCollider*>(component2);
+                    if(Collision::IsColliding(tilecollider1->box,tilecollider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
                         objectArray[i]->NotifyCollision(*objectArray[j]);
                         objectArray[j]->NotifyCollision(*objectArray[i]);
                     }

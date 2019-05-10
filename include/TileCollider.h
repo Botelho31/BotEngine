@@ -14,7 +14,11 @@
             void Render();
             void Start();
             bool Is(std::string type);
-            bool max;
+            void NotifyCollision(GameObject& other);
+            bool CanMove(Vec2 vector);
+            bool maxX;
+            bool maxY;
+            bool deleted;
             Rect box;
     };
 
