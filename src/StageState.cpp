@@ -174,6 +174,7 @@ void StageState::ClearMobs(){
         Component *component1 = objectArray[i]->GetComponent("HitBox");
         Component *component2 = objectArray[i]->GetComponent("Minion");
         Component *component3 = objectArray[i]->GetComponent("MovingTile");
+        Component *component4 = objectArray[i]->GetComponent("TileCollider");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -181,6 +182,9 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
         if(component3){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        if(component4){
             objectArray.erase(objectArray.begin() + i);
         }
     }
@@ -212,6 +216,7 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
                 ClearMobs();
                 tilemap->Load(files[0]);
+                tilemap->Start();
                 tilemap->LoadInfo(files[1]);
 
                 GameData::checkpointMap = files[0];
