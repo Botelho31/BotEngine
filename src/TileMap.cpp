@@ -136,7 +136,7 @@ int TileMap::AtLocation(int x,int y,bool isTile){
             return -1000;
         }else{
             // std::cout << "Out of Bounds" << std::endl;
-            return 1;
+            return -1;
         }
     }
 }
