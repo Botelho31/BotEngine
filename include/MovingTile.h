@@ -16,10 +16,11 @@
             void Render();
             void NotifyCollision(GameObject& other);
             bool Is(std::string type);
+
+            void InvertDirection();
         private:
             bool going;
             bool circular;
-            bool colliding;
             float constspeed;
             float angle;
             Vec2 start;

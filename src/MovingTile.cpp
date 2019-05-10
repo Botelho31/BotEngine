@@ -16,7 +16,6 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->dest = dest;
     this->going = true;
     this->circular = circular;
-    this->colliding = false;
 
     Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
     this->angle = halfway.GetAngle(start.x,start.y);
@@ -73,11 +72,15 @@ void MovingTile::Update(float dt){
     }
 
     if(deltamov == Vec2(0,0)){
-        if(going){
-            going = false;
-        }else{
-            going = true;
-        }
+        InvertDirection();
+    }
+}
+
+void MovingTile::InvertDirection(){
+    if(going){
+        going = false;
+    }else{
+        going = true;
     }
 }
 
@@ -86,20 +89,28 @@ void MovingTile::Render(){
 }
 
 void MovingTile::NotifyCollision(GameObject& other){
-    Physics *physics = other.GetPhysics();
-    if(physics){
-        Collider *collider = physics->GetCollider();
-        if(going && (collider->box.Contains(dest.x,dest.y))){
-            if(going){
-                going = false;
-            }else{
-                going = true;
+    Physics *physics1 = other.GetPhysics();
+    if(physics1){
+        std::cout << deltamov.y << std::endl;
+        Collider *collider1 = physics1->GetCollider();
+        if(collider1->box.GetCenter().y > (associated.box.y + associated.box.h)){
+            if((deltamov.y > 0) && (physics1->IsGrounded())){
+                InvertDirection();
             }
-        }else if(!going && (collider->box.Contains(start.x,start.y))){
-            if(going){
-                going = false;
-            }else{
-                going = true;
+        }
+        if(collider1->box.GetCenter().y < associated.box.y){
+            if((deltamov.y < 0) && (physics1->distceiling <= 0)){
+                InvertDirection();
+            }
+        }
+        if((collider1->box.x + collider1->box.w) < associated.box.x){
+            if((deltamov.x < 0) && (physics1->distleft <= 0)){
+                InvertDirection();
+            }
+        }
+        if(collider1->box.x > (associated.box.x + associated.box.w)){
+            if((deltamov.x > 0) && (physics1->distright <= 0)){
+                InvertDirection();
             }
         }
         else{
