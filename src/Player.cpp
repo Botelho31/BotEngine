@@ -338,7 +338,7 @@ void Player::YMovement(float dt){
     if((physics->IsGrounded()) && (falling == true)){
         falling = false;
         if(!swordattack->Started() && !hittheground->Started()){
-            SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false);
+            SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false,{0,-20});
             physics->SetCollider(0.276,1);
 
             Rect collider = physics->GetCollider()->box;
@@ -425,7 +425,7 @@ void Player::YMovement(float dt){
         physics->SetCollider(0.276,0.8);
         falling = true;
     }
-    
+
     physics->PerformYMovement(dt); //Performs movement if it is allowed
 
     //GRAVITY
