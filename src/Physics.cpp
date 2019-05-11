@@ -161,7 +161,7 @@ bool Physics::IsColliding(Rect box,float angle){
 }
 
 bool Physics::IsGrounded(){
-    if(distground <= 0){
+    if(IsColliding(collider->box.Added(0,1),associated->angleDeg)){
         return true;
     }else{
         return false;
@@ -440,9 +440,9 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        if(abs(distground) < 3){
-            associated->box.y += distground;
-        }
+        // if(abs(distground) < 3){
+        //     associated->box.y += distground;
+        // }
         speed->y += gravspeed * dt;
     }
 }
