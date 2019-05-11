@@ -13,6 +13,7 @@ TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Com
 
 TileMap::~TileMap(){
     delete tileSet;
+    tiles.clear();
     if(tileMapInfo){
         delete tileMapInfo;
     }
@@ -78,7 +79,7 @@ void TileMap::LoadTileColliders(){
                 GameObject* tileGO = new GameObject();
                 TileCollider *tilecollider = new TileCollider(*tileGO,Rect(tileSet->GetTileWidth() * w,tileSet->GetTileHeight() * h,tileSet->GetTileWidth(),tileSet->GetTileHeight()));
                 std::weak_ptr<Component> weakptrtile = tileGO->AddComponent(tilecollider);
-                if(weakptrtile.use_count() > 1){
+                if(!weakptrtile.expired()){
                     tiles.push_back(weakptrtile);
                 }
                 Game::GetInstance().GetCurrentState().AddObject(tileGO);
@@ -173,6 +174,7 @@ void TileMap::Render(){
 }
 
 void TileMap::Update(float dt){
+    // std::cout << "Tiles: " << tiles.size() << std::endl;
     for(int i = (tiles.size() - 1); i >= 0;--i){
         if(tiles[i].expired()){
             tiles.erase(tiles.begin() + i);

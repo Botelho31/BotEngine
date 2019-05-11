@@ -18,6 +18,10 @@
             bool CanMove(Vec2 vector);
             bool maxX;
             bool maxY;
+            bool right;
+            bool left;
+            bool up;
+            bool down;
             bool deleted;
             Rect box;
     };

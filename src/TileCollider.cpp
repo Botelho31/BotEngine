@@ -8,6 +8,10 @@ TileCollider::TileCollider(GameObject& associated,Rect tilebox) :
     maxX = false;
 	maxY = false;
  	deleted = false;
+	left = false;
+	right = false;
+	up = false;
+	down = false;
 	associated.box = tilebox;
 }
 
@@ -17,17 +21,46 @@ void TileCollider::Start(){
 void TileCollider::Update(float dt){
 	if(!maxX || !maxY){
 		box = associated.box;
-		Vec2 Edges[] = {   Vec2(box.x,box.y + box.h + 1),
-							Vec2(box.x,box.y - 1),
-							Vec2(box.x + box.w + 1,box.y),
-							Vec2(box.x - 1,box.y),
+		Vec2 Edges[] = {   Vec2(box.x + box.w/2,box.y + box.h + 1),
+							Vec2(box.x + box.w/2,box.y - 1),
+							Vec2(box.x + box.w + 1,box.y + box.h/2),
+							Vec2(box.x - 1,box.y + box.h/2),
 		};
-		if(CanMove(Edges[2]) && CanMove(Edges[3])){
+		if(CanMove(Edges[0])){
+			down = true;
+		}
+		if(CanMove(Edges[1])){
+			up = true;
+		}
+		if(CanMove(Edges[2])){
+			right = true;
+		}
+		if(CanMove(Edges[3])){
+			left = true;
+		}
+		if((right) && (left)){
 			maxX = true;
 		}
-		if(CanMove(Edges[0]) && CanMove(Edges[1])){
+		if((up) && (down)){
 			maxY = true;
 		}
+		std::cout << "Not concluded " << box.x << " " << box.y << std::endl;
+		if(!up){
+			std::cout << "up not" << std::endl;
+		}
+		if(!down){
+			std::cout << "down not" << std::endl;
+		}
+		if(!left){
+			std::cout << "left not" << std::endl;
+		}
+		if(!right){
+			std::cout << "right not" << std::endl;
+		}
+	}else{
+		// Collider *collider = new Collider(associated);
+		// associated.AddComponent(collider);
+		// associated.RemoveComponent(this);
 	}
 }
 
@@ -85,6 +118,7 @@ void TileCollider::NotifyCollision(GameObject& other){
 						}
 						tilecollider->deleted = true;
 						other.RequestDelete();
+						// KeepStill(true,0.5);
 					}
 				}else if(!tilecollider->maxY){
 					if((other.box.x == associated.box.x) && (other.box.w == associated.box.w)){
@@ -94,6 +128,21 @@ void TileCollider::NotifyCollision(GameObject& other){
 						}
 						tilecollider->deleted = true;
 						other.RequestDelete();
+						// KeepStill(true,0.5);
+					}
+				}
+				if(tilecollider->maxX){
+					if(tilecollider->box.x <= associated.box.x){
+						left = true;
+					}else if(tilecollider->box.x >= associated.box.x + associated.box.w){
+						right = true;
+					}
+				}
+				if(tilecollider->maxY){
+					if(tilecollider->box.y <= associated.box.y){
+						up = true;
+					}else if(tilecollider->box.y >= associated.box.y + associated.box.h){
+						down = true;
 					}
 				}
 			}

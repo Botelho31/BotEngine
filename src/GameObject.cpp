@@ -82,7 +82,9 @@ Physics* GameObject::GetPhysics(){
 
 void GameObject::NotifyCollision(GameObject &other){
     for(unsigned int i = 0; i < components.size();i++){
-        components[i]->NotifyCollision(other);
+        if(!components[i]->GetFreeze()){
+            components[i]->NotifyCollision(other);
+        }
     }
 }
 

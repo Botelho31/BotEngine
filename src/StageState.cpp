@@ -139,6 +139,7 @@ void StageState::Update(float dt){
             }
         }
         if(mapcollisionloaded){
+            std::cout << "Map Collision Loaded" << std::endl;
             mapcollision = true;
         }
     }
