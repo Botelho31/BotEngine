@@ -412,23 +412,11 @@ void Physics::PerformXDeceleration(float despeed,float dt){
 }
 
 float Physics::PerformXMovement(float dt){
-
-    // if(((distright - (speed->x * dt)) < 0) && (distright >= 0)){
-    //     associated->box.x += distright;
-    //     speed->x = 0;
-    //     return distright;
-    // }else if(((distleft + (speed->x * dt)) < 0) && (distleft >= 0)){
-    //     associated->box.x -= distleft;
-    //     speed->x = 0;
-    //     return -distleft;
-    // }else if((distright <= 0) && (speed->x > 0)){
-    //     speed->x = 0;
-    //     return 0;
-    // }else if((distleft <= 0) && (speed->x < 0)){
-    //     speed->x = 0;
-    //     return 0;
-    // }
-    if(IsColliding(collider->box.Added(speed->x * dt,0),associated->angleDeg)){
+    float modX = 0;
+    if((speed->x * dt) < 0){
+        modX = speed->x * dt;
+    }
+    if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),associated->angleDeg)){
         speed->x = speed->x/2;
         if(IsRight() && (speed->x > 0)){
             speed->x = 0;
@@ -436,9 +424,7 @@ float Physics::PerformXMovement(float dt){
         if(IsLeft() && (speed->x < 0)){
             speed->y = 0;
         }
-        if(speed->x < 1){
-            speed->x = 0;
-        }else{
+        else{
             PerformXMovement(dt);
         }
     }
@@ -449,17 +435,11 @@ float Physics::PerformXMovement(float dt){
 }
 
 float Physics::PerformYMovement(float dt){
-    // if((((distground - (speed->y * dt)) < 0) && (speed->y > 0)) && (distground >= 0)){
-    //     associated->box.y += distground;
-    //     speed->y = 0;
-    //     return distground;
-    // }
-    // else if(((distceiling + (speed->y * dt) < 0) && (speed->y < 0)) && (distceiling >= 0)){
-    //     associated->box.y -= distceiling;
-    //     speed->y = 0;
-    //     return -distceiling;
-    // }
-    if(IsColliding(collider->box.Added(0,speed->y * dt),associated->angleDeg)){
+    float modY = 0;
+    if((speed->y * dt) < 0){
+        modY = speed->y * dt;
+    }
+    if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),associated->angleDeg)){
         speed->y = speed->y/2;
         if(IsGrounded() && (speed->y > 0)){
             speed->y = 0;
@@ -467,9 +447,7 @@ float Physics::PerformYMovement(float dt){
         if(IsUp() && (speed->y < 0)){
             speed->y = 0;
         }
-        if(speed->y < 1){
-            speed->y = 0;
-        }else{
+        else{
             PerformYMovement(dt);
         }
     }
