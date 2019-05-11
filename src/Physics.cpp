@@ -1,6 +1,7 @@
 #include "../include/Physics.h"
 #include "../include/Component.h"
 #include "../include/Camera.h"
+#include "../include/Collision.h"
 
 Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(associated){
     distground = 0;
@@ -83,7 +84,6 @@ void Physics::CorrectDistance(){
 
 }
 
-
 int Physics::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum,int max){
     int distance = 0;
     while(CanMove(vector1,vector2) && (distance < max)){
@@ -147,6 +147,17 @@ bool Physics::CanMove(Vec2 vector){
     }else{
         return true;
     }
+}
+
+bool Physics::IsColliding(Rect box,float angle){
+    for(int i = 0;i < TileMap::tiles.size();i ++){
+        TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
+        if(Collision::IsColliding(box,tilecollider->box,angle,0)){
+            tilecollider->NotifyCollision(*associated);
+            return true;
+        }
+    }
+    return false;
 }
 
 bool Physics::IsGrounded(){
@@ -372,37 +383,56 @@ void Physics::PerformXDeceleration(float despeed,float dt){
 }
 
 float Physics::PerformXMovement(float dt){
-    if(((distright - (speed->x * dt)) < 0) && (distright >= 0)){
-        associated->box.x += distright;
-        speed->x = 0;
-        return distright;
-    }else if(((distleft + (speed->x * dt)) < 0) && (distleft >= 0)){
-        associated->box.x -= distleft;
-        speed->x = 0;
-        return -distleft;
-    }else if((distright <= 0) && (speed->x > 0)){
-        speed->x = 0;
-        return 0;
-    }else if((distleft <= 0) && (speed->x < 0)){
-        speed->x = 0;
-        return 0;
-    }else{
+
+    // if(((distright - (speed->x * dt)) < 0) && (distright >= 0)){
+    //     associated->box.x += distright;
+    //     speed->x = 0;
+    //     return distright;
+    // }else if(((distleft + (speed->x * dt)) < 0) && (distleft >= 0)){
+    //     associated->box.x -= distleft;
+    //     speed->x = 0;
+    //     return -distleft;
+    // }else if((distright <= 0) && (speed->x > 0)){
+    //     speed->x = 0;
+    //     return 0;
+    // }else if((distleft <= 0) && (speed->x < 0)){
+    //     speed->x = 0;
+    //     return 0;
+    // }
+    if(IsColliding(collider->box.Added(speed->x * dt,0),associated->angleDeg)){
+        speed->x = speed->x/2;
+        if(speed->x < 1){
+            speed->x = 0;
+        }else{
+            PerformXMovement(dt);
+        }
+    }
+    else{
         associated->box.x += speed->x * dt;
         return speed->x * dt;
     }
 }
 
 float Physics::PerformYMovement(float dt){
-    if((((distground - (speed->y * dt)) < 0) && (speed->y > 0)) && (distground >= 0)){
-        associated->box.y += distground;
-        speed->y = 0;
-        return distground;
+    // if((((distground - (speed->y * dt)) < 0) && (speed->y > 0)) && (distground >= 0)){
+    //     associated->box.y += distground;
+    //     speed->y = 0;
+    //     return distground;
+    // }
+    // else if(((distceiling + (speed->y * dt) < 0) && (speed->y < 0)) && (distceiling >= 0)){
+    //     associated->box.y -= distceiling;
+    //     speed->y = 0;
+    //     return -distceiling;
+    // }
+    if(IsColliding(collider->box.Added(0,speed->y * dt),associated->angleDeg)){
+        speed->y = speed->y/2;
+        if(speed->y < 1){
+            speed->y = 0;
+        }else{
+            PerformYMovement(dt);
+        }
     }
-    else if(((distceiling + (speed->y * dt) < 0) && (speed->y < 0)) && (distceiling >= 0)){
-        associated->box.y -= distceiling;
-        speed->y = 0;
-        return -distceiling;
-    }else{
+    else{
         associated->box.y += speed->y * dt;
         return speed->y * dt;
     }

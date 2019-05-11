@@ -20,6 +20,10 @@
             int DistanceTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets the from one vector to another throught the tilemap
             bool CanMove(Vec2 vector);    //Checks it vector can move
 
+            //NEW FUNCTIONS
+            bool IsColliding(Rect box,float angle = 0); //Checks to see if it is colliding with tilecolliders
+            //END NEW FUNCTIONS
+
             bool IsGrounded();
 
             Vec2 GetCollisionPoint(Rect hitbox);
@@ -30,7 +34,7 @@
             void PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt);
             void PerformXDeceleration(float despeed,float dt);
 
-            float PerformXMovement(float dt);
+            float PerformXMovement(float dt); 
             float PerformYMovement(float dt);
 
             void PerformGravity(float gravspeed,float dt);
