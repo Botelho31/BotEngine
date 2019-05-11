@@ -119,7 +119,7 @@ int& TileMap::At(int x,int y,int z){
     }
 }
 
-int TileMap::AtLocation(int x,int y,bool isTile){
+int TileMap::AtLocation(int x,int y){
     if(((x < (this->mapWidth * this->tileSet->GetTileWidth())) && (y < (this->mapHeight * this->tileSet->GetTileHeight()))) 
       && ( (x >= 0) && (y >= 0) ) ){
 
