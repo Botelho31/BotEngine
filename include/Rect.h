@@ -13,6 +13,8 @@
             void Transform(float x,float y);
             float Magnitude();
             float MultiplyVector(float x,float y);
+            Rect Added(float x,float y,float w = 0,float h = 0);    //Returns a new Rect added to some values
+            Rect Added(Rect added);
             float GetDistance(float x,float y);
             Vec2 GetCenter();
             float GetAngle(float x,float y,float offsetX = 0,float offsetY = 0);

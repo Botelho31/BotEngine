@@ -36,6 +36,14 @@ float Rect::MultiplyVector(float x,float y){
     return (this->x * this->y) + (x*y);
 }
 
+Rect Rect::Added(float x,float y,float w,float h){
+    return Rect(this->x + x,this->y + y,this->w + w,this->h + h);
+}
+
+Rect Rect::Added(Rect added){
+    return Rect(x + added.x,y + added.y,w + added.w,h + added.y);
+}
+
 float Rect::GetDistance(float x,float y){
     return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
 }
