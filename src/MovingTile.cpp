@@ -1,4 +1,5 @@
 #include "../include/MovingTile.h"
+#include "../include/TileCollider.h"
 
 MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular) : Component(associated){
     this->tilesprite = new Sprite(associated,"assets/img/penguin.png");
@@ -16,6 +17,12 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->dest = dest;
     this->going = true;
     this->circular = circular;
+
+    TileCollider *tilecollider = new TileCollider(associated,associated.box,true);
+    std::weak_ptr<Component> weakptr = associated.AddComponent(tilecollider);
+    if(!weakptr.expired()){
+        TileMap::tiles.push_back(weakptr);
+    }
 
     Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
     this->angle = halfway.GetAngle(start.x,start.y);
