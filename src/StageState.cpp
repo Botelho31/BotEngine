@@ -233,6 +233,7 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 Player::player->KeepStill(true);
             }
             else if(windoweffects->IsBlack()){
+                Player::player->KeepStill(false);
                 std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
                 Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
                 ClearMobs();
@@ -245,11 +246,9 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 GameData::checkpointMapInfo = files[1];
                 GameData::checkpointPos = portalloc;
                 Player::player->MovePlayer(portalloc.x,portalloc.y);
-            }else if(mapcollision){
-                Player::player->KeepStill(false);
                 Player::player->SetInvincibility(false);
-                changingMap = false;
                 windoweffects->FadeFromBlack(1);
+                changingMap = false;
             }
         }
         else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
