@@ -34,7 +34,7 @@
             Vec2 Follow(Vec2 dest,float constspeed,float dt);   //Goes directly to marked point
             float Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt);   //Goes in curved to the marked point
 
-            void PerformYAcceleration(bool increaseX,float aspeed,float dt);
+            void PerformYAcceleration(bool increaseY,float aspeed,float dt);
             void PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt);
             void PerformXDeceleration(float despeed,float dt);
 
