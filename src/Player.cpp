@@ -91,7 +91,7 @@ void Player::Update(float dt){
             std::cout << "speedY: " << speed.y << std::endl;
         }
     #endif
-    physics->CorrectDistance();
+    // physics->CorrectDistance();
 
 
     AttackHandle(dt);//HANDLING ATTACK
@@ -452,6 +452,7 @@ void Player::DamagePlayer(int damage){
     hp -= damage;
     if(!damagetimer->Started() && !swordattack->Started()){
         SetSprite("assets/img/beldamagetest.png",7,0.03,false);
+        physics->SetCollider(0.184,1);
         damagetimer->Delay(0);
     }
 }
