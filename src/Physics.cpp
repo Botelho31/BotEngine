@@ -351,6 +351,20 @@ float Physics::Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt
     return angle;
 }
 
+void Physics::PerformYAcceleration(bool increaseY,float aspeed,float dt){
+    if(increaseY){
+        speed->y += aspeed * dt;
+        if(IsGrounded()){
+            speed->y = 0;
+        }
+    }else{
+        speed->y -= aspeed * dt;
+        if(IsUp()){
+            speed->x = 0;
+        }
+    }
+}
+
 void Physics::PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,float despeed,float dt){
     if(increaseX){
         if(speed->x >= 0){
@@ -447,7 +461,6 @@ float Physics::PerformYMovement(float dt){
     // }
     if(IsColliding(collider->box.Added(0,speed->y * dt),associated->angleDeg)){
         speed->y = speed->y/2;
-        // std::cout << "IsCollidingY" << dt << std::endl;
         if(IsGrounded() && (speed->y > 0)){
             speed->y = 0;
         }
