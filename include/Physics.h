@@ -22,9 +22,12 @@
 
             //NEW FUNCTIONS
             bool IsColliding(Rect box,float angle = 0); //Checks to see if it is colliding with tilecolliders
+            bool IsRight(int sum = 1);
+            bool IsUp(int sum = 1);
+            bool IsLeft(int sum = 1);
             //END NEW FUNCTIONS
 
-            bool IsGrounded();
+            bool IsGrounded(int sum = 1);
 
             Vec2 GetCollisionPoint(Rect hitbox);
 

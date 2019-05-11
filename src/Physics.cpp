@@ -160,13 +160,22 @@ bool Physics::IsColliding(Rect box,float angle){
     return false;
 }
 
-bool Physics::IsGrounded(){
-    if(IsColliding(collider->box.Added(0,1),associated->angleDeg)){
-        return true;
-    }else{
-        return false;
-    }
+bool Physics::IsUp(int sum){
+    return IsColliding(collider->box.Added(0,-sum),associated->angleDeg);
 }
+
+bool Physics::IsGrounded(int sum){
+    return IsColliding(collider->box.Added(0,sum),associated->angleDeg);
+}
+
+bool Physics::IsLeft(int sum){
+    return IsColliding(collider->box.Added(-sum,0),associated->angleDeg);
+}
+
+bool Physics::IsRight(int sum){
+    return IsColliding(collider->box.Added(sum,0),associated->angleDeg);
+}
+
 
 Vec2 Physics::GetCollisionPoint(Rect hitbox){
     Vec2 hitboxcenter = hitbox.GetCenter();
@@ -401,7 +410,14 @@ float Physics::PerformXMovement(float dt){
     // }
     if(IsColliding(collider->box.Added(speed->x * dt,0),associated->angleDeg)){
         speed->x = speed->x/2;
+        if(IsRight() && (speed->x > 0)){
+            speed->x = 0;
+        }
+        if(IsLeft() && (speed->x < 0)){
+            speed->y = 0;
+        }
         if(speed->x < 1){
+            // std::cout << "x zero" << dt << std::endl;
             speed->x = 0;
         }else{
             PerformXMovement(dt);
@@ -426,6 +442,12 @@ float Physics::PerformYMovement(float dt){
     // }
     if(IsColliding(collider->box.Added(0,speed->y * dt),associated->angleDeg)){
         speed->y = speed->y/2;
+        if(IsGrounded() && (speed->y > 0)){
+            speed->y = 0;
+        }
+        if(IsUp() && (speed->y < 0)){
+            speed->y = 0;
+        }
         if(speed->y < 1){
             speed->y = 0;
         }else{
