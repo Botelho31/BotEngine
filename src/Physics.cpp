@@ -362,6 +362,9 @@ void Physics::PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,fl
         }else{
            speed->x += aspeed * dt + despeed * dt; 
         }
+        if(IsRight()){
+            speed->x = 0;
+        }
     }else{
         if(speed->x <= 0){
             if(abs(speed->x - aspeed*dt) > maxspeed){
@@ -371,6 +374,9 @@ void Physics::PerformXAcceleration(bool increaseX,float aspeed,float maxspeed,fl
             }
         }else{
             speed->x -= aspeed *dt + despeed *dt;
+        }
+        if(IsLeft()){
+            speed->x = 0;
         }
     }
 }
@@ -417,7 +423,6 @@ float Physics::PerformXMovement(float dt){
             speed->y = 0;
         }
         if(speed->x < 1){
-            // std::cout << "x zero" << dt << std::endl;
             speed->x = 0;
         }else{
             PerformXMovement(dt);
@@ -442,6 +447,7 @@ float Physics::PerformYMovement(float dt){
     // }
     if(IsColliding(collider->box.Added(0,speed->y * dt),associated->angleDeg)){
         speed->y = speed->y/2;
+        // std::cout << "IsCollidingY" << dt << std::endl;
         if(IsGrounded() && (speed->y > 0)){
             speed->y = 0;
         }
@@ -462,9 +468,6 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        // if(abs(distground) < 3){
-        //     associated->box.y += distground;
-        // }
         speed->y += gravspeed * dt;
     }
 }
