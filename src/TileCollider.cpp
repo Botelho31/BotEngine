@@ -3,15 +3,25 @@
 #include "../include/InputManager.h"
 #include "../include/TileMap.h"
 
-TileCollider::TileCollider(GameObject& associated,Rect tilebox) : 
+TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool max) : 
     Component(associated),box(tilebox){
-    maxX = false;
-	maxY = false;
+	if(max){
+		maxX = true;
+		maxY = true;
+		up = true;
+		down = true;
+		left = true;
+		right = true;
+
+	}else{
+		maxX = false;
+		maxY = false;
+		up = false;
+		down = false;
+		left = false;
+		right = false;
+	}
  	deleted = false;
-	left = false;
-	right = false;
-	up = false;
-	down = false;
 	associated.box = tilebox;
 }
 
@@ -19,8 +29,8 @@ void TileCollider::Start(){
 }
 
 void TileCollider::Update(float dt){
+	box = associated.box;
 	if(!maxX || !maxY){
-		box = associated.box;
 		Vec2 Edges[] = {   Vec2(box.x + box.w/2,box.y + box.h + 1),
 							Vec2(box.x + box.w/2,box.y - 1),
 							Vec2(box.x + box.w + 1,box.y + box.h/2),
@@ -44,23 +54,6 @@ void TileCollider::Update(float dt){
 		if((up) && (down)){
 			maxY = true;
 		}
-		// std::cout << "Not concluded " << box.x << " " << box.y << std::endl;
-		// if(!up){
-		// 	std::cout << "up not" << std::endl;
-		// }
-		// if(!down){
-		// 	std::cout << "down not" << std::endl;
-		// }
-		// if(!left){
-		// 	std::cout << "left not" << std::endl;
-		// }
-		// if(!right){
-		// 	std::cout << "right not" << std::endl;
-		// }
-	}else{
-		// Collider *collider = new Collider(associated);
-		// associated.AddComponent(collider);
-		// associated.RemoveComponent(this);
 	}
 }
 
@@ -147,6 +140,12 @@ void TileCollider::NotifyCollision(GameObject& other){
 				}
 			}
 		}
+	}
+	Physics *physics = other.GetPhysics();
+	if(physics){
+		Collider *collider = physics->GetCollider();
+		Vec2 boxcenter = collider->box.GetCenter();
+		Vec2 tilecenter = box.GetCenter();
 	}
 }
 

@@ -9,7 +9,7 @@
 
     class TileCollider : public Component{
         public:
-            TileCollider(GameObject& associated,Rect tilebox);
+            TileCollider(GameObject& associated,Rect tilebox,bool max = false);
             void Update(float dt);
             void Render();
             void Start();
