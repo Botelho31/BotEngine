@@ -115,34 +115,14 @@ void StageState::Update(float dt){
             }
         }
     }
+    //Expands the tile colliders to their maximum then starts interpreting tilecollision
     if(!mapcollision){
-        bool mapcollisionloaded = true;
-        for(unsigned int i = 0; i < objectArray.size();i++){
-            Component *component1 = objectArray[i]->GetComponent("TileCollider");
-            if(component1){
-                TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
-                if(!tilecollider1->maxX || !tilecollider1->maxY){
-                    mapcollisionloaded = false;
-                }
-                if((i + 1) < objectArray.size()){
-                    for(unsigned int j = i + 1; j < objectArray.size();j++){
-                        Component *component2 = objectArray[j]->GetComponent("TileCollider");
-                        if(component2){
-                            TileCollider *tilecollider2 = dynamic_cast<TileCollider*>(component2);
-                            if(Collision::IsColliding(tilecollider1->box,tilecollider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
-                                objectArray[i]->NotifyCollision(*objectArray[j]);
-                                objectArray[j]->NotifyCollision(*objectArray[i]);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        if(mapcollisionloaded){
-            std::cout << "Map Collision Loaded" << std::endl;
-            mapcollision = true;
-        }
+        ExpandTileColliders();
+    }else{
+        
     }
+
+
     for(int i = (objectArray.size() - 1); i >= 0;--i){
         if(objectArray[i]->IsDead()){
             objectArray.erase(objectArray.begin() + i);
@@ -180,6 +160,35 @@ void StageState::Render(){
         objectArray[i]->Render();
     }
     windoweffects->Render();
+}
+
+void StageState::ExpandTileColliders(){
+    bool mapcollisionloaded = true;
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        Component *component1 = objectArray[i]->GetComponent("TileCollider");
+        if(component1){
+            TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
+            if(!tilecollider1->maxX || !tilecollider1->maxY){
+                mapcollisionloaded = false;
+            }
+            if((i + 1) < objectArray.size()){
+                for(unsigned int j = i + 1; j < objectArray.size();j++){
+                    Component *component2 = objectArray[j]->GetComponent("TileCollider");
+                    if(component2){
+                        TileCollider *tilecollider2 = dynamic_cast<TileCollider*>(component2);
+                        if(Collision::IsColliding(tilecollider1->box,tilecollider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
+                            objectArray[i]->NotifyCollision(*objectArray[j]);
+                            objectArray[j]->NotifyCollision(*objectArray[i]);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if(mapcollisionloaded){
+        // std::cout << "Map Collision Loaded" << std::endl;
+        mapcollision = true;
+    }
 }
 
 void StageState::ClearMobs(){    

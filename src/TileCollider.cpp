@@ -44,19 +44,19 @@ void TileCollider::Update(float dt){
 		if((up) && (down)){
 			maxY = true;
 		}
-		std::cout << "Not concluded " << box.x << " " << box.y << std::endl;
-		if(!up){
-			std::cout << "up not" << std::endl;
-		}
-		if(!down){
-			std::cout << "down not" << std::endl;
-		}
-		if(!left){
-			std::cout << "left not" << std::endl;
-		}
-		if(!right){
-			std::cout << "right not" << std::endl;
-		}
+		// std::cout << "Not concluded " << box.x << " " << box.y << std::endl;
+		// if(!up){
+		// 	std::cout << "up not" << std::endl;
+		// }
+		// if(!down){
+		// 	std::cout << "down not" << std::endl;
+		// }
+		// if(!left){
+		// 	std::cout << "left not" << std::endl;
+		// }
+		// if(!right){
+		// 	std::cout << "right not" << std::endl;
+		// }
 	}else{
 		// Collider *collider = new Collider(associated);
 		// associated.AddComponent(collider);
