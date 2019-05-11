@@ -149,11 +149,13 @@ bool Physics::CanMove(Vec2 vector){
     }
 }
 
-bool Physics::IsColliding(Rect box,float angle){
+bool Physics::IsColliding(Rect box,float angle,bool warncollision){
     for(int i = 0;i < TileMap::tiles.size();i ++){
         TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
         if(Collision::IsColliding(box,tilecollider->box,angle,0)){
-            tilecollider->NotifyCollision(*associated);
+            if(warncollision){
+                tilecollider->NotifyCollision(*associated);
+            }
             return true;
         }
     }
@@ -416,7 +418,7 @@ float Physics::PerformXMovement(float dt){
     if((speed->x * dt) < 0){
         modX = speed->x * dt;
     }
-    if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),associated->angleDeg)){
+    if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),associated->angleDeg,true)){
         speed->x = speed->x/2;
         if(IsRight() && (speed->x > 0)){
             speed->x = 0;
@@ -439,7 +441,7 @@ float Physics::PerformYMovement(float dt){
     if((speed->y * dt) < 0){
         modY = speed->y * dt;
     }
-    if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),associated->angleDeg)){
+    if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),associated->angleDeg,true)){
         speed->y = speed->y/2;
         if(IsGrounded() && (speed->y > 0)){
             speed->y = 0;
