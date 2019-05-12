@@ -101,14 +101,12 @@ void MovingTile::NotifyCollision(GameObject& other){
     if(physics1){
         bool invert = false;
         Collider *collider1 = physics1->GetCollider();
-        Rect movedX = collider1->box.Added(deltamov.x,0);
-        if(!physics1->IsColliding(movedX,other.angleDeg)){
-            other.box.x += deltamov.x;
+        if(Collision::IsColliding(collider1->box,associated.box,other.angleDeg,associated.angleDeg)){
+            invert = true;
         }else{
-            if(Collision::IsColliding(collider1->box,associated.box,other.angleDeg,associated.angleDeg)){
-                std::cout << "test1" << std::endl;
-                associated.box.x -= deltamov.x;
-                invert = true;
+            Rect movedX = collider1->box.Added(deltamov.x,0);
+            if(!physics1->IsColliding(movedX,other.angleDeg)){
+                other.box.x += deltamov.x;
             }else{
                 while(physics1->IsColliding(movedX,other.angleDeg) && (deltamov.x != 0)){
                     deltamov.x /= 2;
@@ -119,16 +117,10 @@ void MovingTile::NotifyCollision(GameObject& other){
                 }
                 other.box.x += deltamov.x;
             }
-        }
 
-        Rect movedY = collider1->box.Added(0,deltamov.y);
-        if(!physics1->IsColliding(movedY,other.angleDeg)){
-            other.box.y += deltamov.y;
-        }else{
-            if(Collision::IsColliding(collider1->box,associated.box,other.angleDeg,associated.angleDeg)){
-                std::cout << "test2" << std::endl;
-                associated.box.y -= deltamov.y;
-                invert = true;
+            Rect movedY = collider1->box.Added(0,deltamov.y);
+            if(!physics1->IsColliding(movedY,other.angleDeg)){
+                other.box.y += deltamov.y;
             }else{
                 while(physics1->IsColliding(movedY,other.angleDeg) && (deltamov.y != 0)){
                     deltamov.y /= 2;
@@ -138,6 +130,7 @@ void MovingTile::NotifyCollision(GameObject& other){
                     movedY = collider1->box.Added(deltamov.y,0);
                 }
                 other.box.y += deltamov.y;
+                
             }
         }
         if(invert){
