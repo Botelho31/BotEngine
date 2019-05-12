@@ -37,6 +37,8 @@ void Physics::Update(int max){
             while(Collision::IsColliding(collider1->box,tilecollider->box,associated->angleDeg,0)){
                 if(tilecollider->moving){
                     tilecollider->NotifyMobCollision(*associated);
+                    CorrectDistance();
+                    collider1->Update(0);
                 }else{
                     CorrectDistance();
                     collider1->Update(0);
@@ -58,7 +60,7 @@ void Physics::CorrectDistance(){
     if((distground >= -max) && (distceiling >= -max) && (distright >= -max) && (distleft >= -max)){
         UpdateDists(Camera::limit.x);
     }
-    std::map<int,int> dists;
+    std::map<int,float> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
     dists.insert({2,distright});
