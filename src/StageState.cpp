@@ -97,31 +97,34 @@ void StageState::Update(float dt){
         popRequested = true;
     }
     for(unsigned int i = 0; i < objectArray.size();i++){
-        objectArray[i]->Update(dt);
+        if(objectArray[i]->GetPhysics() && !mapcollision){
+
+        }else{
+            objectArray[i]->Update(dt);
+        }
     }
-    for(unsigned int i = 0; i < objectArray.size();i++){
-        Component *component1 = objectArray[i]->GetComponent("Collider");
-        if((component1) && ((i + 1) < objectArray.size())){
-            Collider *collider1 = dynamic_cast<Collider*>(component1);
-            for(unsigned int j = i + 1; j < objectArray.size();j++){
-                Component *component2 = objectArray[j]->GetComponent("Collider");
-                if(component2){
-                    Collider *collider2 = dynamic_cast<Collider*>(component2);
-                    if(Collision::IsColliding(collider1->box,collider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
-                        objectArray[i]->NotifyCollision(*objectArray[j]);
-                        objectArray[j]->NotifyCollision(*objectArray[i]);
+
+    //Expands the tile colliders to their maximum then starts interpreting tilecollision
+    if(!mapcollision){
+        ExpandTileColliders();
+    }else{
+        for(unsigned int i = 0; i < objectArray.size();i++){
+            Component *component1 = objectArray[i]->GetComponent("Collider");
+            if((component1) && ((i + 1) < objectArray.size())){
+                Collider *collider1 = dynamic_cast<Collider*>(component1);
+                for(unsigned int j = i + 1; j < objectArray.size();j++){
+                    Component *component2 = objectArray[j]->GetComponent("Collider");
+                    if(component2){
+                        Collider *collider2 = dynamic_cast<Collider*>(component2);
+                        if(Collision::IsColliding(collider1->box,collider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
+                            objectArray[i]->NotifyCollision(*objectArray[j]);
+                            objectArray[j]->NotifyCollision(*objectArray[i]);
+                        }
                     }
                 }
             }
         }
     }
-    //Expands the tile colliders to their maximum then starts interpreting tilecollision
-    if(!mapcollision){
-        ExpandTileColliders();
-    }else{
-        
-    }
-
 
     for(int i = (objectArray.size() - 1); i >= 0;--i){
         if(objectArray[i]->IsDead()){
