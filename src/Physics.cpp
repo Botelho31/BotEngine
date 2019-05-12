@@ -2,6 +2,7 @@
 #include "../include/Component.h"
 #include "../include/Camera.h"
 #include "../include/Collision.h"
+#include "../include/StageState.h"
 
 Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(associated){
     distground = 0;
@@ -23,32 +24,38 @@ Physics::~Physics(){
 
 void Physics::Update(Rect collider,int max){
     this->max = max;
-    // Vec2 BoxCollider[] = {   Vec2(collider.x,collider.y),
-    //                     Vec2(collider.x + collider.w,collider.y),
-    //                     Vec2(collider.x,collider.y + collider.h),
-    //                     Vec2(collider.x + collider.w,collider.y + collider.h)
-    // };
     distground = DistanceTo( collider,0,1,max);
     distceiling = DistanceTo( collider,0,-1,max);
     distright = DistanceTo( collider,1,0,max);
     distleft = DistanceTo( collider,-1,0,max);
-
-    //Handling if inside of tile
     if(!isTile){
+        if((((collider.x + collider.w) > Camera::limit.x) || (collider.x < 0) || (collider.y < 0) || ((collider.y + collider.h) > Camera::limit.y)) && !StageState::ChangingMap()){
+            std::cout << "Out of Bounds" << std::endl;
+            if((collider.x + collider.w) > Camera::limit.x){
+                associated->box.x += Camera::limit.x - (collider.x + collider.w);
+            }
+            if(collider.x < 0){
+                associated->box.x += collider.x;
+            }
+            if((collider.y + collider.h) > Camera::limit.y){
+                associated->box.y += Camera::limit.y - (collider.y + collider.h);
+            }
+            if(collider.y < 0){
+                associated->box.y = collider.y;
+            }
+        }
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-            if(Collision::IsColliding(collider,tilecollider->box,associated->angleDeg,0)){
+            Collider *collider1 = GetCollider();
+            while(Collision::IsColliding(collider1->box,tilecollider->box,associated->angleDeg,0)){
                 CorrectDistance();
+                collider1->Update(0);
             }
         }
     }
 }
 
 void Physics::CorrectDistance(){
-    if((distground == -max) && (distceiling == -max) && (distright == -max) && (distleft == -max)){
-        Update(collider->box,Camera::limit.x);
-        std::cout << "Out of Bounds" << std::endl;
-    }
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
@@ -454,6 +461,9 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
+        if(abs(distground) < 3){
+            associated->box.y += distground;
+        }
         speed->y += gravspeed * dt;
     }
 }
