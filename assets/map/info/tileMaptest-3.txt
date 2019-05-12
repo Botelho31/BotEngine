@@ -18,7 +18,7 @@ Minion
     startX 1710
     startY 1070
     speed 400
-    destX 1670
+    destX 1710
     destY 280
     circular 0
   ]
