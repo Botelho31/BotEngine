@@ -9,13 +9,14 @@
 
     class TileCollider : public Component{
         public:
-            TileCollider(GameObject& associated,Rect tilebox,bool max = false);
+            TileCollider(GameObject& associated,Rect tilebox,bool moving = false);
             void Update(float dt);
             void Render();
             void Start();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
             bool CanMove(Vec2 vector);
+            bool moving;
             bool maxX;
             bool maxY;
             bool right;

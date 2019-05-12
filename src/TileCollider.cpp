@@ -3,9 +3,10 @@
 #include "../include/InputManager.h"
 #include "../include/TileMap.h"
 
-TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool max) : 
+TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving) : 
     Component(associated),box(tilebox){
-	if(max){
+	this->moving = moving;
+	if(moving){
 		maxX = true;
 		maxY = true;
 		up = true;
