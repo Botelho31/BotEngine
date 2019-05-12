@@ -91,8 +91,6 @@ void Player::Update(float dt){
             std::cout << "speedY: " << speed.y << std::endl;
         }
     #endif
-    // physics->CorrectDistance();
-
 
     AttackHandle(dt);//HANDLING ATTACK
     IdleHandle(dt);//IDLE HANDLING

@@ -51,7 +51,6 @@ void Minion::Start(){
 void Minion::Update(float dt){
     Collider *collider = physics->GetCollider();
     physics->Update();
-    physics->CorrectDistance();
     float distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
     if(Player::player){
