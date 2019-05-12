@@ -81,9 +81,9 @@ void Physics::CorrectDistance(){
             }
         }
     }
-    for(int i = 0;i < disttofix.size();i++){
-        std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
-    }
+    // for(int i = 0;i < disttofix.size();i++){
+    //     std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+    // }
     if(!disttofix.empty()){
         if(disttofix[0] == 0){
             associated->box.y += distground;
@@ -159,19 +159,19 @@ bool Physics::IsColliding(Rect box,float angle){
 }
 
 bool Physics::IsUp(int sum){
-    return IsColliding(collider->box.Added(0,-sum),associated->angleDeg);
+    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),associated->angleDeg);
 }
 
 bool Physics::IsGrounded(int sum){
-    return IsColliding(collider->box.Added(0,sum),associated->angleDeg);
+    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),associated->angleDeg);
 }
 
 bool Physics::IsLeft(int sum){
-    return IsColliding(collider->box.Added(-sum,0),associated->angleDeg);
+    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),associated->angleDeg);
 }
 
 bool Physics::IsRight(int sum){
-    return IsColliding(collider->box.Added(sum,0),associated->angleDeg);
+    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),associated->angleDeg);
 }
 
 
