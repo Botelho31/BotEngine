@@ -179,7 +179,7 @@ void StageState::ExpandTileColliders(){
                     Component *component2 = objectArray[j]->GetComponent("TileCollider");
                     if(component2){
                         TileCollider *tilecollider2 = dynamic_cast<TileCollider*>(component2);
-                        if(Collision::IsColliding(tilecollider1->box,tilecollider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180)){
+                        if(Collision::IsColliding(tilecollider1->box,tilecollider2->box,(objectArray[i]->angleDeg * PI) /180,(objectArray[j]->angleDeg * PI) /180) && !tilecollider1->moving && !tilecollider2->moving){
                             objectArray[i]->NotifyCollision(*objectArray[j]);
                             objectArray[j]->NotifyCollision(*objectArray[i]);
                         }
