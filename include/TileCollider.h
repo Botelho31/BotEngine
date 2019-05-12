@@ -15,6 +15,7 @@
             void Start();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+            void NotifyMobCollision(GameObject& other);
             bool CanMove(Vec2 vector);
             
             bool moving;

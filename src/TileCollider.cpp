@@ -144,6 +144,70 @@ void TileCollider::NotifyCollision(GameObject& other){
 	}
 }
 
+void TileCollider::NotifyMobCollision(GameObject& other){
+	if(moving){
+		Physics *physics1 = other.GetPhysics();
+		if(physics1){
+			Collider *collider = physics1->GetCollider();
+			float distground,distceiling,distright,distleft;
+			distright = collider->box.x - (associated.box.x + associated.box.w);
+			distleft = associated.box.x - (collider->box.x + collider->box.w);
+			distceiling = collider->box.y - (associated.box.y + associated.box.h);
+			distground = associated.box.y - (collider->box.y + collider->box.h);
+			if( (distright != 0) && (distleft != 0) && (distright != 0) && (distleft != 0)){
+				std::map<int,int> dists;
+				dists.insert({0,distground});
+				dists.insert({1,distceiling});
+				dists.insert({2,distright});
+				dists.insert({3,distleft});
+				std::deque<int> disttofix;
+				for(int i = 0;i < 4;i++){
+					if(dists[i] < 0){
+						disttofix.push_front(i);
+					}
+				}
+				bool inserted = true;
+				while(inserted){
+					inserted = false;
+					for(unsigned int i = 0;i < disttofix.size();i++){
+						if(i != (disttofix.size() -1)){
+							if(dists[disttofix[i]] < dists[disttofix[i + 1]]){
+								int a = disttofix[i];
+								disttofix[i] = disttofix[i + 1];
+								disttofix[i + 1] = a;
+								inserted = true;
+							}
+						}
+					}
+				}
+				for(int i = 0;i < disttofix.size();i++){
+					std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+				}
+				if(!disttofix.empty()){
+					if(disttofix[0] == 0){
+						associated.box.y += distground - 1;
+					}
+					if(disttofix[0] == 1){
+						associated.box.y -= distceiling - 1;
+					}
+					if(disttofix[0] == 2){
+						associated.box.x += distright - 1;
+					}
+					if(disttofix[0] == 3){
+						associated.box.x -= distleft - 1;
+					}
+				}
+
+			}			
+			std::cout << "dground: "<< distground << std::endl;
+            std::cout << "dceiling: "<< distceiling << std::endl;
+            std::cout << "dright: "<< distright << std::endl;
+            std::cout << "dleft: "<< distleft << std::endl;
+			box = associated.box;
+		}
+	}
+}
+
 bool TileCollider::Is(std::string type){
     if(type == "TileCollider"){
         return true;
