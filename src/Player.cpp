@@ -80,7 +80,7 @@ void Player::Start(){
 
 void Player::Update(float dt){
     Collider *collider = physics->GetCollider();
-    physics->Update(collider->box,150);
+    physics->Update(150);
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
             std::cout << "dground: "<< physics->distground << std::endl;
