@@ -16,13 +16,17 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
             bool CanMove(Vec2 vector);
+            
             bool moving;
+
             bool maxX;
             bool maxY;
+
             bool right;
             bool left;
             bool up;
             bool down;
+
             bool deleted;
             Rect box;
     };
