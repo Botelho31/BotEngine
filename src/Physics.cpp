@@ -134,25 +134,16 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     }else{
         sum = 1.0;
     }
-    while(CanMove(vector) && (distance <= max) && (((sum > 0) && (vector.x <= vectorTo.x)) || ((sum < 0) && (vector.x >= vectorTo.x)) )){
+    while(IsColliding(Rect(vector.x,vector.y,0,0)) && (distance <= max) && (((sum > 0) && (vector.x <= vectorTo.x)) || ((sum < 0) && (vector.x >= vectorTo.x)) )){
         vector.x += sum;
         vector.y = (vector.x * angle) + b;
         distance  =  vector.GetDistance(original.x,original.y);
     }
-    if(!CanMove(vector)){
+    if(!IsColliding(Rect(vector.x,vector.y,0,0))){
         distance = max;
     }
     
     return distance;
-}
-
-bool Physics::CanMove(Vec2 vector){
-    TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
-    if(tilemap->AtLocation(vector.x,vector.y) > -1){
-        return false;
-    }else{
-        return true;
-    }
 }
 
 bool Physics::IsColliding(Rect box,float angle){
