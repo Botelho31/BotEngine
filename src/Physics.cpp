@@ -23,15 +23,25 @@ Physics::~Physics(){
 
 void Physics::Update(Rect collider,int max){
     this->max = max;
-    Vec2 BoxCollider[] = {   Vec2(collider.x,collider.y),
-                        Vec2(collider.x + collider.w,collider.y),
-                        Vec2(collider.x,collider.y + collider.h),
-                        Vec2(collider.x + collider.w,collider.y + collider.h)
-    };
-    distground = DistanceTo( BoxCollider[2], BoxCollider[3],0,1,max);
-    distceiling = DistanceTo( BoxCollider[0], BoxCollider[1],0,-1,max);
-    distright = DistanceTo( BoxCollider[1], BoxCollider[3],1,0,max);
-    distleft = DistanceTo( BoxCollider[0], BoxCollider[2],-1,0,max);
+    // Vec2 BoxCollider[] = {   Vec2(collider.x,collider.y),
+    //                     Vec2(collider.x + collider.w,collider.y),
+    //                     Vec2(collider.x,collider.y + collider.h),
+    //                     Vec2(collider.x + collider.w,collider.y + collider.h)
+    // };
+    distground = DistanceTo( collider,0,1,max);
+    distceiling = DistanceTo( collider,0,-1,max);
+    distright = DistanceTo( collider,1,0,max);
+    distleft = DistanceTo( collider,-1,0,max);
+
+    //Handling if inside of tile
+    if(!isTile){
+        for(int i = 0;i < TileMap::tiles.size();i ++){
+            TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
+            if(Collision::IsColliding(collider,tilecollider->box,associated->angleDeg,0)){
+                CorrectDistance();
+            }
+        }
+    }
 }
 
 void Physics::CorrectDistance(){
@@ -64,9 +74,9 @@ void Physics::CorrectDistance(){
             }
         }
     }
-    // for(int i = 0;i < disttofix.size();i++){
-    //     std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
-    // }
+    for(int i = 0;i < disttofix.size();i++){
+        std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+    }
     if(!disttofix.empty()){
         if(disttofix[0] == 0){
             associated->box.y += distground;
@@ -84,20 +94,16 @@ void Physics::CorrectDistance(){
 
 }
 
-int Physics::DistanceTo(Vec2 vector1,Vec2 vector2,int xsum,int ysum,int max){
+int Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
     int distance = 0;
-    while(CanMove(vector1,vector2) && (distance < max)){
-        vector1.y += ysum;
-        vector2.y += ysum;
-        vector1.x += xsum;
-        vector2.x += xsum;
+    while(!IsColliding(box) && (distance < max)){
+        box.y += ysum;
+        box.x += xsum;
         distance ++;
     }
-    while(!CanMove(vector1,vector2) && (distance > -max)){
-        vector1.y += -ysum;
-        vector2.y += -ysum;
-        vector1.x += -xsum;
-        vector2.x += -xsum;
+    while(IsColliding(box) && (distance > -max)){
+        box.y += -ysum;
+        box.x += -xsum;
         distance --;
     }
     return distance;
@@ -126,20 +132,6 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     return distance;
 }
 
-bool Physics::CanMove(Vec2 vector1,Vec2 vector2){
-    int x,y;
-    x = (vector2.x - vector1.x)/10;
-    y = (vector2.y - vector1.y)/10;
-    for(int i = 0;i < 10;i++){
-        if(!CanMove(vector1)){
-            return false;
-        }
-        vector1.x += x;
-        vector1.y += y;
-    }
-    return true;
-}
-
 bool Physics::CanMove(Vec2 vector){
     TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
     if(tilemap->AtLocation(vector.x,vector.y) > -1){
@@ -149,13 +141,10 @@ bool Physics::CanMove(Vec2 vector){
     }
 }
 
-bool Physics::IsColliding(Rect box,float angle,bool warncollision){
+bool Physics::IsColliding(Rect box,float angle){
     for(int i = 0;i < TileMap::tiles.size();i ++){
         TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
         if(Collision::IsColliding(box,tilecollider->box,angle,0)){
-            if(warncollision){
-                tilecollider->NotifyCollision(*associated);
-            }
             return true;
         }
     }
@@ -418,13 +407,15 @@ float Physics::PerformXMovement(float dt){
     if((speed->x * dt) < 0){
         modX = speed->x * dt;
     }
-    if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),associated->angleDeg,true)){
+    if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),associated->angleDeg)){
         speed->x = speed->x/2;
         if(IsRight() && (speed->x > 0)){
             speed->x = 0;
+            return 0;
         }
         if(IsLeft() && (speed->x < 0)){
             speed->y = 0;
+            return 0;
         }
         else{
             PerformXMovement(dt);
@@ -441,13 +432,15 @@ float Physics::PerformYMovement(float dt){
     if((speed->y * dt) < 0){
         modY = speed->y * dt;
     }
-    if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),associated->angleDeg,true)){
+    if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),associated->angleDeg)){
         speed->y = speed->y/2;
         if(IsGrounded() && (speed->y > 0)){
             speed->y = 0;
+            return 0;
         }
         if(IsUp() && (speed->y < 0)){
             speed->y = 0;
+            return 0;
         }
         else{
             PerformYMovement(dt);
