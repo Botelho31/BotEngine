@@ -8,7 +8,7 @@ HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owne
     associated.angleDeg = angledeg;
     this->selfDestruct = new Timer();
     Vec2 speed;
-    this->physics = new Physics(&associated,&speed);
+    this->physics = new Physics(&associated,&speed,true);
 }
 
 HitBox::~HitBox(){
