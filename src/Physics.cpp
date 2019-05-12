@@ -131,12 +131,12 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     }else{
         sum = 1.0;
     }
-    while(IsColliding(Rect(vector.x,vector.y,0,0)) && (distance <= max) && (((sum > 0) && (vector.x <= vectorTo.x)) || ((sum < 0) && (vector.x >= vectorTo.x)) )){
+    while(!IsColliding(Rect(vector.x,vector.y,0,0)) && (distance <= max) && (((sum > 0) && (vector.x <= vectorTo.x)) || ((sum < 0) && (vector.x >= vectorTo.x)) )){
         vector.x += sum;
         vector.y = (vector.x * angle) + b;
         distance  =  vector.GetDistance(original.x,original.y);
     }
-    if(!IsColliding(Rect(vector.x,vector.y,0,0))){
+    if(IsColliding(Rect(vector.x,vector.y,0,0))){
         distance = max;
     }
     
