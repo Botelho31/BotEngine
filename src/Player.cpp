@@ -83,6 +83,7 @@ void Player::Update(float dt){
     physics->Update(150);
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
+            physics->UpdateDists();
             std::cout << "dground: "<< physics->distground << std::endl;
             std::cout << "dceiling: "<< physics->distceiling << std::endl;
             std::cout << "dright: "<< physics->distright << std::endl;
