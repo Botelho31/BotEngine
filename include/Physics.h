@@ -14,6 +14,7 @@
             Physics(GameObject* associated,Vec2 *speed,bool isTile = false);
             ~Physics();
             void Update(int max = 150);
+            void UpdateDists();
             void CorrectDistance();    //Correct the distance if the player is inside a wall
             int DistanceTo(Rect box,int xsum,int ysum,int max = 150);    //Gets the distance to a unpassable tile block in a direction
             int DistanceTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets the from one vector to another throught the tilemap

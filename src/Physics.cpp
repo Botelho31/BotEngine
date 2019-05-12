@@ -25,12 +25,6 @@ Physics::~Physics(){
 void Physics::Update(int max){
     this->max = max;
     collider->Update(0);
-    
-    distground = DistanceTo(collider->box,0,1,max);
-    distceiling = DistanceTo(collider->box,0,-1,max);
-    distright = DistanceTo(collider->box,1,0,max);
-    distleft = DistanceTo(collider->box,-1,0,max);
-
     if(!isTile){
         if((((collider->box.x + collider->box.w) > Camera::limit.x) || (collider->box.x < 0) || (collider->box.y < 0) || ((collider->box.y + collider->box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
             std::cout << "Out of Bounds" << std::endl;
@@ -58,7 +52,15 @@ void Physics::Update(int max){
     }
 }
 
+void Physics::UpdateDists(){
+    distground = DistanceTo(collider->box,0,1,max);
+    distceiling = DistanceTo(collider->box,0,-1,max);
+    distright = DistanceTo(collider->box,1,0,max);
+    distleft = DistanceTo(collider->box,-1,0,max);
+}
+
 void Physics::CorrectDistance(){
+    UpdateDists();
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
@@ -182,6 +184,7 @@ bool Physics::IsRight(int sum){
 
 Vec2 Physics::GetCollisionPoint(Rect hitbox){
     Vec2 hitboxcenter = hitbox.GetCenter();
+    UpdateDists();
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
