@@ -33,15 +33,13 @@ void Physics::Update(int max){
         }
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-            Collider *collider1 = GetCollider();
-            while(Collision::IsColliding(collider1->box,tilecollider->box,associated->angleDeg,0)){
+            while(Collision::IsColliding(collider->box,tilecollider->box,associated->angleDeg,0)){
                 if(tilecollider->moving){
                     tilecollider->NotifyMobCollision(*associated);
-                    CorrectDistance();
-                    collider1->Update(0);
+                    collider->Update(0);
                 }else{
                     CorrectDistance();
-                    collider1->Update(0);
+                    collider->Update(0);
                 }
             }
         }
