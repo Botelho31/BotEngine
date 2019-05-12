@@ -26,20 +26,10 @@ void Physics::Update(int max){
     this->max = max;
     collider->Update(0);
     if(!isTile){
-        if((((collider->box.x + collider->box.w) > Camera::limit.x) || (collider->box.x < 0) || (collider->box.y < 0) || ((collider->box.y + collider->box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
+        while((((collider->box.x + collider->box.w) > Camera::limit.x) || (collider->box.x < 0) || (collider->box.y < 0) || ((collider->box.y + collider->box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
             std::cout << "Out of Bounds" << std::endl;
-            if((collider->box.x + collider->box.w) > Camera::limit.x){
-                associated->box.x += Camera::limit.x - (collider->box.x + collider->box.w);
-            }
-            if(collider->box.x < 0){
-                associated->box.x += collider->box.x;
-            }
-            if((collider->box.y + collider->box.h) > Camera::limit.y){
-                associated->box.y += Camera::limit.y - (collider->box.y + collider->box.h);
-            }
-            if(collider->box.y < 0){
-                associated->box.y = collider->box.y;
-            }
+            CorrectDistance();
+            collider->Update(0);
         }
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
@@ -52,7 +42,7 @@ void Physics::Update(int max){
     }
 }
 
-void Physics::UpdateDists(){
+void Physics::UpdateDists(int max){
     distground = DistanceTo(collider->box,0,1,max);
     distceiling = DistanceTo(collider->box,0,-1,max);
     distright = DistanceTo(collider->box,1,0,max);
@@ -61,6 +51,9 @@ void Physics::UpdateDists(){
 
 void Physics::CorrectDistance(){
     UpdateDists();
+    if((distground >= -max) && (distceiling >= -max) && (distright >= -max) && (distleft >= -max)){
+        UpdateDists(Camera::limit.x);
+    }
     std::map<int,int> dists;
     dists.insert({0,distground});
     dists.insert({1,distceiling});
@@ -147,6 +140,9 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
 }
 
 bool Physics::IsColliding(Rect box,float angle){
+    if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
+        return true;
+    }
     for(int i = 0;i < TileMap::tiles.size();i ++){
         TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
         if(Collision::IsColliding(box,tilecollider->box,angle,0)){
@@ -460,6 +456,7 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
+        UpdateDists();
         if(abs(distground) < 3){
             associated->box.y += distground;
         }
