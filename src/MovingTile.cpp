@@ -105,17 +105,17 @@ void MovingTile::NotifyCollision(GameObject& other){
             }
         }
         if(collider1->box.GetCenter().y < associated.box.y){
-            if((deltamov.y < 0) && (physics1->distceiling <= 0)){
+            if((deltamov.y < 0) && (physics1->IsUp())){
                 InvertDirection();
             }
         }
         if(collider1->box.GetCenter().x < associated.box.x){
-            if((deltamov.x < 0) && (physics1->distleft <= 0)){
+            if((deltamov.x < 0) && (physics1->IsLeft())){
                 InvertDirection();
             }
         }
         if(collider1->box.GetCenter().x > (associated.box.x + associated.box.w)){
-            if((deltamov.x > 0) && (physics1->distright <= 0)){
+            if((deltamov.x > 0) && (physics1->IsRight())){
                 InvertDirection();
             }
         }
