@@ -6,10 +6,9 @@ TileMapInfo::TileMapInfo(std::string file){
 }
 
 void TileMapInfo::Open(std::string file){
-    if((!portals.empty()) || (!portalfiles.empty()) || (!movingtiles.empty())){
+    if((!portals.empty()) || (!portalfiles.empty())){
         portals.clear();
         portalfiles.clear();
-        movingtiles.clear();
     }
     std::fstream FileReader;
     FileReader.open(file.c_str());
@@ -78,7 +77,6 @@ void TileMapInfo::Open(std::string file){
                 MovingTile *movingtile = new MovingTile(*tileObj,speed,start,dest,circular);
                 tileObj->AddComponent(movingtile);
                 std::weak_ptr<GameObject> tileweakptr =  Game::GetInstance().GetCurrentState().AddObject(tileObj);
-                movingtiles.emplace_back(tileweakptr);
             }
         }
     }else{
