@@ -59,7 +59,7 @@ void TileCollider::Update(float dt){
 
 bool TileCollider::CanMove(Vec2 vector){
     TileMap *tilemap = Game::GetInstance().GetCurrentState().GetTileMap();
-    if(tilemap->AtLocation(vector.x,vector.y,true) > -1){
+    if(tilemap->AtLocation(vector.x,vector.y) > -1){
         return false;
     }else{
         return true;
@@ -140,12 +140,6 @@ void TileCollider::NotifyCollision(GameObject& other){
 				}
 			}
 		}
-	}
-	Physics *physics = other.GetPhysics();
-	if(physics){
-		Collider *collider = physics->GetCollider();
-		Vec2 boxcenter = collider->box.GetCenter();
-		Vec2 tilecenter = box.GetCenter();
 	}
 }
 
