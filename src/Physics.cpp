@@ -123,10 +123,12 @@ int Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
 int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     float distance = vector.GetDistance(vectorTo.x,vectorTo.y);
     float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
+    Vec2 vectorRot = Vec2(distance,0).GetRotated(angle) + vector;
+    Rect box = Rect(vectorRot.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (distance/2 * -sin(angle)),distance,0);
     if(distance >= max){
         return max;
     }
-    if(!IsColliding(Rect(vector.x,vector.y,distance,0),angle)){
+    if(!IsColliding(box,angle)){
         return distance;
     }else{
         return max;

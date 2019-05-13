@@ -56,25 +56,23 @@ void Minion::Update(float dt){
     Vec2 player = Vec2(0,0);
     if(Player::player){
         Vec2 minionpos = GetPosition();
-        Vec2 playerpos = Player::player->GetPosition();
-        float dists[] = { physics->DistanceTo(minionpos,playerpos.Added(0,-100),sightrange),
-                        physics->DistanceTo(minionpos,playerpos,sightrange),
-                        physics->DistanceTo(minionpos,playerpos.Added(0,100),sightrange)};
+        player = Player::player->GetPosition();
+        float dists[] = { physics->DistanceTo(minionpos,player.Added(0,-100),sightrange),
+                        physics->DistanceTo(minionpos,player,sightrange),
+                        physics->DistanceTo(minionpos,player.Added(0,100),sightrange)};
         int size = sizeof(dists)/sizeof(dists[0]);
         std::sort(dists,dists+size);
         distanceToPlayer = dists[0];
 
-        if(distanceToPlayer < sightrange){
-            box.Transform(minionpos.x - distanceToPlayer,minionpos.y);
-            box.w = distanceToPlayer * 2;
+        if(distanceToPlayer < sightrange){     
+            float angle = minionpos.GetAngle(player.x,player.y);
+            Vec2 vector = Vec2(distanceToPlayer,0).GetRotated(angle) + minionpos;
+            box = Rect(vector.x - (distanceToPlayer * (((cos(std::fabs(angle))) + 1)/2) ),vector.y + (distanceToPlayer/2 * -sin(angle)),distanceToPlayer,0);
         }else{
             box.Transform(minionpos.x,minionpos.y);
             box.w = 0;
         }
-
-        player = Player::player->GetPosition();
     }
-    // std::cout << distanceToPlayer << std::endl;
     XMovement(dt);
     YMovement(dt);
 
@@ -222,12 +220,14 @@ void Minion::SetSprite(std::string file,int framecount,float frametime,bool repe
 void Minion::Render(){
     #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
-	if(input->IsKeyDown(SDLK_EQUALS)){
+	if(input->IsKeyDown(SDLK_EQUALS) && Player::player){
 		Vec2 center( box.GetCenter() );
 		SDL_Point points[5];
+
         Vec2 minionpos = GetPosition();
         Vec2 playerpos = Player::player->GetPosition();
         float angle = minionpos.GetAngle(playerpos.x,playerpos.y);
+
 		Vec2 point = (Vec2(box.x, box.y) - center).GetRotated( angle )
 						+ center - Camera::pos;
 		points[0] = {(int)point.x, (int)point.y};
