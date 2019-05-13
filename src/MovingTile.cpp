@@ -9,7 +9,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->associated.box.y = start.y - associated.box.h/2;
 
     this->physics = new Physics(&associated,&this->speed,true);
-    physics->SetCollider(1,2,0,-associated.box.h/2 + 10);
+    physics->SetCollider(1,2,0,-associated.box.h/2);
 
     this->deltamov = Vec2(0,0);
     this->constspeed = speed;
@@ -101,41 +101,61 @@ void MovingTile::NotifyCollision(GameObject& other){
     if(physics1){
         bool invert = false;
         Collider *collider1 = physics1->GetCollider();
-        if(Collision::IsColliding(collider1->box,associated.box,other.angleDeg,associated.angleDeg)){
-            invert = true;
-        }else{
+        
+        if(deltamov.x != 0){
             Rect movedX = collider1->box.Added(deltamov.x,0);
             if(!physics1->IsColliding(movedX,other.angleDeg)){
                 other.box.x += deltamov.x;
-            }else{
-                while(physics1->IsColliding(movedX,other.angleDeg) && (deltamov.x != 0)){
-                    deltamov.x /= 2;
-                    if(deltamov.x < 1){
-                        deltamov.x = 0;
-                    }
-                    movedX = collider1->box.Added(deltamov.x,0);
-                }
-                other.box.x += deltamov.x;
             }
-
+        }
+            // else{
+                // if(Collision::IsColliding(collider1->box,associated.box,other.angleDeg,associated.angleDeg)){
+                //     invert = true;
+                // }
+        //         while(physics1->IsColliding(movedX,other.angleDeg) && (deltamov.x != 0)){
+        //             deltamov.x /= 2;
+        //             if(deltamov.x < 1){
+        //                 deltamov.x = 0;
+        //             }
+        //             movedX = collider1->box.Added(deltamov.x,0);
+        //         }
+        //         other.box.x += deltamov.x;
+        //     }
+        // }
+        
+        if(deltamov.y != 0){
             Rect movedY = collider1->box.Added(0,deltamov.y);
             if(!physics1->IsColliding(movedY,other.angleDeg)){
                 other.box.y += deltamov.y;
             }else{
-                while(physics1->IsColliding(movedY,other.angleDeg) && (deltamov.y != 0)){
-                    deltamov.y /= 2;
-                    if(deltamov.y < 1){
-                        deltamov.y = 0;
-                    }
-                    movedY = collider1->box.Added(deltamov.y,0);
-                }
-                other.box.y += deltamov.y;
-                
+                // if(Collision::IsColliding(movedY,associated.box,other.angleDeg,associated.angleDeg)){
+                //     other.box.y = associated.box.y - other.box.h - 1;
+                // }else{
+                    other.box.y = associated.box.y - other.box.h;
+                // }
             }
         }
-        if(invert){
-            InvertDirection();
-        }
+            // else{
+                // std::cout << "CANTMOVEY" << std::endl;
+                // if(Collision::IsColliding(movedY,associated.box,other.angleDeg,associated.angleDeg)){
+                //     other.box.y = associated.box.y - other.box.h;
+                // }
+                // while(physics1->IsColliding(movedY,other.angleDeg) && (deltamov.y != 0)){
+                //     deltamov.y /= 2;
+                //     if(deltamov.y < 1){
+                //         deltamov.y = 0;
+                //     }
+                //     movedY = collider1->box.Added(0,deltamov.y);
+                // }
+                // std::cout << deltamov.y << std::endl;
+                // other.box.y += deltamov.y;
+                
+            // }
+            // std::cout << deltamov.y << std::endl;
+        // }
+        // if(invert){
+        //     InvertDirection();
+        // }
     }
 }
 
