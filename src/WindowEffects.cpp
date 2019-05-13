@@ -100,3 +100,28 @@ bool WindowEffects::IsBlack(){
         return false;
     }
 }
+
+void WindowEffects::DrawBox(Rect box,float angle,int r,int g,int b){
+        Vec2 center( box.GetCenter() );
+		SDL_Point points[5];
+
+        Vec2 point = (Vec2(box.x, box.y) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[0] = {(int)point.x, (int)point.y};
+		points[4] = {(int)point.x, (int)point.y};
+		
+		point = (Vec2(box.x + box.w, box.y) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[1] = {(int)point.x, (int)point.y};
+		
+		point = (Vec2(box.x + box.w, box.y + box.h) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[2] = {(int)point.x, (int)point.y};
+		
+		point = (Vec2(box.x, box.y + box.h) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[3] = {(int)point.x, (int)point.y};
+
+		SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), r, g, b, SDL_ALPHA_OPAQUE);
+		SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 5);
+}
