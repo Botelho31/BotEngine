@@ -1,6 +1,8 @@
 #include "../include/WindowEffects.h"
 #include "../include/Camera.h"
 
+std::vector<WindowEffects::BoxClass> WindowEffects::drawqueue;
+
 WindowEffects::WindowEffects(){
     currentEffect = NOTHING;
     currenteffectseconds = 0;
@@ -45,6 +47,10 @@ void WindowEffects::Render(){
     if(Drawing()){
         DrawToScreen(r,g,b,a);
     }
+    for(int i = 0;i < drawqueue.size(); i++){
+        DrawBox(drawqueue[i].box,drawqueue[i].angle,drawqueue[i].r,drawqueue[i].g,drawqueue[i].b);
+    }
+    drawqueue.clear();
 }
 
 void WindowEffects::Reset(){
@@ -124,4 +130,9 @@ void WindowEffects::DrawBox(Rect box,float angle,int r,int g,int b){
 
 		SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), r, g, b, SDL_ALPHA_OPAQUE);
 		SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 5);
+}
+
+void WindowEffects::AddBoxToDraw(Rect box,float angle,int r,int g,int b){
+    BoxClass *boxdraw = new BoxClass(box,angle,r,g,b);
+    drawqueue.emplace_back(*boxdraw);
 }

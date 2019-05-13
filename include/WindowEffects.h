@@ -23,7 +23,22 @@
             bool IsBlack();
 
             static void DrawBox(Rect box,float angle,int r,int g,int b);
+            static void AddBoxToDraw(Rect box,float angle,int r,int g,int b);
         private:
+            class BoxClass{
+                public:
+                BoxClass(Rect box,float angle,int r,int g,int b){
+                    this->box = box;
+                    this->angle = angle;
+                    this->r = r;
+                    this->g = g;
+                    this->b = b;
+                };
+                Rect box;
+                float angle;
+                int r,g,b;
+            };
+            static std::vector<BoxClass> drawqueue;
             Effect currentEffect;
             float currenteffectseconds;
             float r,g,b,a;
