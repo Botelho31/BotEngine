@@ -209,8 +209,7 @@ void Player::AttackHandle(float dt){
             delayedboost = 0.18;
             delayedboosttimer->Delay(dt);
         }
-        physics->UpdateDists();
-        if(!physics->IsGrounded() && (physics->distground > 100)){
+        if(!physics->IsGrounded() && (!physics->IsColliding(physics->GetCollider()->box.Added(0,0,0,100)))){
             speed.y = -350;
         }
     }
