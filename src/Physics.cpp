@@ -58,24 +58,7 @@ void Physics::UpdateDists(int max){
 void Physics::CorrectDistance(){
     UpdateDists(max);
     if((distground == -max) && (distceiling == -max) && (distright == -max) && (distleft == -max)){
-        // if((collider->box.x < 0) && (collider->box.y < 0)){
-        //     associated->box.x = 0;
-        //     associated->box.y = 0;
-        // }
-        // else if((collider->box.x < 0) && (collider->box.y > Camera::limit.y)){
-        //     associated->box.x = 0;
-        //     associated->box.y = Camera::limit.y;
-        // }
-        // else if((collider->box.x > Camera::limit.x) && (collider->box.y < 0)){
-        //     associated->box.x = Camera::limit.x - 1;
-        //     associated->box.y = 1;
-        // }
-        // else if((collider->box.x > Camera::limit.x) && (collider->box.y < Camera::limit.y)){
-        //     associated->box.x = Camera::limit.x;
-        //     associated->box.y = Camera::limit.y;
-        // }
         max *= 2;
-        UpdateDists(max);
     }else{
         std::map<int,float> dists;
         dists.insert({0,distground});
@@ -157,25 +140,6 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
 }
 
 bool Physics::IsOutofBounds(Rect box,float angle){
-    // Rect outofboundstop =  Rect(-Camera::limit.x,-Camera::limit.x * 2,Camera::limit.x * 2,Camera::limit.x * 2);
-    // Rect outofboundsbottom = Rect(-Camera::limit.x,Camera::limit.y,Camera::limit.x,Camera::limit.x * 2);
-    // Rect outofboundsright = Rect(Camera::limit.x,0,Camera::limit.x,Camera::limit.x);
-    // Rect outofboundsleft = Rect(-Camera::limit.x,0,Camera::limit.x,Camera::limit.x);
-    // if(Collision::IsColliding(box,outofboundsbottom,angle,0)){
-    //     return true;
-    // }
-    // if(Collision::IsColliding(box,outofboundstop,angle,0)){
-    //     return true;
-    // }
-    // if(Collision::IsColliding(box,outofboundsleft,angle,0)){
-    //     return true;
-    // }
-    // if(Collision::IsColliding(box,outofboundsright,angle,0)){
-    //     return true;
-    // }
-    // if((((box.x + box.w) > (Camera::limit.x)) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > (Camera::limit.y)) )){
-    //     return true;
-    // }
     Vec2 center( box.GetCenter() );
     Rect map = Rect(0,0,Camera::limit.x,Camera::limit.y);
 	Vec2 points[4];
