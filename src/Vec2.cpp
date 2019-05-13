@@ -19,7 +19,7 @@ Vec2& Vec2::GetRotated(float R){
     x = this->x;
     y = this->y;
     this->x = (x * cos(R)) - (y * sin(R)); 
-    this->y = (y * cos(R)) + (x * sin(R));
+    this->y = (x * sin(R)) + (y * cos(R));
     return *this;
 }
 
