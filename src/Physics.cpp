@@ -33,7 +33,7 @@ void Physics::Update(int max){
         }
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-            while(Collision::IsColliding(collider->box,tilecollider->box,associated->angleDeg,0)){
+            while(Collision::IsColliding(collider->box,tilecollider->box,(associated->angleDeg * PI) /180,0)){
                 if(tilecollider->moving){
                     tilecollider->NotifyMobCollision(*associated);
                     collider->Update(0);
@@ -107,12 +107,12 @@ void Physics::CorrectDistance(){
 
 int Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
     int distance = 0;
-    while(!IsColliding(box,associated->angleDeg) && (distance < max)){
+    while(!IsColliding(box,(associated->angleDeg * PI) /180) && (distance < max)){
         box.y += ysum;
         box.x += xsum;
         distance ++;
     }
-    while(IsColliding(box,associated->angleDeg) && (distance > -max)){
+    while(IsColliding(box,(associated->angleDeg * PI) /180) && (distance > -max)){
         box.y += -ysum;
         box.x += -xsum;
         distance --;
@@ -121,10 +121,15 @@ int Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
 }
 
 int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
+
     float distance = vector.GetDistance(vectorTo.x,vectorTo.y);
     float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
     Vec2 vectorRot = Vec2(distance,0).GetRotated(angle) + vector;
     Rect box = Rect(vectorRot.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (distance/2 * -sin(angle)),distance,0);
+    // std::cout << box.x << std::endl;
+    // std::cout << box.y << std::endl;
+    // std::cout << box.w << std::endl;
+    // std::cout << box.h << std::endl;
     if(distance >= max){
         return max;
     }
@@ -136,9 +141,10 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
 }
 
 bool Physics::IsColliding(Rect box,float angle){
-    if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
-        return true;
-    }
+    // if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
+    //     std::cout << "Out of Bounds" << std::endl;
+    //     return true;
+    // }
     for(int i = 0;i < TileMap::tiles.size();i ++){
         TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
         if(Collision::IsColliding(box,tilecollider->box,angle,0)){
@@ -149,19 +155,19 @@ bool Physics::IsColliding(Rect box,float angle){
 }
 
 bool Physics::IsUp(int sum){
-    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),associated->angleDeg);
+    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),(associated->angleDeg * PI) /180);
 }
 
 bool Physics::IsGrounded(int sum){
-    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),associated->angleDeg);
+    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),(associated->angleDeg * PI) /180);
 }
 
 bool Physics::IsLeft(int sum){
-    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),associated->angleDeg);
+    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),(associated->angleDeg * PI) /180);
 }
 
 bool Physics::IsRight(int sum){
-    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),associated->angleDeg);
+    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),(associated->angleDeg * PI) /180);
 }
 
 
@@ -405,7 +411,7 @@ float Physics::PerformXMovement(float dt){
     if((speed->x * dt) < 0){
         modX = speed->x * dt;
     }
-    if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),associated->angleDeg)){
+    if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),(associated->angleDeg * PI) /180)){
         speed->x = speed->x/2;
         if(IsRight() && (speed->x > 0)){
             speed->x = 0;
@@ -430,7 +436,7 @@ float Physics::PerformYMovement(float dt){
     if((speed->y * dt) < 0){
         modY = speed->y * dt;
     }
-    if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),associated->angleDeg)){
+    if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),(associated->angleDeg * PI) /180)){
         speed->y = speed->y/2;
         if(IsGrounded() && (speed->y > 0)){
             speed->y = 0;
