@@ -138,19 +138,16 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
 }
 
 bool Physics::IsColliding(Rect box,float angle,bool markcollision){
+    #ifndef DEBUG
+        markcollision = false;
+    #endif
     if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
-        // std::cout << "Out of Bounds" << std::endl;
+        std::cout << "Out of Bounds" << std::endl;
         return true;
     }
     for(int i = 0;i < TileMap::tiles.size();i ++){
         TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-        if(Collision::IsColliding(box,tilecollider->box,angle,0)){
-            #ifdef DEBUG
-                if(markcollision){
-                    WindowEffects::AddBoxToDraw(box,angle,0,0,0);
-                    WindowEffects::AddBoxToDraw(tilecollider->box,0,0,0,0);
-                }
-            #endif
+        if(Collision::IsColliding(box,tilecollider->box,angle,0,markcollision)){
             return true;
         }
     }
