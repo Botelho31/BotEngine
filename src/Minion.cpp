@@ -3,6 +3,7 @@
 #include "../include/Player.h"
 #include "../include/HitBox.h"
 #include "../include/Camera.h"
+#include "../include/WindowEffects.h"
 
 Minion::Minion(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -57,17 +58,22 @@ void Minion::Update(float dt){
     if(Player::player){
         Vec2 minionpos = GetPosition();
         player = Player::player->GetPosition();
-        float dists[] = { physics->DistanceTo(minionpos,player.Added(0,-100),sightrange),
-                        physics->DistanceTo(minionpos,player,sightrange),
-                        physics->DistanceTo(minionpos,player.Added(0,100),sightrange)};
-        int size = sizeof(dists)/sizeof(dists[0]);
-        std::sort(dists,dists+size);
-        distanceToPlayer = dists[0];
+        float distance = minionpos.GetDistance(player.x,player.y);
+        if(distance > sightrange){
+            distance = sightrange;
+        }else{
+            float dists[] = { physics->DistanceTo(minionpos,player.Added(0,-100),sightrange),
+                            physics->DistanceTo(minionpos,player,sightrange),
+                            physics->DistanceTo(minionpos,player.Added(0,100),sightrange)};
+            int size = sizeof(dists)/sizeof(dists[0]);
+            std::sort(dists,dists+size);
+            distanceToPlayer = dists[0];
+        }
 
         if(distanceToPlayer < sightrange){     
             float angle = minionpos.GetAngle(player.x,player.y);
-            Vec2 vector = Vec2(distanceToPlayer,0).GetRotated(angle) + minionpos;
-            box = Rect(vector.x - (distanceToPlayer * (((cos(std::fabs(angle))) + 1)/2) ),vector.y + (distanceToPlayer/2 * -sin(angle)),distanceToPlayer,0);
+            Vec2 vector = Vec2(distance,0).GetRotated(angle) + minionpos;
+            box = Rect(vector.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vector.y + (distance/2 * -sin(angle)),distance,1);
         }else{
             box.Transform(minionpos.x,minionpos.y);
             box.w = 0;
@@ -221,34 +227,11 @@ void Minion::Render(){
     #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS) && Player::player){
-		Vec2 center( box.GetCenter() );
-		SDL_Point points[5];
-
-        Vec2 minionpos = GetPosition();
         Vec2 playerpos = Player::player->GetPosition();
-        float angle = minionpos.GetAngle(playerpos.x,playerpos.y);
-
-		Vec2 point = (Vec2(box.x, box.y) - center).GetRotated( angle )
-						+ center - Camera::pos;
-		points[0] = {(int)point.x, (int)point.y};
-		points[4] = {(int)point.x, (int)point.y};
-		
-		point = (Vec2(box.x + box.w, box.y) - center).GetRotated( angle )
-						+ center - Camera::pos;
-		points[1] = {(int)point.x, (int)point.y};
-		
-		point = (Vec2(box.x + box.w, box.y + box.h) - center).GetRotated( angle )
-						+ center - Camera::pos;
-		points[2] = {(int)point.x, (int)point.y};
-		
-		point = (Vec2(box.x, box.y + box.h) - center).GetRotated( angle )
-						+ center - Camera::pos;
-		points[3] = {(int)point.x, (int)point.y};
-
-		SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
-		SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 5);
+        float angle = GetPosition().GetAngle(playerpos.x,playerpos.y);
+        WindowEffects::DrawBox(box,angle,255,0,0);
 	}
-#endif // DEBUG
+    #endif // DEBUG
 }
 
 bool Minion::Is(std::string type){
