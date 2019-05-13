@@ -126,22 +126,22 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     float distance = vector.GetDistance(vectorTo.x,vectorTo.y);
     float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
     Vec2 vectorRot = Vec2(distance,0).GetRotated(angle) + vector;
-    Rect box = Rect(vectorRot.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (distance/2 * -sin(angle)),distance,0);
+    Rect box = Rect(vectorRot.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (distance/2 * -sin(angle)),distance,1);
     if(distance >= max){
         return max;
     }
-    if(!IsColliding(box,angle)){
+    if(!IsColliding(box,angle,true)){
         return distance;
     }else{
         return max;
     }
 }
 
-bool Physics::IsColliding(Rect box,float angle,bool markcollision){
+bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcollision){
     #ifndef DEBUG
         markcollision = false;
     #endif
-    if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
+    if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap() && !nooutofbounds){
         std::cout << "Out of Bounds" << std::endl;
         return true;
     }
