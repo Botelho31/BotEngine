@@ -34,6 +34,8 @@
             int hp;
             int attackrange;
             int sightrange;
+            float sightangle;
+            Rect sightline;
 
             Vec2 speed;
             int maxspeed;
@@ -52,7 +54,6 @@
             bool falling;
             bool idle;
 
-            Rect box;
             Physics *physics;
     };
 

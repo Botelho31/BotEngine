@@ -30,6 +30,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
 
     this->attacktimer = new Timer();
 
+    sightangle = 0;
     Sprite *minion =  new Sprite(associated,"assets/img/minionidletest.png",32,0.08);
     this->minionsprite = minion;
     associated.AddComponent(minion);
@@ -59,8 +60,10 @@ void Minion::Update(float dt){
         Vec2 minionpos = GetPosition();
         player = Player::player->GetPosition();
         float distance = minionpos.GetDistance(player.x,player.y);
-        if(distance > sightrange){
-            distance = sightrange;
+        float distance2 = minionpos.GetDistance(player.x,player.y - 100);
+        float distance3 = minionpos.GetDistance(player.x,player.y + 100);
+        if((distance > sightrange) && (distance2 > sightrange) && (distance3 > sightrange)){
+            distanceToPlayer = sightrange;
         }else{
             float dists[] = { physics->DistanceTo(minionpos,player.Added(0,-100),sightrange),
                             physics->DistanceTo(minionpos,player,sightrange),
@@ -70,13 +73,20 @@ void Minion::Update(float dt){
             distanceToPlayer = dists[0];
         }
 
-        if(distanceToPlayer < sightrange){     
-            float angle = minionpos.GetAngle(player.x,player.y);
-            Vec2 vector = Vec2(distance,0).GetRotated(angle) + minionpos;
-            box = Rect(vector.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vector.y + (distance/2 * -sin(angle)),distance,1);
+        if(distanceToPlayer < sightrange){
+            if(distanceToPlayer == floor(distance2)){
+                sightangle = minionpos.GetAngle(player.x,player.y - 100);
+            }else if(distanceToPlayer == floor(distance3)){
+                sightangle = minionpos.GetAngle(player.x,player.y + 100);
+            }else{
+                sightangle = minionpos.GetAngle(player.x,player.y);
+            }
+            Vec2 vector = Vec2(distanceToPlayer,0).GetRotated(sightangle) + minionpos;
+            sightline = Rect(vector.x - (distanceToPlayer * (((cos(std::fabs(sightangle))) + 1)/2) ),vector.y + (distanceToPlayer/2 * -sin(sightangle)),distanceToPlayer,1);
         }else{
-            box.Transform(minionpos.x,minionpos.y);
-            box.w = 0;
+            sightline.Transform(minionpos.x,minionpos.y);
+            sightline.w = 10;
+            sightline.h = 10;
         }
     }
     XMovement(dt);
@@ -227,9 +237,7 @@ void Minion::Render(){
     #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS) && Player::player){
-        Vec2 playerpos = Player::player->GetPosition();
-        float angle = GetPosition().GetAngle(playerpos.x,playerpos.y);
-        WindowEffects::DrawBox(box,angle,255,0,0);
+        WindowEffects::DrawBox(sightline,sightangle,255,0,0);
 	}
     #endif // DEBUG
 }
