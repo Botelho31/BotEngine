@@ -3,6 +3,7 @@
 #include "../include/Camera.h"
 #include "../include/Collision.h"
 #include "../include/StageState.h"
+#include "../include/WindowEffects.h"
 
 Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(associated){
     distground = 0;
@@ -126,10 +127,6 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
     Vec2 vectorRot = Vec2(distance,0).GetRotated(angle) + vector;
     Rect box = Rect(vectorRot.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (distance/2 * -sin(angle)),distance,0);
-    // std::cout << box.x << std::endl;
-    // std::cout << box.y << std::endl;
-    // std::cout << box.w << std::endl;
-    // std::cout << box.h << std::endl;
     if(distance >= max){
         return max;
     }
@@ -140,14 +137,20 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
     }
 }
 
-bool Physics::IsColliding(Rect box,float angle){
-    // if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
-    //     std::cout << "Out of Bounds" << std::endl;
-    //     return true;
-    // }
+bool Physics::IsColliding(Rect box,float angle,bool markcollision){
+    if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap()){
+        // std::cout << "Out of Bounds" << std::endl;
+        return true;
+    }
     for(int i = 0;i < TileMap::tiles.size();i ++){
         TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
         if(Collision::IsColliding(box,tilecollider->box,angle,0)){
+            #ifdef DEBUG
+                if(markcollision){
+                    WindowEffects::AddBoxToDraw(box,angle,0,0,0);
+                    WindowEffects::AddBoxToDraw(tilecollider->box,0,0,0,0);
+                }
+            #endif
             return true;
         }
     }
@@ -458,10 +461,10 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        UpdateDists();
-        if(abs(distground) < 3){
-            associated->box.y += distground;
-        }
+        // UpdateDists();
+        // if(abs(distground) < 3){
+        //     associated->box.y += distground;
+        // }
         speed->y += gravspeed * dt;
     }
 }
