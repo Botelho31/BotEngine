@@ -17,7 +17,7 @@
             void UpdateDists(int max = 150);
             void CorrectDistance();    //Correct the distance if the player is inside a wall
             int DistanceTo(Rect box,int xsum,int ysum,int max = 150);    //Gets the distance to a unpassable tile block in a direction
-            int DistanceTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets the from one vector to another throught the tilemap
+            int SightTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets the from one vector to another throught the tilemap
             
             bool IsOutofBounds(Rect box,float angle = 0);
             bool IsColliding(Rect box,float angle = 0,bool nooutofbounds = false,bool markcollision = false); //Checks to see if it is colliding with tilecolliders

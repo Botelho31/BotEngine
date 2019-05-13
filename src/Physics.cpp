@@ -123,7 +123,7 @@ int Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
     return distance;
 }
 
-int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
+int Physics::SightTo(Vec2 vector,Vec2 vectorTo,int max){
     float distance = vector.GetDistance(vectorTo.x,vectorTo.y);
     float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
     Vec2 vectorRot = Vec2(distance,0).GetRotated(angle) + vector;
