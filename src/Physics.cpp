@@ -142,7 +142,6 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
         markcollision = false;
     #endif
     if((((box.x + box.w) > Camera::limit.x) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > Camera::limit.y)) && !StageState::ChangingMap() && !nooutofbounds){
-        std::cout << "Out of Bounds" << std::endl;
         return true;
     }
     for(int i = 0;i < TileMap::tiles.size();i ++){
