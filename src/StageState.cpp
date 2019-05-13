@@ -144,6 +144,8 @@ void StageState::Update(float dt){
         if(Player::player){
             ClearMobs();
             tilemap->Load(GameData::checkpointMap);
+            tilemap->Start();
+            mapcollision = false;
             tilemap->LoadInfo(GameData::checkpointMapInfo);
             Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
             Player::player->HealPlayer(150);
