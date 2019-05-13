@@ -62,16 +62,12 @@ void Minion::Update(float dt){
         float distance = minionpos.GetDistance(player.x,player.y);
         float distance2 = minionpos.GetDistance(player.x,player.y - 100);
         float distance3 = minionpos.GetDistance(player.x,player.y + 100);
-        if((distance > sightrange) && (distance2 > sightrange) && (distance3 > sightrange)){
-            distanceToPlayer = sightrange;
-        }else{
-            float dists[] = { physics->DistanceTo(minionpos,player.Added(0,-100),sightrange),
-                            physics->DistanceTo(minionpos,player,sightrange),
-                            physics->DistanceTo(minionpos,player.Added(0,100),sightrange)};
-            int size = sizeof(dists)/sizeof(dists[0]);
-            std::sort(dists,dists+size);
-            distanceToPlayer = dists[0];
-        }
+        float dists[] = { physics->DistanceTo(minionpos,player.Added(0,-100),sightrange),
+                        physics->DistanceTo(minionpos,player,sightrange),
+                        physics->DistanceTo(minionpos,player.Added(0,100),sightrange)};
+        int size = sizeof(dists)/sizeof(dists[0]);
+        std::sort(dists,dists+size);
+        distanceToPlayer = dists[0];
 
         if(distanceToPlayer < sightrange){
             if(distanceToPlayer == floor(distance2)){
