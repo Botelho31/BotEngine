@@ -27,9 +27,10 @@ void Physics::Update(int max){
     this->max = max;
     collider->Update(0);
     if(!isTile){
+        Vec2 centerofmap = Vec2(Camera::limit.x/2,Camera::limit.y/2);
         while((IsOutofBounds(collider->box,(associated->angleDeg * PI) /180)) && !StageState::ChangingMap()){
             std::cout << "Out of Bounds" << std::endl;
-            CorrectDistance();
+            Follow(centerofmap,10,1);
             collider->Update(0);
         }
         for(int i = 0;i < TileMap::tiles.size();i ++){
@@ -156,23 +157,38 @@ int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
 }
 
 bool Physics::IsOutofBounds(Rect box,float angle){
-    Rect outofboundstop =  Rect(-Camera::limit.x,-Camera::limit.x * 2,Camera::limit.x * 2,Camera::limit.x * 2);
-    Rect outofboundsbottom = Rect(-Camera::limit.x,Camera::limit.y,Camera::limit.x,Camera::limit.x * 2);
-    Rect outofboundsright = Rect(Camera::limit.x,0,Camera::limit.x,Camera::limit.x);
-    Rect outofboundsleft = Rect(-Camera::limit.x,0,Camera::limit.x,Camera::limit.x);
-    if(Collision::IsColliding(box,outofboundsbottom,angle,0)){
-        return true;
-    }
-    if(Collision::IsColliding(box,outofboundstop,angle,0)){
-        return true;
-    }
-    if(Collision::IsColliding(box,outofboundsleft,angle,0)){
-        return true;
-    }
-    if(Collision::IsColliding(box,outofboundsright,angle,0)){
-        return true;
-    }
-    if((((box.x + box.w) > (Camera::limit.x)) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > (Camera::limit.y)) )){
+    // Rect outofboundstop =  Rect(-Camera::limit.x,-Camera::limit.x * 2,Camera::limit.x * 2,Camera::limit.x * 2);
+    // Rect outofboundsbottom = Rect(-Camera::limit.x,Camera::limit.y,Camera::limit.x,Camera::limit.x * 2);
+    // Rect outofboundsright = Rect(Camera::limit.x,0,Camera::limit.x,Camera::limit.x);
+    // Rect outofboundsleft = Rect(-Camera::limit.x,0,Camera::limit.x,Camera::limit.x);
+    // if(Collision::IsColliding(box,outofboundsbottom,angle,0)){
+    //     return true;
+    // }
+    // if(Collision::IsColliding(box,outofboundstop,angle,0)){
+    //     return true;
+    // }
+    // if(Collision::IsColliding(box,outofboundsleft,angle,0)){
+    //     return true;
+    // }
+    // if(Collision::IsColliding(box,outofboundsright,angle,0)){
+    //     return true;
+    // }
+    // if((((box.x + box.w) > (Camera::limit.x)) || (box.x < 0) || (box.y < 0) || ((box.y + box.h) > (Camera::limit.y)) )){
+    //     return true;
+    // }
+    Vec2 center( box.GetCenter() );
+    Rect map = Rect(0,0,Camera::limit.x,Camera::limit.y);
+	Vec2 points[4];
+
+    points[0] = (Vec2(box.x, box.y) - center).GetRotated( angle ) + center;
+		
+    points[1] = (Vec2(box.x + box.w, box.y) - center).GetRotated( angle ) + center;
+		
+	points[2] = (Vec2(box.x + box.w, box.y + box.h) - center).GetRotated( angle ) + center;
+		
+	points[3] = (Vec2(box.x, box.y + box.h) - center).GetRotated( angle ) + center;
+
+    if(!map.Contains(points[0]) || !map.Contains(points[1]) || !map.Contains(points[2]) || !map.Contains(points[3])){
         return true;
     }
     return false;
