@@ -52,7 +52,7 @@
             bool falling;
             bool idle;
 
-
+            Rect box;
             Physics *physics;
     };
 

@@ -121,26 +121,16 @@ int Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
 }
 
 int Physics::DistanceTo(Vec2 vector,Vec2 vectorTo,int max){
-    float distance = 0;
-    float sum = 0;
-    Vec2 original = vector;
-    float angle = (vectorTo.y - vector.y)/(vectorTo.x - vector.x);
-    float b = vector.y - (angle * vector.x);
-    if(vector.x > vectorTo.x){
-        sum = -1.0;
+    float distance = vector.GetDistance(vectorTo.x,vectorTo.y);
+    float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
+    if(distance >= max){
+        return max;
+    }
+    if(!IsColliding(Rect(vector.x,vector.y,distance,0),angle)){
+        return distance;
     }else{
-        sum = 1.0;
+        return max;
     }
-    while(!IsColliding(Rect(vector.x,vector.y,0,0)) && (distance <= max) && (((sum > 0) && (vector.x <= vectorTo.x)) || ((sum < 0) && (vector.x >= vectorTo.x)) )){
-        vector.x += sum;
-        vector.y = (vector.x * angle) + b;
-        distance  =  vector.GetDistance(original.x,original.y);
-    }
-    if(IsColliding(Rect(vector.x,vector.y,0,0))){
-        distance = max;
-    }
-    
-    return distance;
 }
 
 bool Physics::IsColliding(Rect box,float angle){

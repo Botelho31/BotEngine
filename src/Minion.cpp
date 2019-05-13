@@ -2,6 +2,7 @@
 #include "../include/Collider.h"
 #include "../include/Player.h"
 #include "../include/HitBox.h"
+#include "../include/Camera.h"
 
 Minion::Minion(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -54,14 +55,26 @@ void Minion::Update(float dt){
     float distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
     if(Player::player){
-        float dists[] = { physics->DistanceTo(GetPosition(),Player::player->GetPosition().Added(0,-100),sightrange),
-                        physics->DistanceTo(GetPosition(),Player::player->GetPosition(),sightrange),
-                        physics->DistanceTo(GetPosition(),Player::player->GetPosition().Added(0,100),sightrange)};
+        Vec2 minionpos = GetPosition();
+        Vec2 playerpos = Player::player->GetPosition();
+        float dists[] = { physics->DistanceTo(minionpos,playerpos.Added(0,-100),sightrange),
+                        physics->DistanceTo(minionpos,playerpos,sightrange),
+                        physics->DistanceTo(minionpos,playerpos.Added(0,100),sightrange)};
         int size = sizeof(dists)/sizeof(dists[0]);
         std::sort(dists,dists+size);
         distanceToPlayer = dists[0];
+
+        if(distanceToPlayer < sightrange){
+            box.Transform(minionpos.x - distanceToPlayer,minionpos.y);
+            box.w = distanceToPlayer * 2;
+        }else{
+            box.Transform(minionpos.x,minionpos.y);
+            box.w = 0;
+        }
+
         player = Player::player->GetPosition();
     }
+    // std::cout << distanceToPlayer << std::endl;
     XMovement(dt);
     YMovement(dt);
 
@@ -207,7 +220,35 @@ void Minion::SetSprite(std::string file,int framecount,float frametime,bool repe
 }
 
 void Minion::Render(){
+    #ifdef DEBUG
+	InputManager *input = &(InputManager::GetInstance());
+	if(input->IsKeyDown(SDLK_EQUALS)){
+		Vec2 center( box.GetCenter() );
+		SDL_Point points[5];
+        Vec2 minionpos = GetPosition();
+        Vec2 playerpos = Player::player->GetPosition();
+        float angle = minionpos.GetAngle(playerpos.x,playerpos.y);
+		Vec2 point = (Vec2(box.x, box.y) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[0] = {(int)point.x, (int)point.y};
+		points[4] = {(int)point.x, (int)point.y};
+		
+		point = (Vec2(box.x + box.w, box.y) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[1] = {(int)point.x, (int)point.y};
+		
+		point = (Vec2(box.x + box.w, box.y + box.h) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[2] = {(int)point.x, (int)point.y};
+		
+		point = (Vec2(box.x, box.y + box.h) - center).GetRotated( angle )
+						+ center - Camera::pos;
+		points[3] = {(int)point.x, (int)point.y};
 
+		SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
+		SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 5);
+	}
+#endif // DEBUG
 }
 
 bool Minion::Is(std::string type){
