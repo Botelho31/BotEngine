@@ -20,7 +20,7 @@
             int DistanceTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets the from one vector to another throught the tilemap
             
 
-            bool IsColliding(Rect box,float angle = 0,bool markcollision = false); //Checks to see if it is colliding with tilecolliders
+            bool IsColliding(Rect box,float angle = 0,bool nooutofbounds = false,bool markcollision = false); //Checks to see if it is colliding with tilecolliders
             bool IsRight(int sum = 1);
             bool IsUp(int sum = 1);
             bool IsLeft(int sum = 1);
