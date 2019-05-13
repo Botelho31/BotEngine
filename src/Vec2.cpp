@@ -45,6 +45,14 @@ float Vec2::GetAngle(float x,float y,float offsetX,float offsetY){
     return -atan2(difY,difX);
 }
 
+float Vec2::GetAngle(Vec2 point,float offsetX,float offsetY){
+    float boxX = this->x + offsetX;
+    float boxY = this->y + offsetY;
+    float difX = point.x - boxX;
+    float difY = boxY - point.y;
+    return -atan2(difY,difX);
+}
+
 float Vec2::GetDistance(float x,float y){
     return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
 }
