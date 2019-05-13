@@ -104,7 +104,7 @@ void MovingTile::NotifyCollision(GameObject& other){
         
         if(deltamov.x != 0){
             Rect movedX = collider1->box.Added(deltamov.x,0);
-            if(!physics1->IsColliding(movedX,other.angleDeg)){
+            if(!physics1->IsColliding(movedX,other.angleDeg/(180/PI))){
                 other.box.x += deltamov.x;
             }
         }
@@ -125,13 +125,13 @@ void MovingTile::NotifyCollision(GameObject& other){
         
         if(deltamov.y != 0){
             Rect movedY = collider1->box.Added(0,deltamov.y);
-            if(!physics1->IsColliding(movedY,other.angleDeg)){
+            if(!physics1->IsColliding(movedY,other.angleDeg/(180/PI))){
                 other.box.y += deltamov.y;
             }else{
                 // if(Collision::IsColliding(movedY,associated.box,other.angleDeg,associated.angleDeg)){
                 //     other.box.y = associated.box.y - other.box.h - 1;
                 // }else{
-                    other.box.y = associated.box.y - other.box.h;
+                    // other.box.y = associated.box.y - other.box.h;
                 // }
             }
         }
