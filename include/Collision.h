@@ -1,5 +1,6 @@
 #include "Rect.h"
 #include "Vec2.h"
+#include "WindowEffects.h"
 
 #include <algorithm>
 #include <cmath>
@@ -10,7 +11,7 @@ class Collision {
 		// Observação: IsColliding espera ângulos em radianos!
 		// Para usar graus, forneça a sua própria implementação de Rotate,
 		// ou transforme os ângulos no corpo de IsColliding.
-		static inline bool IsColliding(Rect& a, Rect& b, float angleOfA, float angleOfB) {
+		static inline bool IsColliding(Rect& a, Rect& b, float angleOfA, float angleOfB,bool mark = false) {
 			Vec2 A[] = { Vec2( a.x, a.y + a.h ),
 						  Vec2( a.x + a.w, a.y + a.h ),
 						  Vec2( a.x + a.w, a.y ),
@@ -49,6 +50,11 @@ class Collision {
 					return false;
 			}
 
+			if(mark){
+				WindowEffects::AddBoxToDraw(a,angleOfA,0,0,0);
+				WindowEffects::AddBoxToDraw(b,angleOfB,0,0,0);
+			}
+			
 			return true;
 		}
 
