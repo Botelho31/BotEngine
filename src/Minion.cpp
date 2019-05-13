@@ -263,5 +263,6 @@ Physics* Minion::GetPhysics(){
 }
 
 Vec2 Minion::GetPosition(){
-    return Vec2(associated.box.x + associated.box.w/2,associated.box.y + associated.box.h/2);
+
+    return physics->GetCollider()->box.GetCenter();
 }

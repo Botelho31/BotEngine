@@ -84,6 +84,7 @@ void Player::Update(float dt){
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
             physics->UpdateDists();
+            std::cout << "Player.x: " << GetPosition().x << "Player.y: " << GetPosition().y << std::endl;
             std::cout << "dground: "<< physics->distground << std::endl;
             std::cout << "dceiling: "<< physics->distceiling << std::endl;
             std::cout << "dright: "<< physics->distright << std::endl;
@@ -549,7 +550,7 @@ Physics* Player::GetPhysics(){
 }
 
 Vec2 Player::GetPosition(){
-    return Vec2(associated.box.x + associated.box.w/2,associated.box.y + associated.box.h/2);
+    return physics->GetCollider()->box.GetCenter();
 }
 
 Vec2 Player::GetSpeed(){
