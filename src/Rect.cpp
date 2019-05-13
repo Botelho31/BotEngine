@@ -23,6 +23,14 @@ bool Rect::Contains(float x,float y){
     }
 }
 
+bool Rect::Contains(Vec2 point){
+    if(( (this->x <= point.x) && (point.x <= (this->x + this->w)) ) && ( (this->y <= point.y) && (point.y <= (this->y + this->h)) )){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 void Rect::Transform(float x,float y){
     this->x = x;
     this->y = y;

@@ -10,6 +10,7 @@
             Rect();
             Rect(float x,float y,float w,float h);
             bool Contains(float x,float y);
+            bool Contains(Vec2 point);
             void Transform(float x,float y);
             float Magnitude();
             float MultiplyVector(float x,float y);
