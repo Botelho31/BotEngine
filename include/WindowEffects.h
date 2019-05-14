@@ -23,7 +23,7 @@
             bool IsBlack();
 
             static void DrawBox(Rect box,float angle,int r,int g,int b);
-            static void AddBoxToDraw(Rect box,float angle,int r,int g,int b);
+            static void AddBoxToDraw(Rect box,float angle,int r = 0,int g = 0,int b = 0);
         private:
             class BoxClass{
                 public:
