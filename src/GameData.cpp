@@ -49,21 +49,27 @@ void GameData::LoadGame(){
                 FileReader >> checkline;
                 FileReader >> checkpointMapInfo;
                 FileReader >> checkline;
-                FileReader >> loadplayerpos.x;
-                FileReader >> loadplayerpos.y;
+                FileReader >> savePlayerPos.x;
+                FileReader >> savePlayerPos.y;
                 FileReader >> checkline;
                 FileReader >> playerlife;
+                std::cout << "Game Loaded" << std::endl;
 
-                if(loadplayerpos != Vec2(0,0)){
-                    if(Player::player){
-                        Player::player->MovePlayer(loadplayerpos.x,loadplayerpos.y,false);
-                    }
-                }
-                
             }
         }
     }else{
         std::cout << "No Save File Found" << std::endl; //Printa um erro caso nao consiga dar load na file
+        checkpointMap = "assets/map/tileMaptest-1.txt";
+        checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
+        checkpointPos = Vec2(100,500);
+        savePlayerPos = checkpointPos;
     }
     FileReader.close();
+}
+
+void GameData::PrintGameData(){
+    std::cout << "Map: " << checkpointMap << std::endl;
+    std::cout << "MapInfo: " << checkpointMapInfo << std::endl;
+    std::cout << "PlayerPos: " << savePlayerPos.x << " " << savePlayerPos.y << std::endl;
+    std::cout << "PlayerLife: " << savePlayerHealth << std::endl;
 }

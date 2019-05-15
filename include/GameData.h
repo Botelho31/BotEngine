@@ -10,6 +10,7 @@
         public:
             static void SaveGame();
             static void LoadGame();
+            static void PrintGameData();
 
             static bool playerAlive;
             static Vec2 savePlayerPos;
