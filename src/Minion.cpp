@@ -55,31 +55,33 @@ void Minion::Start(){
 
 void Minion::Update(float dt){
     physics->Update();
-    float distanceToPlayer = sightrange;
+    int distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
     if(Player::player){
         Vec2 minionpos = GetPosition();
         player = Player::player->GetPosition();
-        float distance = minionpos.GetDistance(player.x,player.y);
-        float distance2 = minionpos.GetDistance(player.x,player.y - 100);
-        float distance3 = minionpos.GetDistance(player.x,player.y + 100);
         float dists[] = { physics->SightTo(minionpos,player.Added(0,-100),sightrange),
                         physics->SightTo(minionpos,player,sightrange),
                         physics->SightTo(minionpos,player.Added(0,100),sightrange)};
+
         int size = sizeof(dists)/sizeof(dists[0]);
         std::sort(dists,dists+size);
         distanceToPlayer = dists[0];
 
         if(distanceToPlayer < sightrange){
-            if(distanceToPlayer == floor(distance2)){
+            int distances[] = { floor(minionpos.GetDistance(player.x,player.y)),
+                            floor(minionpos.GetDistance(player.x,player.y - 100)),
+                            floor(minionpos.GetDistance(player.x,player.y + 100))};
+            if(distanceToPlayer == distances[2]){
                 sightangle = minionpos.GetAngle(player.x,player.y - 100);
-            }else if(distanceToPlayer == floor(distance3)){
+                sightline = physics->GetLineBox(minionpos,player.Added(0,-100),distanceToPlayer);
+            }else if(distanceToPlayer == distances[3]){
                 sightangle = minionpos.GetAngle(player.x,player.y + 100);
+                sightline = physics->GetLineBox(minionpos,player.Added(0,+100),distanceToPlayer);
             }else{
                 sightangle = minionpos.GetAngle(player.x,player.y);
+                sightline = physics->GetLineBox(minionpos,player,distanceToPlayer);
             }
-            Vec2 vector = Vec2(distanceToPlayer,0).GetRotated(sightangle) + minionpos;
-            sightline = Rect(vector.x - (distanceToPlayer * (((cos(std::fabs(sightangle))) + 1)/2) ),vector.y + (distanceToPlayer/2 * -sin(sightangle)),distanceToPlayer,1);
         }else{
             sightline.Transform(minionpos.x,minionpos.y);
             sightline.w = 10;
@@ -105,7 +107,7 @@ void Minion::Update(float dt){
 
     if(attackdelay->Started()){
         attackdelay->Update(dt);
-        if(attackdelay->Get() > 1){
+        if(attackdelay->Get() > 0.5){
             attackdelay->Restart();
         }
     }
@@ -165,7 +167,6 @@ void Minion::AttackState(float distanceToPlayer,float dt){
 
     if(!invincibilitytimer->Started()){
         if((!attacktimer->Started()) && (!attackdelay->Started())){
-            speed.x = 0;
             hitboxinstantiated = false;
             if(player.x < GetPosition().x){
                 difxpos = false;
@@ -184,6 +185,7 @@ void Minion::AttackState(float distanceToPlayer,float dt){
         }
 
         if(attacktimer->Started()){
+            speed.x = 0;
             attacktimer->Update(dt);
             if((attacktimer->Get() >= 0.56) && (!hitboxinstantiated)){
                 hitboxinstantiated = true;
@@ -200,7 +202,7 @@ void Minion::AttackState(float distanceToPlayer,float dt){
                 hitboxObj->AddComponent(minionhitbox);
                 Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
             }
-            if(attacktimer->Get() >= 1.3){
+            if(attacktimer->Get() >= 1.2){
                 attacktimer->Restart();
                 attackdelay->Delay(dt);
                 if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
