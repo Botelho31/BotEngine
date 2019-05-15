@@ -422,7 +422,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((!physics->IsGrounded()) && (speed.y > 0) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
+    if((!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,PI/2,11) > 10) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
         physics->SetCollider(0.276,1);
         falling = true;
