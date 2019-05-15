@@ -35,7 +35,7 @@ void Physics::Update(int max){
         }
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-            while(Collision::IsColliding(collider->box,tilecollider->box,(associated->angleDeg * PI) /180,0)){
+            while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
                 if(tilecollider->moving){
                     tilecollider->NotifyMobCollision(*associated);
                     collider->Update(0);
@@ -113,10 +113,10 @@ int Physics::DistanceTo(Rect box,int xsum,int ysum,float angle,int max){
 
     // Vec2 center( box.GetCenter() );
 	// Vec2 points[4];
-    // points[0] = (Vec2(box.x + 1, box.y + 1) - center).GetRotated( (associated->angleDeg * PI) /180 ) + center;
-    // points[1] = (Vec2(box.x + box.w - 1, box.y + 1) - center).GetRotated( (associated->angleDeg * PI) /180 ) + center;
-	// points[2] = (Vec2(box.x + box.w - 1, box.y + box.h - 1) - center).GetRotated( (associated->angleDeg * PI) /180 ) + center;
-	// points[3] = (Vec2(box.x + 1, box.y + box.h - 1) - center).GetRotated( (associated->angleDeg * PI) /180 ) + center;
+    // points[0] = (Vec2(box.x + 1, box.y + 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
+    // points[1] = (Vec2(box.x + box.w - 1, box.y + 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
+	// points[2] = (Vec2(box.x + box.w - 1, box.y + box.h - 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
+	// points[3] = (Vec2(box.x + 1, box.y + box.h - 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
 
     // Vec2 pointsTo[4];
     // Rect lineboxes[4];
@@ -161,12 +161,12 @@ int Physics::DistanceTo(Rect box,int xsum,int ysum,float angle,int max){
     // }
 
 
-    while(!IsColliding(box,(associated->angleDeg * PI) /180) && (distance < max)){
+    while(!IsColliding(box,ToPI(associated->angleDeg)) && (distance < max)){
         box.y += ysum;
         box.x += xsum;
         distance ++;
     }
-    while(IsColliding(box,(associated->angleDeg * PI) /180) && (distance > -max)){
+    while(IsColliding(box,ToPI(associated->angleDeg)) && (distance > -max)){
         box.y += -ysum;
         box.x += -xsum;
         distance --;
@@ -201,7 +201,7 @@ bool Physics::IsOutofBounds(bool Completely,Rect box,float angle){
     //If no inputs bases on current collider
     if(box == Rect(0,0,0,0)){
         box = collider->box;
-        angle = (associated->angleDeg * PI) /180;
+        angle = ToPI(associated->angleDeg);
     }
     Vec2 center( box.GetCenter() );
     Rect map = Rect(0,0,Camera::limit.x,Camera::limit.y);
@@ -247,26 +247,26 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
 }
 
 bool Physics::IsUp(int sum){
-    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),(associated->angleDeg * PI) /180);
+    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),ToPI(associated->angleDeg));
 }
 
 bool Physics::IsGrounded(int sum){
-    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),(associated->angleDeg * PI) /180);
+    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),ToPI(associated->angleDeg));
 }
 
 bool Physics::IsLeft(int sum){
-    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),(associated->angleDeg * PI) /180);
+    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),ToPI(associated->angleDeg));
 }
 
 bool Physics::IsRight(int sum){
-    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),(associated->angleDeg * PI) /180);
+    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated->angleDeg));
 }
 
 
 Vec2 Physics::GetCollisionPoint(Rect origin){
     Vec2 hitboxcenter = origin.GetCenter();
     Vec2 center = collider->box.GetCenter();
-    float angle = (associated->angleDeg * PI) /180;
+    float angle = ToPI(associated->angleDeg);
     Vec2 point;
     if(hitboxcenter.x >= center.x){
         point = (Vec2(collider->box.x, collider->box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
@@ -473,7 +473,7 @@ float Physics::PerformXMovement(float dt){
         if((speed->x * dt) < 0){
             modX = speed->x * dt;
         }
-        if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),(associated->angleDeg * PI) /180)){
+        if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),ToPI(associated->angleDeg))){
             speed->x = speed->x/2;
             if(IsRight() && (speed->x > 0)){
                 speed->x = 0;
@@ -500,7 +500,7 @@ float Physics::PerformYMovement(float dt){
         if((speed->y * dt) < 0){
             modY = speed->y * dt;
         }
-        if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),(associated->angleDeg * PI) /180)){
+        if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),ToPI(associated->angleDeg))){
             speed->y = speed->y/2;
             if(IsGrounded() && (speed->y > 0)){
                 speed->y = 0;
