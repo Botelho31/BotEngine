@@ -73,7 +73,7 @@ void TileCollider::Render() {
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS)){
-		WindowEffects::DrawBox(box,associated.angleDeg/(180/PI),0,0,255);
+		WindowEffects::DrawBox(box,ToPI(associated.angleDeg),0,0,255);
 	}
 #endif // DEBUG
 }

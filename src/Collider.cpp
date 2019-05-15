@@ -20,7 +20,7 @@ void Collider::Render() {
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS)){
-		WindowEffects::DrawBox(box,associated.angleDeg/(180/PI),255,0,0);
+		WindowEffects::DrawBox(box,ToPI(associated.angleDeg),255,0,0);
 	}
 #endif // DEBUG
 }
