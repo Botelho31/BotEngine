@@ -54,7 +54,6 @@ void Minion::Start(){
 }
 
 void Minion::Update(float dt){
-    Collider *collider = physics->GetCollider();
     physics->Update();
     float distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
@@ -87,112 +86,26 @@ void Minion::Update(float dt){
             sightline.h = 10;
         }
     }
+    switch(state){
+        case IDLE:
+            IdleState(distanceToPlayer,dt);
+            break;
+        case CHASING:
+            ChasingState(distanceToPlayer,dt);
+            break;
+        case ATTACKING:
+            AttackState(distanceToPlayer,dt);
+            break;
+        default:
+            break;
+    }
+
     XMovement(dt);
     YMovement(dt);
 
-    if(state == IDLE){
-        if((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started())){
-            state = IDLE;
-        }
-        else if(distanceToPlayer < sightrange){
-            state = CHASING;
-            SetSprite("assets/img/minionwalktest.png",8,0.08);
-            physics->SetCollider(0.5,0.65,0,33);
-        }
-        IdleHandle(dt);
-        physics->PerformXDeceleration(despeed,dt);
-    }
-    if(state == CHASING){
-        if(distanceToPlayer >= sightrange){
-            state = IDLE;
-            SetSprite("assets/img/minionidletest.png",32,0.08);
-            physics->SetCollider(0.5,0.65,0,33); //100 //130
-        }else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (!attackdelay->Started())){
-            state = ATTACKING;
-            SetSprite("assets/img/minionattacktest.png",27,0.04,false);
-            physics->SetCollider(0.28571429,0.65,0,33); //350 //200
-        }else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started())){
-            state = IDLE;
-            SetSprite("assets/img/minionidletest.png",32,0.08);
-            physics->SetCollider(0.5,0.65,0,33);
-        }else{
-            if(player.x < GetPosition().x){
-                if(!minionsprite->IsFlipped()){
-                    minionsprite->Flip();
-                }
-                physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
-            }else{
-                if(minionsprite->IsFlipped()){
-                    minionsprite->Flip();
-                }
-                physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
-            }
-        }
-    }
-    if(state == ATTACKING){
-        if(!invincibilitytimer->Started()){
-            if((!attacktimer->Started()) && (!attackdelay->Started())){
-                speed.x = 0;
-                hitboxinstantiated = false;
-                if(player.x < GetPosition().x){
-                    difxpos = false;
-                    if(!minionsprite->IsFlipped()){
-                        minionsprite->Flip();
-                    }
-                }else{
-                    difxpos = true;
-                    if(minionsprite->IsFlipped()){
-                        minionsprite->Flip();
-                    }
-                }
-                SetSprite("assets/img/minionattacktest.png",27,0.04,false);
-                attacktimer->Delay(dt);
-            }else{
-                attacktimer->Update(dt);
-            }
-            if((attacktimer->Get() >= 0.56) && (!hitboxinstantiated)){
-                hitboxinstantiated = true;
-                Rect hitbox;
-                if(!difxpos){
-                    hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-                }else{
-                    hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-                }
-                GameObject *hitboxObj = new GameObject();
-                std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-                HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.52,0.52,false,true,false,{400,100},this);
-                minionhitbox->SetFunction(BiteHitbox);
-                hitboxObj->AddComponent(minionhitbox);
-                Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
-            }
-            if(attacktimer->Get() >= 1.08){
-                attacktimer->Restart();
-                attackdelay->Delay(dt);
-                if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
-                    state = CHASING;
-                    SetSprite("assets/img/minionwalktest.png",8,0.08);
-                    physics->SetCollider(0.5,0.65,0,33);
-                }else{
-                    state = IDLE;
-                    SetSprite("assets/img/minionidletest.png",32,0.08);
-                    physics->SetCollider(0.5,0.65,0,33);
-                }
-            }
-        }else{
-            if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
-                state = CHASING;
-                SetSprite("assets/img/minionwalktest.png",8,0.08);
-                physics->SetCollider(0.5,0.65,0,33);
-            }else if(distanceToPlayer >= sightrange){
-                state = IDLE;
-                SetSprite("assets/img/minionidletest.png",32,0.08);
-                physics->SetCollider(0.5,0.65,0,33);
-            }
-        }
-    }
     if(attackdelay->Started()){
         attackdelay->Update(dt);
-        if(attackdelay->Get() > 2){
+        if(attackdelay->Get() > 1){
             attackdelay->Restart();
         }
     }
@@ -245,6 +158,118 @@ void Minion::YMovement(float dt){
     physics->PerformYMovement(dt);//Performs movement if it is allowed
     physics->PerformGravity(gravspeed,dt); // Gravity
 }
+
+void Minion::AttackState(float distanceToPlayer,float dt){
+    Collider *collider = physics->GetCollider();
+    Vec2 player = Player::player->GetPosition();
+
+    if(!invincibilitytimer->Started()){
+        if((!attacktimer->Started()) && (!attackdelay->Started())){
+            speed.x = 0;
+            hitboxinstantiated = false;
+            if(player.x < GetPosition().x){
+                difxpos = false;
+                if(!minionsprite->IsFlipped()){
+                    minionsprite->Flip();
+                }
+            }else{
+                difxpos = true;
+                if(minionsprite->IsFlipped()){
+                    minionsprite->Flip();
+                }
+            }
+            SetSprite("assets/img/minionattacktest.png",27,0.04,false);
+            attacktimer->Delay(dt);
+        }else{
+            attacktimer->Update(dt);
+        }
+        if((attacktimer->Get() >= 0.56) && (!hitboxinstantiated)){
+            hitboxinstantiated = true;
+            Rect hitbox;
+            if(!difxpos){
+                hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
+            }else{
+                hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
+            }
+            GameObject *hitboxObj = new GameObject();
+            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.52,0.52,false,true,false,{400,100},this);
+            minionhitbox->SetFunction(BiteHitbox);
+            hitboxObj->AddComponent(minionhitbox);
+            Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
+        }
+        if(attacktimer->Get() >= 1.08){
+            attacktimer->Restart();
+            attackdelay->Delay(dt);
+            if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
+                state = CHASING;
+                SetSprite("assets/img/minionwalktest.png",8,0.08);
+                physics->SetCollider(0.5,0.65,0,33);
+            }else{
+                state = IDLE;
+                SetSprite("assets/img/minionidletest.png",32,0.08);
+                physics->SetCollider(0.5,0.65,0,33);
+            }
+        }
+    }else{
+        if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
+            state = CHASING;
+            SetSprite("assets/img/minionwalktest.png",8,0.08);
+            physics->SetCollider(0.5,0.65,0,33);
+        }else if(distanceToPlayer >= sightrange){
+            state = IDLE;
+            SetSprite("assets/img/minionidletest.png",32,0.08);
+            physics->SetCollider(0.5,0.65,0,33);
+        }
+    }
+}
+
+void Minion::ChasingState(float distanceToPlayer,float dt){
+    Collider *collider = physics->GetCollider();
+    Vec2 player = Player::player->GetPosition();
+
+    if(distanceToPlayer >= sightrange){
+        state = IDLE;
+        SetSprite("assets/img/minionidletest.png",32,0.08);
+        physics->SetCollider(0.5,0.65,0,33); //100 //130
+    }else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (!attackdelay->Started())){
+        state = ATTACKING;
+        SetSprite("assets/img/minionattacktest.png",27,0.04,false);
+        physics->SetCollider(0.28571429,0.65,0,33); //350 //200
+    }else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started())){
+        state = IDLE;
+        SetSprite("assets/img/minionidletest.png",32,0.08);
+        physics->SetCollider(0.5,0.65,0,33);
+    }else{
+        if(player.x < GetPosition().x){
+            if(!minionsprite->IsFlipped()){
+                minionsprite->Flip();
+            }
+            physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
+        }else{
+            if(minionsprite->IsFlipped()){
+                minionsprite->Flip();
+            }
+            physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
+        }
+    }
+}
+
+void Minion::IdleState(float distanceToPlayer,float dt){
+    if((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started())){
+        state = IDLE;
+    }
+    else if(distanceToPlayer < sightrange){
+        state = CHASING;
+        SetSprite("assets/img/minionwalktest.png",8,0.08);
+        physics->SetCollider(0.5,0.65,0,33);
+    }
+    IdleHandle(dt);
+    physics->PerformXDeceleration(despeed,dt);
+
+}
+
+
 void Minion::IdleHandle(float dt){
     if((speed.x == 0) && (speed.y == 0) && (state == IDLE)){
         idletimer->Update(dt);

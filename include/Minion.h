@@ -17,11 +17,16 @@
             void NotifyCollision(GameObject& other);
             Physics* GetPhysics();
 
+
             void XMovement(float dt);   //Performs X Movement
-            void YMovement(float dt);   //Performs Y Movement
-            void IdleHandle(float dt); //Handles player Idle
+            void YMovement(float dt);   //Performs Y Movement 
+            void AttackState(float distanceToPlayer,float dt); //Handles attack state
+            void IdleState(float distanceToPlayer,float dt); //Handles idle state
+            void ChasingState(float distanceToPlayer,float dt); //Handles chasing state
+
+            void IdleHandle(float dt); //Handles minion Idle
+
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
-            void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider
 
             Vec2 GetPosition();
             void DamageMinion(int damage);
