@@ -491,6 +491,10 @@ void Player::SetSpeed(Vec2 speed){
     this->speed.y = speed.y;
 }
 
+void Player::SetHealth(int hp){
+    this->hp = hp;
+}
+
 void Player::KeepStill(bool freeze,float time){
     this->playersprite->KeepStill(freeze,time);
     Component::KeepStill(freeze,time);
