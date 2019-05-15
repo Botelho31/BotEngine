@@ -40,10 +40,10 @@ StageState::~StageState(){
         delete backgroundMusic;
     }
     
-    std::cout << std::endl;
+    ENDLINE
     std::cout << "Saving Game" << std::endl;
     GameData::SaveGame();
-    std::cout << std::endl;
+    ENDLINE
 
 	std::cout << "Cleared "<< objectArray.size() << " Objects" << std::endl;
     objectArray.clear();

@@ -15,6 +15,7 @@
   #define DEBUG
   #define PI 3.14159265
   #define ToPI(x) (x * PI)/180
+  #define ENDLINE std::cout << std::endl;
   #include <iostream>
   #include <fstream>
   #include <vector>

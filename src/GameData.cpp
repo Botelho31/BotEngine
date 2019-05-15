@@ -10,7 +10,7 @@ Vec2 GameData::checkpointPos;
 
 void GameData::SaveGame(){
     std::ofstream savefile;
-    std::cout << std::endl;
+    ENDLINE
     if(Player::player){
         savePlayerPos = Player::player->GetPosition();
         savePlayerHealth = Player::player->GetLife();
@@ -19,7 +19,7 @@ void GameData::SaveGame(){
         savePlayerHealth = 150;
         std::cout << "Couldn't Find Player Data" << std::endl;
     }
-    std::cout << std::endl;
+    ENDLINE
     savefile.open ("assets/saves/save.txt");
     savefile << "Save\n";
     savefile << "\t[\n";
