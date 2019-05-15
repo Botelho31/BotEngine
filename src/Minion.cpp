@@ -60,7 +60,10 @@ void Minion::Update(float dt){
     if(Player::player){
         Vec2 minionpos = GetPosition();
         player = Player::player->GetPosition();
-        float dists[] = { physics->SightTo(minionpos,player.Added(0,-100),sightrange),
+        int distances[] = { floor(minionpos.GetDistance(player.x,player.y)),
+                            floor(minionpos.GetDistance(player.x,player.y - 100)),
+                            floor(minionpos.GetDistance(player.x,player.y + 100))};
+        int dists[] = { physics->SightTo(minionpos,player.Added(0,-100),sightrange),
                         physics->SightTo(minionpos,player,sightrange),
                         physics->SightTo(minionpos,player.Added(0,100),sightrange)};
 
@@ -69,15 +72,12 @@ void Minion::Update(float dt){
         distanceToPlayer = dists[0];
 
         if(distanceToPlayer < sightrange){
-            int distances[] = { floor(minionpos.GetDistance(player.x,player.y)),
-                            floor(minionpos.GetDistance(player.x,player.y - 100)),
-                            floor(minionpos.GetDistance(player.x,player.y + 100))};
-            if(distanceToPlayer == distances[2]){
+            if(distanceToPlayer == distances[1]){
                 sightangle = minionpos.GetAngle(player.x,player.y - 100);
                 sightline = physics->GetLineBox(minionpos,player.Added(0,-100),distanceToPlayer);
-            }else if(distanceToPlayer == distances[3]){
+            }else if(distanceToPlayer == distances[2]){
                 sightangle = minionpos.GetAngle(player.x,player.y + 100);
-                sightline = physics->GetLineBox(minionpos,player.Added(0,+100),distanceToPlayer);
+                sightline = physics->GetLineBox(minionpos,player.Added(0,100),distanceToPlayer);
             }else{
                 sightangle = minionpos.GetAngle(player.x,player.y);
                 sightline = physics->GetLineBox(minionpos,player,distanceToPlayer);
