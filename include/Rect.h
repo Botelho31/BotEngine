@@ -19,8 +19,15 @@
             float GetDistance(float x,float y);
             Vec2 GetCenter();
             float GetAngle(float x,float y,float offsetX = 0,float offsetY = 0);
-            // bool Follow(float x,float y,float speedX,float speedY,float dt);
             float w,h,x,y;
+
+            bool operator==(const Rect& rhs) const {
+                if((x == rhs.x) && (y == rhs.y) && (w == rhs.w) && (h == rhs.h)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
     };
 
 #endif
