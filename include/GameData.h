@@ -8,7 +8,12 @@
 
     class GameData{
         public:
+            static void SaveGame();
+            static void LoadGame();
+
             static bool playerAlive;
+            static Vec2 savePlayerPos;
+            static int savePlayerHealth;
             static std::string checkpointMap;
             static std::string checkpointMapInfo;
             static Vec2 checkpointPos;
