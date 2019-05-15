@@ -17,7 +17,9 @@
             Rect Added(float x,float y,float w = 0,float h = 0);    //Returns a new Rect added to some values
             Rect Added(Rect added);
             float GetDistance(float x,float y);
+            Vec2 GetOrigin();
             Vec2 GetCenter();
+            void SetCenter(Vec2 center);
             float GetAngle(float x,float y,float offsetX = 0,float offsetY = 0);
             float w,h,x,y;
 

@@ -56,8 +56,17 @@ float Rect::GetDistance(float x,float y){
     return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
 }
 
+Vec2 Rect::GetOrigin(){
+    return Vec2(x,y);
+}
+
 Vec2 Rect::GetCenter(){
     return Vec2(x + w/2,y + h/2);
+}
+
+void Rect::SetCenter(Vec2 center){
+    x = center.x - w/2;
+    y = center.y - h/2;
 }
 
 float Rect::GetAngle(float x,float y,float offsetX,float offsetY){
@@ -67,41 +76,3 @@ float Rect::GetAngle(float x,float y,float offsetX,float offsetY){
     float difY = boxY - y;
     return -atan2(difY,difX);
 }
-
-// bool Rect::Follow(float x,float y, float speedX,float speedY,float dt){
-//     bool DoneX = false;
-//     bool DoneY = false;
-
-//     if(this->x == x){
-//         DoneX = true;
-//     }
-//     else if(this->x < x){
-//         this->x += speedX * dt;
-//         if(this->x > x){
-//             this->x = x;
-//         }
-//     }else{
-//         this->x -= speedX * dt;
-//         if(this->x < x){
-//             this->x = x;
-//         }
-//     }
-
-//     if(this->y == y){
-//         DoneY = true;
-//     }
-//     else if(this->y < y){
-//         this->y += speedY * dt;
-//         if(this->y > y){
-//             this->y = y;
-//             DoneY = true;
-//         }
-//     }else{
-//         this->y -= speedY * dt;
-//         if(this->y < y){
-//             this->y = y;
-//             DoneY = true;
-//         }
-//     }
-//     return (DoneX && DoneY);
-// }
