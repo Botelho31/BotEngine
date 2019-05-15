@@ -24,7 +24,7 @@ Physics::~Physics(){
 }
 
 void Physics::Update(int max){
-    this->max = max;
+    this->max = 150;
     collider->Update(0);
     if(!isTile){
         Vec2 centerofmap = Vec2(Camera::limit.x/2,Camera::limit.y/2);
@@ -248,8 +248,8 @@ bool Physics::IsRight(int sum){
 }
 
 
-Vec2 Physics::GetCollisionPoint(Rect owner){
-    Vec2 hitboxcenter = owner.GetCenter();
+Vec2 Physics::GetCollisionPoint(Rect origin){
+    Vec2 hitboxcenter = origin.GetCenter();
     Vec2 center = collider->box.GetCenter();
     float angle = (associated->angleDeg * PI) /180;
     Vec2 point;
