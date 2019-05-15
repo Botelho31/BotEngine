@@ -8,6 +8,8 @@
   #include "SDL_include.h"
 #endif
 
+//VALGRIND COMMAND: valgrind --leak-check=full --track-origins=yes --log-file=valgrindlog.txt ./GAME
+
 #ifndef GAME_H
   #define GAME_H
   #define DEBUG
