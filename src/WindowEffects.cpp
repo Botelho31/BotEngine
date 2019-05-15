@@ -46,11 +46,12 @@ void WindowEffects::Update(float dt){
 void WindowEffects::Render(){
     if(Drawing()){
         DrawToScreen(r,g,b,a);
+    }else{
+        for(int i = 0;i < drawqueue.size(); i++){
+            DrawBox(drawqueue[i].box,drawqueue[i].angle,drawqueue[i].r,drawqueue[i].g,drawqueue[i].b);
+        }
+        drawqueue.clear();
     }
-    for(int i = 0;i < drawqueue.size(); i++){
-        DrawBox(drawqueue[i].box,drawqueue[i].angle,drawqueue[i].r,drawqueue[i].g,drawqueue[i].b);
-    }
-    drawqueue.clear();
 }
 
 void WindowEffects::Reset(){
