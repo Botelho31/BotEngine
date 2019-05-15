@@ -20,7 +20,7 @@
             int SightTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets whats the distance the line of sight reaches throught tilemap
             Rect GetLineBox(Vec2 vector,Vec2 vectorTo,float distance = 0);
             
-            bool IsOutofBounds(Rect box = {0,0,0,0},float angle = 0);   //Checks if a box is Out of Bounds
+            bool IsOutofBounds(bool Completely = false,Rect box = {0,0,0,0},float angle = 0);   //Checks if a box is Out of Bounds
             bool IsColliding(Rect box = {0,0,0,0},float angle = 0,bool nooutofbounds = false,bool markcollision = false); //Checks to see if it is colliding with tilecolliders
 
             //Checks if it is colliding in a direction

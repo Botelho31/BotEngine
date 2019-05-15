@@ -197,7 +197,7 @@ Rect Physics::GetLineBox(Vec2 vector,Vec2 vectorTo,float distance){
     return Rect(vectorRot.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (distance/2 * -sin(angle)),distance,1);
 }
 
-bool Physics::IsOutofBounds(Rect box,float angle){
+bool Physics::IsOutofBounds(bool Completely,Rect box,float angle){
     //If no inputs bases on current collider
     if(box == Rect(0,0,0,0)){
         box = collider->box;
@@ -215,8 +215,14 @@ bool Physics::IsOutofBounds(Rect box,float angle){
 		
 	points[3] = (Vec2(box.x, box.y + box.h) - center).GetRotated( angle ) + center;
 
-    if(!map.Contains(points[0]) || !map.Contains(points[1]) || !map.Contains(points[2]) || !map.Contains(points[3])){
-        return true;
+    if(Completely){
+        if(!map.Contains(points[0]) && !map.Contains(points[1]) && !map.Contains(points[2]) && !map.Contains(points[3])){
+            return true;
+        } 
+    }else{
+        if(!map.Contains(points[0]) || !map.Contains(points[1]) || !map.Contains(points[2]) || !map.Contains(points[3])){
+            return true;
+        }  
     }
     return false;
 }
@@ -228,7 +234,7 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
         box = collider->box;
         angle = (associated->angleDeg * PI)/180;
     }
-    if(IsOutofBounds(box,angle) && !StageState::ChangingMap() && !nooutofbounds){
+    if(IsOutofBounds(false,box,angle) && !StageState::ChangingMap() && !nooutofbounds){
         return true;
     }
     for(int i = 0;i < TileMap::tiles.size();i ++){
