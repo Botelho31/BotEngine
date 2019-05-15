@@ -129,12 +129,7 @@ int TileMap::AtLocation(int x,int y){
         int tilePlace = ( (ytile + (this->mapHeight * (this->mapDepth - 1))) * this->mapWidth) + xtile;
         return tileMatrix[tilePlace];
     }else{
-        if(StageState::ChangingMap()){
-            return -1000;
-        }else{
-            // std::cout << "Out of Bounds" << std::endl;
-            return -1;
-        }
+        return -1;
     }
 }
 
