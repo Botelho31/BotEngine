@@ -278,12 +278,14 @@ Vec2 Physics::GetCollisionPoint(Rect origin){
     Rect box = GetLineBox(hitboxcenter,point);
     if(IsColliding(box,angle)){
         float interval = box.w/2;
+        box.w -= interval;
+        box = GetLineBox(hitboxcenter,point,box.w);
         while(interval > 1){
             if(IsColliding(box,angle)){
                 box.w -= interval;
                 interval /= 2;
             }
-            else if(!IsColliding(box,angle)){
+            else{
                 box.w += interval;
                 interval /= 2;
             }
