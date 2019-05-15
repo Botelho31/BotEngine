@@ -102,7 +102,6 @@ void Physics::CorrectDistance(){
 }
 
 void Physics::UpdateDists(int max){
-    // std::cout << "Update dists" << associated->box.x << associated->box.y << std::endl;
     distground = DistanceTo(collider->box,0,1,PI/2,max);
     distceiling = DistanceTo(collider->box,0,-1,-PI/2,max);
     distright = DistanceTo(collider->box,1,0,0,max);
@@ -189,8 +188,10 @@ int Physics::SightTo(Vec2 vector,Vec2 vectorTo,int max){
     }
 }
 
-Rect Physics::GetLineBox(Vec2 vector,Vec2 vectorTo){
-    float distance = vector.GetDistance(vectorTo.x,vectorTo.y);
+Rect Physics::GetLineBox(Vec2 vector,Vec2 vectorTo,float distance){
+    if(distance == 0){
+        distance = vector.GetDistance(vectorTo.x,vectorTo.y);
+    }
     float angle = vector.GetAngle(vectorTo.x,vectorTo.y);
     Vec2 vectorRot = Vec2(distance,0).GetRotated(angle) + vector;
     return Rect(vectorRot.x - (distance * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (distance/2 * -sin(angle)),distance,1);
@@ -271,8 +272,7 @@ Vec2 Physics::GetCollisionPoint(Rect owner){
                 box.w += interval;
                 interval /= 2;
             }
-            Vec2 vectorRot = Vec2(box.w,0).GetRotated(angle) + hitboxcenter;
-            box = Rect(vectorRot.x - (box.w * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (box.w/2 * -sin(angle)),box.w,1);
+            box = GetLineBox(hitboxcenter,point,box.w);
         }
         return Vec2(box.w,0).GetRotated(angle) + hitboxcenter;
     }
@@ -507,10 +507,6 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        // UpdateDists();
-        // if(abs(distground) < 3){
-        //     associated->box.y += distground;
-        // }
         speed->y += gravspeed * dt;
     }
 }
