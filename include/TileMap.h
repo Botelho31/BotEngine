@@ -21,7 +21,7 @@
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);
 
             int AtLocation(int x,int y); //TO GET THE TILE AT MAP COORDINATES
-            void InsertAtLocation(int x,int y,int numberoftile);
+            void InsertAtLocation(int x,int y,int numberoftile); //Changes the tile at a location(Not used currently)
             
             void Start();
             void Render();
