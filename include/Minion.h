@@ -50,6 +50,9 @@
             Timer *attacktimer;
             Timer *invincibilitytimer;
             Timer *damagetimer;
+            Timer *attackdelay;
+            bool hitboxinstantiated;
+            bool difxpos;
             float damageCooldown;
             bool falling;
             bool idle;
