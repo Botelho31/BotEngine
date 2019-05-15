@@ -31,46 +31,6 @@ StageState::StageState(){
     //Loads the background music;
     backgroundMusic = new Music("assets/audio/stageState.ogg");
     // backgroundMusic->Play();
-    
-    //Loads the background
-	GameObject *background = new GameObject();
-    Sprite *bg = new Sprite(*background,"assets/img/fundobranco.jpg");
-    CameraFollower *camerafollower = new CameraFollower(*background);
-    bg->SetScaleX(4,4);
-	background->AddComponent(bg);
-    background->AddComponent(camerafollower);
-	objectArray.emplace_back(background);
-
-    //LOADS THE GAME DATA;
-    GameData::LoadGame();
-	GameObject *tileObj = new GameObject();
-    GameObject *tilesetObj = new GameObject();
-	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
-	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset);
-	tileObj->box.x = 0;
-	tileObj->box.y = 0;
-	tileObj->AddComponent(tilemap);
-	objectArray.emplace_back(tileObj);
-
-    GameObject *playerObj = new GameObject();
-    Player *player = new Player(*playerObj);
-    player->SetHealth(GameData::savePlayerHealth);
-    playerObj->box.SetCenter(GameData::savePlayerPos);
-    playerObj->AddComponent(player);
-    objectArray.emplace_back(playerObj);
-    Camera::Follow(playerObj);
-
-    GameObject *playerhpObj = new GameObject();
-    std::stringstream playerLife;
-    playerLife << player->GetLife();
-    this->playerhp = new Text(*playerhpObj,"assets/font/Callmemaybe.ttf",100,Text::BLENDED,playerLife.str(),{0,0,0});
-    CameraFollower *camerafollower2 = new CameraFollower(*playerhpObj);
-    playerhpObj->AddComponent(camerafollower2);
-    playerhpObj->AddComponent(playerhp);
-    playerhpObj->box.x = 0;
-    playerhpObj->box.y = 0;
-    objectArray.emplace_back(playerhpObj);   
-    //FINISHES LOADING THE PLAYER DATA
 }
 
 StageState::~StageState(){
@@ -79,7 +39,8 @@ StageState::~StageState(){
     if(backgroundMusic){
         delete backgroundMusic;
     }
-
+    
+    std::cout << std::endl;
     std::cout << "Saving Game" << std::endl;
     GameData::SaveGame();
     std::cout << std::endl;
@@ -196,8 +157,9 @@ void StageState::ExpandTileColliders(){
         }
     }
     if(mapcollisionloaded){
-        // std::cout << "Map Collision Loaded" << std::endl;
+        std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
+        windoweffects->FadeFromBlack(1);
     }
 }
 
@@ -258,7 +220,6 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 GameData::checkpointPos = portalloc;
                 Player::player->MovePlayer(portalloc.x,portalloc.y);
                 Player::player->SetInvincibility(false);
-                windoweffects->FadeFromBlack(1);
                 changingMap = false;
             }
         }
@@ -279,7 +240,51 @@ bool StageState::ChangingMap(){
 }
 
 void StageState::Start(){
+    windoweffects->FadeToBlack(0.5);
+    //LOADS THE GAME DATA
+    GameData::LoadGame();
+
+    //Loads the background
+	GameObject *background = new GameObject();
+    Sprite *bg = new Sprite(*background,"assets/img/fundobranco.jpg");
+    CameraFollower *camerafollower = new CameraFollower(*background);
+    bg->SetScaleX(4,4);
+	background->AddComponent(bg);
+    background->AddComponent(camerafollower);
+	objectArray.emplace_back(background);
+
+    //Loads the tilemap
+	GameObject *tileObj = new GameObject();
+    GameObject *tilesetObj = new GameObject();
+	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
+	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset);
+	tileObj->box.x = 0;
+	tileObj->box.y = 0;
+	tileObj->AddComponent(tilemap);
+	objectArray.emplace_back(tileObj);
+
+    GameObject *playerObj = new GameObject();
+    Player *player = new Player(*playerObj);
+    player->SetHealth(GameData::savePlayerHealth);
+    playerObj->box.SetCenter(GameData::savePlayerPos);
+    playerObj->AddComponent(player);
+    objectArray.emplace_back(playerObj);
+    Camera::Follow(playerObj);
+
+    GameObject *playerhpObj = new GameObject();
+    std::stringstream playerLife;
+    playerLife << player->GetLife();
+    this->playerhp = new Text(*playerhpObj,"assets/font/Callmemaybe.ttf",100,Text::BLENDED,playerLife.str(),{0,0,0});
+    CameraFollower *camerafollower2 = new CameraFollower(*playerhpObj);
+    playerhpObj->AddComponent(camerafollower2);
+    playerhpObj->AddComponent(playerhp);
+    playerhpObj->box.x = 0;
+    playerhpObj->box.y = 0;
+    objectArray.emplace_back(playerhpObj);   
+    //FINISHES LOADING THE PLAYER DATA
+
     StartArray();
+
     this->tilemap->LoadInfo(GameData::checkpointMapInfo);
 }
 
