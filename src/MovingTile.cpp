@@ -8,7 +8,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->associated.box.y = start.y - associated.box.h/2;
 
     this->physics = new Physics(&associated,&this->speed,true);
-    physics->SetCollider(1,2,0,-associated.box.h/2);
+    physics->SetCollider(0.95,2,0,-associated.box.h/2);
 
     this->deltamov = Vec2(0,0);
     this->constspeed = speed;
