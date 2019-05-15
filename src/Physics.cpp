@@ -24,7 +24,7 @@ Physics::~Physics(){
 }
 
 void Physics::Update(int max){
-    this->max = 150;
+    this->max = max;
     collider->Update(0);
     if(!isTile){
         Vec2 centerofmap = Vec2(Camera::limit.x/2,Camera::limit.y/2);
@@ -33,16 +33,41 @@ void Physics::Update(int max){
             Follow(centerofmap,10,1);
             collider->Update(0);
         }
+
+        bool correctdistance = false;
+        std::queue<int> adjustindices;
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-            while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
-                if(tilecollider->moving){
+            // while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
+            //     if(tilecollider->moving){
+            //         tilecollider->NotifyMobCollision(*associated);
+            //         collider->Update(0);
+            //     }else{
+            //         CorrectDistance();
+            //         collider->Update(0);
+            //     }
+            // }
+            bool collided = Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0);
+            if(collided && tilecollider->moving){
+                while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
                     tilecollider->NotifyMobCollision(*associated);
                     collider->Update(0);
-                }else{
+                }
+            }
+            else if(collided && !tilecollider->moving){
+                correctdistance = true;
+                adjustindices.push(i);
+            }
+        }
+
+        if(correctdistance){
+            for(int i = 0;i < adjustindices.size();i++){
+                TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[adjustindices.front()].lock().get());
+                while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
                     CorrectDistance();
                     collider->Update(0);
                 }
+                adjustindices.pop();
             }
         }
     }
