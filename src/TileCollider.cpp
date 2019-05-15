@@ -204,7 +204,7 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 						associated.box.y -= distground;
 						// std::cout << "ground adjust tile" << std::endl;
 					}else{
-						// std::cout << "ground adjust mob" << std::endl;
+						std::cout << "ground adjust mob" << std::endl;
 						// physics1->CorrectDistance();
 						other.box.y = associated.box.y - other.box.h - 1;
 					}

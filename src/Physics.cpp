@@ -251,7 +251,7 @@ bool Physics::IsUp(int sum){
 }
 
 bool Physics::IsGrounded(int sum){
-    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),ToPI(associated->angleDeg));
+    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h + 1),ToPI(associated->angleDeg));
 }
 
 bool Physics::IsLeft(int sum){
