@@ -226,9 +226,10 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
             nextMap = tilemapLoc + 1;
             changingMap = true; 
         }
-        tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y); 
+        tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+        Physics* playerphysics = Player::player->GetPhysics();
         
-        if(tilemapLoc == -1000){
+        if(playerphysics->IsOutofBounds(true)){
             if(windoweffects->GetCurrentEffect() == WindowEffects::FADEFROMBLACK){
                 windoweffects->Reset();
             }
@@ -256,7 +257,7 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 changingMap = false;
             }
         }
-        else if((tilemapLoc != -1000) && (tilemapLoc != (nextMap -1))){
+        else if((!playerphysics->IsOutofBounds()) && (tilemapLoc != (nextMap -1))){
             changingMap = false;
         }
     }
