@@ -115,11 +115,13 @@ void Minion::Update(float dt){
         damagetimer->Update(dt);
         if(damagetimer->Get() > 0.20){
             damagetimer->Restart();
-            if(state == IDLE){
-                SetSprite("assets/img/minionidletest.png",32,0.08);
-            }else if(state == CHASING){
+            if(state == CHASING){
                 SetSprite("assets/img/minionwalktest.png",8,0.08);
+            }else{
+                state = IDLE;
+                SetSprite("assets/img/minionidletest.png",32,0.08);
             }
+            physics->SetCollider(0.5,0.65,0,33);
         }
     }
     if(invincibilitytimer->Started()){
@@ -138,6 +140,7 @@ void Minion::DamageMinion(int damage){
     hp -= damage;
     if(!damagetimer->Started() && (attacktimer->Get() < 0.56)){
         SetSprite("assets/img/miniondamagetest.png",5,0.04);
+        attacktimer->Restart();
         damagetimer->Delay(0);
     }
 }
