@@ -128,7 +128,7 @@ void MovingTile::NotifyCollision(GameObject& other){
             if(!physics1->IsColliding(movedY,ToPI(other.angleDeg))){
                 other.box.y += deltamov.y;
             }else{
-                while(physics1->IsColliding(movedY,other.angleDeg) && (deltamov.y != 0)){
+                while(physics1->IsColliding(movedY,ToPI(other.angleDeg)) && (deltamov.y != 0)){
                     deltamov.y /= 2;
                     if(deltamov.y < 1){
                         deltamov.y = 0;
