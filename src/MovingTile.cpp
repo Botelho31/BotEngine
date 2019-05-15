@@ -116,7 +116,7 @@ void MovingTile::NotifyCollision(GameObject& other){
                         deltamov.x += interval;
                         interval /= 2;
                     }
-                    movedX = collider1->box.Added(0,deltamov.x);
+                    movedX = collider1->box.Added(deltamov.x,deltamov.y);
                 }
                 other.box.x += deltamov.x; 
             }
@@ -136,7 +136,7 @@ void MovingTile::NotifyCollision(GameObject& other){
                         deltamov.y += interval;
                         interval /= 2;
                     }
-                    movedY = collider1->box.Added(0,deltamov.y);
+                    movedY = collider1->box.Added(deltamov.x,deltamov.y);
                 }
                 other.box.y += deltamov.y;                
             }
