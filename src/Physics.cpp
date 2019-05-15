@@ -28,7 +28,7 @@ void Physics::Update(int max){
     collider->Update(0);
     if(!isTile){
         Vec2 centerofmap = Vec2(Camera::limit.x/2,Camera::limit.y/2);
-        while((IsOutofBounds(collider->box,(associated->angleDeg * PI) /180)) && !StageState::ChangingMap()){
+        while(IsOutofBounds() && !StageState::ChangingMap()){
             std::cout << "Out of Bounds" << std::endl;
             Follow(centerofmap,10,1);
             collider->Update(0);
@@ -198,6 +198,11 @@ Rect Physics::GetLineBox(Vec2 vector,Vec2 vectorTo,float distance){
 }
 
 bool Physics::IsOutofBounds(Rect box,float angle){
+    //If no inputs bases on current collider
+    if(box == Rect(0,0,0,0)){
+        box = collider->box;
+        angle = (associated->angleDeg * PI) /180;
+    }
     Vec2 center( box.GetCenter() );
     Rect map = Rect(0,0,Camera::limit.x,Camera::limit.y);
 	Vec2 points[4];
@@ -219,6 +224,10 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
     #ifndef DEBUG
         markcollision = false;
     #endif
+    if(box == Rect(0,0,0,0)){
+        box = collider->box;
+        angle = (associated->angleDeg * PI)/180;
+    }
     if(IsOutofBounds(box,angle) && !StageState::ChangingMap() && !nooutofbounds){
         return true;
     }
@@ -274,7 +283,8 @@ Vec2 Physics::GetCollisionPoint(Rect origin){
             }
             box = GetLineBox(hitboxcenter,point,box.w);
         }
-        return Vec2(box.w,0).GetRotated(angle) + hitboxcenter;
+        Vec2 collisionpoint = Vec2(box.w,0).GetRotated(angle) + hitboxcenter;
+        return collisionpoint;
     }
     return Vec2(0,0);
 }
