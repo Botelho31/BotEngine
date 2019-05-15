@@ -37,5 +37,12 @@
                     return false;
                 }
             }
+            bool operator!=(const Vec2& rhs) const {
+                if((x != rhs.x) || (y != rhs.y)){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
     };
 #endif
