@@ -30,6 +30,7 @@
             bool up;
             bool down;
 
+            bool pressing;
             bool deleted;
             Rect box;
     };

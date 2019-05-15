@@ -27,6 +27,7 @@
             Vec2 dest;
             Vec2 speed;
             Vec2 deltamov;
+            TileCollider *tilecollider;
             Physics *physics;
             Sprite *tilesprite;
     };

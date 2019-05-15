@@ -1,5 +1,4 @@
 #include "../include/MovingTile.h"
-#include "../include/TileCollider.h"
 #include "../include/Collision.h"
 
 MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular) : Component(associated){
@@ -19,7 +18,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->going = true;
     this->circular = circular;
 
-    TileCollider *tilecollider = new TileCollider(associated,associated.box,true);
+    this->tilecollider = new TileCollider(associated,associated.box,true);
     std::weak_ptr<Component> weakptr = associated.AddComponent(tilecollider);
     if(!weakptr.expired()){
         TileMap::tiles.push_back(weakptr);
@@ -79,7 +78,8 @@ void MovingTile::Update(float dt){
         }
     }
 
-    if(deltamov == Vec2(0,0)){
+    if(deltamov == Vec2(0,0) || (tilecollider->pressing)){
+        tilecollider->pressing = false;
         InvertDirection();
     }
 }
