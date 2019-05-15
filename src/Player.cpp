@@ -117,7 +117,7 @@ void Player::Update(float dt){
     }
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
-        if((invincibilitytimer->Get() >= 2) && (invencible == false)){
+        if((invincibilitytimer->Get() >= 1) && (invencible == false)){
             invincibilitytimer->Restart();
         }
     }
