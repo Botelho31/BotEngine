@@ -17,8 +17,7 @@
 
             void SetScale(Vec2 scale);
             void SetOffSet(Vec2 offset);
-            void SetBoxX(float x);
-            void SetBoxY(float y);
+            void UpdateAssociated();
 
             Rect box;
         private:

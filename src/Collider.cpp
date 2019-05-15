@@ -40,3 +40,8 @@ void Collider::SetScale(Vec2 scale){
 void Collider::SetOffSet(Vec2 offset){
     this->offset.Transform(offset);
 }
+
+void Collider::UpdateAssociated(){
+    associated.box.x = box.x - associated.box.w/2 + box.w/2 - offset.x;
+    associated.box.y = box.y - associated.box.h/2 + box.h/2 - offset.y;
+}
