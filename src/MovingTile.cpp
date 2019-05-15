@@ -106,37 +106,39 @@ void MovingTile::NotifyCollision(GameObject& other){
             Rect movedX = collider1->box.Added(deltamov.x,0);
             if(!physics1->IsColliding(movedX,ToPI(other.angleDeg))){
                 other.box.x += deltamov.x;
+            }else{
+                float interval = deltamov.x/2;
+                while(interval > 0.01){
+                    if(physics1->IsColliding(movedX,ToPI(other.angleDeg))){
+                        deltamov.x -= interval;
+                        interval /= 2;
+                    }else{
+                        deltamov.x += interval;
+                        interval /= 2;
+                    }
+                    movedX = collider1->box.Added(0,deltamov.x);
+                }
+                other.box.x += deltamov.x; 
             }
         }
-            // else{
-                // if(Collision::IsColliding(collider1->box,associated.box,other.angleDeg,associated.angleDeg)){
-                //     invert = true;
-                // }
-        //         while(physics1->IsColliding(movedX,other.angleDeg) && (deltamov.x != 0)){
-        //             deltamov.x /= 2;
-        //             if(deltamov.x < 1){
-        //                 deltamov.x = 0;
-        //             }
-        //             movedX = collider1->box.Added(deltamov.x,0);
-        //         }
-        //         other.box.x += deltamov.x;
-        //     }
-        // }
         
         if(deltamov.y != 0){
             Rect movedY = collider1->box.Added(0,deltamov.y);
             if(!physics1->IsColliding(movedY,ToPI(other.angleDeg))){
                 other.box.y += deltamov.y;
             }else{
-                while(physics1->IsColliding(movedY,ToPI(other.angleDeg)) && (deltamov.y != 0)){
-                    deltamov.y /= 2;
-                    if(deltamov.y < 1){
-                        deltamov.y = 0;
+                float interval = deltamov.y/2;
+                while(interval > 0.01){
+                    if(physics1->IsColliding(movedY,ToPI(other.angleDeg))){
+                        deltamov.y -= interval;
+                        interval /= 2;
+                    }else{
+                        deltamov.y += interval;
+                        interval /= 2;
                     }
                     movedY = collider1->box.Added(0,deltamov.y);
                 }
-                other.box.y += deltamov.y;
-                
+                other.box.y += deltamov.y;                
             }
         }
         // if(invert){
