@@ -39,9 +39,7 @@ void GameData::LoadGame(){
     if (FileReader.is_open()) {
         while (!FileReader.eof()) {
             FileReader >> checkline;    
-            if(checkline == "Save"){ 
-                Vec2 loadplayerpos; 
-                int playerlife;      
+            if(checkline == "Save"){  
                 while(checkline != "map"){
                     FileReader >> checkline;
                 }   
@@ -52,7 +50,7 @@ void GameData::LoadGame(){
                 FileReader >> savePlayerPos.x;
                 FileReader >> savePlayerPos.y;
                 FileReader >> checkline;
-                FileReader >> playerlife;
+                FileReader >> savePlayerHealth;
                 std::cout << "Game Loaded" << std::endl;
 
             }
@@ -64,6 +62,7 @@ void GameData::LoadGame(){
         checkpointPos = Vec2(100,500);
         savePlayerPos = checkpointPos;
     }
+    playerAlive = true;
     FileReader.close();
 }
 

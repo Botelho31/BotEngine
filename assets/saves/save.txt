@@ -1,0 +1,7 @@
+Save
+	[
+		map assets/map/tileMaptest-3.txt
+		mapInfo assets/map/info/tileMaptest-3.txt
+		playerPos 1468.95 155.846
+		playerLife 150
+	]

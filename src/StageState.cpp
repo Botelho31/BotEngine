@@ -28,9 +28,11 @@ StageState::StageState(){
     mapcollision = false;
     windoweffects = new WindowEffects();
 
+    //Loads the background music;
     backgroundMusic = new Music("assets/audio/stageState.ogg");
     // backgroundMusic->Play();
-
+    
+    //Loads the background
 	GameObject *background = new GameObject();
     Sprite *bg = new Sprite(*background,"assets/img/fundobranco.jpg");
     CameraFollower *camerafollower = new CameraFollower(*background);
@@ -39,10 +41,12 @@ StageState::StageState(){
     background->AddComponent(camerafollower);
 	objectArray.emplace_back(background);
 
+    //LOADS THE GAME DATA;
+    GameData::LoadGame();
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
 	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
-	this->tilemap = new TileMap(*tileObj,"assets/map/tileMaptest-1.txt",tileset);
+	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
@@ -50,8 +54,8 @@ StageState::StageState(){
 
     GameObject *playerObj = new GameObject();
     Player *player = new Player(*playerObj);
-    playerObj->box.x = 500;
-    playerObj->box.y = 100;
+    player->SetHealth(GameData::savePlayerHealth);
+    playerObj->box.SetCenter(GameData::savePlayerPos);
     playerObj->AddComponent(player);
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
@@ -65,12 +69,8 @@ StageState::StageState(){
     playerhpObj->AddComponent(playerhp);
     playerhpObj->box.x = 0;
     playerhpObj->box.y = 0;
-    objectArray.emplace_back(playerhpObj);
-
-    GameData::playerAlive = true;
-    GameData::checkpointMap = "assets/map/tileMaptest-1.txt";
-    GameData::checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
-    GameData::checkpointPos =   Vec2(playerObj->box.x,playerObj->box.y);    
+    objectArray.emplace_back(playerhpObj);   
+    //FINISHES LOADING THE PLAYER DATA
 }
 
 StageState::~StageState(){
@@ -79,6 +79,11 @@ StageState::~StageState(){
     if(backgroundMusic){
         delete backgroundMusic;
     }
+
+    std::cout << "Saving Game" << std::endl;
+    GameData::SaveGame();
+    std::cout << std::endl;
+
 	std::cout << "Cleared "<< objectArray.size() << " Objects" << std::endl;
     objectArray.clear();
 }
@@ -275,7 +280,7 @@ bool StageState::ChangingMap(){
 
 void StageState::Start(){
     StartArray();
-    this->tilemap->LoadInfo("assets/map/info/tileMaptest-1.txt");
+    this->tilemap->LoadInfo(GameData::checkpointMapInfo);
 }
 
 void StageState::Pause(){
