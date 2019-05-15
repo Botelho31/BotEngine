@@ -136,7 +136,7 @@ void Minion::Update(float dt){
 
 void Minion::DamageMinion(int damage){
     hp -= damage;
-    if(!damagetimer->Started()){
+    if(!damagetimer->Started() && (attacktimer->Get() < 0.56)){
         SetSprite("assets/img/miniondamagetest.png",5,0.04);
         damagetimer->Delay(0);
     }

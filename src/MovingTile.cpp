@@ -135,7 +135,6 @@ void MovingTile::NotifyCollision(GameObject& other){
                     }
                     movedY = collider1->box.Added(0,deltamov.y);
                 }
-                std::cout << deltamov.y << std::endl;
                 other.box.y += deltamov.y;
                 
             }
