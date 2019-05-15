@@ -43,7 +43,6 @@ StageState::~StageState(){
     ENDLINE
     std::cout << "Saving Game" << std::endl;
     GameData::SaveGame();
-    ENDLINE
 
 	std::cout << "Cleared "<< objectArray.size() << " Objects" << std::endl;
     objectArray.clear();
@@ -157,6 +156,7 @@ void StageState::ExpandTileColliders(){
         }
     }
     if(mapcollisionloaded){
+        ENDLINE
         std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
         windoweffects->FadeFromBlack(1);

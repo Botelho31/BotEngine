@@ -2,6 +2,6 @@ Save
 	[
 		map assets/map/tileMaptest-2.txt
 		mapInfo assets/map/info/tileMaptest-2.txt
-		playerPos 843.939 955.506
+		playerPos 455.779 955.506
 		playerLife 70
 	]

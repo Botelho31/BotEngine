@@ -51,11 +51,13 @@ void GameData::LoadGame(){
                 FileReader >> savePlayerPos.y;
                 FileReader >> checkline;
                 FileReader >> savePlayerHealth;
+                ENDLINE
                 std::cout << "Game Loaded" << std::endl;
 
             }
         }
     }else{
+        ENDLINE
         std::cout << "No Save File Found" << std::endl; //Printa um erro caso nao consiga dar load na file
         checkpointMap = "assets/map/tileMaptest-1.txt";
         checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
@@ -67,6 +69,7 @@ void GameData::LoadGame(){
 }
 
 void GameData::PrintGameData(){
+    ENDLINE
     std::cout << "Map: " << checkpointMap << std::endl;
     std::cout << "MapInfo: " << checkpointMapInfo << std::endl;
     std::cout << "PlayerPos: " << savePlayerPos.x << " " << savePlayerPos.y << std::endl;
