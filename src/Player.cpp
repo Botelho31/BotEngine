@@ -479,6 +479,36 @@ void Player::SpriteEffect(std::string file,int frames,float frametime,float dura
     Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
+void Player::Reset(Vec2 speed){
+    SetSpeed(speed);
+    SetHealth(150);
+    swordattack->Restart();
+    delayedboosttimer->Restart();
+    invincibilitytimer->Restart();
+    damagetimer->Restart();
+    jumpsquat->Restart();
+    hittheground->Restart();
+    jumpanimation->Restart();
+    runningstoptimer->Restart();
+    idletimer->Restart();
+    falling = false;
+    idle = false;
+    invencible = false;
+    running = false;
+    while(!nextattack.empty()){
+        nextattack.pop();
+    }
+    if(physics->IsGrounded()){
+        SetSprite("assets/img/belidleswordtest.png",32,0.08);
+        physics->SetCollider(0.276,1);
+    }
+    else{
+        falling = true;
+        SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+        physics->SetCollider(0.276,1);
+    }
+}
+
 void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
     Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
     playersprite->SetFrameCount(framecount);
@@ -515,6 +545,7 @@ void Player::MovePlayer(float x,float y,bool keepMomentum){
     }
     associated.box.x = x - associated.box.w/2;
     associated.box.y = y - associated.box.h/2;
+    physics->GetCollider()->Update(0);
 }
 
 void Player::Render(){

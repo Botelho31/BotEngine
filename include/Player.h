@@ -31,6 +31,7 @@
             void SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
 
+            void Reset(Vec2 speed = {0,0}); //Resets all player variables
             void SetInvincibility(bool Invencible);
             void SetSpeed(Vec2 speed);
             void SetHealth(int hp);

@@ -116,8 +116,7 @@ void StageState::Update(float dt){
             if(GameData::checkpointPosSpeed.y < -100){
                 GameData::checkpointPosSpeed.y = -800;
             }
-            Player::player->SetSpeed(GameData::checkpointPosSpeed);
-            Player::player->HealPlayer(150);
+            Player::player->Reset(GameData::checkpointPosSpeed);
             GameData::playerAlive = true;
         }
     }
