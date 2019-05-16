@@ -202,7 +202,7 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 			// std::cout << std::endl;
 			if(!disttofix.empty()){
 				if(disttofix[0] == 0){
-					if(physics1->IsColliding(collider->box.Added(0,(distground - 5)),ToPI(other.angleDeg),false,true)){
+					if(physics1->IsColliding(collider->box.Added(0,(distground)),ToPI(other.angleDeg))){
 						associated.box.y += -(distground - 10);
 						pressing = true;
 						// std::cout << "ground adjust tile" << std::endl;
@@ -213,7 +213,7 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}
 				}
 				if(disttofix[0] == 1){
-					if(physics1->IsColliding(collider->box.Added(0,-(distceiling)),ToPI(other.angleDeg),false,true)){
+					if(physics1->IsColliding(collider->box.Added(0,-(distceiling)),ToPI(other.angleDeg))){
 						associated.box.y += distceiling - 10;
 						pressing = true;
 						// std::cout << "ceiling adjust tile" << std::endl;
@@ -224,7 +224,7 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}
 				}
 				if(disttofix[0] == 2){
-					if(physics1->IsColliding(collider->box.Added(-(distright),0),ToPI(other.angleDeg),false,true)){
+					if(physics1->IsColliding(collider->box.Added(-(distright),0),ToPI(other.angleDeg))){
 						associated.box.x += distright - 10;
 						pressing = true;
 						// std::cout << "right adjust tile" << std::endl;
@@ -235,7 +235,7 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}
 				}
 				if(disttofix[0] == 3){
-					if(physics1->IsColliding(collider->box.Added((distleft),0),ToPI(other.angleDeg),false,true)){
+					if(physics1->IsColliding(collider->box.Added((distleft),0),ToPI(other.angleDeg))){
 						associated.box.x -= distleft - 10;
 						pressing = true;
 						// std::cout << "left adjust tile" << std::endl;

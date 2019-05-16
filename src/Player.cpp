@@ -421,6 +421,11 @@ void Player::YMovement(float dt){
         }
         if(jumpanimation->Get() >= 0.6){
             jumpanimation->Restart();
+            if(!physics->IsGrounded()){
+                falling = true;
+                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+                physics->SetCollider(0.276,1);
+            }
         }
     }
 
