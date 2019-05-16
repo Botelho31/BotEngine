@@ -85,6 +85,13 @@ void Player::Update(float dt){
         if(input->IsKeyDown(SDLK_MINUS)){
             physics->PrintValues("Player");
         }
+        if(input->KeyPress(SDLK_1)){
+            if(invencible){
+                SetInvincibility(false);
+            }else{
+                SetInvincibility(true);
+            }
+        }
     #endif
 
     AttackHandle(dt);//HANDLING ATTACK

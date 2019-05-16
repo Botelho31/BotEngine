@@ -56,6 +56,19 @@ void StageState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     Camera::Update(dt);
     
+    //FOR DEBUGGING REASONS SPAWNS MINION ON 6
+    #ifdef DEBUG
+    if(input->IsKeyDown(SDLK_6)){
+        GameObject *minionObj = new GameObject();
+        Minion *minion = new Minion(*minionObj);
+        minionObj->AddComponent(minion);
+        Vec2  minionpos = Vec2(input->GetMouseX() * 2,input->GetMouseY() * 2);
+        minionObj->box.SetCenter(minionpos);
+        AddObject(minionObj);
+    }
+    //FOR DEBUGGING REASONS SPAWNS MINION ON 6
+    #endif
+
 	if(input->QuitRequested()){
 		quitRequested = true;
 	}
