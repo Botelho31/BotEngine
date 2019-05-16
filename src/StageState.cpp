@@ -26,6 +26,7 @@ StageState::StageState(){
     backgroundMusic = nullptr;
     changingMap = false;
     mapcollision = false;
+    showfps = false;
     windoweffects = new WindowEffects();
 
     //Loads the background music;
@@ -58,14 +59,28 @@ void StageState::Update(float dt){
     
     //FOR DEBUGGING REASONS SPAWNS MINION ON 6
     #ifdef DEBUG
-    if(input->IsKeyDown(SDLK_6)){
-        GameObject *minionObj = new GameObject();
-        Minion *minion = new Minion(*minionObj);
-        minionObj->AddComponent(minion);
-        Vec2  minionpos = Vec2(input->GetMouseX() * 2,input->GetMouseY() * 2);
-        minionObj->box.SetCenter(minionpos);
-        AddObject(minionObj);
-    }
+        if(input->IsKeyDown(SDLK_6)){
+            GameObject *minionObj = new GameObject();
+            Minion *minion = new Minion(*minionObj);
+            minionObj->AddComponent(minion);
+            Vec2  minionpos = Vec2(input->GetMouseX() * 2,input->GetMouseY() * 2);
+            minionObj->box.SetCenter(minionpos);
+            AddObject(minionObj);
+        }
+        if(input->KeyPress(SDLK_2)){
+            if(showfps){
+                showfps = false;
+            }else{
+                showfps = true;
+            }
+        }
+        if(showfps){
+            std::stringstream fpsstring;
+            fpsstring << (int)(1/dt);
+            this->fps->SetText(fpsstring.str());
+        }else{
+            this->fps->SetText("");
+        }
     //FOR DEBUGGING REASONS SPAWNS MINION ON 6
     #endif
 
@@ -296,13 +311,23 @@ void StageState::Start(){
     GameObject *playerhpObj = new GameObject();
     std::stringstream playerLife;
     playerLife << player->GetLife();
+    playerhpObj->box.x = 50;
+    playerhpObj->box.y = 0;
     this->playerhp = new Text(*playerhpObj,"assets/font/Callmemaybe.ttf",100,Text::BLENDED,playerLife.str(),{0,0,0});
     CameraFollower *camerafollower2 = new CameraFollower(*playerhpObj);
     playerhpObj->AddComponent(camerafollower2);
     playerhpObj->AddComponent(playerhp);
-    playerhpObj->box.x = 0;
-    playerhpObj->box.y = 0;
-    objectArray.emplace_back(playerhpObj);   
+    objectArray.emplace_back(playerhpObj);
+
+    GameObject *fpsObj = new GameObject();
+    fpsObj->box.x = Camera::window.x - 100;
+    fpsObj->box.y = 0;
+    this->fps = new Text(*fpsObj,"assets/font/Callmemaybe.ttf",50,Text::BLENDED,"0",{0,0,0});
+    CameraFollower *camerafollower3 = new CameraFollower(*fpsObj);
+    fpsObj->AddComponent(camerafollower3);
+    fpsObj->AddComponent(fps);
+    objectArray.emplace_back(fpsObj); 
+       
     //FINISHES LOADING THE PLAYER DATA
 
     StartArray();

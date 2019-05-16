@@ -33,6 +33,8 @@
             TileSet *tileset;
             Music *backgroundMusic;
             Text *playerhp;
+            bool showfps;
+            Text *fps;
             WindowEffects *windoweffects;
 
             bool mapcollision; //Boolean indicating if mapcollision is ready or not
