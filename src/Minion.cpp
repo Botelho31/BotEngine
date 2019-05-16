@@ -151,9 +151,8 @@ void Minion::Update(float dt){
 
 void Minion::DamageMinion(int damage){
     hp -= damage;
-    if(!damagetimer->Started() && (attacktimer->Get() < 0.56)){
+    if(!damagetimer->Started() && (!attacktimer->Started())){
         SetSprite("assets/img/miniondamagetest.png",5,0.04);
-        attacktimer->Restart();
         damagetimer->Delay(0);
     }
 }
@@ -181,66 +180,64 @@ void Minion::AttackState(float distanceToPlayer,float dt){
     Collider *collider = physics->GetCollider();
     Vec2 player = Player::player->GetPosition();
 
-    if(!invincibilitytimer->Started()){
-        if((!attacktimer->Started()) && (!attackdelay->Started())){
-            hitboxinstantiated = false;
-            if(player.x < GetPosition().x){
-                difxpos = false;
-                if(!minionsprite->IsFlipped()){
-                    minionsprite->Flip();
-                }
-            }else{
-                difxpos = true;
-                if(minionsprite->IsFlipped()){
-                    minionsprite->Flip();
-                }
+    if((!attacktimer->Started()) && (!attackdelay->Started())){
+        hitboxinstantiated = false;
+        if(player.x < GetPosition().x){
+            difxpos = false;
+            if(!minionsprite->IsFlipped()){
+                minionsprite->Flip();
             }
-            SetSprite("assets/img/minionattacktest.png",27,0.04,false);
-            physics->SetCollider(0.28571429,0.65,0,33);
-            attacktimer->Delay(dt);
-        }
-
-        if(attacktimer->Started()){
-            speed.x = 0;
-            attacktimer->Update(dt);
-            if((attacktimer->Get() >= 0.56) && (!hitboxinstantiated)){
-                hitboxinstantiated = true;
-                Rect hitbox;
-                if(!difxpos){
-                    hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-                }else{
-                    hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-                }
-                GameObject *hitboxObj = new GameObject();
-                std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-                HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.52,0.52,false,true,false,{400,100},this);
-                minionhitbox->SetFunction(BiteHitbox);
-                hitboxObj->AddComponent(minionhitbox);
-                Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
-            }
-            if(attacktimer->Get() >= 1.2){
-                attacktimer->Restart();
-                attackdelay->Delay(dt);
-                if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
-                    state = CHASING;
-                    SetSprite("assets/img/minionwalktest.png",8,0.08);
-                    physics->SetCollider(0.5,0.65,0,33);
-                }else{
-                    state = IDLE;
-                    SetSprite("assets/img/minionidletest.png",32,0.08);
-                    physics->SetCollider(0.5,0.65,0,33);
-                }
+        }else{
+            difxpos = true;
+            if(minionsprite->IsFlipped()){
+                minionsprite->Flip();
             }
         }
-    }else{
+        SetSprite("assets/img/minionattacktest.png",27,0.04,false);
+        physics->SetCollider(0.28571429,0.65,0,33);
+        attacktimer->Delay(dt);
+    }else if(!attacktimer->Started() && attackdelay->Started()){
         if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
             state = CHASING;
             SetSprite("assets/img/minionwalktest.png",8,0.08);
             physics->SetCollider(0.5,0.65,0,33);
-        }else if(distanceToPlayer >= sightrange){
+        }else{
             state = IDLE;
             SetSprite("assets/img/minionidletest.png",32,0.08);
             physics->SetCollider(0.5,0.65,0,33);
+        }
+    }
+
+    if(attacktimer->Started()){
+        speed.x = 0;
+        attacktimer->Update(dt);
+        if((attacktimer->Get() >= 0.56) && (!hitboxinstantiated)){
+            hitboxinstantiated = true;
+            Rect hitbox;
+            if(!difxpos){
+                hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
+            }else{
+                hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
+            }
+            GameObject *hitboxObj = new GameObject();
+            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.52,0.52,false,true,false,{400,100},this);
+            minionhitbox->SetFunction(BiteHitbox);
+            hitboxObj->AddComponent(minionhitbox);
+            Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
+        }
+        if(attacktimer->Get() >= 1.2){
+            attacktimer->Restart();
+            attackdelay->Delay(dt);
+            if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
+                state = CHASING;
+                SetSprite("assets/img/minionwalktest.png",8,0.08);
+                physics->SetCollider(0.5,0.65,0,33);
+            }else{
+                state = IDLE;
+                SetSprite("assets/img/minionidletest.png",32,0.08);
+                physics->SetCollider(0.5,0.65,0,33);
+            }
         }
     }
 }
@@ -252,7 +249,7 @@ void Minion::ChasingState(float distanceToPlayer,float dt){
     if((distanceToPlayer >= sightrange) || ((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started()))){
         state = IDLE;
         SetSprite("assets/img/minionidletest.png",32,0.08);
-        physics->SetCollider(0.5,0.65,0,33); //100 //130
+        physics->SetCollider(0.5,0.65,0,33);
     }else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (!attackdelay->Started())){
         state = ATTACKING;
     }else{

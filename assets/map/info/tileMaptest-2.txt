@@ -9,14 +9,14 @@ Portal
 
 Minion
   [
-    minionX 1400
-    minionY 500
+    minionX 1300
+    minionY 980
   ]
 
 Minion
   [
-    minionX 1400
-    minionY 40
+    minionX 1800
+    minionY 980
   ]
 
 Minion

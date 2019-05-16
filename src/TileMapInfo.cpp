@@ -49,8 +49,7 @@ void TileMapInfo::Open(std::string file){
                 FileReader >> MinionPos.y;
                 GameObject *minionObj = new GameObject();
                 Minion *minion = new Minion(*minionObj);
-                minionObj->box.x = MinionPos.x;
-                minionObj->box.y = MinionPos.y;
+                minionObj->box.SetCenter(MinionPos);
                 minionObj->AddComponent(minion);
                 Game::GetInstance().GetCurrentState().AddObject(minionObj);
             }
