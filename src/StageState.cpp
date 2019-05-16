@@ -172,6 +172,7 @@ void StageState::ClearMobs(){
         Component *component2 = objectArray[i]->GetComponent("Minion");
         Component *component3 = objectArray[i]->GetComponent("MovingTile");
         Component *component4 = objectArray[i]->GetComponent("TileCollider");
+        Component *component5 = objectArray[i]->GetComponent("DeadBody");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -182,6 +183,9 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
         if(component4){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        if(component5){
             objectArray.erase(objectArray.begin() + i);
         }
     }
