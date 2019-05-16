@@ -146,7 +146,7 @@ void Player::InstanceHitbox(){
     Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost)*2,true,false,true,{400,100},this,0.1);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost),true,false,true,{400,100},this,0.1);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -172,43 +172,45 @@ void Player::AttackHandle(float dt){
     //PERFORMS THE NEXT ATTACK IN QUEUE
     if((!nextattack.empty()) && (!swordattack->Started())){
         if(nextattack.front() == 1){
-            SetSprite("assets/img/belattacktest2.png",22,0.04,false);
+            float frametime = 0.03;
+            SetSprite("assets/img/belattacktest2.png",22,frametime,false);
             physics->SetCollider(0.15771429,1);
+            player->swordradius = 100;
+            delayedboost = frametime * 4.5;
+            attacktiming = frametime * 10;
+            endofattack = frametime * 25;
             if(playersprite->IsFlipped()){
-                player->asword = -((PI * 0.35)/0.22);
+                player->asword = -((PI * 0.35)/(attacktiming - delayedboost));
                 player->swordarc =  -PI + 0.5;
                 player->aswordangle = -70;
 
             }else{
-                player->asword = ((PI * 0.35)/0.22);
+                player->asword = ((PI * 0.35)/(attacktiming - delayedboost));
                 player->swordarc =  -0.5;
                 player->aswordangle = 70;
             }
-            player->swordradius = 100;
-            attacktiming = 0.4;
-            endofattack = 1;
             swordattack->Delay(dt);
-            delayedboost = 0.18;
             delayedboosttimer->Delay(dt);
         }
         if(nextattack.front() == 2){
-            SetSprite("assets/img/belattack2test3.png",22,0.04,false);
+            float frametime = 0.03;
+            SetSprite("assets/img/belattack2test3.png",22,frametime,false);
             physics->SetCollider(0.15771429,1);
+            swordradius = 90;
+            delayedboost = frametime * 4.5;
+            attacktiming = frametime * 10;
+            endofattack = frametime * 25;
             if(playersprite->IsFlipped()){
-                player->asword= ((PI * 0.35)/0.22);
+                player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
                 player->swordarc =  PI - 0.5;
                 player->aswordangle = 70;
 
             }else{
-                player->asword = -((PI * 0.35)/0.22);
+                player->asword = -((PI * 0.35)/(attacktiming - delayedboost));
                 player->swordarc =  0.5;
                 player->aswordangle = -70;
             }
-            swordradius = 90;
-            attacktiming = 0.4;
-            endofattack = 1;
             swordattack->Delay(dt);
-            delayedboost = 0.18;
             delayedboosttimer->Delay(dt);
         }
         if(!physics->IsGrounded() && (!physics->IsColliding(physics->GetCollider()->box.Added(0,0,0,100)))){
