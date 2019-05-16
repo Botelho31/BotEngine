@@ -18,6 +18,7 @@
             static std::string checkpointMap;
             static std::string checkpointMapInfo;
             static Vec2 checkpointPos;
+            static Vec2 checkpointPosSpeed;
     };
 
 #endif

@@ -111,11 +111,11 @@ void Player::Update(float dt){
                 SetSprite("assets/img/belidleswordtest.png",32,0.08);
                 physics->SetCollider(0.276,1);
             }
-            // else{
-            //     falling = true;
-            //     SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-            //     physics->SetCollider(0.276,1);
-            // }
+            else{
+                falling = true;
+                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+                physics->SetCollider(0.276,1);
+            }
         }
     }
     if(invincibilitytimer->Started()){

@@ -113,6 +113,10 @@ void StageState::Update(float dt){
             mapcollision = false;
             tilemap->LoadInfo(GameData::checkpointMapInfo);
             Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
+            if(GameData::checkpointPosSpeed.y < -100){
+                GameData::checkpointPosSpeed.y = -800;
+            }
+            Player::player->SetSpeed(GameData::checkpointPosSpeed);
             Player::player->HealPlayer(150);
             GameData::playerAlive = true;
         }
@@ -218,6 +222,7 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 GameData::checkpointMap = files[0];
                 GameData::checkpointMapInfo = files[1];
                 GameData::checkpointPos = portalloc;
+                GameData::checkpointPosSpeed = Player::player->GetSpeed();
                 Player::player->MovePlayer(portalloc.x,portalloc.y);
                 Player::player->SetInvincibility(false);
                 changingMap = false;

@@ -7,12 +7,16 @@ int GameData::savePlayerHealth;
 std::string GameData::checkpointMap;
 std::string GameData::checkpointMapInfo;
 Vec2 GameData::checkpointPos;
+Vec2 GameData::checkpointPosSpeed;
 
 void GameData::SaveGame(){
     std::ofstream savefile;
     ENDLINE
     if(Player::player){
         savePlayerPos = Player::player->GetPosition();
+        if(checkpointPos == Vec2(0,0)){
+            checkpointPos = savePlayerPos;
+        }
         savePlayerHealth = Player::player->GetLife();
         std::cout << "Player Data Saved" << std::endl;
     }else{
@@ -27,6 +31,8 @@ void GameData::SaveGame(){
     savefile << "\t\t" << "mapInfo " << checkpointMapInfo << "\n";
     savefile << "\t\t" << "playerPos " << savePlayerPos.x << " " << savePlayerPos.y << "\n";
     savefile << "\t\t" << "playerLife " << savePlayerHealth << "\n";
+    savefile << "\t\t" << "checkpointPos " << checkpointPos.x << " " << checkpointPos.y << "\n";
+    savefile << "\t\t" << "checkpointPosSpeed " << checkpointPosSpeed.x << " " << checkpointPosSpeed.y << "\n";
     savefile << "\t]\n";
     savefile.close();
     std::cout << "Game Saved" << std::endl;
@@ -51,6 +57,12 @@ void GameData::LoadGame(){
                 FileReader >> savePlayerPos.y;
                 FileReader >> checkline;
                 FileReader >> savePlayerHealth;
+                FileReader >> checkline;
+                FileReader >> checkpointPos.x;
+                FileReader >> checkpointPos.y;
+                FileReader >> checkline;
+                FileReader >> checkpointPosSpeed.x;
+                FileReader >> checkpointPosSpeed.y;
                 ENDLINE
                 std::cout << "Game Loaded" << std::endl;
 
