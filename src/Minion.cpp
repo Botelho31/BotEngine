@@ -118,11 +118,11 @@ void Minion::Update(float dt){
             damagetimer->Restart();
             if(state == CHASING){
                 SetSprite("assets/img/minionwalktest.png",8,0.08);
-            }else{
-                state = IDLE;
+                physics->SetCollider(0.5,0.65,0,33);
+            }else if(state == IDLE){
                 SetSprite("assets/img/minionidletest.png",32,0.08);
+                physics->SetCollider(0.5,0.65,0,33);
             }
-            physics->SetCollider(0.5,0.65,0,33);
         }
     }
     if(invincibilitytimer->Started()){
