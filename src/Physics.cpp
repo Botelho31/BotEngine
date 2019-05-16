@@ -38,15 +38,6 @@ void Physics::Update(int max){
         std::queue<int> adjustindices;
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-            // while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
-            //     if(tilecollider->moving){
-            //         tilecollider->NotifyMobCollision(*associated);
-            //         collider->Update(0);
-            //     }else{
-            //         CorrectDistance();
-            //         collider->Update(0);
-            //     }
-            // }
             bool collided = Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0);
             if(collided && tilecollider->moving){
                 while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
@@ -61,7 +52,7 @@ void Physics::Update(int max){
         }
 
         if(correctdistance){
-            for(int i = 0;i < adjustindices.size();i++){
+            for(int i = adjustindices.size();i > 0;i--){
                 TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[adjustindices.front()].lock().get());
                 while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
                     CorrectDistance();
@@ -155,44 +146,20 @@ void Physics::PrintValues(std::string header){
 }
 
 float Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
-    int distance = 0;
+    int dist = 0;
 
-    Rect box2 = box;
-    while(!IsColliding(box2,ToPI(associated->angleDeg)) && (distance < max)){
-        box2.y += ysum;
-        box2.x += xsum;
-        distance ++;
+    while(!IsColliding(box,ToPI(associated->angleDeg)) && (dist < max)){
+        box.y += ysum;
+        box.x += xsum;
+        dist ++;
     }
-    while(IsColliding(box2,ToPI(associated->angleDeg)) && (distance > -max)){
-        box2.y += -ysum;
-        box2.x += -xsum;
-        distance --;
+    while(IsColliding(box,ToPI(associated->angleDeg)) && (dist > -max)){
+        box.y += -ysum;
+        box.x += -xsum;
+        dist --;
     }
 
-    //EM FASE DE TESTES
-    Vec2 initial = box.GetOrigin();
-    float interval = max;
-    if(IsColliding(box,ToPI(associated->angleDeg))){
-        interval = -interval;
-    }
-    while(interval >= 0.00001){
-        if(IsColliding(box,ToPI(associated->angleDeg))){
-            box.x -= interval * xsum;
-            box.y -= interval * ysum;
-            interval /= 2;
-        }else{
-            box.x += interval * xsum;
-            box.y += interval * ysum;
-            interval /= 2;
-        }
-    }
-    float boxangle = box.GetOrigin().GetAngle(initial);
-    float dist = box.GetOrigin().GetDistance(initial.x,initial.y);
-    WindowEffects::AddBoxToDraw(GetLineBox(box.GetOrigin(),initial),boxangle);
-    std::cout << floor(dist) << std::endl;
-    //EM FASE DE ETSTES
-
-    return floor(dist);
+    return dist;
 }
 
 int Physics::SightTo(Vec2 vector,Vec2 vectorTo,int max){
