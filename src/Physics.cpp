@@ -564,10 +564,13 @@ void Physics::PerformGravity(float gravspeed,float dt){
         if(DistToGround <= 10){
             collider->box.y += DistToGround;
             collider->UpdateAssociated();
+            if(IsGrounded()){
+                speed->y = 0;
+            }
         }
-        // else{
+        else{
             speed->y += gravspeed * dt;
-        // }
+        }
     }
 }
 

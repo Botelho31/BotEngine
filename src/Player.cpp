@@ -102,14 +102,20 @@ void Player::Update(float dt){
 
     if(damagetimer->Started()){
         damagetimer->Update(dt);
-        if( (falling) || (running) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
+        if((hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
             damagetimer->Restart();
         }
         if(damagetimer->Get() > 0.21){
             damagetimer->Restart();
             if(physics->IsGrounded()){
-                SetSprite("assets/img/belidleswordtest.png",32,0.08);
-                physics->SetCollider(0.276,1);
+                if(speed.x == 0){
+                    SetSprite("assets/img/belidleswordtest.png",32,0.08);
+                    physics->SetCollider(0.276,1);
+                }else{
+                    running = true;
+                    SetSprite("assets/img/belwalktest4.png",14,0.04);
+                    physics->SetCollider(0.184,1);
+                }
             }
             else{
                 falling = true;
