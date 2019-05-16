@@ -145,9 +145,6 @@ void MovingTile::NotifyCollision(GameObject& other){
                 other.box.y += deltamov.y;                
             }
         }
-        // if(invert){
-        //     InvertDirection();
-        // }
     }
 }
 

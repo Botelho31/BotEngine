@@ -127,10 +127,10 @@ void Physics::CorrectDistance(){
 }
 
 void Physics::UpdateDists(int max){
-    distground = DistanceTo(collider->box,0,1,PI/2,max);
-    distceiling = DistanceTo(collider->box,0,-1,-PI/2,max);
-    distright = DistanceTo(collider->box,1,0,0,max);
-    distleft = DistanceTo(collider->box,-1,0,PI,max);
+    distground = DistanceTo(collider->box,0,1,max);
+    distceiling = DistanceTo(collider->box,0,-1,max);
+    distright = DistanceTo(collider->box,1,0,max);
+    distleft = DistanceTo(collider->box,-1,0,max);
 }
 
 void Physics::PrintValues(std::string header){
@@ -154,31 +154,45 @@ void Physics::PrintValues(std::string header){
     #endif
 }
 
-int Physics::DistanceTo(Rect box,int xsum,int ysum,float angle,int max){
+float Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
     int distance = 0;
 
-    while(!IsColliding(box,ToPI(associated->angleDeg)) && (distance < max)){
-        box.y += ysum;
-        box.x += xsum;
+    Rect box2 = box;
+    while(!IsColliding(box2,ToPI(associated->angleDeg)) && (distance < max)){
+        box2.y += ysum;
+        box2.x += xsum;
         distance ++;
     }
-    while(IsColliding(box,ToPI(associated->angleDeg)) && (distance > -max)){
-        box.y += -ysum;
-        box.x += -xsum;
+    while(IsColliding(box2,ToPI(associated->angleDeg)) && (distance > -max)){
+        box2.y += -ysum;
+        box2.x += -xsum;
         distance --;
     }
-    // float interval = max/2;
-    // while(interval > 0.1){
-    //     if(!IsColliding(box,ToPI(associated->angleDeg)) && (distance < max)){
-    //        box.y += ysum;
-    //        box.x += xsum;
-    //     }else{
-    //        box.y += -ysum;
-    //        box.x += -xsum;
-    //        distance --;
-    //     }
-    // }
-    return distance;
+
+    //EM FASE DE TESTES
+    Vec2 initial = box.GetOrigin();
+    float interval = max;
+    if(IsColliding(box,ToPI(associated->angleDeg))){
+        interval = -interval;
+    }
+    while(interval >= 0.00001){
+        if(IsColliding(box,ToPI(associated->angleDeg))){
+            box.x -= interval * xsum;
+            box.y -= interval * ysum;
+            interval /= 2;
+        }else{
+            box.x += interval * xsum;
+            box.y += interval * ysum;
+            interval /= 2;
+        }
+    }
+    float boxangle = box.GetOrigin().GetAngle(initial);
+    float dist = box.GetOrigin().GetDistance(initial.x,initial.y);
+    WindowEffects::AddBoxToDraw(GetLineBox(box.GetOrigin(),initial),boxangle);
+    std::cout << floor(dist) << std::endl;
+    //EM FASE DE ETSTES
+
+    return floor(dist);
 }
 
 int Physics::SightTo(Vec2 vector,Vec2 vectorTo,int max){
@@ -531,7 +545,7 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        float DistToGround = DistanceTo(collider->box,0,1,PI/2,12);
+        float DistToGround = DistanceTo(collider->box,0,1,12);
         if((DistToGround <= 10) && (speed->y >= 0)){
             collider->box.y += DistToGround;
             collider->UpdateAssociated();

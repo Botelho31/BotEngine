@@ -17,7 +17,7 @@
             void UpdateDists(int max = 150);    //Updates the distance in each direction (DONT USE TOO MUCH, CPU INTENSIVE)
             void PrintValues(std::string header = "Mob"); // Prints the values of its movement for debugging
             void CorrectDistance();    //Correct the distance if the object is inside a wall
-            int DistanceTo(Rect box,int xsum,int ysum,float angle,int max = 150);    //Gets the distance to a unpassable tile block in a direction
+            float DistanceTo(Rect box,int xsum,int ysum,int max = 150);    //Gets the distance to a unpassable tile block in a direction
             int SightTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets whats the distance the line of sight reaches throught tilemap
             Rect GetLineBox(Vec2 vector,Vec2 vectorTo,float distance = 0);
             
