@@ -196,6 +196,17 @@ int Physics::DistanceTo(Rect box,int xsum,int ysum,float angle,int max){
         box.x += -xsum;
         distance --;
     }
+    // float interval = max/2;
+    // while(interval > 0.1){
+    //     if(!IsColliding(box,ToPI(associated->angleDeg)) && (distance < max)){
+    //        box.y += ysum;
+    //        box.x += xsum;
+    //     }else{
+    //        box.y += -ysum;
+    //        box.x += -xsum;
+    //        distance --;
+    //     }
+    // }
     return distance;
 }
 
@@ -276,7 +287,7 @@ bool Physics::IsUp(int sum){
 }
 
 bool Physics::IsGrounded(int sum){
-    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h + 1),ToPI(associated->angleDeg));
+    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),ToPI(associated->angleDeg));
 }
 
 bool Physics::IsLeft(int sum){
@@ -286,7 +297,6 @@ bool Physics::IsLeft(int sum){
 bool Physics::IsRight(int sum){
     return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated->angleDeg));
 }
-
 
 Vec2 Physics::GetCollisionPoint(Rect origin){
     Vec2 hitboxcenter = origin.GetCenter();
@@ -550,12 +560,14 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        float DistToGround = DistanceTo(collider->box,0,1,PI/2,11);
+        float DistToGround = DistanceTo(collider->box,0,1,PI/2,12);
         if(DistToGround <= 10){
-            associated->box.y += DistToGround;
-        }else{
-            speed->y += gravspeed * dt;
+            collider->box.y += DistToGround;
+            collider->UpdateAssociated();
         }
+        // else{
+            speed->y += gravspeed * dt;
+        // }
     }
 }
 

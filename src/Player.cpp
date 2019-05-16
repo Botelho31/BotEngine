@@ -85,7 +85,7 @@ void Player::Update(float dt){
         if(input->IsKeyDown(SDLK_MINUS)){
             physics->UpdateDists();
             ENDLINE
-            std::cout << "Player.x: " << GetPosition().x << "Player.y: " << GetPosition().y << std::endl;
+            std::cout << "Player.x: " << GetPosition().x << " Player.y: " << GetPosition().y << std::endl;
             std::cout << "dground: "<< physics->distground << std::endl;
             std::cout << "dceiling: "<< physics->distceiling << std::endl;
             std::cout << "dright: "<< physics->distright << std::endl;
@@ -102,7 +102,7 @@ void Player::Update(float dt){
 
     if(damagetimer->Started()){
         damagetimer->Update(dt);
-        if( (running) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
+        if( (falling) || (running) || (hittheground->Started())  || (swordattack->Started()) || (jumpanimation->Started())){
             damagetimer->Restart();
         }
         if(damagetimer->Get() > 0.21){
@@ -110,10 +110,12 @@ void Player::Update(float dt){
             if(physics->IsGrounded()){
                 SetSprite("assets/img/belidleswordtest.png",32,0.08);
                 physics->SetCollider(0.276,1);
-            }else{
-                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-                physics->SetCollider(0.276,0.8);
             }
+            // else{
+            //     falling = true;
+            //     SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+            //     physics->SetCollider(0.276,1);
+            // }
         }
     }
     if(invincibilitytimer->Started()){
@@ -336,7 +338,7 @@ void Player::XMovement(float dt){
 void Player::YMovement(float dt){
 
     //Handles when it hits the ground
-    if((physics->IsGrounded()) && (falling == true)){
+    if((physics->IsGrounded()) && falling){
         falling = false;
         if(!swordattack->Started() && !hittheground->Started()){
             SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false,{0,0});
