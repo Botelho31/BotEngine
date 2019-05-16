@@ -135,10 +135,12 @@ void Minion::Update(float dt){
     if(hp <= 0){
         GameObject *deadObj = new GameObject();
         Sprite *deadsprite = new Sprite(*deadObj,"assets/img/miniondeadtest.png",30,0.04,0,false);
+        int xoffset = -40;
         if(minionsprite->IsFlipped()){
             deadsprite->Flip();
+            xoffset = 40;
         }
-        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-40,70),false);
+        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-xoffset,70),false);
         deadObj->AddComponent(deadbody);
         deadObj->box.SetCenter(associated.box.GetCenter());
         Game::GetInstance().GetCurrentState().AddObject(deadObj);
