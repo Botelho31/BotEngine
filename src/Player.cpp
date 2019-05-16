@@ -498,9 +498,30 @@ void Player::Reset(Vec2 speed){
     while(!nextattack.empty()){
         nextattack.pop();
     }
+    if(speed.x > 0){
+        if(playersprite->IsFlipped()){
+            playersprite->Flip();
+        }
+    }else{
+        if(!playersprite->IsFlipped()){
+            playersprite->Flip();
+        }
+    }
     if(physics->IsGrounded()){
-        SetSprite("assets/img/belidleswordtest.png",32,0.08);
-        physics->SetCollider(0.276,1);
+        speed.y = 0;
+        if(speed.x != 0){
+            running = true;
+            if(speed.x > 0){
+                speed.x = 600;
+            }else{
+                speed.x = -600;
+            }
+            SetSprite("assets/img/belwalktest4.png",14,0.04);
+            physics->SetCollider(0.184,1);
+        }else{
+            SetSprite("assets/img/belidleswordtest.png",32,0.08);
+            physics->SetCollider(0.276,1);
+        }
     }
     else{
         falling = true;

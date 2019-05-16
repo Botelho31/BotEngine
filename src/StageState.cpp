@@ -160,7 +160,7 @@ void StageState::ExpandTileColliders(){
     }
     if(mapcollisionloaded){
         ENDLINE
-        std::cout << "Map Collision Loaded" << std::endl;
+        // std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
         windoweffects->FadeFromBlack(1);
     }
