@@ -39,6 +39,11 @@ MovingTile::~MovingTile(){
 void MovingTile::Update(float dt){
     physics->Update();
     
+    if(tilecollider->pressing){
+        tilecollider->pressing = false;
+        InvertDirection();
+    }
+
     if(circular){
         float newangle = 0;
         Vec2 halfway = Vec2((start.x + dest.x)/2,(start.y + dest.y)/2);
@@ -78,8 +83,7 @@ void MovingTile::Update(float dt){
         }
     }
 
-    if(deltamov == Vec2(0,0) || (tilecollider->pressing)){
-        tilecollider->pressing = false;
+    if(deltamov == Vec2(0,0)){
         InvertDirection();
     }
 }
