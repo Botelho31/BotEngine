@@ -55,6 +55,7 @@ void StageState::LoadAssets(){
 void StageState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     Camera::Update(dt);
+    
 	if(input->QuitRequested()){
 		quitRequested = true;
 	}

@@ -133,28 +133,36 @@ void Minion::Update(float dt){
         }
     }
     if(hp <= 0){
-        GameObject *deadObj = new GameObject();
-        Sprite *deadsprite = new Sprite(*deadObj,"assets/img/miniondeadtest.png",30,0.04,0,false);
-        int xoffset = -40;
-        if(minionsprite->IsFlipped()){
-            deadsprite->Flip();
-            xoffset = 40;
+        if(!associated.IsDead()){
+            KillMinion();
         }
-        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-xoffset,70),false);
-        deadObj->AddComponent(deadbody);
-        deadObj->box.SetCenter(associated.box.GetCenter());
-        Game::GetInstance().GetCurrentState().AddObject(deadObj);
-
-        associated.RequestDelete();
     }
 }
 
 void Minion::DamageMinion(int damage){
     hp -= damage;
-    if(!damagetimer->Started() && (!attacktimer->Started())){
+    if(!damagetimer->Started() && (!attacktimer->Started() && (hp > 0))){
         SetSprite("assets/img/miniondamagetest.png",5,0.04);
         damagetimer->Delay(0);
+    }else if(hp <= 0){
+        KillMinion();
     }
+}
+
+void Minion::KillMinion(){
+    GameObject *deadObj = new GameObject();
+    Sprite *deadsprite = new Sprite(*deadObj,"assets/img/miniondeadtest.png",30,0.02,0,false);
+    int xoffset = -40;
+    if(minionsprite->IsFlipped()){
+        deadsprite->Flip();
+        xoffset = 40;
+    }
+    DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-xoffset,70),false);
+    deadObj->AddComponent(deadbody);
+    deadObj->box.SetCenter(associated.box.GetCenter());
+    Game::GetInstance().GetCurrentState().AddObject(deadObj);
+
+    associated.RequestDelete();
 }
 
 void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){

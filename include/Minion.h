@@ -30,6 +30,7 @@
 
             Vec2 GetPosition();
             void DamageMinion(int damage);
+            void KillMinion();
 
             static void BiteHitbox(GameObject& hitbox,GameObject& owner,float dt);
         private:
