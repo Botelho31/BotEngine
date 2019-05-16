@@ -2,7 +2,7 @@
 #include "../include/HitBox.h"
 
 
-DeadBody::DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Vec2 colliderscale,Vec2 collideroffset) : Component(associated){
+DeadBody::DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Vec2 colliderscale,Vec2 collideroffset,bool interaction) : Component(associated){
     speed = dyingspeed;
     despeed = 800;
     gravspeed = 2000;
@@ -14,6 +14,7 @@ DeadBody::DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Ve
     idle = false;
 
     this->physics = new Physics(&associated,&speed);
+    this->interaction = interaction;
 
     this->deadbodysprite =  dyingsprite;
     associated.AddComponent(deadbodysprite);
@@ -64,7 +65,7 @@ bool DeadBody::Is(std::string type){
 }
 
 void DeadBody::NotifyCollision(GameObject& other){
-    if(!invincibilitytimer->Started()){
+    if(!invincibilitytimer->Started() && interaction){
         Component *component1 = other.GetComponent("HitBox");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
@@ -93,7 +94,7 @@ void DeadBody::IdleHandle(float dt){
     }
 }
 
-void DeadBody::SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}){
+void DeadBody::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
     Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
     deadbodysprite->SetFrameCount(framecount);
     deadbodysprite->SetFrameTime(frametime);

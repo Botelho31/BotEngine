@@ -134,6 +134,7 @@ void Physics::UpdateDists(int max){
 }
 
 void Physics::PrintValues(std::string header){
+    #ifdef DEBUG
     UpdateDists();
     Vec2 center = collider->box.GetCenter();
 
@@ -150,6 +151,7 @@ void Physics::PrintValues(std::string header){
     std::cout << "dleft: "<< distleft << std::endl;
     std::cout << header << " -> ";
     std::cout << "speedX: " << speed->x << " speedY: " << speed->y << std::endl;
+    #endif
 }
 
 int Physics::DistanceTo(Rect box,int xsum,int ysum,float angle,int max){

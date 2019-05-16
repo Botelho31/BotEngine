@@ -8,7 +8,7 @@
 
     class DeadBody : public Component{
         public:
-            DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Vec2 colliderscale,Vec2 collideroffset = {0,0});
+            DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Vec2 colliderscale,Vec2 collideroffset = {0,0},bool interaction = true);
             ~DeadBody();
             void Start();
             void Update(float dt);
@@ -33,6 +33,8 @@
 
             Timer *idletimer;
             bool idle;
+
+            bool interaction;
 
             Sprite *deadbodysprite;
             Physics *physics;

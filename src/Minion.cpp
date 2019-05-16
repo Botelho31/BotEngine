@@ -4,6 +4,7 @@
 #include "../include/HitBox.h"
 #include "../include/Camera.h"
 #include "../include/WindowEffects.h"
+#include "../include/DeadBody.h"
 
 Minion::Minion(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -132,6 +133,16 @@ void Minion::Update(float dt){
         }
     }
     if(hp <= 0){
+        GameObject *deadObj = new GameObject();
+        Sprite *deadsprite = new Sprite(*deadObj,"assets/img/miniondeadtest.png",30,0.04,0,false);
+        if(minionsprite->IsFlipped()){
+            deadsprite->Flip();
+        }
+        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-40,70),false);
+        deadObj->AddComponent(deadbody);
+        deadObj->box.SetCenter(associated.box.GetCenter());
+        Game::GetInstance().GetCurrentState().AddObject(deadObj);
+
         associated.RequestDelete();
     }
 }
