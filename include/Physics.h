@@ -15,6 +15,7 @@
             ~Physics();
             void Update(int max = 150); //Checks if the object is OutofBounds or if it is colliding with a tile and adjusts accordingly
             void UpdateDists(int max = 150);    //Updates the distance in each direction (DONT USE TOO MUCH, CPU INTENSIVE)
+            void PrintValues(std::string header = "Mob"); // Prints the values of its movement for debugging
             void CorrectDistance();    //Correct the distance if the object is inside a wall
             int DistanceTo(Rect box,int xsum,int ysum,float angle,int max = 150);    //Gets the distance to a unpassable tile block in a direction
             int SightTo(Vec2 vector,Vec2 vectorTo,int max = 150); // Gets whats the distance the line of sight reaches throught tilemap

@@ -133,58 +133,27 @@ void Physics::UpdateDists(int max){
     distleft = DistanceTo(collider->box,-1,0,PI,max);
 }
 
+void Physics::PrintValues(std::string header){
+    UpdateDists();
+    Vec2 center = collider->box.GetCenter();
+
+    ENDLINE
+    std::cout << header << " -> ";
+    std::cout << "xPos: " << center.x << " yPos: " << center.y << std::endl;
+    std::cout << header << " -> ";
+    std::cout << "dground: "<< distground << std::endl;
+    std::cout << header << " -> ";
+    std::cout << "dceiling: "<< distceiling << std::endl;
+    std::cout << header << " -> ";
+    std::cout << "dright: "<< distright << std::endl;
+    std::cout << header << " -> ";
+    std::cout << "dleft: "<< distleft << std::endl;
+    std::cout << header << " -> ";
+    std::cout << "speedX: " << speed->x << " speedY: " << speed->y << std::endl;
+}
+
 int Physics::DistanceTo(Rect box,int xsum,int ysum,float angle,int max){
     int distance = 0;
-
-    // Vec2 center( box.GetCenter() );
-	// Vec2 points[4];
-    // points[0] = (Vec2(box.x + 1, box.y + 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
-    // points[1] = (Vec2(box.x + box.w - 1, box.y + 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
-	// points[2] = (Vec2(box.x + box.w - 1, box.y + box.h - 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
-	// points[3] = (Vec2(box.x + 1, box.y + box.h - 1) - center).GetRotated( ToPI(associated->angleDeg) ) + center;
-
-    // Vec2 pointsTo[4];
-    // Rect lineboxes[4];
-    // for(int i = 0;i < 4;i++){
-    //     pointsTo[i] = Vec2(max,0).GetRotated(angle) + points[i];
-    //     lineboxes[i] = GetLineBox(points[i],pointsTo[i]);
-    // }
-
-    // for(int i = 0;i < 4;i++){
-    //     if(IsColliding(lineboxes[i],angle)){
-    //         float interval = lineboxes[i].w/2;
-    //         while(interval > 0.5){
-    //             if(IsColliding(lineboxes[i],angle)){
-    //                 lineboxes[i].w -= interval;
-    //                 interval /= 2;
-    //             }
-    //             else if(!IsColliding(lineboxes[i],angle)){
-    //                 lineboxes[i].w += interval;
-    //                 interval /= 2;
-    //             }
-    //             Vec2 vectorRot = Vec2(lineboxes[i].w,0).GetRotated(angle) + points[i];
-    //             lineboxes[i] = Rect(vectorRot.x - (lineboxes[i].w * (((cos(std::fabs(angle))) + 1)/2) ),vectorRot.y + (lineboxes[i].w/2 * -sin(angle)),lineboxes[i].w,1);
-    //         }
-    //     }else{
-    //         lineboxes[i].w = max + 1;
-    //     }
-    //     if(std::fabs(lineboxes[i].w) < 1){
-    //         lineboxes[i].w = 0;
-    //     }else{
-    //         lineboxes[i].w = floor(lineboxes[i].w - 1);
-    //     }
-    // }
-
-    // float dists[] = { lineboxes[0].w,lineboxes[1].w,lineboxes[2].w,lineboxes[3].w};
-    // int size = sizeof(dists)/sizeof(dists[0]);
-    // std::sort(dists,dists+size);
-    // float finaldist = dists[0];
-    // std::cout << finaldist << std::endl;
-    
-    // for(int i = 0;i < 4;i++){
-        // WindowEffects::AddBoxToDraw(lineboxes[i],points[i].GetAngle(pointsTo[i]));
-    // }
-
 
     while(!IsColliding(box,ToPI(associated->angleDeg)) && (distance < max)){
         box.y += ysum;
