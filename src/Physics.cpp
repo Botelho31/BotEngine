@@ -5,7 +5,7 @@
 #include "../include/StageState.h"
 #include "../include/WindowEffects.h"
 
-Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(associated){
+Physics::Physics(GameObject& associated,Vec2 *speed,bool isTile) : Component(associated){
     distground = 0;
     distceiling = 0;
     distright = 0;
@@ -13,18 +13,17 @@ Physics::Physics(GameObject* associated,Vec2 *speed,bool isTile) : associated(as
     max = 150;
     this->isTile = isTile;
     this->speed = speed;
-    this->collider = new Collider(*associated);
-    associated->AddComponent(collider);
+    this->collider = new Collider(associated);
+    associated.AddComponent(collider);
 }
 
 Physics::~Physics(){
-    associated = nullptr;
     collider = nullptr;
     speed = nullptr;
 }
 
-void Physics::Update(int max){
-    this->max = max;
+void Physics::Update(float dt){
+    this->max = 150;
     collider->Update(0);
     if(!isTile){
         Vec2 centerofmap = Vec2(Camera::limit.x/2,Camera::limit.y/2);
@@ -38,10 +37,10 @@ void Physics::Update(int max){
         std::queue<int> adjustindices;
         for(int i = 0;i < TileMap::tiles.size();i ++){
             TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
-            bool collided = Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0);
+            bool collided = Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated.angleDeg),0);
             if(collided && tilecollider->moving){
-                while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
-                    tilecollider->NotifyMobCollision(*associated);
+                while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated.angleDeg),0)){
+                    tilecollider->NotifyMobCollision(associated);
                     collider->Update(0);
                 }
             }
@@ -54,13 +53,24 @@ void Physics::Update(int max){
         if(correctdistance){
             for(int i = adjustindices.size();i > 0;i--){
                 TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[adjustindices.front()].lock().get());
-                while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated->angleDeg),0)){
+                while(Collision::IsColliding(collider->box,tilecollider->box,ToPI(associated.angleDeg),0)){
                     CorrectDistance();
                     collider->Update(0);
                 }
                 adjustindices.pop();
             }
         }
+    }
+}
+
+void Physics::Render(){
+
+}
+bool Physics::Is(std::string type){
+    if(type == "Physics"){
+        return true;
+    }else{
+        return false;
     }
 }
 
@@ -101,16 +111,16 @@ void Physics::CorrectDistance(){
         #endif
         if(!disttofix.empty()){
             if(disttofix[0] == 0){
-                associated->box.y += distground;
+                associated.box.y += distground;
             }
             if(disttofix[0] == 1){
-                associated->box.y -= distceiling;
+                associated.box.y -= distceiling;
             }
             if(disttofix[0] == 2){
-                associated->box.x += distright;
+                associated.box.x += distright;
             }
             if(disttofix[0] == 3){
-                associated->box.x -= distleft;
+                associated.box.x -= distleft;
             }
         }
     }
@@ -148,12 +158,12 @@ void Physics::PrintValues(std::string header){
 float Physics::DistanceTo(Rect box,int xsum,int ysum,int max){
     int dist = 0;
 
-    while(!IsColliding(box,ToPI(associated->angleDeg)) && (dist < max)){
+    while(!IsColliding(box,ToPI(associated.angleDeg)) && (dist < max)){
         box.y += ysum;
         box.x += xsum;
         dist ++;
     }
-    while(IsColliding(box,ToPI(associated->angleDeg)) && (dist > -max)){
+    while(IsColliding(box,ToPI(associated.angleDeg)) && (dist > -max)){
         box.y += -ysum;
         box.x += -xsum;
         dist --;
@@ -189,7 +199,7 @@ bool Physics::IsOutofBounds(bool Completely,Rect box,float angle){
     //If no inputs bases on current collider
     if(box == Rect(0,0,0,0)){
         box = collider->box;
-        angle = ToPI(associated->angleDeg);
+        angle = ToPI(associated.angleDeg);
     }
     Vec2 center( box.GetCenter() );
     Rect map = Rect(0,0,Camera::limit.x,Camera::limit.y);
@@ -220,7 +230,7 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
     #endif
     if(box == Rect(0,0,0,0)){
         box = collider->box;
-        angle = (associated->angleDeg * PI)/180;
+        angle = (associated.angleDeg * PI)/180;
     }
     if(IsOutofBounds(false,box,angle) && !StageState::ChangingMap() && !nooutofbounds){
         return true;
@@ -235,25 +245,25 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
 }
 
 bool Physics::IsUp(int sum){
-    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),ToPI(associated->angleDeg));
+    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),ToPI(associated.angleDeg));
 }
 
 bool Physics::IsGrounded(int sum){
-    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),ToPI(associated->angleDeg));
+    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),ToPI(associated.angleDeg));
 }
 
 bool Physics::IsLeft(int sum){
-    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),ToPI(associated->angleDeg));
+    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),ToPI(associated.angleDeg));
 }
 
 bool Physics::IsRight(int sum){
-    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated->angleDeg));
+    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated.angleDeg));
 }
 
 Vec2 Physics::GetCollisionPoint(Rect origin){
     Vec2 hitboxcenter = origin.GetCenter();
     Vec2 center = collider->box.GetCenter();
-    float angle = ToPI(associated->angleDeg);
+    float angle = ToPI(associated.angleDeg);
     Vec2 point;
     if(hitboxcenter.x >= center.x){
         point = (Vec2(collider->box.x, collider->box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
@@ -286,44 +296,44 @@ Vec2 Physics::GetCollisionPoint(Rect origin){
 
 Vec2 Physics::Follow(Vec2 dest,float constspeed,float dt){
     Vec2 delta;
-    float angle = associated->box.GetCenter().GetAngle(dest.x,dest.y);
+    float angle = associated.box.GetCenter().GetAngle(dest.x,dest.y);
     speed->x = abs(constspeed * cos(angle));
     speed->y = abs(constspeed * sin(angle));
-    if(associated->box.GetCenter().x == dest.x){
+    if(associated.box.GetCenter().x == dest.x){
         delta.x = 0;
     }
-    else if(associated->box.GetCenter().x < dest.x){
-        associated->box.x += speed->x * dt;
+    else if(associated.box.GetCenter().x < dest.x){
+        associated.box.x += speed->x * dt;
         delta.x = speed->x * dt;
-        if(associated->box.GetCenter().x > dest.x){
-            associated->box.x = dest.x - associated->box.w/2;
+        if(associated.box.GetCenter().x > dest.x){
+            associated.box.x = dest.x - associated.box.w/2;
             delta.x = 0;
         }
     }else{
-        associated->box.x -= speed->x * dt;
+        associated.box.x -= speed->x * dt;
         delta.x = -(speed->x * dt);
-        if(associated->box.GetCenter().x < dest.x){
-            associated->box.x = dest.x - associated->box.w/2;
+        if(associated.box.GetCenter().x < dest.x){
+            associated.box.x = dest.x - associated.box.w/2;
             delta.x = 0;
         }
     }
 
 
-    if(associated->box.GetCenter().y == dest.y){
+    if(associated.box.GetCenter().y == dest.y){
         delta.y = 0;
     }
-    else if(associated->box.GetCenter().y < dest.y){
-        associated->box.y += speed->y * dt;
+    else if(associated.box.GetCenter().y < dest.y){
+        associated.box.y += speed->y * dt;
         delta.y = speed->y * dt;
-        if(associated->box.GetCenter().y > dest.y){
-            associated->box.y = dest.y - associated->box.h/2;
+        if(associated.box.GetCenter().y > dest.y){
+            associated.box.y = dest.y - associated.box.h/2;
             delta.y = 0;
         }
     }else{
-        associated->box.y -= speed->y * dt;
+        associated.box.y -= speed->y * dt;
         delta.y = -(speed->y * dt);
-        if(associated->box.GetCenter().y < dest.y){
-            associated->box.y = dest.y - associated->box.h/2;
+        if(associated.box.GetCenter().y < dest.y){
+            associated.box.y = dest.y - associated.box.h/2;
             delta.y = 0;
         }
     }
@@ -392,7 +402,7 @@ float Physics::Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt
     // std::cout << "degrees: " << angle * 180/PI << std::endl;
     // std::cout << "angle: " << angle << "finalangle: " << finalangle << std::endl;
     Vec2 rotationVec = Vec2(halfway.GetDistance(start.x,start.y),0).GetRotated(angle) + halfway;
-    associated->box.Transform(rotationVec.x - associated->box.w/2,rotationVec.y - associated->box.h/2);
+    associated.box.Transform(rotationVec.x - associated.box.w/2,rotationVec.y - associated.box.h/2);
     return angle;
 }
 
@@ -462,7 +472,7 @@ float Physics::PerformXMovement(float dt){
         if((speed->x * dt) < 0){
             modX = speed->x * dt;
         }
-        if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),ToPI(associated->angleDeg))){
+        if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),ToPI(associated.angleDeg))){
             speed->x = speed->x/2;
             if(IsRight() && (speed->x > 0)){
                 speed->x = 0;
@@ -477,7 +487,7 @@ float Physics::PerformXMovement(float dt){
             }
         }
         else{
-            associated->box.x += speed->x * dt;
+            associated.box.x += speed->x * dt;
             return speed->x * dt;
         }
     }
@@ -489,7 +499,7 @@ float Physics::PerformYMovement(float dt){
         if((speed->y * dt) < 0){
             modY = speed->y * dt;
         }
-        if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),ToPI(associated->angleDeg))){
+        if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),ToPI(associated.angleDeg))){
             speed->y = speed->y/2;
             if(IsGrounded() && (speed->y > 0)){
                 speed->y = 0;
@@ -504,7 +514,7 @@ float Physics::PerformYMovement(float dt){
             }
         }
         else{
-            associated->box.y += speed->y * dt;
+            associated.box.y += speed->y * dt;
             return speed->y * dt;
         }
     }
