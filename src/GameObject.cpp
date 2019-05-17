@@ -72,8 +72,8 @@ Component* GameObject::GetComponent(std::string type){
 
 Physics* GameObject::GetPhysics(){
     for(unsigned int i = 0; i < components.size();i++){
-        Physics *physics = components[i]->GetPhysics();
-        if(physics){
+        if(components[i]->Is("Physics")){
+            Physics *physics = dynamic_cast<Physics*>(components[i].get());
             return physics;
         }
     }

@@ -18,7 +18,6 @@
             virtual bool Is(std::string type) = 0;
             
             virtual void NotifyCollision (GameObject& other) {};
-            virtual Physics* GetPhysics ();
             virtual void KeepStill(bool freeze,float time = 0);
             virtual bool GetFreeze();
             virtual void UpdateFreeze(float dt);

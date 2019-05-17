@@ -15,7 +15,6 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
-            Physics* GetPhysics();
 
             void IdleHandle(float dt);
 

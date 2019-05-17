@@ -43,6 +43,7 @@ void DeadBody::Update(float dt){
         IdleHandle(dt);
     }
     if(idle && !interaction){
+        associated.RemoveComponent(associated.GetComponent("Physics"));
         associated.RemoveComponent(associated.GetComponent("Collider"));
         associated.RemoveComponent(this);
     }
@@ -82,10 +83,6 @@ void DeadBody::NotifyCollision(GameObject& other){
         }
     }
 }
-
-Physics* DeadBody::GetPhysics(){
-    return physics;
-}   
 
 void DeadBody::IdleHandle(float dt){
     if((speed.x == 0) && (speed.y == 0)){

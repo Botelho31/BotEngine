@@ -362,10 +362,6 @@ void Minion::NotifyCollision(GameObject& other){
     }
 }
 
-Physics* Minion::GetPhysics(){
-    return physics;
-}
-
 Vec2 Minion::GetPosition(){
 
     return physics->GetCollider()->box.GetCenter();
