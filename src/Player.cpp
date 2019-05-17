@@ -57,7 +57,7 @@ Player::Player(GameObject& associated) : Component(associated){
     Sprite *player =  new Sprite(associated,"assets/img/belidleswordtest.png",32,0.08);
     this->playersprite = player;
     associated.AddComponent(player);
-    physics->SetCollider(0.276,1);
+    physics->SetCollider(0.4,1,0,-5);
 }
 
 Player::~Player(){
@@ -110,17 +110,14 @@ void Player::Update(float dt){
             if(physics->IsGrounded()){
                 if(speed.x == 0){
                     SetSprite("assets/img/belidleswordtest.png",32,0.08);
-                    physics->SetCollider(0.276,1);
                 }else{
                     running = true;
                     SetSprite("assets/img/belwalktest4.png",14,0.04);
-                    physics->SetCollider(0.184,1);
                 }
             }
             else{
                 falling = true;
                 SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-                physics->SetCollider(0.276,1);
             }
         }
     }
@@ -182,7 +179,6 @@ void Player::AttackHandle(float dt){
         if(nextattack.front() == 1){
             float frametime = 0.03;
             SetSprite("assets/img/belattacktest2.png",22,frametime,false);
-            physics->SetCollider(0.15771429,1);
             player->swordradius = 100;
             delayedboost = frametime * 4.5;
             attacktiming = frametime * 10;
@@ -203,7 +199,6 @@ void Player::AttackHandle(float dt){
         if(nextattack.front() == 2){
             float frametime = 0.03;
             SetSprite("assets/img/belattack2test3.png",22,frametime,false);
-            physics->SetCollider(0.15771429,1);
             swordradius = 90;
             delayedboost = frametime * 4.5;
             attacktiming = frametime * 10;
@@ -254,10 +249,8 @@ void Player::AttackHandle(float dt){
             nextattack.pop();
             if(physics->IsGrounded()){
                 SetSprite("assets/img/belidleswordtest.png",32,0.08);
-                physics->SetCollider(0.276,1);
             }else{
                 SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-                physics->SetCollider(0.276,0.8);
             }
             swordattack->Restart();
         }
@@ -288,7 +281,6 @@ void Player::XMovement(float dt){
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
-            physics->SetCollider(0.184,1);
             running = true;
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
@@ -301,7 +293,6 @@ void Player::XMovement(float dt){
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started()) && (!jumpanimation->Started())){
             SetSprite("assets/img/belwalktest4.png",14,0.04);
-            physics->SetCollider(0.184,1);
             running = true;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
@@ -310,7 +301,6 @@ void Player::XMovement(float dt){
             physics->PerformXDeceleration(despeed,dt);
             if(running == true){
                 SetSprite("assets/img/belstoptest2.png",2,0.04,false);
-                physics->SetCollider(0.184,1);
                 runningstoptimer->Delay(dt);
                 running = false;
             }
@@ -320,7 +310,6 @@ void Player::XMovement(float dt){
         physics->PerformXDeceleration(despeed,dt);
         if(running == true){
             SetSprite("assets/img/belstoptest2.png",2,0.04,false);
-            physics->SetCollider(0.184,1);
             runningstoptimer->Delay(dt);
             running = false;
         }
@@ -335,7 +324,6 @@ void Player::XMovement(float dt){
         if(runningstoptimer->Get() >= 0.08){
             speed.x = 0;
             SetSprite("assets/img/belidleswordtest.png",32,0.08);
-            physics->SetCollider(0.276,1);
             runningstoptimer->Restart();
         }
     }
@@ -350,7 +338,6 @@ void Player::YMovement(float dt){
         falling = false;
         if(!swordattack->Started() && !hittheground->Started()){
             SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false,{0,0});
-            physics->SetCollider(0.276,1);
 
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
@@ -375,7 +362,6 @@ void Player::YMovement(float dt){
         if(hittheground->Get() >= 0.12){
             if(!swordattack->Started()){
                 SetSprite("assets/img/belidleswordtest.png",32,0.08);
-                physics->SetCollider(0.276,1);
             }
             hittheground->Restart();
         }
@@ -386,7 +372,6 @@ void Player::YMovement(float dt){
         if(!swordattack->Started()){
             if(physics->IsGrounded()){
                 SetSprite("assets/img/beljumptest4.png",15,0.04,false);
-                physics->SetCollider(0.276,0.88888888888);
                 jumpanimation->Delay(dt);
                 jumpsquat->Delay(dt);
             }else if(physics->IsRight()){
@@ -432,7 +417,6 @@ void Player::YMovement(float dt){
             if(!physics->IsGrounded()){
                 falling = true;
                 SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-                physics->SetCollider(0.276,1);
             }
         }
     }
@@ -440,7 +424,6 @@ void Player::YMovement(float dt){
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,11) > 10) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-        physics->SetCollider(0.276,1);
         falling = true;
     }
 
@@ -456,8 +439,6 @@ void Player::IdleHandle(float dt){
     if((speed.x == 0) && (speed.y == 0) && (running == false) && (physics->IsGrounded()) && (!jumpsquat->Started())  && (!swordattack->Started())){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
-            // SetSprite("assets/img/belidleswordtest.png",32,0.08);
-            // physics->SetCollider(0.276,1);
             idle = true;
         }
     }else{
@@ -470,7 +451,6 @@ void Player::DamagePlayer(int damage){
     hp -= damage;
     if(!damagetimer->Started() && !swordattack->Started()){
         SetSprite("assets/img/beldamagetest.png",7,0.03,false);
-        physics->SetCollider(0.184,1);
         damagetimer->Delay(0);
     }
 }
@@ -530,16 +510,13 @@ void Player::Reset(Vec2 speed){
                 speed.x = -600;
             }
             SetSprite("assets/img/belwalktest4.png",14,0.04);
-            physics->SetCollider(0.184,1);
         }else{
             SetSprite("assets/img/belidleswordtest.png",32,0.08);
-            physics->SetCollider(0.276,1);
         }
     }
     else{
         falling = true;
         SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
-        physics->SetCollider(0.276,1);
     }
 }
 
@@ -551,6 +528,7 @@ void Player::SetSprite(std::string file,int framecount,float frametime,bool repe
     playersprite->Open(file);
     associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2) + offset.x;
     associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2) + offset.y;
+    physics->GetCollider()->UpdateScale();
 }
 
 void Player::SetSpeed(Vec2 speed){

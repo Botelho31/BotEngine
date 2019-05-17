@@ -18,6 +18,7 @@
             void SetScale(Vec2 scale);
             void SetOffSet(Vec2 offset);
             void UpdateAssociated();
+            void UpdateScale();
 
             Rect box;
         private:
