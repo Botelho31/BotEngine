@@ -23,6 +23,7 @@ DeadBody::DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Ve
 
 DeadBody::~DeadBody(){
     deadbodysprite = nullptr;
+    delete physics;
     delete idletimer;
     delete invincibilitytimer;
 }
@@ -32,22 +33,25 @@ void DeadBody::Start(){
 }
 
 void DeadBody::Update(float dt){
-    physics->Update();
     if(!idle){
+        physics->Update();
         physics->PerformXDeceleration(despeed,dt);
         physics->PerformXMovement(dt);
         physics->PerformYMovement(dt);
-        IdleHandle(dt);
-    }else{
+        physics->PerformGravity(gravspeed,dt);
         IdleHandle(dt);
     }
-    physics->PerformGravity(gravspeed,dt);
-
-    if(invincibilitytimer->Started()){
-        invincibilitytimer->Update(dt);
-        if(invincibilitytimer->Get() >= damageCooldown){
-            invincibilitytimer->Restart();
-            this->damageCooldown = 0;
+    if(idle && !interaction){
+        associated.RemoveComponent(associated.GetComponent("Collider"));
+        associated.RemoveComponent(this);
+    }
+    if(interaction){
+        if(invincibilitytimer->Started()){
+            invincibilitytimer->Update(dt);
+            if(invincibilitytimer->Get() >= damageCooldown){
+                invincibilitytimer->Restart();
+                this->damageCooldown = 0;
+            }
         }
     }
 }
