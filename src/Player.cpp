@@ -52,6 +52,7 @@ Player::Player(GameObject& associated) : Component(associated){
 
     input =  &(InputManager::GetInstance());
     this->physics = new Physics(associated,&speed);
+    associated.AddComponent(physics);
 
     Sprite *player =  new Sprite(associated,"assets/img/belidleswordtest.png",32,0.08);
     this->playersprite = player;
@@ -63,6 +64,7 @@ Player::~Player(){
     player = nullptr;
     playersprite = nullptr;
     input = nullptr;
+    physics = nullptr;
     delete idletimer;
     delete jumpsquat;
     delete hittheground;
@@ -72,7 +74,6 @@ Player::~Player(){
     delete delayedboosttimer;
     delete jumpanimation;
     delete runningstoptimer;
-    delete physics;
 }
 
 void Player::Start(){
@@ -80,7 +81,7 @@ void Player::Start(){
 
 void Player::Update(float dt){
     Collider *collider = physics->GetCollider();
-    physics->Update(dt);
+    // physics->Update(dt);
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
             physics->PrintValues("Player");

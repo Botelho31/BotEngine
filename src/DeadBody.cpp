@@ -14,6 +14,7 @@ DeadBody::DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Ve
     idle = false;
 
     this->physics = new Physics(associated,&speed,false);
+    associated.AddComponent(physics);
     this->interaction = interaction;
 
     this->deadbodysprite =  dyingsprite;
@@ -23,7 +24,7 @@ DeadBody::DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Ve
 
 DeadBody::~DeadBody(){
     deadbodysprite = nullptr;
-    delete physics;
+    physics = nullptr;
     delete idletimer;
     delete invincibilitytimer;
 }
@@ -34,7 +35,7 @@ void DeadBody::Start(){
 
 void DeadBody::Update(float dt){
     if(!idle){
-        physics->Update(dt);
+        // physics->Update(dt);
         physics->PerformXDeceleration(despeed,dt);
         physics->PerformXMovement(dt);
         physics->PerformYMovement(dt);

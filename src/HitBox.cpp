@@ -9,11 +9,12 @@ HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owne
     this->selfDestruct = new Timer();
     Vec2 speed;
     this->physics = new Physics(associated,&speed,true);
+    associated.AddComponent(physics);
 }
 
 HitBox::~HitBox(){
+    physics = nullptr;
     delete selfDestruct;
-    delete physics;
 }
 
 void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
@@ -21,7 +22,7 @@ void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
 }
 
 void HitBox::Update(float dt){
-    this->physics->Update(dt);
+    // this->physics->Update(dt);
     if(secondsToSelfDestruct > 0){
         selfDestruct->Update(dt);
         damageCooldown -= dt;
