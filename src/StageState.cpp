@@ -92,10 +92,12 @@ void StageState::Update(float dt){
         popRequested = true;
     }
     for(unsigned int i = 0; i < objectArray.size();i++){
-        if(objectArray[i]->GetPhysics() && !mapcollision){
-
-        }else{
+        if(mapcollision){
             objectArray[i]->Update(dt);
+        }else{
+            if(!objectArray[i]->GetPhysics()){
+                objectArray[i]->Update(dt);
+            }
         }
     }
 

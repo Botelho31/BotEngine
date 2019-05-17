@@ -45,7 +45,7 @@ void DeadBody::Update(float dt){
     if(idle && !interaction){
         associated.RemoveComponent(associated.GetComponent("Physics"));
         associated.RemoveComponent(associated.GetComponent("Collider"));
-        associated.RemoveComponent(this);
+        physics = nullptr;
     }
     if(interaction){
         if(invincibilitytimer->Started()){

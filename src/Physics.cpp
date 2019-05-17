@@ -24,7 +24,6 @@ Physics::~Physics(){
 
 void Physics::Update(float dt){
     this->max = 150;
-    collider->Update(0);
     if(!isTile){
         Vec2 centerofmap = Vec2(Camera::limit.x/2,Camera::limit.y/2);
         while(IsOutofBounds() && !StageState::ChangingMap()){
