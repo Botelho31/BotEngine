@@ -21,7 +21,7 @@ Minion
     minionY 500
   ]
 
-MovingTile
+MovingTilelul
   [
     startX 50
     startY 500

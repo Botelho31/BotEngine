@@ -303,6 +303,7 @@ void StageState::Start(){
 	tileObj->AddComponent(tilemap);
 	objectArray.emplace_back(tileObj);
 
+    //Loads the player
     GameObject *playerObj = new GameObject();
     Player *player = new Player(*playerObj);
     player->SetHealth(GameData::savePlayerHealth);
@@ -311,6 +312,7 @@ void StageState::Start(){
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
 
+    //Loads the player HP
     GameObject *playerhpObj = new GameObject();
     std::stringstream playerLife;
     playerLife << player->GetLife();
@@ -322,6 +324,7 @@ void StageState::Start(){
     playerhpObj->AddComponent(playerhp);
     objectArray.emplace_back(playerhpObj);
 
+    //Loads the FPS
     GameObject *fpsObj = new GameObject();
     fpsObj->box.x = Camera::window.x - 100;
     fpsObj->box.y = 0;
@@ -331,7 +334,7 @@ void StageState::Start(){
     fpsObj->AddComponent(fps);
     objectArray.emplace_back(fpsObj); 
        
-    //FINISHES LOADING THE PLAYER DATA
+    //FINISHES LOADING
 
     StartArray();
 
