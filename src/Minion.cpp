@@ -356,6 +356,9 @@ void Minion::NotifyCollision(GameObject& other){
                 invincibilitytimer->Delay(0);
             }
         }
+        if(component2){
+            physics->KnockBack(other.box,{2,0},true);
+        }
     }
 }
 
