@@ -44,7 +44,7 @@
             float PerformYMovement(float dt);
 
             void PerformGravity(float gravspeed,float dt);
-            void KnockBack(Rect hitbox,Vec2 knockback); //Applies knockback to rect
+            void KnockBack(Rect hitbox,Vec2 knockback,bool sum = false,Vec2 max = {100,100}); //Applies knockback to rect
 
             Collider* GetCollider(); //Returns the collider
             void SetCollider(float scaleX,float scaleY,float offsetX = 0,float offsetY = 0);    //changes the values of the collider

@@ -136,7 +136,7 @@ void Game::Run(){
         stateStack.top()->Update(GetDeltaTime());
         stateStack.top()->Render();
         SDL_RenderPresent(renderer);
-        SDL_Delay(11);
+        // SDL_Delay(11);
         // std::cout << (int)(1/dt) << std::endl;
     }
 }

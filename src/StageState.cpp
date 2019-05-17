@@ -59,7 +59,7 @@ void StageState::Update(float dt){
     
     //FOR DEBUGGING REASONS SPAWNS MINION ON 6
     #ifdef DEBUG
-        if(input->IsKeyDown(SDLK_6)){
+        if(input->KeyPress(SDLK_6)){
             GameObject *minionObj = new GameObject();
             Minion *minion = new Minion(*minionObj);
             minionObj->AddComponent(minion);
@@ -78,6 +78,7 @@ void StageState::Update(float dt){
             std::stringstream fpsstring;
             fpsstring << (int)(1/dt);
             this->fps->SetText(fpsstring.str());
+            // std::cout << objectArray.size() << std::endl;
         }else{
             this->fps->SetText("");
         }

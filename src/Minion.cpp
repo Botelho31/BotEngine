@@ -357,7 +357,7 @@ void Minion::NotifyCollision(GameObject& other){
             }
         }
         if(component2){
-            physics->KnockBack(other.box,{2,0},true);
+            physics->KnockBack(other.box,{5,0},true);
         }
     }
 }

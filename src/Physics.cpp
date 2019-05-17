@@ -526,13 +526,22 @@ void Physics::PerformGravity(float gravspeed,float dt){
     }
 }
 
-void Physics::KnockBack(Rect hitbox,Vec2 knockback){
-    if((collider->box.x + collider->box.w/2) <= (hitbox.x + hitbox.w/2)){
-        speed->x = -knockback.x;
+void Physics::KnockBack(Rect hitbox,Vec2 knockback,bool sum,Vec2 max){
+    if(!sum){
+        if((collider->box.x + collider->box.w/2) <= (hitbox.x + hitbox.w/2)){
+            speed->x = -knockback.x;
+        }else{
+            speed->x = knockback.x;
+        }
+        speed->y = -knockback.y;
     }else{
-        speed->x = knockback.x;
+        if((collider->box.x + collider->box.w/2) <= (hitbox.x + hitbox.w/2)){
+            PerformXAcceleration(false,knockback.x,max.x,0,1);
+        }else{
+            PerformXAcceleration(true,knockback.x,max.x,0,1);
+        }
+        PerformYAcceleration(false,knockback.y,1);
     }
-    speed->y = -knockback.y;
 }
 
 Collider* Physics::GetCollider(){
