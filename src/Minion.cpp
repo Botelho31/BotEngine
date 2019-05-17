@@ -28,7 +28,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     idle = false;
 
     state = IDLE;
-    this->physics = new Physics(&associated,&speed);
+    this->physics = new Physics(associated,&speed);
 
     this->attacktimer = new Timer();
 
@@ -55,7 +55,7 @@ void Minion::Start(){
 }
 
 void Minion::Update(float dt){
-    physics->Update();
+    physics->Update(dt);
     int distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
     if(Player::player){

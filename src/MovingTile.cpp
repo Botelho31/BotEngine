@@ -7,7 +7,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     this->associated.box.x = start.x - associated.box.w/2;
     this->associated.box.y = start.y - associated.box.h/2;
 
-    this->physics = new Physics(&associated,&this->speed,true);
+    this->physics = new Physics(associated,&this->speed,true);
     physics->SetCollider(0.95,2,0,-associated.box.h/2);
 
     this->deltamov = Vec2(0,0);
@@ -37,7 +37,7 @@ MovingTile::~MovingTile(){
 }
 
 void MovingTile::Update(float dt){
-    physics->Update();
+    physics->Update(dt);
     
     if(tilecollider->pressing){
         tilecollider->pressing = false;
