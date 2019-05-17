@@ -294,7 +294,6 @@ void Minion::IdleState(float distanceToPlayer,float dt){
 
 }
 
-
 void Minion::IdleHandle(float dt){
     if((speed.x == 0) && (speed.y == 0)){
         idletimer->Update(dt);
@@ -357,7 +356,7 @@ void Minion::NotifyCollision(GameObject& other){
             }
         }
         if(component2){
-            physics->KnockBack(other.box,{5,0},true);
+            physics->KnockBack(other.box,{5,0},true,{400,400});
         }
     }
 }
