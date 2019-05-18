@@ -59,11 +59,12 @@ void StageState::Update(float dt){
     
     //FOR DEBUGGING REASONS SPAWNS MINION ON 6
     #ifdef DEBUG
+        Vec2 mousePos = Vec2(input->GetMouseX() * 2 + Camera::pos.x,input->GetMouseY() * 2 + Camera::pos.y);
         if(input->KeyPress(SDLK_6)){
             GameObject *minionObj = new GameObject();
             Minion *minion = new Minion(*minionObj);
             minionObj->AddComponent(minion);
-            Vec2  minionpos = Vec2(input->GetMouseX() * 2 + Camera::pos.x,input->GetMouseY() * 2 + Camera::pos.y);
+            Vec2  minionpos = mousePos;
             minionObj->box.SetCenter(minionpos);
             AddObject(minionObj);
         }
