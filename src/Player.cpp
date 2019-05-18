@@ -596,7 +596,7 @@ void Player::NotifyCollision(GameObject& other){
         Event *event = dynamic_cast<Event*>(other.GetComponent("Event"));
         if(!event->IsProcessing()){
             event->SetProcessing(true);
-            GameData::events.emplace(event);
+            GameData::events.emplace(*event);
         }
     }
 }
