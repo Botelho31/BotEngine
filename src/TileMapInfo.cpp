@@ -76,8 +76,7 @@ void TileMapInfo::Open(std::string file){
                 MovingTile *movingtile = new MovingTile(*tileObj,speed,start,dest,circular);
                 tileObj->AddComponent(movingtile);
                 int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("TileMap");
-                if(place > 0){
-                    std::cout << place << std::endl;
+                if(place >= 0){
                     std::weak_ptr<GameObject> tileweakptr =  Game::GetInstance().GetCurrentState().AddObject(tileObj,place);
                 }else{
                     std::weak_ptr<GameObject> tileweakptr =  Game::GetInstance().GetCurrentState().AddObject(tileObj);

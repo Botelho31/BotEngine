@@ -229,9 +229,11 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					if(physics1->IsColliding(collider->box.Added(0,(distground)),ToPI(other.angleDeg))){
 						associated.box.y += -(distground - 10);
 						pressing = true;
-						// std::cout << "ground adjust tile" << std::endl;
+						ENDLINE
+						std::cout << "Ground Adjust Tile" << std::endl;
 					}else{
-						// std::cout << "ground adjust mob" << std::endl;
+						ENDLINE
+						std::cout << "Ground Adjust Mob" << std::endl;
 						collider->box.y = associated.box.y - collider->box.h - 1;
 						collider->UpdateAssociated();
 					}
@@ -240,9 +242,11 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					if(physics1->IsColliding(collider->box.Added(0,-(distceiling)),ToPI(other.angleDeg))){
 						associated.box.y += distceiling - 10;
 						pressing = true;
-						// std::cout << "ceiling adjust tile" << std::endl;
+						ENDLINE
+						std::cout << "Ceiling Adjust Tile" << std::endl;
 					}else{
-						// std::cout << "ceiling adjust mob" << std::endl;
+						ENDLINE
+						std::cout << "Ceiling Adjust Mob" << std::endl;
 						collider->box.y = associated.box.y + associated.box.h + 1;
 						collider->UpdateAssociated();
 					}
@@ -251,9 +255,11 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					if(physics1->IsColliding(collider->box.Added(-(distright),0),ToPI(other.angleDeg))){
 						associated.box.x += distright - 10;
 						pressing = true;
-						// std::cout << "right adjust tile" << std::endl;
+						ENDLINE
+						std::cout << "Right Adjust Tile" << std::endl;
 					}else{
-						// std::cout << "right adjust mob" << std::endl;
+						ENDLINE
+						std::cout << "Right Adjust Mob" << std::endl;
 						collider->box.x = associated.box.x + associated.box.w + 1;
 						collider->UpdateAssociated();
 					}
@@ -262,9 +268,11 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					if(physics1->IsColliding(collider->box.Added((distleft),0),ToPI(other.angleDeg))){
 						associated.box.x -= distleft - 10;
 						pressing = true;
-						// std::cout << "left adjust tile" << std::endl;
+						ENDLINE
+						std::cout << "Left Adjust Tile" << std::endl;
 					}else{
-						// std::cout << "left adjust mob" << std::endl;
+						ENDLINE
+						std::cout << "Left Adjust Mob" << std::endl;
 						collider->box.x = associated.box.x - collider->box.w - 1;
 						collider->UpdateAssociated();
 					}
