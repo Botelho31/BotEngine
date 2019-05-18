@@ -160,6 +160,7 @@ void StageState::Update(float dt){
     //HANDLES PLAYER DEATH
     if(!GameData::playerAlive){
         if(Player::player){
+            windoweffects->FadeToBlack(0.5);
             mapcollision = false;
             changingMap = true;
             ClearMobs();

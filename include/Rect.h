@@ -21,6 +21,7 @@
             Vec2 GetCenter();
             void SetCenter(Vec2 center);
             float GetAngle(float x,float y,float offsetX = 0,float offsetY = 0);
+            Vec2 GetMirroredPoint(Vec2 point,bool horizontal = true,bool vertical = false); //Returns the point mirrored position from the perspective of the rect
             float w,h,x,y;
 
             bool operator==(const Rect& rhs) const {

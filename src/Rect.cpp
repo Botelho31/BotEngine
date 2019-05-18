@@ -64,6 +64,22 @@ Vec2 Rect::GetCenter(){
     return Vec2(x + w/2,y + h/2);
 }
 
+Vec2 Rect::GetMirroredPoint(Vec2 point,bool horizontal,bool vertical){
+    if(horizontal){
+        float difX = x - point.x;
+        float difXW = (x + w)  - point.x;
+        float difpointX = difX + difXW;
+        point.x += difpointX;
+    }
+    if(vertical){
+        float difY = y - point.y;
+        float difYH = (y + h) - point.y;
+        float difpointY = difY + difYH;
+        point.y += difpointY;
+    }
+    return point;
+}
+
 void Rect::SetCenter(Vec2 center){
     x = center.x - w/2;
     y = center.y - h/2;
