@@ -17,7 +17,12 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
+            bool IsProcessing();
+            void SetProcessing(bool processing);
+
         private:
+            bool processing;
+
             bool isPortal;
             Vec2 portalLoc;
             std::string tileMap;

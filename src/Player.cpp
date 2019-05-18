@@ -591,6 +591,14 @@ void Player::NotifyCollision(GameObject& other){
             invincibilitytimer->Delay(0);
         }
     }
+
+    if(other.GetComponent("Event")){
+        Event *event = dynamic_cast<Event*>(other.GetComponent("Event"));
+        if(!event->IsProcessing()){
+            event->SetProcessing(true);
+            GameData::events.emplace(event);
+        }
+    }
 }
 
 Physics* Player::GetPhysics(){

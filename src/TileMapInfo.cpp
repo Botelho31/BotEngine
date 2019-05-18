@@ -7,10 +7,6 @@ TileMapInfo::TileMapInfo(std::string file){
 }
 
 void TileMapInfo::Open(std::string file){
-    if((!portals.empty()) || (!portalfiles.empty())){
-        portals.clear();
-        portalfiles.clear();
-    }
     std::fstream FileReader;
     FileReader.open(file.c_str());
     std::string checkline;

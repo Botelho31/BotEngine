@@ -5,6 +5,7 @@
 #ifndef GAMEDATA_H
     #define GAMEDATA_H
     #include "Vec2.h"
+    #include "Event.h"
 
     class GameData{
         public:
@@ -19,6 +20,8 @@
             static std::string checkpointMapInfo;
             static Vec2 checkpointPos;
             static Vec2 checkpointPosSpeed;
+
+            static std::queue<Event> events;
     };
 
 #endif

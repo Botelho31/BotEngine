@@ -9,6 +9,8 @@ Event::Event(GameObject& associated,Rect box,bool isPortal,std::string tileMap,s
     this->tileMap = tileMap;
     this->tileMapInfo = tileMapInfo;
     this->portalLoc = portalloc;
+
+    this->processing = false;
     
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
@@ -18,6 +20,14 @@ Event::~Event(){
 }
 
 void Event::Update(float dt){
+}
+
+bool Event::IsProcessing(){
+    return processing;
+}
+
+void Event::SetProcessing(bool processing){
+    this->processing = processing;
 }
 
 
