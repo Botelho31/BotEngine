@@ -12,7 +12,7 @@
 
     class Physics : public Component{
         public:
-            Physics(GameObject& associated,Vec2 *speed,bool isTile = false);
+            Physics(GameObject& associated,Vec2 *speed,bool isTile = false,bool isMob = false);
             ~Physics();
 
             void Update(float dt); //Checks if the object is OutofBounds or if it is colliding with a tile and adjusts accordingly
@@ -60,6 +60,7 @@
             Collider *collider;
             float max; //Maximum distance that UpdateDists bases itself on
             bool isTile;    //If it is tile doesnt check for collision with map or OutofBounds
+            bool isMob;
             
     };
 

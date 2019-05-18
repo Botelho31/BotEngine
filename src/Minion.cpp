@@ -28,7 +28,7 @@ Minion::Minion(GameObject& associated) : Component(associated){
     idle = false;
 
     state = IDLE;
-    this->physics = new Physics(associated,&speed);
+    this->physics = new Physics(associated,&speed,false,true);
     associated.AddComponent(physics);
 
     this->attacktimer = new Timer();
@@ -131,9 +131,13 @@ void Minion::Update(float dt){
             this->damageCooldown = 0;
         }
     }
-    if(hp <= 0){
+    if((hp <= 0) || (physics->IsOutofBounds(true))){
         if(!associated.IsDead()){
-            KillMinion();
+            if(physics->IsOutofBounds(true)){
+                associated.RequestDelete();
+            }else{
+                KillMinion();
+            }
         }
     }
 }

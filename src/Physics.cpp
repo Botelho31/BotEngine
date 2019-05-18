@@ -5,13 +5,14 @@
 #include "../include/StageState.h"
 #include "../include/WindowEffects.h"
 
-Physics::Physics(GameObject& associated,Vec2 *speed,bool isTile) : Component(associated){
+Physics::Physics(GameObject& associated,Vec2 *speed,bool isTile,bool isMob) : Component(associated){
     distground = 0;
     distceiling = 0;
     distright = 0;
     distleft = 0;
     max = 150;
     this->isTile = isTile;
+    this->isMob = isMob;
     this->speed = speed;
     this->collider = new Collider(associated);
     associated.AddComponent(collider);
@@ -26,7 +27,7 @@ void Physics::Update(float dt){
     this->max = 150;
     if(!isTile){
         Vec2 centerofmap = Vec2(Camera::limit.x/2,Camera::limit.y/2);
-        while(IsOutofBounds() && !StageState::ChangingMap()){
+        while(IsOutofBounds() && !StageState::ChangingMap() && !isMob){
             std::cout << "Out of Bounds" << std::endl;
             Follow(centerofmap,10,1);
             collider->Update(0);
@@ -231,7 +232,7 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
         box = collider->box;
         angle = (associated.angleDeg * PI)/180;
     }
-    if(IsOutofBounds(false,box,angle) && !StageState::ChangingMap() && !nooutofbounds){
+    if(IsOutofBounds(false,box,angle) && !StageState::ChangingMap() && !nooutofbounds && !isMob){
         return true;
     }
     for(int i = 0;i < TileMap::tiles.size();i ++){
