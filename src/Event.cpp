@@ -2,13 +2,14 @@
 #include "../include/Collider.h"
 #include "../include/WindowEffects.h"
 
-Event::Event(GameObject& associated,Rect box,bool isPortal,std::string tileMap,std::string tileMapInfo,Vec2 portalloc) : 
+Event::Event(GameObject& associated,Rect box,EventType eventType,std::string tileMap,std::string tileMapInfo,Vec2 portalloc) : 
     Component(associated){
     associated.box = box;
-    this->isPortal = isPortal;
     this->tileMap = tileMap;
     this->tileMapInfo = tileMapInfo;
     this->portalLoc = portalloc;
+
+    this->eventType = eventType;
 
     this->processing = false;
     
@@ -28,6 +29,26 @@ bool Event::IsProcessing(){
 
 void Event::SetProcessing(bool processing){
     this->processing = processing;
+}
+
+Event::EventType Event::GetType(){
+    return eventType;
+}
+
+Rect Event::GetBox(){
+    return associated.box;
+}
+
+Vec2 Event::GetPortalLoc(){
+    return portalLoc;
+}
+
+std::string Event::GetTileMap(){
+    return tileMap;
+}
+
+std::string Event::GetTileMapInfo(){
+    return tileMapInfo;
 }
 
 

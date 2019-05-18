@@ -9,7 +9,9 @@
 
     class Event : public Component{
         public:
-            Event(GameObject& associated,Rect box,bool isPortal,std::string tileMap,std::string tileMapInfo,Vec2 portalloc);
+            enum EventType{PORTAL,NOTHING};
+
+            Event(GameObject& associated,Rect box,EventType eventType,std::string tileMap,std::string tileMapInfo,Vec2 portalloc);
             ~Event();
 
             void Update(float dt);
@@ -19,11 +21,17 @@
 
             bool IsProcessing();
             void SetProcessing(bool processing);
+            EventType GetType();
+            Rect GetBox();
+
+            Vec2 GetPortalLoc();
+            std::string GetTileMap();
+            std::string GetTileMapInfo();
 
         private:
+            EventType eventType;
             bool processing;
 
-            bool isPortal;
             Vec2 portalLoc;
             std::string tileMap;
             std::string tileMapInfo;
