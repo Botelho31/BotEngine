@@ -12,9 +12,13 @@ State::~State(){
     objectArray.clear();
 }
 
-std::weak_ptr<GameObject> State::AddObject(GameObject *go){
+std::weak_ptr<GameObject> State::AddObject(GameObject *go,int place){
     std::shared_ptr<GameObject> object(go);
-    objectArray.push_back(object);
+    if(place == 0){
+        objectArray.push_back(object);
+    }else{
+        objectArray.insert(objectArray.begin() + place,object);
+    }
     if(started){
         object->Start();
     }
