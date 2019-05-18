@@ -47,9 +47,6 @@ void HitBox::Update(float dt){
                 Vec2 ownercenter = owner.lock().get()->box.GetCenter();
                 float collisiondist = collisionpoint.GetDistance(ownercenter.x,ownercenter.y);
                 float wallknockback = 200 + (300 * (30/(collisiondist)));
-                // float test = (30/(collisiondist));
-                // std::cout << test << std::endl;
-                // std::cout << "dist: " << collisiondist << " KB: " << wallknockback << std::endl;
                 player->KnockBack(collisionrect,Vec2(wallknockback,0));
             }
         }
@@ -74,7 +71,13 @@ void HitBox::NotifyCollision(GameObject& other){
     //HANDLES WHEN TO FREEZE THE HIT
     if(component && (hitfreezetime > 0)){
         Component *hitboxcomponent = other.GetComponent("HitBox");
-        Component *collider = other.GetComponent("Collider");
+        Component *colliderComp = other.GetComponent("Collider");
+        Vec2 collisionpoint = {0,0};
+        if(colliderComp){
+            Collider *collider = dynamic_cast<Collider*>(colliderComp);
+            collisionpoint = physics->GetCollisionPoint(GetEdge(false),collider->box.GetCenter(),collider->box,ToPI(other.angleDeg));
+        }
+
         if(hitPlayer){
             Component *component1 = other.GetComponent("Player");
             if(component1){
@@ -87,7 +90,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     KeepStill(true,hitfreezetime);
                     hitbox->KeepStill(true,hitfreezetime);
                     hitfreezetime = 0;
-                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
+                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
                 }
             }
         }
@@ -96,7 +99,7 @@ void HitBox::NotifyCollision(GameObject& other){
             if(component1){
                 KeepStill(true,hitfreezetime);
                 component1->KeepStill(true,hitfreezetime);
-                HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
+                HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
                 hitfreezetime = 0;
                 knockback.x = 0;
                 knockback.y = 0;
@@ -107,7 +110,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     KeepStill(true,hitfreezetime);
                     hitbox->KeepStill(true,hitfreezetime);
                     hitfreezetime = 0;
-                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,associated.box.GetCenter());
+                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
                 }
             }
         }
@@ -154,17 +157,28 @@ Vec2 HitBox::GetKnockBack(){
     return this->knockback;
 }
 
-Vec2 HitBox::GetEdge(){
+Vec2 HitBox::GetEdge(bool outer){
     float angle = ToPI(associated.angleDeg);
     Collider *collider = physics->GetCollider();
     Vec2 center = physics->GetCollider()->box.GetCenter();
-    Vec2 point = {0,0};
+    Vec2 point1;
+    Vec2 point2;
+    Vec2 outerEdge = {0,0};
+    Vec2 innerdge = {0,0};
+    point1 = (Vec2(collider->box.x, collider->box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
+    point2 = (Vec2(collider->box.x + collider->box.w,collider-> box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
     if(owner.lock()->box.GetCenter().x >= center.x){
-        point = (Vec2(collider->box.x, collider->box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
+        outerEdge = point1;
+        innerdge = point2;
     }else{
-        point = (Vec2(collider->box.x + collider->box.w,collider-> box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
+        outerEdge = point2;
+        innerdge = point1;
     }
-    return point;
+    if(outer){
+        return outerEdge;
+    }else{
+        return innerdge;
+    }
 }
 
 bool HitBox::HitPlayer(){

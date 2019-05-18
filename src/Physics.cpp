@@ -260,7 +260,7 @@ bool Physics::IsRight(int sum){
     return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated.angleDeg));
 }
 
-Vec2 Physics::GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox,float boxAngle){
+Vec2 Physics::GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox,float colBoxAngle){
     Rect box = GetLineBox(origin,dest);
     float angle = origin.GetAngle(dest);
 
@@ -286,6 +286,27 @@ Vec2 Physics::GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox,float boxAngle
             return Vec2(0,0);
         }
     
+    }else{
+        if(Collision::IsColliding(box,colBox,angle,colBoxAngle)){
+            float interval = box.w/2;
+            box.w -= interval;
+            box = GetLineBox(origin,dest,box.w);
+            while(interval > 1){
+                if(Collision::IsColliding(box,colBox,angle,colBoxAngle)){
+                    box.w -= interval;
+                    interval /= 2;
+                }
+                else{
+                    box.w += interval;
+                    interval /= 2;
+                }
+                box = GetLineBox(origin,dest,box.w);
+            }
+            Vec2 collisionpoint = Vec2(box.w,0).GetRotated(angle) + origin;
+            return collisionpoint;
+        }else{
+            return Vec2(0,0);
+        }
     }
 }
 
