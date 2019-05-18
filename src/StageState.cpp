@@ -220,7 +220,7 @@ void StageState::ExpandTileColliders(){
     }
 }
 
-void StageState::ClearMobs(){    
+void StageState::ClearMobs(){
     for(int i = (objectArray.size() - 1); i >= 0; --i){
         Component *component1 = objectArray[i]->GetComponent("HitBox");
         Component *component2 = objectArray[i]->GetComponent("Minion");
@@ -231,19 +231,19 @@ void StageState::ClearMobs(){
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
-        if(component2){
+        else if(component2){
             objectArray.erase(objectArray.begin() + i);
         }
-        if(component3){
+        else if(component3){
             objectArray.erase(objectArray.begin() + i);
         }
-        if(component4){
+        else if(component4){
             objectArray.erase(objectArray.begin() + i);
         }
-        if(component5){
+        else if(component5){
             objectArray.erase(objectArray.begin() + i);
         }
-        if(component6){
+        else if(component6){
             objectArray.erase(objectArray.begin() + i);
         }
     }
