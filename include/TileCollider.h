@@ -21,6 +21,7 @@
             float Ceiling(float number);
             
             bool moving;
+            bool adjusted;
 
             bool maxX;
             bool maxY;

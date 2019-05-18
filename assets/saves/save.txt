@@ -1,9 +1,9 @@
 Save
 	[
-		map assets/map/tileMaptest-1.txt
-		mapInfo assets/map/info/tileMaptest-1.txt
-		playerPos 647.054 1500.28
-		playerLife 110
-		checkpointPos 53 1500
-		checkpointPosSpeed 600 6
+		map assets/map/tileMaptest-2.txt
+		mapInfo assets/map/info/tileMaptest-2.txt
+		playerPos 656.975 1529.93
+		playerLife 10
+		checkpointPos 2980 1530
+		checkpointPosSpeed -600 10
 	]
