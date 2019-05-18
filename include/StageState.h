@@ -24,7 +24,7 @@
             void Pause();
 
             void ExpandTileColliders(); //Handles TileColliders expansion in the opening of new TileMaps
-            void HandleTileEvents(Vec2 PlayerPos); //Handles tile related events
+            void HandleEvents(); //Handles event
             void ClearMobs(); //Clear all mobs and hitboxes from screen
             void UpdateHP();  //Updates the playerHP being displayed on HUD
             
