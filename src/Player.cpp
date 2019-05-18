@@ -610,6 +610,10 @@ Vec2 Player::GetPosition(){
     return physics->GetCollider()->box.GetCenter();
 }
 
+float Player::GetPlayerAngle(){
+    return ToPI(associated.angleDeg);
+}
+
 Vec2 Player::GetSpeed(){
     return Vec2(speed.x,speed.y);
 }

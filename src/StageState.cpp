@@ -107,7 +107,6 @@ void StageState::Update(float dt){
     //Expands the tile colliders to their maximum then starts interpreting tilecollision
     if(!mapcollision){
         ExpandTileColliders();
-        changingMapTimer->Update(0);
     }else{
         for(unsigned int i = 0; i < objectArray.size();i++){
             Component *component1 = objectArray[i]->GetComponent("Collider");
@@ -137,6 +136,7 @@ void StageState::Update(float dt){
     
     HandleEvents();    //HANDLE TILEMAP EXCHANGE
 
+    //Checks if player is completely in bounds
     if(changingMapTimer->Started()){
         changingMapTimer->Update(dt);
         if(Player::player){
@@ -153,6 +153,7 @@ void StageState::Update(float dt){
             std::cout << "Changed Map" << std::endl;
         }
     }
+
 
     //HANDLES PLAYER DEATH
     if(!GameData::playerAlive){
@@ -212,6 +213,7 @@ void StageState::ExpandTileColliders(){
         ENDLINE
         std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
+        changingMapTimer->Update(0);
         windoweffects->FadeFromBlack(1);
     }
 }
@@ -255,7 +257,7 @@ void StageState::HandleEvents(){
             Rect eventbox = GameData::events.front()->GetBox();
             changingMap = true;
 
-            if((!playerphysics->IsOutofBounds()) && (!Collision::IsColliding(playerbox,eventbox,0,0,true))){
+            if((!playerphysics->IsOutofBounds()) && (!Collision::IsColliding(playerbox,eventbox,Player::player->GetPlayerAngle(),0))){
                 changingMap = false;
                 GameData::events.front()->SetProcessing(false);
                 GameData::events.pop();

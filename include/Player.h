@@ -20,6 +20,7 @@
             void KeepStill(bool freeze,float time = 0);
             
             Vec2 GetPosition(); //Returns vector with center position of player
+            float GetPlayerAngle(); //Returns angle of player in PI
             Vec2 GetSpeed(); //Returns speed on the two vectors
             int GetLife(); // Returns current hp
 

@@ -1,6 +1,6 @@
 Portal
   [
-    portalBox 0 0 0 0
+    portalBox 0 1400 200 200
     portalX 2995
     portalY 1530
     tilemapfile assets/map/tileMaptest-2.txt
