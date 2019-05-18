@@ -19,6 +19,7 @@
             virtual void Resume() = 0;
             virtual std::weak_ptr<GameObject> AddObject (GameObject* object,int place = 0);
             virtual std::weak_ptr<GameObject> GetObjectPtr (GameObject* object);
+            virtual int GetObjectPlaceAtLine(std::string componenttype);
             TileMap* GetTileMap();
             bool PopRequested();
             bool QuitRequested();

@@ -37,6 +37,14 @@ std::weak_ptr<GameObject> State::GetObjectPtr(GameObject *go){
     return weakptr;
 }
 
+int State::GetObjectPlaceAtLine(std::string componenttype){
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        if(objectArray[i].get()->GetComponent(componenttype)){
+            return i;
+        }
+    }
+}
+
 TileMap* State::GetTileMap(){
     return tilemap;
 }
