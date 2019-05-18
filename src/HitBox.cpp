@@ -36,7 +36,7 @@ void HitBox::Update(float dt){
         }
         //Part that handles player hitting the wall
         if(owner.lock().get()->GetComponent("Player")){
-            Vec2 collisionpoint = physics->GetCollisionPoint(owner.lock().get()->box);
+            Vec2 collisionpoint = physics->GetCollisionPoint(owner.lock().get()->box.GetCenter(),GetEdge());
             if((collisionpoint.x != 0) && (collisionpoint.y != 0)){
                 HitEffect("assets/img/sparktest.png",4,0.02,0.08,collisionpoint);
                 Component *component1 = owner.lock().get()->GetComponent("Player");
@@ -152,6 +152,19 @@ std::shared_ptr<GameObject> HitBox::GetOwner(){
 
 Vec2 HitBox::GetKnockBack(){
     return this->knockback;
+}
+
+Vec2 HitBox::GetEdge(){
+    float angle = ToPI(associated.angleDeg);
+    Collider *collider = physics->GetCollider();
+    Vec2 center = physics->GetCollider()->box.GetCenter();
+    Vec2 point = {0,0};
+    if(owner.lock()->box.GetCenter().x >= center.x){
+        point = (Vec2(collider->box.x, collider->box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
+    }else{
+        point = (Vec2(collider->box.x + collider->box.w,collider-> box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
+    }
+    return point;
 }
 
 bool HitBox::HitPlayer(){

@@ -22,6 +22,7 @@
             Collider* GetCollider();
             std::shared_ptr<GameObject> GetOwner();
             Vec2 GetKnockBack();
+            Vec2 GetEdge(); //Gets outer edge of hitbox
             float GetDamageCooldown();
             int GetDamage();
             bool HitPlayer();

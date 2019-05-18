@@ -260,38 +260,33 @@ bool Physics::IsRight(int sum){
     return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated.angleDeg));
 }
 
-Vec2 Physics::GetCollisionPoint(Rect origin){
-    Vec2 hitboxcenter = origin.GetCenter();
-    Vec2 center = collider->box.GetCenter();
-    float angle = ToPI(associated.angleDeg);
-    Vec2 point;
-    if(hitboxcenter.x >= center.x){
-        point = (Vec2(collider->box.x, collider->box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
-    }else{
-        point = (Vec2(collider->box.x + collider->box.w,collider-> box.y + collider->box.h/2) - center).GetRotated( angle ) + center;
-    }
+Vec2 Physics::GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox,float boxAngle){
+    Rect box = GetLineBox(origin,dest);
+    float angle = origin.GetAngle(dest);
 
-    angle = hitboxcenter.GetAngle(point.x,point.y);
-    Rect box = GetLineBox(hitboxcenter,point);
-    if(IsColliding(box,angle)){
-        float interval = box.w/2;
-        box.w -= interval;
-        box = GetLineBox(hitboxcenter,point,box.w);
-        while(interval > 1){
-            if(IsColliding(box,angle)){
-                box.w -= interval;
-                interval /= 2;
+    if(colBox == Rect(0,0,0,0)){
+        if(IsColliding(box,angle)){
+            float interval = box.w/2;
+            box.w -= interval;
+            box = GetLineBox(origin,dest,box.w);
+            while(interval > 1){
+                if(IsColliding(box,angle)){
+                    box.w -= interval;
+                    interval /= 2;
+                }
+                else{
+                    box.w += interval;
+                    interval /= 2;
+                }
+                box = GetLineBox(origin,dest,box.w);
             }
-            else{
-                box.w += interval;
-                interval /= 2;
-            }
-            box = GetLineBox(hitboxcenter,point,box.w);
+            Vec2 collisionpoint = Vec2(box.w,0).GetRotated(angle) + origin;
+            return collisionpoint;
+        }else{
+            return Vec2(0,0);
         }
-        Vec2 collisionpoint = Vec2(box.w,0).GetRotated(angle) + hitboxcenter;
-        return collisionpoint;
+    
     }
-    return Vec2(0,0);
 }
 
 Vec2 Physics::Follow(Vec2 dest,float constspeed,float dt){

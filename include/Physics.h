@@ -35,9 +35,7 @@
             bool IsLeft(int sum = 1);
             bool IsGrounded(int sum = 1);
 
-
-            Vec2 GetCollisionPoint(Rect origin); //Gets the collision point on the map from the origin to the edge of hitbox, returns {0,0} if not colliding
-            Rect SimulateCollision(Rect linebox,float lineboxAngle,Rect box = {0,0,0,0},float boxAngle = 0); // Returns the linebox at the width from its origin to the collision
+            Vec2 GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox = {0,0,0,0},float colBoxAngle = 0); // Returns the collision point of the line formed by the two points to either the map or the box provided
 
             Vec2 Follow(Vec2 dest,float constspeed,float dt);   //Goes directly to marked point at constant speed
             float Rotate(Vec2 start,Vec2 dest,float angle,float constspeed,float dt);   //Goes in curved to the marked point at constant speed
