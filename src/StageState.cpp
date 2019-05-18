@@ -132,10 +132,7 @@ void StageState::Update(float dt){
     UpdateHP();
     windoweffects->Update(dt);
     
-    if(Player::player){
-        Vec2 PlayerPos = Player::player->GetPosition(); 
-        HandleTileEvents(PlayerPos);    //HANDLE TILEMAP EXCHANGE
-    }
+    HandleEvents();    //HANDLE TILEMAP EXCHANGE
 
     //HANDLES PLAYER DEATH
     if(!GameData::playerAlive){
@@ -206,6 +203,7 @@ void StageState::ClearMobs(){
         Component *component3 = objectArray[i]->GetComponent("MovingTile");
         Component *component4 = objectArray[i]->GetComponent("TileCollider");
         Component *component5 = objectArray[i]->GetComponent("DeadBody");
+        Component *component6 = objectArray[i]->GetComponent("Event");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -221,52 +219,59 @@ void StageState::ClearMobs(){
         if(component5){
             objectArray.erase(objectArray.begin() + i);
         }
+        if(component6){
+            objectArray.erase(objectArray.begin() + i);
+        }
     }
 }
 
-void StageState::HandleTileEvents(Vec2 PlayerPos){
-    int tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
+void StageState::HandleEvents(){
 
-    //TILEMAP EXCHANGE
-    if((tilemapLoc < -1) || (changingMap)){
-        if(!changingMap){
-            nextMap = tilemapLoc + 1;
-            changingMap = true; 
-        }
-        tilemapLoc = tilemap->AtLocation(PlayerPos.x,PlayerPos.y);
-        Physics* playerphysics = Player::player->GetPhysics();
-        
-        if(playerphysics->IsOutofBounds(true)){
-            if(windoweffects->GetCurrentEffect() == WindowEffects::FADEFROMBLACK){
-                windoweffects->Reset();
-            }
-            else if(windoweffects->GetCurrentEffect() == WindowEffects::NOTHING){
-                windoweffects->FadeToBlack(1.5);
-                Player::player->SetInvincibility(true);
-                Player::player->KeepStill(true);
-            }
-            else if(windoweffects->IsBlack()){
-                Player::player->KeepStill(false);
-                std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
-                Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
+    if(!GameData::events.empty()){
+        //TILEMAP EXCHANGE
+        if(GameData::events.front()->GetType() == Event::PORTAL){
+            Physics* playerphysics = Player::player->GetPhysics();
+            Rect playerbox = playerphysics->GetCollider()->box;
+            Rect eventbox = GameData::events.front()->GetBox();
+            changingMap = true;
 
-                ClearMobs();
-                tilemap->Load(files[0]);
-                tilemap->Start();
-                mapcollision = false;
-                tilemap->LoadInfo(files[1]);
-
-                GameData::checkpointMap = files[0];
-                GameData::checkpointMapInfo = files[1];
-                GameData::checkpointPos = portalloc;
-                GameData::checkpointPosSpeed = Player::player->GetSpeed();
-                Player::player->MovePlayer(portalloc.x,portalloc.y);
-                Player::player->SetInvincibility(false);
+            if((!playerphysics->IsOutofBounds()) && (!Collision::IsColliding(playerbox,eventbox,0,0,true))){
                 changingMap = false;
+                GameData::events.front()->SetProcessing(false);
+                GameData::events.pop();
             }
-        }
-        else if((!playerphysics->IsOutofBounds()) && (tilemapLoc != (nextMap -1))){
-            changingMap = false;
+            else if(playerphysics->IsOutofBounds(true)){
+                if(windoweffects->GetCurrentEffect() == WindowEffects::FADEFROMBLACK){
+                    windoweffects->Reset();
+                }
+                else if(windoweffects->GetCurrentEffect() == WindowEffects::NOTHING){
+                    windoweffects->FadeToBlack(1.5);
+                    Player::player->SetInvincibility(true);
+                    Player::player->KeepStill(true);
+                }
+                else if(windoweffects->IsBlack()){
+                    changingMap = false;
+                    mapcollision = false;
+
+                    Player::player->KeepStill(false);
+                    std::string tileMapFile = GameData::events.front()->GetTileMap();
+                    std::string tileMapInfoFile = GameData::events.front()->GetTileMapInfo();
+                    Vec2 portalloc = GameData::events.front()->GetPortalLoc();
+                    GameData::events.pop();
+
+                    ClearMobs();
+                    tilemap->Load(tileMapFile);
+                    tilemap->Start();
+                    tilemap->LoadInfo(tileMapInfoFile);
+
+                    GameData::checkpointMap = tileMapFile;
+                    GameData::checkpointMapInfo = tileMapInfoFile;
+                    GameData::checkpointPos = portalloc;
+                    GameData::checkpointPosSpeed = Player::player->GetSpeed();
+                    Player::player->MovePlayer(portalloc.x,portalloc.y);
+                    Player::player->SetInvincibility(false);
+                }
+            }
         }
     }
 }

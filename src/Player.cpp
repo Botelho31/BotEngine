@@ -592,11 +592,12 @@ void Player::NotifyCollision(GameObject& other){
         }
     }
 
-    if(other.GetComponent("Event")){
-        Event *event = dynamic_cast<Event*>(other.GetComponent("Event"));
+    Component *component = other.GetComponent("Event");
+    if(component){
+        Event *event = dynamic_cast<Event*>(component);
         if(!event->IsProcessing()){
             event->SetProcessing(true);
-            GameData::events.emplace(*event);
+            GameData::events.push(event);
         }
     }
 }

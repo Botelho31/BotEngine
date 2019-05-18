@@ -21,7 +21,7 @@
             static Vec2 checkpointPos;
             static Vec2 checkpointPosSpeed;
 
-            static std::queue<Event> events;
+            static std::queue<Event*> events;
     };
 
 #endif

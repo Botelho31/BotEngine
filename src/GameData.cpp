@@ -9,7 +9,7 @@ std::string GameData::checkpointMapInfo;
 Vec2 GameData::checkpointPos;
 Vec2 GameData::checkpointPosSpeed;
 
-std::queue<Event> GameData::events;
+std::queue<Event*> GameData::events;
 
 void GameData::SaveGame(){
     std::ofstream savefile;
