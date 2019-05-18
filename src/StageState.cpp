@@ -144,12 +144,14 @@ void StageState::Update(float dt){
             if(!physics->IsOutofBounds()){
                 changingMap = false;
                 changingMapTimer->Restart();
+                ENDLINE
                 std::cout << "Changed Map" << std::endl;
             }
         }
         if(changingMapTimer->Get() > 0.5){
             changingMapTimer->Restart();
             changingMap = false;
+            ENDLINE
             std::cout << "Changed Map" << std::endl;
         }
     }
