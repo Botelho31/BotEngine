@@ -32,9 +32,6 @@
             int GetHeight();
             int GetDepth();
 
-            Vec2 GetPortalLoc(int portalID);    //Get the place where the player will be teleported to
-            std::vector<std::string> GetPortalFiles(int portalID);  //Gets the new map files
-
             static std::vector<std::weak_ptr<Component>> tiles;
             private:
             std::vector<int> tileMatrix;

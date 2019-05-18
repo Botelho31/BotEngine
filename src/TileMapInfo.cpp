@@ -1,5 +1,6 @@
 #include "../include/TileMapInfo.h"
 #include "../include/Minion.h"
+#include "../include/Event.h"
 
 TileMapInfo::TileMapInfo(std::string file){
     Open(file);
@@ -17,26 +18,29 @@ void TileMapInfo::Open(std::string file){
         while (!FileReader.eof()) {
             FileReader >> checkline;    //Checa as palavras do grafo
             if(checkline == "Portal"){        
-                int ID = 0;
+                Rect portalbox;
                 Vec2 portalloc;
                 std::string tilemapfile,tilemapinfofile;
-                std::vector<std::string> tilemapfiles;
-                while(checkline != "portalID"){
+                while(checkline != "portalBox"){
                     FileReader >> checkline;
                 }   
-                FileReader >> ID;
+                FileReader >> portalbox.x;
+                FileReader >> portalbox.y;
+                FileReader >> portalbox.w;
+                FileReader >> portalbox.h;
                 FileReader >> checkline;
                 FileReader >> portalloc.x;
                 FileReader >> checkline;
-                FileReader >> portalloc.y;
-                portals.insert({ID,portalloc});   
+                FileReader >> portalloc.y;  
                 FileReader >> checkline;
                 FileReader >> tilemapfile;
                 FileReader >> checkline;
                 FileReader >> tilemapinfofile;
-                tilemapfiles.push_back(tilemapfile);
-                tilemapfiles.push_back(tilemapinfofile);
-                portalfiles.insert({ID,tilemapfiles});
+
+                GameObject *eventObj = new GameObject();
+                Event *event = new Event(*eventObj,portalbox,true,tilemapfile,tilemapinfofile,portalloc);
+                eventObj->AddComponent(event);
+                Game::GetInstance().GetCurrentState().AddObject(eventObj);
 
             }
             if(checkline == "Minion"){       

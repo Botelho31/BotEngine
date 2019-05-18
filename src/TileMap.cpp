@@ -88,22 +88,6 @@ void TileMap::LoadTileColliders(){
     }
 }
 
-Vec2 TileMap::GetPortalLoc(int portalID){
-    if(tileMapInfo){
-        return Vec2(this->tileMapInfo->portals[portalID].x,this->tileMapInfo->portals[portalID].y);
-    }
-    return Vec2(0,0);
-}
-
-std::vector<std::string> TileMap::GetPortalFiles(int portalID){
-    std::vector<std::string> error;
-    if(tileMapInfo){
-        return tileMapInfo->portalfiles[portalID];
-    }else{
-        return error;
-    }
-}
-
 void TileMap::SetTileSet(TileSet* tileSet){
     this->tileSet = tileSet;
 }
