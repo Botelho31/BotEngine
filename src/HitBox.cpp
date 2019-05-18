@@ -73,10 +73,8 @@ void HitBox::NotifyCollision(GameObject& other){
         Component *hitboxcomponent = other.GetComponent("HitBox");
         Component *colliderComp = other.GetComponent("Collider");
         Vec2 collisionpoint = {0,0};
-        if(colliderComp){
-            Collider *collider = dynamic_cast<Collider*>(colliderComp);
-            collisionpoint = physics->GetCollisionPoint(GetEdge(false),collider->box.GetCenter(),collider->box,ToPI(other.angleDeg));
-        }
+        Collider *collider = dynamic_cast<Collider*>(colliderComp);
+        collisionpoint = physics->GetCollisionPoint(GetEdge(false),collider->box.GetCenter(),collider->box,ToPI(other.angleDeg));
 
         if(hitPlayer){
             Component *component1 = other.GetComponent("Player");
@@ -110,7 +108,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     KeepStill(true,hitfreezetime);
                     hitbox->KeepStill(true,hitfreezetime);
                     hitfreezetime = 0;
-                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
+                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,collider->box.GetCenter());
                 }
             }
         }
