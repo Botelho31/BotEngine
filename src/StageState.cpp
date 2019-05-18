@@ -173,7 +173,7 @@ void StageState::ExpandTileColliders(){
         Component *component1 = objectArray[i]->GetComponent("TileCollider");
         if(component1){
             TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
-            if(!tilecollider1->maxX || !tilecollider1->maxY){
+            if(!tilecollider1->maxX || !tilecollider1->maxY || !tilecollider1->adjusted){
                 mapcollisionloaded = false;
             }
             if((i + 1) < objectArray.size()){
@@ -248,6 +248,7 @@ void StageState::HandleTileEvents(Vec2 PlayerPos){
                 Player::player->KeepStill(false);
                 std::vector<std::string> files = tilemap->GetPortalFiles(nextMap);
                 Vec2 portalloc = tilemap->GetPortalLoc(nextMap);
+
                 ClearMobs();
                 tilemap->Load(files[0]);
                 tilemap->Start();

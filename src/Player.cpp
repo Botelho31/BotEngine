@@ -80,8 +80,6 @@ void Player::Start(){
 }
 
 void Player::Update(float dt){
-    Collider *collider = physics->GetCollider();
-    // physics->Update(dt);
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_MINUS)){
             physics->PrintValues("Player");
