@@ -406,7 +406,7 @@ void Player::YMovement(float dt){
     }
     if(jumpanimation->Started()){
         jumpanimation->Update(dt);
-        if(physics->IsGrounded() && (speed.y > 0)){
+        if((physics->IsGrounded() && (speed.y >= 0)) && (!jumpsquat->Started())){
             falling = true;
             jumpanimation->Restart();
         }
