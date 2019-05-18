@@ -185,7 +185,7 @@ void StageState::Render(){
         }
         objectArray[i]->Render();
     }
-    // windoweffects->Render();
+    windoweffects->Render();
 }
 
 void StageState::ExpandTileColliders(){
@@ -194,7 +194,7 @@ void StageState::ExpandTileColliders(){
         Component *component1 = objectArray[i]->GetComponent("TileCollider");
         if(component1){
             TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
-            if(!tilecollider1->maxX || !tilecollider1->maxY || !tilecollider1->adjusted){
+            if((!tilecollider1->maxX || !tilecollider1->maxY || !tilecollider1->adjusted) && !tilecollider1->moving){
                 mapcollisionloaded = false;
             }
             if((i + 1) < objectArray.size()){
@@ -313,6 +313,7 @@ bool StageState::ChangingMap(){
 
 void StageState::Start(){
     windoweffects->FadeToBlack(0.5);
+    
     //LOADS THE GAME DATA
     GameData::LoadGame();
 

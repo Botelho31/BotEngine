@@ -35,7 +35,11 @@ void TileCollider::Start(){
 }
 
 void TileCollider::Update(float dt){
-	box = associated.box;
+	if(moving){
+		box = associated.box.Added(25,30,-25,-30);
+	}else{
+		box = associated.box;
+	}
 	if(!maxX || !maxY){
 		Vec2 Edges[] = {   Vec2(box.x + box.w/2,box.y + box.h + 1),
 							Vec2(box.x + box.w/2,box.y - 1),
@@ -61,7 +65,7 @@ void TileCollider::Update(float dt){
 			maxY = true;
 		}
 	}else{
-		if(!adjusted){
+		if((!moving) && (!adjusted)){
 			if((associated.box.x - 1) > 0){
 				associated.box.w -= 25;
 				associated.box.x += 25;
@@ -77,7 +81,7 @@ void TileCollider::Update(float dt){
 				associated.box.y += 30;
 			}
 			adjusted = true;
-		}
+		}	
 	}
 }
 
