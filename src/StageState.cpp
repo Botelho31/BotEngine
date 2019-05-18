@@ -28,6 +28,7 @@ StageState::StageState(){
     mapcollision = false;
     showfps = false;
     windoweffects = new WindowEffects();
+    changingMapTimer = new Timer();
 
     //Loads the background music;
     backgroundMusic = new Music("assets/audio/stageState.ogg");
@@ -37,6 +38,7 @@ StageState::StageState(){
 StageState::~StageState(){
     playerhp = nullptr;
     delete windoweffects;
+    delete changingMapTimer;
     if(backgroundMusic){
         delete backgroundMusic;
     }
@@ -105,6 +107,7 @@ void StageState::Update(float dt){
     //Expands the tile colliders to their maximum then starts interpreting tilecollision
     if(!mapcollision){
         ExpandTileColliders();
+        changingMapTimer->Update(0);
     }else{
         for(unsigned int i = 0; i < objectArray.size();i++){
             Component *component1 = objectArray[i]->GetComponent("Collider");
@@ -133,6 +136,23 @@ void StageState::Update(float dt){
     windoweffects->Update(dt);
     
     HandleEvents();    //HANDLE TILEMAP EXCHANGE
+
+    if(changingMapTimer->Started()){
+        changingMapTimer->Update(dt);
+        if(Player::player){
+            Physics *physics = Player::player->GetPhysics();
+            if(!physics->IsOutofBounds()){
+                changingMap = false;
+                changingMapTimer->Restart();
+                std::cout << "Changed Map" << std::endl;
+            }
+        }
+        if(changingMapTimer->Get() > 0.5){
+            changingMapTimer->Restart();
+            changingMap = false;
+            std::cout << "Changed Map" << std::endl;
+        }
+    }
 
     //HANDLES PLAYER DEATH
     if(!GameData::playerAlive){
@@ -243,6 +263,8 @@ void StageState::HandleEvents(){
             else if(playerphysics->IsOutofBounds(true)){
                 if(windoweffects->GetCurrentEffect() == WindowEffects::FADEFROMBLACK){
                     windoweffects->Reset();
+                    Player::player->SetInvincibility(true);
+                    Player::player->KeepStill(true);
                 }
                 else if(windoweffects->GetCurrentEffect() == WindowEffects::NOTHING){
                     windoweffects->FadeToBlack(1.5);
@@ -250,7 +272,6 @@ void StageState::HandleEvents(){
                     Player::player->KeepStill(true);
                 }
                 else if(windoweffects->IsBlack()){
-                    changingMap = false;
                     mapcollision = false;
 
                     Player::player->KeepStill(false);

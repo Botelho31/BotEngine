@@ -37,9 +37,9 @@
             Text *fps;
             WindowEffects *windoweffects;
 
+            Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool mapcollision; //Boolean indicating if mapcollision is ready or not
             static bool changingMap;    //Keeps the bool if the map is changing
-            int nextMap;    //Keeps the value of the portal that references the new map
     };
 
 #endif
