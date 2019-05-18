@@ -31,7 +31,7 @@ StageState::StageState(){
     changingMapTimer = new Timer();
 
     //Loads the background music;
-    backgroundMusic = new Music("assets/audio/stageState.ogg");
+    backgroundMusic = new Music("assets/audio/musicmenubel.ogg");
     // backgroundMusic->Play();
 }
 
