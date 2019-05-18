@@ -43,6 +43,7 @@ int State::GetObjectPlaceAtLine(std::string componenttype){
             return i;
         }
     }
+    return -1;
 }
 
 TileMap* State::GetTileMap(){
