@@ -23,10 +23,10 @@ Minion
 
 MovingTile
   [
-    startX 1550
+    startX 1600
     startY 1530
     speed 100
-    destX 1550
+    destX 1600
     destY 1000
     circular 0
   ]

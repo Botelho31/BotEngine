@@ -138,7 +138,7 @@ void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
 
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
-            tileSet->RenderTile(At(w,h,layer),(tileSet->GetTileWidth() * w) - cameraX * paxMult,(tileSet->GetTileHeight() * h) - cameraY * paxMult);
+            tileSet->RenderTile(At(w,h,layer),(tileSet->GetTileWidth() * w) - cameraX * paxMult,(tileSet->GetTileHeight() * h) - cameraY);
         }
     }
 }
@@ -150,7 +150,6 @@ void TileMap::Render(){
 }
 
 void TileMap::Update(float dt){
-    // std::cout << "Tiles: " << tiles.size() << std::endl;
     for(int i = (tiles.size() - 1); i >= 0;--i){
         if(tiles[i].expired()){
             tiles.erase(tiles.begin() + i);
