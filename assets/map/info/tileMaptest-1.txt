@@ -1,7 +1,7 @@
 Portal
   [
     portalID -2
-    portalX 2980
+    portalX 2995
     portalY 1530
     tilemapfile assets/map/tileMaptest-2.txt
     tilemapinfofile assets/map/info/tileMaptest-2.txt

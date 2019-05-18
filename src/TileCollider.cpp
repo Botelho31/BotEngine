@@ -64,6 +64,12 @@ void TileCollider::Update(float dt){
 			if((associated.box.x - 1) > 0){
 				associated.box.w -= 25;
 				associated.box.x += 25;
+			}else{
+				associated.box.w += 50;
+				associated.box.x -= 50;
+			}
+			if((associated.box.x + associated.box.w) > Camera::limit.x){
+				associated.box.w += 50;
 			}
 			if((associated.box.y - 1) > 0){
 				associated.box.h -= 30;
