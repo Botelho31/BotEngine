@@ -11,6 +11,7 @@ TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving) :
 	if(moving){
 		maxX = true;
 		maxY = true;
+		adjusted = true;
 		up = true;
 		down = true;
 		left = true;
@@ -19,13 +20,13 @@ TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving) :
 	}else{
 		maxX = false;
 		maxY = false;
+		adjusted = false;
 		up = false;
 		down = false;
 		left = false;
 		right = false;
 	}
 	pressing = false;
-	adjusted = false;
  	deleted = false;
 	associated.box = tilebox;
 }
@@ -60,7 +61,7 @@ void TileCollider::Update(float dt){
 			maxY = true;
 		}
 	}else{
-		if((!moving) && (!adjusted)){
+		if(!adjusted){
 			if((associated.box.x - 1) > 0){
 				associated.box.w -= 25;
 				associated.box.x += 25;

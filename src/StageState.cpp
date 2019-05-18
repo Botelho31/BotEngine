@@ -185,7 +185,7 @@ void StageState::Render(){
         }
         objectArray[i]->Render();
     }
-    windoweffects->Render();
+    // windoweffects->Render();
 }
 
 void StageState::ExpandTileColliders(){
@@ -328,7 +328,7 @@ void StageState::Start(){
     //Loads the tilemap
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
-	this->tileset = new TileSet(tilesetObj,50,50,"assets/img/TileSetTest5.png");
+	this->tileset = new TileSet(tilesetObj,50,50,"assets/img/TileSetTest7.png");
 	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
