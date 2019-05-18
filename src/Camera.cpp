@@ -20,8 +20,8 @@ void Camera::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
     #ifdef DEBUG
         if(input->IsKeyDown(SDLK_0)){
-            std::cout << "MouseX: " << input->GetMouseX() * 2 << std::endl;
-            std::cout << "MouseY: " << input->GetMouseY() * 2 << std::endl;
+            std::cout << "MouseX: " << input->GetMouseX() * 2  + Camera::pos.x<< std::endl;
+            std::cout << "MouseY: " << input->GetMouseY() * 2  + Camera::pos.y << std::endl;
         }
     #endif
     if(focus){

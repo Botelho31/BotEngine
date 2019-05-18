@@ -1,8 +1,8 @@
 Portal
   [
     portalID -2
-    portalX 1900
-    portalY 956
+    portalX 2980
+    portalY 1530
     tilemapfile assets/map/tileMaptest-2.txt
     tilemapinfofile assets/map/info/tileMaptest-2.txt
   ]

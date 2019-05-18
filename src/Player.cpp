@@ -57,7 +57,7 @@ Player::Player(GameObject& associated) : Component(associated){
     Sprite *player =  new Sprite(associated,"assets/img/belidleswordtest.png",32,0.08);
     this->playersprite = player;
     associated.AddComponent(player);
-    physics->SetCollider(0.4,1,0,-5);
+    physics->SetCollider(0.4,0.995,0,0);
 }
 
 Player::~Player(){

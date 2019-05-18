@@ -63,7 +63,7 @@ void StageState::Update(float dt){
             GameObject *minionObj = new GameObject();
             Minion *minion = new Minion(*minionObj);
             minionObj->AddComponent(minion);
-            Vec2  minionpos = Vec2(input->GetMouseX() * 2,input->GetMouseY() * 2);
+            Vec2  minionpos = Vec2(input->GetMouseX() * 2 + Camera::pos.x,input->GetMouseY() * 2 + Camera::pos.y);
             minionObj->box.SetCenter(minionpos);
             AddObject(minionObj);
         }
@@ -192,7 +192,7 @@ void StageState::ExpandTileColliders(){
     }
     if(mapcollisionloaded){
         ENDLINE
-        // std::cout << "Map Collision Loaded" << std::endl;
+        std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
         windoweffects->FadeFromBlack(1);
     }
@@ -296,7 +296,7 @@ void StageState::Start(){
     //Loads the tilemap
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
-	this->tileset = new TileSet(tilesetObj,32,32,"assets/img/basictiletest.png");
+	this->tileset = new TileSet(tilesetObj,50,50,"assets/img/TileSetTest4.png");
 	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
