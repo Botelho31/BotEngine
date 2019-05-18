@@ -129,9 +129,16 @@ void TileMap::InsertAtLocation(int x,int y,int numberoftile){
 }
 
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
+    //PARALLAX
+    int dif =  this->mapDepth - (layer + 1);
+    float paxMult = 1/((float)dif*2);
+    if(dif == 0){
+        paxMult = 1;
+    }
+
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
-            tileSet->RenderTile(At(w,h,layer),(tileSet->GetTileWidth() * w) - cameraX,(tileSet->GetTileHeight() * h) - cameraY );
+            tileSet->RenderTile(At(w,h,layer),(tileSet->GetTileWidth() * w) - cameraX * paxMult,(tileSet->GetTileHeight() * h) - cameraY * paxMult);
         }
     }
 }
