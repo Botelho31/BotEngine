@@ -74,6 +74,7 @@ void HitBox::NotifyCollision(GameObject& other){
     //HANDLES WHEN TO FREEZE THE HIT
     if(component && (hitfreezetime > 0)){
         Component *hitboxcomponent = other.GetComponent("HitBox");
+        Component *collider = other.GetComponent("Collider");
         if(hitPlayer){
             Component *component1 = other.GetComponent("Player");
             if(component1){
