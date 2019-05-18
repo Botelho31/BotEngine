@@ -160,14 +160,15 @@ void StageState::Update(float dt){
     //HANDLES PLAYER DEATH
     if(!GameData::playerAlive){
         if(Player::player){
+            mapcollision = false;
+            changingMap = true;
             ClearMobs();
             tilemap->Load(GameData::checkpointMap);
             tilemap->Start();
-            mapcollision = false;
             tilemap->LoadInfo(GameData::checkpointMapInfo);
             Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
             if(GameData::checkpointPosSpeed.y < -100){
-                GameData::checkpointPosSpeed.y = -800;
+                GameData::checkpointPosSpeed.y = -900;
             }
             Player::player->Reset(GameData::checkpointPosSpeed);
             GameData::playerAlive = true;
