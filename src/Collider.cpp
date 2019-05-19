@@ -55,3 +55,12 @@ void Collider::UpdateScale(){
         scale.y = box.h / associated.box.h;
     }
 }
+
+void Collider::UpdateOffset(){
+    if(box.x != (associated.box.x + associated.box.w/2 - box.w/2 + offset.x)){
+        offset.x =  - associated.box.x - associated.box.w/2 + box.w/2 + box.x;
+    }
+    if(box.y != (associated.box.y + associated.box.h/2 - box.h/2 + offset.y)){
+        offset.y =  - associated.box.y - associated.box.h/2 + box.h/2 + box.y;
+    }
+}
