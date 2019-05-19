@@ -84,9 +84,21 @@ void MovingTile::Update(float dt){
         }
     }
 
+    for(int i = 0;i < movingList.size();i++){
+        if(movingList.front().expired()){
+            movingList.pop();
+        }else{
+            movingList.front().lock()->box.x += deltamov.x;
+            movingList.front().lock()->box.y += deltamov.y;
+            movingList.pop();
+        }
+    }
+
     if(deltamov == Vec2(0,0)){
         InvertDirection();
     }
+    
+    tilecollider->Update(0);
 }
 
 void MovingTile::InvertDirection(){
@@ -104,48 +116,50 @@ void MovingTile::Render(){
 void MovingTile::NotifyCollision(GameObject& other){
     Physics *physics1 = other.GetPhysics();
     if(physics1){
-        bool invert = false;
-        Collider *collider1 = physics1->GetCollider();
-        
-        if(deltamov.x != 0){
-            Rect movedX = collider1->box.Added(deltamov.x,0);
-            if(!physics1->IsColliding(movedX,ToPI(other.angleDeg))){
-                other.box.x += deltamov.x;
-            }else{
-                float interval = deltamov.x/2;
-                while(interval > 0.01){
-                    if(physics1->IsColliding(movedX,ToPI(other.angleDeg))){
-                        deltamov.x -= interval;
-                        interval /= 2;
-                    }else{
-                        deltamov.x += interval;
-                        interval /= 2;
-                    }
-                    movedX = collider1->box.Added(deltamov.x,deltamov.y);
-                }
-                other.box.x += deltamov.x; 
-            }
+        if(!other.GetComponent("HitBox")){
+            std::weak_ptr<GameObject> otherweakptr = Game::GetInstance().GetCurrentState().GetObjectPtr(&other);
+            movingList.push(otherweakptr);
         }
+
+        // if(deltamov.x != 0){
+        //     Rect movedX = collider1->box.Added(deltamov.x,0);
+        //     if(!physics1->IsColliding(movedX,ToPI(other.angleDeg))){
+        //         other.box.x += deltamov.x;
+        //     }else{
+        //         float interval = deltamov.x/2;
+        //         while(interval > 0.01){
+        //             if(physics1->IsColliding(movedX,ToPI(other.angleDeg))){
+        //                 deltamov.x -= interval;
+        //                 interval /= 2;
+        //             }else{
+        //                 deltamov.x += interval;
+        //                 interval /= 2;
+        //             }
+        //             movedX = collider1->box.Added(deltamov.x,deltamov.y);
+        //         }
+        //         other.box.x += deltamov.x; 
+        //     }
+        // }
         
-        if(deltamov.y != 0){
-            Rect movedY = collider1->box.Added(0,deltamov.y);
-            if(!physics1->IsColliding(movedY,ToPI(other.angleDeg))){
-                other.box.y += deltamov.y;
-            }else{
-                float interval = deltamov.y/2;
-                while(interval > 0.01){
-                    if(physics1->IsColliding(movedY,ToPI(other.angleDeg))){
-                        deltamov.y -= interval;
-                        interval /= 2;
-                    }else{
-                        deltamov.y += interval;
-                        interval /= 2;
-                    }
-                    movedY = collider1->box.Added(deltamov.x,deltamov.y);
-                }
-                other.box.y += deltamov.y;                
-            }
-        }
+        // if(deltamov.y != 0){
+        //     Rect movedY = collider1->box.Added(0,deltamov.y);
+        //     if(!physics1->IsColliding(movedY,ToPI(other.angleDeg))){
+        //         other.box.y += deltamov.y;
+        //     }else{
+        //         float interval = deltamov.y/2;
+        //         while(interval > 0.01){
+        //             if(physics1->IsColliding(movedY,ToPI(other.angleDeg))){
+        //                 deltamov.y -= interval;
+        //                 interval /= 2;
+        //             }else{
+        //                 deltamov.y += interval;
+        //                 interval /= 2;
+        //             }
+        //             movedY = collider1->box.Added(deltamov.x,deltamov.y);
+        //         }
+        //         other.box.y += deltamov.y;                
+        //     }
+        // }
     }
 }
 

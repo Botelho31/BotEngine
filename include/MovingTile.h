@@ -27,6 +27,8 @@
             Vec2 dest;
             Vec2 speed;
             Vec2 deltamov;
+
+            std::queue<std::weak_ptr<GameObject>> movingList;
             TileCollider *tilecollider;
             Physics *physics;
             Sprite *tilesprite;

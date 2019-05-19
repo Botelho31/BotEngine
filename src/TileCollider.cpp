@@ -158,29 +158,29 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 		if(physics1){
 			Collider *collider = physics1->GetCollider();
 			float distground,distceiling,distright,distleft;
-			distright = collider->box.x - (associated.box.x + associated.box.w);
-			if(distright < -associated.box.w){
+			distright = collider->box.x - (box.x + box.w);
+			if(distright < -box.w){
 				distright = 0;
 			}
 			else if(distright == 0){
 				distright -= 1;
 			}
-			distleft = associated.box.x - (collider->box.x + collider->box.w);
-			if(distleft < -associated.box.w){
+			distleft = box.x - (collider->box.x + collider->box.w);
+			if(distleft < -box.w){
 				distleft = 0;
 			}
 			else if(distleft == 0){
 				distleft -= 1;
 			}
-			distceiling = collider->box.y - (associated.box.y + associated.box.h);
-			if(distceiling < -associated.box.h){
+			distceiling = collider->box.y - (box.y + box.h);
+			if(distceiling < -box.h){
 				distceiling = 0;
 			}
 			else if(distceiling == 0){
 				distceiling -= 1;
 			}
-			distground = associated.box.y - (collider->box.y + collider->box.h);
-			if(distground < -associated.box.h){
+			distground = box.y - (collider->box.y + collider->box.h);
+			if(distground < -box.h){
 				distground = 0;
 			}
 			else if(distground == 0){
@@ -222,13 +222,13 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}
 				}
 			}
-			// for(int i = 0;i < disttofix.size();i++){
-			// 	std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
-			// }
-			// std::cout << std::endl;
+			for(int i = 0;i < disttofix.size();i++){
+				std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+			}
+			std::cout << std::endl;
 			if(!disttofix.empty()){
 				if(disttofix[0] == 0){
-					if(physics1->IsColliding(collider->box.Added(0,(distground)),ToPI(other.angleDeg))){
+					if(physics1->IsColliding(collider->box.Added(0,(distground - 1)),ToPI(other.angleDeg))){
 						associated.box.y += -(distground - 10);
 						pressing = true;
 						ENDLINE
@@ -236,12 +236,12 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}else{
 						ENDLINE
 						std::cout << "Ground Adjust Mob" << std::endl;
-						collider->box.y = associated.box.y - collider->box.h - 1;
+						collider->box.y = box.y - collider->box.h - 1;
 						collider->UpdateAssociated();
 					}
 				}
 				if(disttofix[0] == 1){
-					if(physics1->IsColliding(collider->box.Added(0,-(distceiling)),ToPI(other.angleDeg))){
+					if(physics1->IsColliding(collider->box.Added(0,-(distceiling - 1)),ToPI(other.angleDeg))){
 						associated.box.y += distceiling - 10;
 						pressing = true;
 						ENDLINE
@@ -249,12 +249,12 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}else{
 						ENDLINE
 						std::cout << "Ceiling Adjust Mob" << std::endl;
-						collider->box.y = associated.box.y + associated.box.h + 1;
+						collider->box.y = box.y + box.h + 1;
 						collider->UpdateAssociated();
 					}
 				}
 				if(disttofix[0] == 2){
-					if(physics1->IsColliding(collider->box.Added(-(distright),0),ToPI(other.angleDeg))){
+					if(physics1->IsColliding(collider->box.Added(-(distright - 1),0),ToPI(other.angleDeg))){
 						associated.box.x += distright - 10;
 						pressing = true;
 						ENDLINE
@@ -262,12 +262,12 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}else{
 						ENDLINE
 						std::cout << "Right Adjust Mob" << std::endl;
-						collider->box.x = associated.box.x + associated.box.w + 1;
+						collider->box.x = box.x + box.w + 1;
 						collider->UpdateAssociated();
 					}
 				}
 				if(disttofix[0] == 3){
-					if(physics1->IsColliding(collider->box.Added((distleft),0),ToPI(other.angleDeg))){
+					if(physics1->IsColliding(collider->box.Added((distleft - 1),0),ToPI(other.angleDeg))){
 						associated.box.x -= distleft - 10;
 						pressing = true;
 						ENDLINE
@@ -275,7 +275,7 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}else{
 						ENDLINE
 						std::cout << "Left Adjust Mob" << std::endl;
-						collider->box.x = associated.box.x - collider->box.w - 1;
+						collider->box.x = box.x - collider->box.w - 1;
 						collider->UpdateAssociated();
 					}
 				}
@@ -284,7 +284,6 @@ void TileCollider::NotifyMobCollision(GameObject& other){
             // std::cout << "dceiling: "<< distceiling << std::endl;
             // std::cout << "dright: "<< distright << std::endl;
             // std::cout << "dleft: "<< distleft << std::endl;
-			box = associated.box;
 		}
 	}
 }
