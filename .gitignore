@@ -10,6 +10,9 @@
 *.d
 dep/
 bin/
+assets/audio/
+assets/img/
+assets/font/
 .vscode/
 reference/
 GAME
