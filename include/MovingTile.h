@@ -17,6 +17,7 @@
             void NotifyCollision(GameObject& other);
             bool Is(std::string type);
 
+            void MoveObject(GameObject& other,Vec2 deltamov);
             void InvertDirection();
         private:
             bool going;

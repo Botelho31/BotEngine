@@ -88,8 +88,7 @@ void MovingTile::Update(float dt){
         if(movingList.front().expired()){
             movingList.pop();
         }else{
-            movingList.front().lock()->box.x += deltamov.x;
-            movingList.front().lock()->box.y += deltamov.y;
+            MoveObject(*movingList.front().lock().get(),deltamov);
             movingList.pop();
         }
     }
@@ -120,47 +119,52 @@ void MovingTile::NotifyCollision(GameObject& other){
             std::weak_ptr<GameObject> otherweakptr = Game::GetInstance().GetCurrentState().GetObjectPtr(&other);
             movingList.push(otherweakptr);
         }
-
-        // if(deltamov.x != 0){
-        //     Rect movedX = collider1->box.Added(deltamov.x,0);
-        //     if(!physics1->IsColliding(movedX,ToPI(other.angleDeg))){
-        //         other.box.x += deltamov.x;
-        //     }else{
-        //         float interval = deltamov.x/2;
-        //         while(interval > 0.01){
-        //             if(physics1->IsColliding(movedX,ToPI(other.angleDeg))){
-        //                 deltamov.x -= interval;
-        //                 interval /= 2;
-        //             }else{
-        //                 deltamov.x += interval;
-        //                 interval /= 2;
-        //             }
-        //             movedX = collider1->box.Added(deltamov.x,deltamov.y);
-        //         }
-        //         other.box.x += deltamov.x; 
-        //     }
-        // }
-        
-        // if(deltamov.y != 0){
-        //     Rect movedY = collider1->box.Added(0,deltamov.y);
-        //     if(!physics1->IsColliding(movedY,ToPI(other.angleDeg))){
-        //         other.box.y += deltamov.y;
-        //     }else{
-        //         float interval = deltamov.y/2;
-        //         while(interval > 0.01){
-        //             if(physics1->IsColliding(movedY,ToPI(other.angleDeg))){
-        //                 deltamov.y -= interval;
-        //                 interval /= 2;
-        //             }else{
-        //                 deltamov.y += interval;
-        //                 interval /= 2;
-        //             }
-        //             movedY = collider1->box.Added(deltamov.x,deltamov.y);
-        //         }
-        //         other.box.y += deltamov.y;                
-        //     }
-        // }
     }
+}
+
+void MovingTile::MoveObject(GameObject& other,Vec2 deltamov){
+        Physics *physics1 = other.GetPhysics();
+        Collider *collider1 = physics1->GetCollider();
+
+        if(deltamov.x != 0){
+            Rect movedX = collider1->box.Added(deltamov.x,0);
+            if(!physics1->IsColliding(movedX,ToPI(other.angleDeg))){
+                other.box.x += deltamov.x;
+            }else{
+                float interval = deltamov.x/2;
+                while(interval > 0.01){
+                    if(physics1->IsColliding(movedX,ToPI(other.angleDeg))){
+                        deltamov.x -= interval;
+                        interval /= 2;
+                    }else{
+                        deltamov.x += interval;
+                        interval /= 2;
+                    }
+                    movedX = collider1->box.Added(deltamov.x,deltamov.y);
+                }
+                other.box.x += deltamov.x; 
+            }
+        }
+        
+        if(deltamov.y != 0){
+            Rect movedY = collider1->box.Added(0,deltamov.y);
+            if(!physics1->IsColliding(movedY,ToPI(other.angleDeg))){
+                other.box.y += deltamov.y;
+            }else{
+                float interval = deltamov.y/2;
+                while(interval > 0.01){
+                    if(physics1->IsColliding(movedY,ToPI(other.angleDeg))){
+                        deltamov.y -= interval;
+                        interval /= 2;
+                    }else{
+                        deltamov.y += interval;
+                        interval /= 2;
+                    }
+                    movedY = collider1->box.Added(deltamov.x,deltamov.y);
+                }
+                other.box.y += deltamov.y;                
+            }
+        }
 }
 
 bool MovingTile::Is(std::string type){
