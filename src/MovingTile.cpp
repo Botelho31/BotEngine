@@ -23,7 +23,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
     associated.AddComponent(physics);
     physics->GetCollider()->Update(0);
     physics->GetCollider()->box.w -= 30;
-    physics->GetCollider()->box.h -= 30;
+    physics->GetCollider()->box.h -= 20;
     physics->GetCollider()->UpdateScale();
     physics->GetCollider()->Update(0);
 
@@ -35,7 +35,7 @@ MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,b
 
     this->tilecollider->Update(0);
     physics->GetCollider()->box.x += this->tilecollider->box.x - physics->GetCollider()->box.x;
-    physics->GetCollider()->box.y += this->tilecollider->box.x - physics->GetCollider()->box.y;
+    physics->GetCollider()->box.y += this->tilecollider->box.y - physics->GetCollider()->box.y - 10;
     physics->GetCollider()->UpdateOffset();
 }
 
