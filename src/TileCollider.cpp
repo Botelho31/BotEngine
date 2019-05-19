@@ -222,10 +222,12 @@ void TileCollider::NotifyMobCollision(GameObject& other){
 					}
 				}
 			}
-			for(int i = 0;i < disttofix.size();i++){
-				std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
-			}
-			std::cout << std::endl;
+			
+			// for(int i = 0;i < disttofix.size();i++){
+			// 	std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+			// }
+			// std::cout << std::endl;
+
 			if(!disttofix.empty()){
 				if(disttofix[0] == 0){
 					if(physics1->IsColliding(collider->box.Added(0,(distground - 1)),ToPI(other.angleDeg))){
@@ -284,6 +286,7 @@ void TileCollider::NotifyMobCollision(GameObject& other){
             // std::cout << "dceiling: "<< distceiling << std::endl;
             // std::cout << "dright: "<< distright << std::endl;
             // std::cout << "dleft: "<< distleft << std::endl;
+			Update(0);
 		}
 	}
 }
