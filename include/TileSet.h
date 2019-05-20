@@ -9,16 +9,16 @@
 
     class TileSet{
         public:
-            TileSet(GameObject* owner,int tileWidth,int tileHeight,std::string file);
+            TileSet(GameObject* owner,int tileWidth,int tileHeight,std::vector<std::string> files);
             ~TileSet();
-            void RenderTile(unsigned index,float x,float y);
+            void RenderTile(int index,float x,float y);
             int GetTileWidth();
             int GetTileHeight();
         private:
             GameObject *owner;
-            Sprite *tileset;
-            int rows;
-            int columns;
+            std::vector<Sprite*> tilesets;
+            std::vector<int> rows;
+            std::vector<int> columns;
             int tileWidth;
             int tileHeight;
     };

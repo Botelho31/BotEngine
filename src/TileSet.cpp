@@ -1,16 +1,20 @@
 #include "../include/TileSet.h"
 #include "../include/GameObject.h"
 
-TileSet::TileSet(GameObject *owner,int tileWidth,int tileHeight,std::string file) : owner(owner){
-    tileset = new Sprite(*owner,file);
-    owner->AddComponent(tileset);
+TileSet::TileSet(GameObject *owner,int tileWidth,int tileHeight,std::vector<std::string> files) : owner(owner){
     this->tileWidth = tileWidth;
     this->tileHeight = tileHeight;
-    if(tileset->IsOpen()){
-        rows = tileset->GetHeight() / tileHeight;
-        columns = tileset->GetWidth() / tileWidth;
-    }else{
-        std::cout << "Failed to open tileset: " << file << std::endl; 
+
+    for(int i = 0;i < files.size();i++){
+        tilesets.push_back(new Sprite(*owner,files[i]));
+        owner->AddComponent(tilesets.back());
+
+        if(tilesets[i]->IsOpen()){
+            rows.push_back(tilesets[i]->GetHeight() / tileHeight);
+            columns.push_back(tilesets[i]->GetWidth() / tileWidth);
+        }else{
+            std::cout << "Failed to open tileset: " << files[i] << std::endl; 
+        }
     }
 }
 
@@ -18,16 +22,31 @@ TileSet::~TileSet(){
     delete owner;
 }
 
-void TileSet::RenderTile(unsigned index,float x,float y){
-    if((index < (rows*columns)) && (index >= 0)){
-        int row = (index/columns);
-        int column = (index%columns);
-        tileset->SetClip(column * tileWidth,row * tileHeight,tileWidth,tileHeight);
-        tileset->Render(x,y);
+void TileSet::RenderTile(int index,float x,float y){
+    bool printing = true;
+    int tilesetindex = 0;
+    while(printing){
+        if((index < (rows[tilesetindex]*columns[tilesetindex])) && (index >= 0)){
+            int row = (index/columns[tilesetindex]);
+            int column = (index%columns[tilesetindex]);
+            tilesets[0]->SetClip(column * tileWidth,row * tileHeight,tileWidth,tileHeight);
+            tilesets[0]->Render(x,y);
+            printing = false;
 
-    }else{
-        // std::cout << "Tile Requested Out of Index: " << rows*columns  << std::endl;
-        // std::cout << "Index: " << index << " X: " << x << " Y: " << y << std::endl;
+        }else{
+            if(index > (rows[tilesetindex]*columns[tilesetindex])){
+                if((tilesetindex + 1) < tilesets.size()){
+                    index -= rows[tilesetindex]*columns[tilesetindex];
+                    tilesetindex ++;
+                }else{
+                    printing = false;
+                    std::cout << "Tile Requested Out of Index: " << rows[tilesetindex]*columns[tilesetindex]  << std::endl;
+                    std::cout << "Index: " << index << " X: " << x << " Y: " << y << std::endl;
+                }
+            }else{
+                printing = false;
+            }
+        }
     }
 }
 
