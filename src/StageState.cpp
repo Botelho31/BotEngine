@@ -333,6 +333,7 @@ void StageState::Start(){
     GameObject *tilesetObj = new GameObject();
     std::vector<std::string> tilesetfiles;
     tilesetfiles.push_back("assets/img/TileSetTest7.png");
+    tilesetfiles.push_back("assets/img/backgroundtest.jpg");
 	this->tileset = new TileSet(tilesetObj,50,50,tilesetfiles);
 	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset);
 	tileObj->box.x = 0;

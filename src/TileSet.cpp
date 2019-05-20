@@ -29,8 +29,8 @@ void TileSet::RenderTile(int index,float x,float y){
         if((index < (rows[tilesetindex]*columns[tilesetindex])) && (index >= 0)){
             int row = (index/columns[tilesetindex]);
             int column = (index%columns[tilesetindex]);
-            tilesets[0]->SetClip(column * tileWidth,row * tileHeight,tileWidth,tileHeight);
-            tilesets[0]->Render(x,y);
+            tilesets[tilesetindex]->SetClip(column * tileWidth,row * tileHeight,tileWidth,tileHeight);
+            tilesets[tilesetindex]->Render(x,y);
             printing = false;
 
         }else{
