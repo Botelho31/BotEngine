@@ -5,6 +5,7 @@
 #include "../include/Camera.h"
 #include "../include/WindowEffects.h"
 #include "../include/DeadBody.h"
+#include "../include/GameData.h"
 
 Minion::Minion(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -59,7 +60,7 @@ void Minion::Update(float dt){
     // physics->Update(dt);
     int distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
-    if(Player::player){
+    if(Player::player && GameData::playerAlive){
         Vec2 minionpos = GetPosition();
         player = Player::player->GetPosition();
         int distances[] = { floor(minionpos.GetDistance(player.x,player.y)),
