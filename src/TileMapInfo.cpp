@@ -34,7 +34,7 @@ void TileMapInfo::Open(std::string file){
                 FileReader >> tilemapinfofile;
 
                 GameObject *eventObj = new GameObject();
-                Event *event = new Event(*eventObj,portalbox,Event::PORTAL,tilemapfile,tilemapinfofile,portalloc);
+                Event *event = new Event(*eventObj,Event::PORTAL,portalbox,tilemapfile,tilemapinfofile,portalloc);
                 eventObj->AddComponent(event);
                 Game::GetInstance().GetCurrentState().AddObject(eventObj);
 

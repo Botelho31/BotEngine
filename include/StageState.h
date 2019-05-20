@@ -24,7 +24,7 @@
             void Pause();
 
             void ExpandTileColliders(); //Handles TileColliders expansion in the opening of new TileMaps
-            void HandleEvents(); //Handles event
+            void HandleEvents(float dt); //Handles event
             void ClearMobs(); //Clear all mobs and hitboxes from screen
             void UpdateHP();  //Updates the playerHP being displayed on HUD
             

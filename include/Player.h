@@ -23,6 +23,7 @@
             float GetPlayerAngle(); //Returns angle of player in PI
             Vec2 GetSpeed(); //Returns speed on the two vectors
             int GetLife(); // Returns current hp
+            GameObject* GetAssociated();
 
             void InstanceHitbox();
             void AttackHandle(float dt); // Handles player attack

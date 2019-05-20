@@ -127,7 +127,7 @@ void Player::Update(float dt){
         }
     }
 
-    if(hp <= 0){
+    if((hp <= 0) && (GameData::playerAlive)){
         KillPlayer();
     }
 }
@@ -642,4 +642,8 @@ Vec2 Player::GetSpeed(){
 
 int Player::GetLife(){
     return hp;
+}
+
+GameObject* Player::GetAssociated(){
+    return &associated;
 }

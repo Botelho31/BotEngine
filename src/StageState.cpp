@@ -134,7 +134,7 @@ void StageState::Update(float dt){
     UpdateHP();
     windoweffects->Update(dt);
     
-    HandleEvents();    //HANDLE TILEMAP EXCHANGE
+    HandleEvents(dt);    //HANDLE TILEMAP EXCHANGE
 
     //Checks if player is completely in bounds
     if(changingMapTimer->Started()){
@@ -155,27 +155,6 @@ void StageState::Update(float dt){
             std::cout << "Changed Map" << std::endl;
         }
     }
-
-
-    //HANDLES PLAYER DEATH
-    if(!GameData::playerAlive){
-        if(Player::player){
-            windoweffects->FadeToBlack(0.5);
-            mapcollision = false;
-            changingMap = true;
-            ClearMobs();
-            tilemap->Load(GameData::checkpointMap);
-            tilemap->Start();
-            tilemap->LoadInfo(GameData::checkpointMapInfo);
-            Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
-            if(GameData::checkpointPosSpeed.y < -100){
-                GameData::checkpointPosSpeed.y = -900;
-            }
-            Player::player->Reset(GameData::checkpointPosSpeed);
-            GameData::playerAlive = true;
-        }
-    }
-    //END HANDLE PLAYER DEATH
 }
 
 void StageState::Render(){
@@ -251,7 +230,7 @@ void StageState::ClearMobs(){
     }
 }
 
-void StageState::HandleEvents(){
+void StageState::HandleEvents(float dt){
 
     if(!GameData::events.empty()){
         //TILEMAP EXCHANGE
@@ -298,6 +277,29 @@ void StageState::HandleEvents(){
                     Player::player->MovePlayer(portalloc.x,portalloc.y);
                     Player::player->SetInvincibility(false);
                 }
+            }
+        }
+        if(GameData::events.front()->GetType() == Event::PLAYERDEATH){
+            std::cout << GameData::events.size() << std::endl;
+            GameData::events.front()->Update(dt);
+            if(GameData::events.front()->IsEventTimerOver()){
+                std::cout << "EVENTOVER" << std::endl;
+                windoweffects->FadeToBlack(0.5);
+                mapcollision = false;
+                changingMap = true;
+                Camera::UnFollow();
+                ClearMobs();
+                tilemap->Load(GameData::checkpointMap);
+                tilemap->Start();
+                tilemap->LoadInfo(GameData::checkpointMapInfo);
+                Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
+                if(GameData::checkpointPosSpeed.y < -100){
+                    GameData::checkpointPosSpeed.y = -900;
+                }
+                Player::player->Reset(GameData::checkpointPosSpeed);
+                GameData::playerAlive = true;
+                GameData::events.pop();
+                Camera::Follow(Player::player->GetAssociated());
             }
         }
     }
