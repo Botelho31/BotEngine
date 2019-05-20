@@ -9,6 +9,7 @@
 #include "../include/HitBox.h"
 #include "../include/Minion.h"
 #include "../include/GameData.h"
+#include "../include/DeadBody.h"
 
 Player *Player::player;
 
@@ -127,7 +128,7 @@ void Player::Update(float dt){
     }
 
     if(hp <= 0){
-        GameData::playerAlive = false;
+        KillPlayer();
     }
 }
 
@@ -448,13 +449,34 @@ void Player::IdleHandle(float dt){
 void Player::DamagePlayer(int damage){
     hp -= damage;
     if(!damagetimer->Started() && !swordattack->Started()){
-        SetSprite("assets/img/beldamagetest.png",7,0.03,false);
+        SetSprite("assets/img/beldamagetest2.png",7,0.03,false);
         damagetimer->Delay(0);
     }
 }
 
 void Player::HealPlayer(int heal){
     hp += heal;
+}
+
+void Player::KillPlayer(){
+    Camera::UnFollow();
+    GameObject *deadObj = new GameObject();
+    Sprite *deadsprite = new Sprite(*deadObj,"assets/img/beldeathtest2.png",52,0.06,0,false);
+    int xoffset = -40;
+    if(playersprite->IsFlipped()){
+        deadsprite->Flip();
+        xoffset = 40;
+    }
+    DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-xoffset,70),false);
+    deadObj->AddComponent(deadbody);
+    deadObj->box.SetCenter(associated.box.GetCenter());
+    Game::GetInstance().GetCurrentState().AddObject(deadObj);
+    Camera::Follow(deadObj);
+    GameObject *eventObj = new GameObject();
+    GameData::playerAlive = false;
+
+    Event *deathevent = new Event(*eventObj,Event::PLAYERDEATH,3.5);
+    GameData::events.push(deathevent);
 }
 
 void Player::KnockBack(Rect hitbox,Vec2 knockback){

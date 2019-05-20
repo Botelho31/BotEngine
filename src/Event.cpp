@@ -2,12 +2,15 @@
 #include "../include/Collider.h"
 #include "../include/WindowEffects.h"
 
-Event::Event(GameObject& associated,Rect box,EventType eventType,std::string tileMap,std::string tileMapInfo,Vec2 portalloc) : 
+Event::Event(GameObject& associated,EventType eventType,Rect box,std::string tileMap,std::string tileMapInfo,Vec2 portalloc) : 
     Component(associated){
     associated.box = box;
     this->tileMap = tileMap;
     this->tileMapInfo = tileMapInfo;
     this->portalLoc = portalloc;
+
+    this->eventtimer = new Timer();
+    this->eventduration = 0;
 
     this->eventType = eventType;
 
@@ -17,10 +20,31 @@ Event::Event(GameObject& associated,Rect box,EventType eventType,std::string til
     associated.AddComponent(collider);
 }
 
+Event::Event(GameObject& associated,EventType eventType,float duration) : 
+    Component(associated){
+    this->tileMap = "";
+    this->tileMapInfo = "";
+
+    this->eventtimer = new Timer();
+    this->eventduration = duration;
+
+    this->eventType = eventType;
+
+    this->processing = false;
+}
+
 Event::~Event(){
+    delete eventtimer;
 }
 
 void Event::Update(float dt){
+    eventtimer->Update(dt);
+}
+
+bool Event::IsEventTimerOver(){
+    if(eventtimer->Get() >= eventduration){
+        return true;
+    }
 }
 
 bool Event::IsProcessing(){

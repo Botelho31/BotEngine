@@ -9,9 +9,10 @@
 
     class Event : public Component{
         public:
-            enum EventType{PORTAL,NOTHING};
+            enum EventType{PORTAL,PLAYERDEATH,NOTHING};
 
-            Event(GameObject& associated,Rect box,EventType eventType,std::string tileMap,std::string tileMapInfo,Vec2 portalloc);
+            Event(GameObject& associated,EventType eventType,Rect box,std::string tileMap,std::string tileMapInfo,Vec2 portalloc);
+            Event(GameObject& associated,EventType eventType,float eventduration);
             ~Event();
 
             void Update(float dt);
@@ -19,6 +20,7 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
+            bool IsEventTimerOver();
             bool IsProcessing();
             void SetProcessing(bool processing);
             EventType GetType();
@@ -29,6 +31,9 @@
             std::string GetTileMapInfo();
 
         private:
+            float eventduration;
+            Timer* eventtimer;
+
             EventType eventType;
             bool processing;
 
