@@ -71,7 +71,6 @@ void GameData::LoadGame(){
                 FileReader >> checkpointPosSpeed.y;
                 ENDLINE
                 std::cout << "Game Loaded" << std::endl;
-                ParseTMX("assets/map/tileMaptest-1-FORBACKGROUNDTEST.tmx");
             }
         }
     }else{

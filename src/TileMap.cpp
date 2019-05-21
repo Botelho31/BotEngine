@@ -208,11 +208,11 @@ void TileMap::InsertAtLocation(int x,int y,int numberoftile){
 
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
     //PARALLAX
-    int dif =  (this->mapDepth - collisionDepthOffset) - (layer + 1);
+    int dif =  (this->mapDepth - this->collisionDepthOffset) - (layer + 1);
     float paxMult = 1/((float)dif*2);
-    if(dif <= 0){
+    // if(dif <= 0){
         paxMult = 1;
-    }
+    // }
 
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
