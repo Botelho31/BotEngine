@@ -30,7 +30,7 @@ void FakeWall::Update(float dt){
     if(breakable){
         if(invincibilitytimer->Started()){
             invincibilitytimer->Update(dt);
-            if(invincibilitytimer->Get() > 0.5){
+            if(invincibilitytimer->Get() > 0.3){
                 invincibilitytimer->Restart();
             }
         }
