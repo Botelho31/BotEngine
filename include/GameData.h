@@ -13,6 +13,10 @@
             static void LoadGame();
             static void PrintGameData();
 
+            static std::string ParseTMX(std::string filetmx);
+            static std::string GetExtension(std::string file);
+            static std::string SetExtension(std::string file,std::string ext);
+
             static bool playerAlive;
             static Vec2 savePlayerPos;
             static int savePlayerHealth;

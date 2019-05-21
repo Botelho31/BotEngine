@@ -67,7 +67,7 @@ void GameData::LoadGame(){
                 FileReader >> checkpointPosSpeed.y;
                 ENDLINE
                 std::cout << "Game Loaded" << std::endl;
-
+                ParseTMX("assets/map/tileMaptest-1-FORBACKGROUNDTEST.tmx");
             }
         }
     }else{
@@ -88,4 +88,86 @@ void GameData::PrintGameData(){
     std::cout << "MapInfo: " << checkpointMapInfo << std::endl;
     std::cout << "PlayerPos: " << savePlayerPos.x << " " << savePlayerPos.y << std::endl;
     std::cout << "PlayerLife: " << savePlayerHealth << std::endl;
+}
+
+std::string GameData::ParseTMX(std::string filetmx){
+
+    std::ofstream txtfile;
+    txtfile.open (SetExtension(filetmx,"txt"));
+
+    int width,height,depth;
+    bool valuesget = false;
+    std::stringstream numberstring;
+
+    std::ifstream FileReader;
+    FileReader.open(filetmx);
+    std::string checkline;
+    if (FileReader.is_open()) {
+        while (!FileReader.eof()) {
+            FileReader >> checkline;
+            if((checkline == "layer") && (!valuesget)){
+                std::getline(FileReader, checkline, '"');
+                std::getline(FileReader, checkline, '"');
+                numberstring.clear();
+                numberstring << checkline;
+                numberstring >> depth;
+
+                std::getline(FileReader, checkline, '"');
+                std::getline(FileReader, checkline, '"');
+
+                std::getline(FileReader, checkline, '"');
+                std::getline(FileReader, checkline, '"');
+                numberstring.clear();
+                numberstring << checkline;
+                numberstring >> width;
+
+                std::getline(FileReader, checkline, '"');
+                std::getline(FileReader, checkline, '"');
+                numberstring.clear();
+                numberstring << checkline;
+                numberstring >> height;
+
+                std::stringstream finalvalues;
+                finalvalues << width << "," << height << "," << depth << "," << std::endl;
+                txtfile << finalvalues.str();
+                valuesget = true;
+            }
+            if(checkline == "data"){
+                std::getline(FileReader, checkline, '>');
+                std::getline(FileReader, checkline, '<');
+                txtfile << checkline << ",";
+            }else{
+                std::getline(FileReader, checkline, '<');
+            }
+        }
+    }else{
+        ENDLINE
+        std::cout << "Couldnt open tilemap TMX: " << filetmx << std::endl;
+    }
+    txtfile.close();
+    FileReader.close();
+    return "";
+}   
+
+std::string GameData::GetExtension(std::string file){
+    std::stringstream filestream;
+    std::string checkfile;
+    std::string ext;
+    filestream << file;
+    std::getline(filestream,checkfile,'.');
+    filestream >> ext;
+
+    return ext;
+}
+
+std::string GameData::SetExtension(std::string file,std::string ext){
+    std::stringstream filestream;
+    std::string checkfile;
+    filestream << file;
+    std::getline(filestream,checkfile,'.');
+    std::stringstream newfilestream;
+    newfilestream << checkfile;
+    newfilestream << "." << ext;
+
+    return newfilestream.str();
 }
