@@ -14,7 +14,7 @@ State::~State(){
 
 std::weak_ptr<GameObject> State::AddObject(GameObject *go,int place){
     std::shared_ptr<GameObject> object(go);
-    if(place == 0){
+    if((place == 0) || (place >= objectArray.size())){
         objectArray.push_back(object);
     }else{
         objectArray.insert(objectArray.begin() + place,object);
