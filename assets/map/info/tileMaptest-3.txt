@@ -22,10 +22,8 @@ Minion
 
   MovingTilelul
   [
-    startX 1710
-    startY 1070
+    start 1710 1070
     speed 400
-    destX 1710
-    destY 280
+    dest 1710 280
     circular 0
   ]

@@ -137,17 +137,15 @@ void TileMap::SpawnMobs(std::string file){
                 Vec2 dest;
                 float speed;
                 bool circular;
-                while(checkline != "startX"){
+                while(checkline != "startPos"){
                     FileReader >> checkline;
                 } 
                 FileReader >> start.x;
-                FileReader >> checkline;
                 FileReader >> start.y;
                 FileReader >> checkline;
                 FileReader >> speed;
                 FileReader >> checkline;
                 FileReader >> dest.x;
-                FileReader >> checkline;
                 FileReader >> dest.y;
                 FileReader >> checkline;
                 FileReader >> circular;

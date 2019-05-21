@@ -29,12 +29,10 @@ Minion
     minionY 500
   ]
 
-MovingTilelul
+MovingTile
   [
-    startX 400
-    startY 1000
+    startPos 400 1500
     speed -200
-    destX 1900
-    destY 1000
-    circular 1
+    destPos 1900 1500
+    circular 0
   ]
