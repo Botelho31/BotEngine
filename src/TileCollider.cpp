@@ -4,6 +4,8 @@
 #include "../include/TileMap.h"
 #include "../include/WindowEffects.h"
 #include "../include/Collision.h"
+#include "../include/Collider.h"
+#include "../include/Physics.h"
 
 TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving) : 
     Component(associated),box(tilebox){

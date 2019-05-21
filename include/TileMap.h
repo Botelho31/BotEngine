@@ -7,7 +7,6 @@
     #include "GameObject.h"
     #include "Component.h"
     #include "TileSet.h"
-    #include "TileMapInfo.h"
 
     class TileMap : public Component{
         public:
@@ -36,7 +35,6 @@
             private:
             std::vector<int> tileMatrix;
             TileSet* tileSet;
-            TileMapInfo* tileMapInfo;
             int mapWidth;
             int mapHeight;
             int mapDepth;

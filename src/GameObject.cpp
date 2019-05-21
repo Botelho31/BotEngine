@@ -1,5 +1,6 @@
 #include "../include/GameObject.h"
 #include "../include/Component.h"
+#include "../include/Physics.h"
 
 
 GameObject::GameObject(){

@@ -3,21 +3,19 @@
 #include "../include/Camera.h"
 #include "../include/TileCollider.h"
 #include "../include/GameData.h"
+#include "../include/Minion.h"
+#include "../include/MovingTile.h";
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
 
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
     this->tileSet = tileSet;
-    this->tileMapInfo = nullptr;
     Load(file);
 }
 
 TileMap::~TileMap(){
     delete tileSet;
     tiles.clear();
-    if(tileMapInfo){
-        delete tileMapInfo;
-    }
 }
 
 void TileMap::Load(std::string file){
@@ -64,11 +62,82 @@ void TileMap::Load(std::string file){
 }
 
 void TileMap::LoadInfo(std::string file){
-    if(this->tileMapInfo){
-        this->tileMapInfo->Open(file);
+    std::fstream FileReader;
+    FileReader.open(file.c_str());
+    std::string checkline;
+    if (FileReader.is_open()) {
+        while (!FileReader.eof()) {
+            FileReader >> checkline;    //Checa as palavras do grafo
+            if(checkline == "Portal"){        
+                Rect portalbox;
+                Vec2 portalloc;
+                std::string tilemapfile,tilemapinfofile;
+                while(checkline != "portalBox"){
+                    FileReader >> checkline;
+                }   
+                FileReader >> portalbox.x;
+                FileReader >> portalbox.y;
+                FileReader >> portalbox.w;
+                FileReader >> portalbox.h;
+                FileReader >> checkline;
+                FileReader >> portalloc.x;
+                FileReader >> checkline;
+                FileReader >> portalloc.y;  
+                FileReader >> checkline;
+                FileReader >> tilemapfile;
+                FileReader >> checkline;
+                FileReader >> tilemapinfofile;
+
+                GameObject *eventObj = new GameObject();
+                Event *event = new Event(*eventObj,Event::PORTAL,portalbox,tilemapfile,tilemapinfofile,portalloc);
+                eventObj->AddComponent(event);
+                Game::GetInstance().GetCurrentState().AddObject(eventObj);
+
+            }
+            if(checkline == "Minion"){       
+                Vec2 MinionPos;
+                while(checkline != "minionX"){
+                    FileReader >> checkline;
+                } 
+                FileReader >> MinionPos.x;
+                FileReader >> checkline;
+                FileReader >> MinionPos.y;
+                GameObject *minionObj = new GameObject();
+                Minion *minion = new Minion(*minionObj);
+                minionObj->box.SetCenter(MinionPos);
+                minionObj->AddComponent(minion);
+                Game::GetInstance().GetCurrentState().AddObject(minionObj);
+            }
+            if(checkline == "MovingTile"){
+                Vec2 start;
+                Vec2 dest;
+                float speed;
+                bool circular;
+                while(checkline != "startX"){
+                    FileReader >> checkline;
+                } 
+                FileReader >> start.x;
+                FileReader >> checkline;
+                FileReader >> start.y;
+                FileReader >> checkline;
+                FileReader >> speed;
+                FileReader >> checkline;
+                FileReader >> dest.x;
+                FileReader >> checkline;
+                FileReader >> dest.y;
+                FileReader >> checkline;
+                FileReader >> circular;
+                GameObject *tileObj = new GameObject();
+                MovingTile *movingtile = new MovingTile(*tileObj,speed,start,dest,circular);
+                tileObj->AddComponent(movingtile);
+                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                Game::GetInstance().GetCurrentState().AddObject(tileObj,place);
+            }
+        }
     }else{
-        this->tileMapInfo = new TileMapInfo(file);
+        std::cout << "No TileMapInfo File for: " << file << std::endl; //Printa um erro caso nao consiga dar load na file
     }
+    FileReader.close();
 }
 
 void TileMap::Start(){
