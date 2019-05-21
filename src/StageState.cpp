@@ -16,6 +16,7 @@
 #include "../include/TransitionState.h"
 #include "../include/MovingTile.h"
 #include "../include/TileCollider.h"
+#include "../include/FakeWall.h"
 
 bool StageState::changingMap;
 
@@ -363,6 +364,14 @@ void StageState::Start(){
     playerObj->AddComponent(player);
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
+
+    GameObject *fakewallObj = new GameObject();
+    FakeWall *fakewall = new FakeWall(*fakewallObj,"assets/img/TileSetTest7.png");
+    fakewallObj->AddComponent(fakewall);
+    fakewallObj->box.x = 1500;
+    fakewallObj->box.y = 1300;
+    AddObject(fakewallObj);
+
 
     //Loads the player HP
     GameObject *playerhpObj = new GameObject();
