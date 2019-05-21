@@ -264,10 +264,11 @@ void StageState::HandleEvents(float dt){
                     std::string tileMapFile = GameData::events.front()->GetTileMap();
                     std::string tileMapInfoFile = GameData::events.front()->GetTileMapInfo();
                     Vec2 portalloc = GameData::events.front()->GetPortalLoc();
+                    int collisionDepth = GameData::events.front()->GetCollisionDepthOffset();
                     GameData::events.pop();
 
                     ClearMobs();
-                    tilemap->Load(tileMapFile);
+                    tilemap->Load(tileMapFile,collisionDepth);
                     tilemap->LoadTileColliders();
                     tilemap->LoadInfo(tileMapInfoFile);
 
