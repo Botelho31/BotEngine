@@ -34,3 +34,17 @@ MovingTile
     destPos 1900 1500
     circular 0
   ]
+
+FakeWall
+  [
+    pos 3200 800
+    spritefile assets/img/FAKEWALL.png
+    breakable 0
+  ]
+
+FakeWall
+  [
+    pos 3150 1250
+    spritefile assets/img/BREAKABLEFAKEWALL.png
+    breakable 1
+  ]

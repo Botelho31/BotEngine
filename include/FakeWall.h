@@ -25,6 +25,8 @@
             float alphapersecond;
 
             int hp;
+            Timer * invincibilitytimer;
+            float damageTimer;
             bool breakable;
 
             

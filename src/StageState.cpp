@@ -365,14 +365,6 @@ void StageState::Start(){
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
 
-    GameObject *fakewallObj = new GameObject();
-    FakeWall *fakewall = new FakeWall(*fakewallObj,"assets/img/FAKEWALL.png");
-    fakewallObj->AddComponent(fakewall);
-    fakewallObj->box.x = 3200;
-    fakewallObj->box.y = 800;
-    AddObject(fakewallObj);
-
-
     //Loads the player HP
     GameObject *playerhpObj = new GameObject();
     std::stringstream playerLife;

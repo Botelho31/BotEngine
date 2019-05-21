@@ -4,7 +4,9 @@
 #include "../include/TileCollider.h"
 #include "../include/GameData.h"
 #include "../include/Minion.h"
-#include "../include/MovingTile.h";
+#include "../include/MovingTile.h"
+#include "../include/FakeWall.h"
+
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
 
@@ -156,6 +158,30 @@ void TileMap::SpawnMobs(std::string file){
                 tileObj->AddComponent(movingtile);
                 int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                 Game::GetInstance().GetCurrentState().AddObject(tileObj,place);
+            }
+            if(checkline == "FakeWall"){
+                Vec2 pos;
+                std::string sprite;
+                bool breakable;
+                while(checkline != "pos"){
+                    FileReader >> checkline;
+                } 
+                FileReader >> pos.x;
+                FileReader >> pos.y;
+                FileReader >> checkline;
+                FileReader >> sprite;
+                FileReader >> checkline;
+                FileReader >> breakable;
+                GameObject *fakewallObj = new GameObject();
+                FakeWall *fakewall = new FakeWall(*fakewallObj,sprite,breakable);
+                fakewallObj->AddComponent(fakewall);
+                fakewallObj->box.Transform(pos.x,pos.y);
+                if(breakable){
+                    int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                    Game::GetInstance().GetCurrentState().AddObject(fakewallObj,place);
+                }else{
+                    Game::GetInstance().GetCurrentState().AddObject(fakewallObj);
+                }
             }
         }
     }else{
