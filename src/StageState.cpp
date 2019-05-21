@@ -197,7 +197,7 @@ void StageState::ExpandTileColliders(){
         std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
         changingMapTimer->Update(0);
-        windoweffects->FadeFromBlack(1);
+        windoweffects->FadeFromBlack(1.5);
     }
 }
 
@@ -282,24 +282,27 @@ void StageState::HandleEvents(float dt){
         else if(GameData::events.front()->GetType() == Event::PLAYERDEATH){
             GameData::events.front()->Update(dt);
             if(GameData::events.front()->IsEventTimerOver()){
-                std::cout << "EVENTOVER" << std::endl;
-                windoweffects->FadeToBlack(0.5);
-                mapcollision = false;
-                changingMap = true;
-                Camera::UnFollow();
-                ClearMobs();
-                tilemap->Load(GameData::checkpointMap);
-                tilemap->Start();
-                tilemap->LoadInfo(GameData::checkpointMapInfo);
-                Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
-                if(GameData::checkpointPosSpeed.y < -100){
-                    GameData::checkpointPosSpeed.y = -900;
+                if(!windoweffects->Drawing()){
+                    windoweffects->FadeToBlack(2);
                 }
-                Player::player->KeepStill(false);
-                Player::player->Reset(GameData::checkpointPosSpeed);
-                GameData::playerAlive = true;
-                GameData::events.pop();
-                Camera::Follow(Player::player->GetAssociated());
+                if(windoweffects->IsBlack()){
+                    mapcollision = false;
+                    changingMap = true;
+                    Camera::UnFollow();
+                    ClearMobs();
+                    tilemap->Load(GameData::checkpointMap);
+                    tilemap->Start();
+                    tilemap->LoadInfo(GameData::checkpointMapInfo);
+                    Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
+                    if(GameData::checkpointPosSpeed.y < -100){
+                        GameData::checkpointPosSpeed.y = -900;
+                    }
+                    Player::player->KeepStill(false);
+                    Player::player->Reset(GameData::checkpointPosSpeed);
+                    GameData::playerAlive = true;
+                    GameData::events.pop();
+                    Camera::Follow(Player::player->GetAssociated());
+                }
             }
         }
     }
