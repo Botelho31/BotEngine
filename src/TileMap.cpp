@@ -10,8 +10,7 @@ std::vector<std::weak_ptr<Component>> TileMap::tiles;
 
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet,int collisionDepthOffset) : Component(associated){
     this->tileSet = tileSet;
-    Load(file);
-    this->collisionDepthOffset = collisionDepthOffset;
+    Load(file,collisionDepthOffset);
 }
 
 TileMap::~TileMap(){
@@ -19,8 +18,8 @@ TileMap::~TileMap(){
     tiles.clear();
 }
 
-void TileMap::Load(std::string file){
-    this->collisionDepthOffset = 0;
+void TileMap::Load(std::string file,int collisionDepthOffset){
+    this->collisionDepthOffset = collisionDepthOffset;
     if(GameData::GetExtension(file) == "tmx"){
         file = GameData::ParseTMX(file);
     }
@@ -74,6 +73,7 @@ void TileMap::LoadInfo(std::string file){
                 Rect portalbox;
                 Vec2 portalloc;
                 std::string tilemapfile,tilemapinfofile;
+                int collisionDepthOffset;
                 while(checkline != "portalBox"){
                     FileReader >> checkline;
                 }   
@@ -89,9 +89,11 @@ void TileMap::LoadInfo(std::string file){
                 FileReader >> tilemapfile;
                 FileReader >> checkline;
                 FileReader >> tilemapinfofile;
+                FileReader >> checkline;
+                FileReader >> collisionDepthOffset;
 
                 GameObject *eventObj = new GameObject();
-                Event *event = new Event(*eventObj,Event::PORTAL,portalbox,tilemapfile,tilemapinfofile,portalloc);
+                Event *event = new Event(*eventObj,Event::PORTAL,portalbox,tilemapfile,tilemapinfofile,portalloc,collisionDepthOffset);
                 eventObj->AddComponent(event);
                 Game::GetInstance().GetCurrentState().AddObject(eventObj);
 

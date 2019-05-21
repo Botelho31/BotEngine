@@ -10,9 +10,9 @@
 
     class TileMap : public Component{
         public:
-            TileMap(GameObject& associated,std::string file,TileSet* tileSet,int collisionDepthOffset = 1);
+            TileMap(GameObject& associated,std::string file,TileSet* tileSet,int collisionDepthOffset = 0);
             ~TileMap();
-            void Load(std::string file);
+            void Load(std::string file,int collisionDepthOffset = 0);
             void LoadInfo(std::string file);    //Load the TileMapInfo
             void LoadTileColliders();   //Load the tileColliders
             void SetTileSet(TileSet *tileSet);
