@@ -230,7 +230,7 @@ void Minion::AttackState(float distanceToPlayer,float dt){
             }
             GameObject *hitboxObj = new GameObject();
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.52,0.52,false,true,false,{400,100},this);
+            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.44,0.44,false,true,false,{400,100},this);
             minionhitbox->SetFunction(BiteHitbox);
             hitboxObj->AddComponent(minionhitbox);
             Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
