@@ -92,26 +92,24 @@ void GameData::PrintGameData(){
 
 std::string GameData::ParseTMX(std::string filetmx){
 
-    std::ofstream txtfile;
     std::string newfilename = SetExtension(filetmx,"txt");
-    txtfile.open (newfilename);
-
-    int width,height,depth;
-    bool valuesget = false;
-    std::stringstream numberstring;
-
     std::ifstream FileReader;
     FileReader.open(filetmx);
     std::string checkline;
     if (FileReader.is_open()) {
+        int width,height,depth;
+        bool valuesget = false;
+        std::stringstream numberstring;
+        std::stringstream mapcontent;
+        std::ofstream txtfile;
+        txtfile.open (newfilename);
         while (!FileReader.eof()) {
             FileReader >> checkline;
+            std::cout << checkline << std::endl;
             if((checkline == "layer") && (!valuesget)){
                 std::getline(FileReader, checkline, '"');
                 std::getline(FileReader, checkline, '"');
-                numberstring.clear();
-                numberstring << checkline;
-                numberstring >> depth;
+                depth ++;
 
                 std::getline(FileReader, checkline, '"');
                 std::getline(FileReader, checkline, '"');
@@ -127,25 +125,31 @@ std::string GameData::ParseTMX(std::string filetmx){
                 numberstring.clear();
                 numberstring << checkline;
                 numberstring >> height;
+                std::getline(FileReader, checkline, '<');
 
-                std::stringstream finalvalues;
-                finalvalues << width << "," << height << "," << depth << "," << std::endl;
-                txtfile << finalvalues.str();
                 valuesget = true;
+            }else if(checkline == "layer"){
+                std::getline(FileReader, checkline, '<');
+                std::cout << "depth+" << std::endl;
+                depth ++;
             }
-            if(checkline == "data"){
+            else if(checkline == "data"){
                 std::getline(FileReader, checkline, '>');
                 std::getline(FileReader, checkline, '<');
-                txtfile << checkline << ",";
+                mapcontent << checkline << ",";
             }else{
                 std::getline(FileReader, checkline, '<');
             }
         }
+        std::stringstream finalvalues;
+        finalvalues << width << "," << height << "," << depth << "," << mapcontent.str();
+        txtfile << finalvalues.str();
+        txtfile.close();
     }else{
         ENDLINE
         std::cout << "Couldnt open tilemap TMX: " << filetmx << std::endl;
+        newfilename = "";
     }
-    txtfile.close();
     FileReader.close();
 
     return newfilename;
