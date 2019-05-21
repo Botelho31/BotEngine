@@ -267,7 +267,7 @@ void StageState::HandleEvents(float dt){
 
                     ClearMobs();
                     tilemap->Load(tileMapFile);
-                    tilemap->Start();
+                    tilemap->LoadTileColliders();
                     tilemap->LoadInfo(tileMapInfoFile);
 
                     GameData::checkpointMap = tileMapFile;
@@ -291,7 +291,7 @@ void StageState::HandleEvents(float dt){
                     Camera::UnFollow();
                     ClearMobs();
                     tilemap->Load(GameData::checkpointMap);
-                    tilemap->Start();
+                    tilemap->LoadTileColliders();
                     tilemap->LoadInfo(GameData::checkpointMapInfo);
                     Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
                     if(GameData::checkpointPosSpeed.y < -100){
@@ -380,8 +380,6 @@ void StageState::Start(){
     //FINISHES LOADING
 
     StartArray();
-
-    this->tilemap->LoadInfo(GameData::checkpointMapInfo);
 }
 
 void StageState::Pause(){

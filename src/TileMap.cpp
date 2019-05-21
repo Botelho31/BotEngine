@@ -142,6 +142,7 @@ void TileMap::LoadInfo(std::string file){
 
 void TileMap::Start(){
     LoadTileColliders();
+    LoadInfo(GameData::checkpointMapInfo);
 }
 
 void TileMap::LoadTileColliders(){
