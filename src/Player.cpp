@@ -448,6 +448,9 @@ void Player::IdleHandle(float dt){
 
 void Player::DamagePlayer(int damage){
     hp -= damage;
+    if(hp < 0){
+        hp = 0;
+    }
     if(!damagetimer->Started() && !swordattack->Started()){
         SetSprite("assets/img/beldamagetest2.png",7,0.03,false);
         damagetimer->Delay(0);
@@ -477,6 +480,8 @@ void Player::KillPlayer(){
 
     Event *deathevent = new Event(*eventObj,Event::PLAYERDEATH,3.5);
     GameData::events.push(deathevent);
+    SetSprite("assets/img/beltransparent.png");
+    KeepStill(true);
 }
 
 void Player::KnockBack(Rect hitbox,Vec2 knockback){

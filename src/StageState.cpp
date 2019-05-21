@@ -279,8 +279,7 @@ void StageState::HandleEvents(float dt){
                 }
             }
         }
-        if(GameData::events.front()->GetType() == Event::PLAYERDEATH){
-            std::cout << GameData::events.size() << std::endl;
+        else if(GameData::events.front()->GetType() == Event::PLAYERDEATH){
             GameData::events.front()->Update(dt);
             if(GameData::events.front()->IsEventTimerOver()){
                 std::cout << "EVENTOVER" << std::endl;
@@ -296,6 +295,7 @@ void StageState::HandleEvents(float dt){
                 if(GameData::checkpointPosSpeed.y < -100){
                     GameData::checkpointPosSpeed.y = -900;
                 }
+                Player::player->KeepStill(false);
                 Player::player->Reset(GameData::checkpointPosSpeed);
                 GameData::playerAlive = true;
                 GameData::events.pop();
