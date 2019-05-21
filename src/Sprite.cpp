@@ -78,6 +78,10 @@ void Sprite::SetFrameTime(float frameTime){
     this->frameTime = frameTime;
 }
 
+void Sprite::SetAlpha(int alpha){
+    SDL_SetTextureAlphaMod(texture.get(),alpha);
+}
+
 void Sprite::Update(float dt){
         timeElapsed += dt;
         if(timeElapsed >= frameTime ){

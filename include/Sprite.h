@@ -29,6 +29,7 @@
             void SetFrame(int frame);
             void SetFrameCount(int frameCount);
             void SetFrameTime(float frameTime);
+            void SetAlpha(int alpha);
 
             void Update(float dt);
             void Render();
