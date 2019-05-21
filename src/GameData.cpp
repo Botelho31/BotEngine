@@ -93,7 +93,8 @@ void GameData::PrintGameData(){
 std::string GameData::ParseTMX(std::string filetmx){
 
     std::ofstream txtfile;
-    txtfile.open (SetExtension(filetmx,"txt"));
+    std::string newfilename = SetExtension(filetmx,"txt");
+    txtfile.open (newfilename);
 
     int width,height,depth;
     bool valuesget = false;
@@ -146,7 +147,8 @@ std::string GameData::ParseTMX(std::string filetmx){
     }
     txtfile.close();
     FileReader.close();
-    return "";
+
+    return newfilename;
 }   
 
 std::string GameData::GetExtension(std::string file){

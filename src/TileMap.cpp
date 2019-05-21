@@ -2,6 +2,7 @@
 #include "../include/StageState.h"
 #include "../include/Camera.h"
 #include "../include/TileCollider.h"
+#include "../include/GameData.h"
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
 
@@ -20,6 +21,9 @@ TileMap::~TileMap(){
 }
 
 void TileMap::Load(std::string file){
+    if(GameData::GetExtension(file) == "tmx"){
+        file = GameData::ParseTMX(file);
+    }
     std::ifstream FileReader;
     FileReader.open(file);
     std::stringstream num;
