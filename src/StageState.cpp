@@ -274,6 +274,7 @@ void StageState::HandleEvents(float dt){
 
                     GameData::checkpointMap = tileMapFile;
                     GameData::checkpointMapInfo = tileMapInfoFile;
+                    GameData::checkpointCollisionDepth = collisionDepth;
                     GameData::checkpointPos = portalloc;
                     GameData::checkpointPosSpeed = Player::player->GetSpeed();
                     Player::player->MovePlayer(portalloc.x,portalloc.y);
@@ -292,7 +293,7 @@ void StageState::HandleEvents(float dt){
                     changingMap = true;
                     Camera::UnFollow();
                     ClearMobs();
-                    tilemap->Load(GameData::checkpointMap);
+                    tilemap->Load(GameData::checkpointMap,GameData::checkpointCollisionDepth);
                     tilemap->LoadTileColliders();
                     tilemap->LoadInfo(GameData::checkpointMapInfo);
                     Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
@@ -342,7 +343,7 @@ void StageState::Start(){
     tilesetfiles.push_back("assets/img/TileSetTest7.png");
     tilesetfiles.push_back("assets/img/backgroundtest.jpg");
 	this->tileset = new TileSet(tilesetObj,50,50,tilesetfiles);
-	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset);
+	this->tilemap = new TileMap(*tileObj,GameData::checkpointMap,tileset,GameData::checkpointCollisionDepth);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);

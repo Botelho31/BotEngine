@@ -1,8 +1,9 @@
 Save
 	[
-		map assets/map/tileMaptest-1.txt
+		map assets/map/tileMaptest-1-FORPARALLAX.txt
 		mapInfo assets/map/info/tileMaptest-1.txt
-		playerPos 1428.41 1530.36
+		mapInfo 1
+		playerPos 1319.27 1230.21
 		playerLife 50
 		checkpointPos 2400 1700
 		checkpointPosSpeed 18 -928

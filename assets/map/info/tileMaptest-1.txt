@@ -5,6 +5,7 @@ Portal
     portalY 1530
     tilemapfile assets/map/tileMaptest-2.txt
     tilemapinfofile assets/map/info/tileMaptest-2.txt
+    collisionDepth 0
   ]
 Portal
   [
@@ -13,6 +14,7 @@ Portal
     portalY 0
     tilemapfile assets/map/tileMaptest-3.txt
     tilemapinfofile assets/map/info/tileMaptest-3.txt
+    collisionDepth 0
   ]
   
 Minion
