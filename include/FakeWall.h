@@ -10,7 +10,7 @@
 
     class FakeWall : public Component{
         public:
-            FakeWall(GameObject& associated,std::string wallspritefile);
+            FakeWall(GameObject& associated,std::string wallspritefile,bool breakable = false,int hp = 100);
             ~FakeWall();
 
             void Update(float dt);
@@ -23,6 +23,9 @@
             Sprite* wallsprite;
             float alpha;
             float alphapersecond;
+
+            int hp;
+            bool breakable;
 
             
     };

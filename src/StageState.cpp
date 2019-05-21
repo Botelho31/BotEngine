@@ -366,10 +366,10 @@ void StageState::Start(){
     Camera::Follow(playerObj);
 
     GameObject *fakewallObj = new GameObject();
-    FakeWall *fakewall = new FakeWall(*fakewallObj,"assets/img/TileSetTest7.png");
+    FakeWall *fakewall = new FakeWall(*fakewallObj,"assets/img/FAKEWALL.png");
     fakewallObj->AddComponent(fakewall);
-    fakewallObj->box.x = 1500;
-    fakewallObj->box.y = 1300;
+    fakewallObj->box.x = 3200;
+    fakewallObj->box.y = 800;
     AddObject(fakewallObj);
 
 
