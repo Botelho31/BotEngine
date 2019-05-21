@@ -11,7 +11,6 @@ Portal
     portalY 1700
     tilemapfile assets/map/tileMaptest-1.txt
     tilemapinfofile assets/map/info/tileMaptest-1.txt
-    collisionDepth 1
   ]
 
 Minion

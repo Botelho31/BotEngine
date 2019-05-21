@@ -96,7 +96,9 @@ std::string GameData::ParseTMX(std::string filetmx){
     FileReader.open(filetmx);
     std::string checkline;
     if (FileReader.is_open()) {
-        int width,height,depth;
+        int width = 0;
+        int height = 0;
+        int depth = 0;
         bool valuesget = false;
         std::stringstream numberstring;
         std::stringstream mapcontent;

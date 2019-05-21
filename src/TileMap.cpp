@@ -10,6 +10,8 @@ std::vector<std::weak_ptr<Component>> TileMap::tiles;
 
 TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
     this->tileSet = tileSet;
+    this->collisionDepthOffset = 0;
+    this->parallaxDepthOffset = 0;
     Load(file);
 }
 
