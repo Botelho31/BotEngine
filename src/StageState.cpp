@@ -81,7 +81,6 @@ void StageState::Update(float dt){
             std::stringstream fpsstring;
             fpsstring << (int)(1/dt);
             this->fps->SetText(fpsstring.str());
-            // std::cout << objectArray.size() << std::endl;
         }else{
             this->fps->SetText("");
         }
@@ -172,12 +171,14 @@ void StageState::Render(){
 
 void StageState::ExpandTileColliders(){
     bool mapcollisionloaded = true;
+    int notloaded = 0;
     for(unsigned int i = 0; i < objectArray.size();i++){
         Component *component1 = objectArray[i]->GetComponent("TileCollider");
         if(component1){
             TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
             if((!tilecollider1->maxX || !tilecollider1->maxY || !tilecollider1->adjusted) && !tilecollider1->moving){
                 mapcollisionloaded = false;
+                notloaded ++;
             }
             if((i + 1) < objectArray.size()){
                 for(unsigned int j = i + 1; j < objectArray.size();j++){
@@ -193,6 +194,9 @@ void StageState::ExpandTileColliders(){
             }
         }
     }
+    #ifdef DEBUG
+        std::cout << floor((1 - (float)notloaded/(float)initialtiles)*100) << "% \tOf Map Loaded" <<   std::endl;
+    #endif
     if(mapcollisionloaded){
         ENDLINE
         std::cout << "Map Collision Loaded" << std::endl;
@@ -271,6 +275,7 @@ void StageState::HandleEvents(float dt){
                     tilemap->LoadInfo(tileMapInfoFile);
                     tilemap->LoadTileColliders();
                     tilemap->SpawnMobs(tileMapInfoFile);
+                    this->initialtiles = TileMap::tiles.size();
 
                     GameData::checkpointMap = tileMapFile;
                     GameData::checkpointMapInfo = tileMapInfoFile;
@@ -296,6 +301,7 @@ void StageState::HandleEvents(float dt){
                     tilemap->LoadInfo(GameData::checkpointMapInfo);
                     tilemap->LoadTileColliders();
                     tilemap->SpawnMobs(GameData::checkpointMapInfo);
+                    this->initialtiles = TileMap::tiles.size();
                     Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
                     if(GameData::checkpointPosSpeed.y < -100){
                         GameData::checkpointPosSpeed.y = -900;
@@ -383,6 +389,8 @@ void StageState::Start(){
     //FINISHES LOADING
 
     StartArray();
+
+    this->initialtiles = TileMap::tiles.size();
 }
 
 void StageState::Pause(){

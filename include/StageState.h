@@ -39,6 +39,7 @@
 
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool mapcollision; //Boolean indicating if mapcollision is ready or not
+            int initialtiles;
             static bool changingMap;    //Keeps the bool if the map is changing
     };
 
