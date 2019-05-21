@@ -265,12 +265,12 @@ Vec2 Physics::GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox,float colBoxAn
     float angle = origin.GetAngle(dest);
 
     if(colBox == Rect(0,0,0,0)){
-        if(IsColliding(box,angle)){
+        if(IsColliding(box,angle,true)){
             float interval = box.w/2;
             box.w -= interval;
             box = GetLineBox(origin,dest,box.w);
             while(interval > 1){
-                if(IsColliding(box,angle)){
+                if(IsColliding(box,angle,true)){
                     box.w -= interval;
                     interval /= 2;
                 }
