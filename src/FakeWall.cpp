@@ -40,8 +40,8 @@ void FakeWall::Update(float dt){
     }else{
         switch(currentEffect){
             case FADE:
-                if((alpha - (alphapersecond *dt)) <= 122){
-                    alpha = 122;
+                if((alpha - (alphapersecond *dt)) <= 100){
+                    alpha = 100;
                 }else{
                     alpha -= alphapersecond * dt;
                 }
