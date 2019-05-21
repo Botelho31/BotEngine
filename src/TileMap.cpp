@@ -8,9 +8,10 @@
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
 
-TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Component(associated){
+TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet,int collisionDepthOffset) : Component(associated){
     this->tileSet = tileSet;
     Load(file);
+    this->collisionDepthOffset = collisionDepthOffset;
 }
 
 TileMap::~TileMap(){
@@ -19,6 +20,7 @@ TileMap::~TileMap(){
 }
 
 void TileMap::Load(std::string file){
+    this->collisionDepthOffset = 0;
     if(GameData::GetExtension(file) == "tmx"){
         file = GameData::ParseTMX(file);
     }
@@ -149,7 +151,7 @@ void TileMap::LoadTileColliders(){
     tiles.clear();
     for(int h = 0;h < this->mapHeight;h++){
         for(int w = 0;w < this->mapWidth;w++){
-            if((At(w,h,this->mapDepth - 1) + 1) > 0){
+            if((At(w,h,this->mapDepth - 1 - collisionDepthOffset) + 1) > 0){
                 GameObject* tileGO = new GameObject();
                 TileCollider *tilecollider = new TileCollider(*tileGO,Rect(tileSet->GetTileWidth() * w,tileSet->GetTileHeight() * h,tileSet->GetTileWidth(),tileSet->GetTileHeight()));
                 std::weak_ptr<Component> weakptrtile = tileGO->AddComponent(tilecollider);
@@ -184,7 +186,7 @@ int TileMap::AtLocation(int x,int y){
         int ytile,xtile;
         xtile = x / (this->tileSet->GetTileWidth());
         ytile = y / (this->tileSet->GetTileHeight());
-        int tilePlace = ( (ytile + (this->mapHeight * (this->mapDepth - 1))) * this->mapWidth) + xtile;
+        int tilePlace = ( (ytile + (this->mapHeight * (this->mapDepth - 1 - this->collisionDepthOffset))) * this->mapWidth) + xtile;
         return tileMatrix[tilePlace];
     }else{
         return -1;
@@ -204,9 +206,9 @@ void TileMap::InsertAtLocation(int x,int y,int numberoftile){
 
 void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
     //PARALLAX
-    int dif =  this->mapDepth - (layer + 1);
+    int dif =  (this->mapDepth - collisionDepthOffset) - (layer + 1);
     float paxMult = 1/((float)dif*2);
-    if(dif == 0){
+    if(dif <= 0){
         paxMult = 1;
     }
 
@@ -218,7 +220,13 @@ void TileMap::RenderLayer(int layer,int cameraX,int cameraY){
 }
 
 void TileMap::Render(){
-    for(int d = 0;d < this->mapDepth;d++){
+    for(int d = 0;d < (this->mapDepth - collisionDepthOffset);d++){
+        RenderLayer(d,associated.box.x,associated.box.y);
+    }
+}
+
+void TileMap::RenderForeGround(){
+    for(int d = (this->mapDepth - collisionDepthOffset);d < this->mapDepth;d++){
         RenderLayer(d,associated.box.x,associated.box.y);
     }
 }

@@ -10,7 +10,7 @@
 
     class TileMap : public Component{
         public:
-            TileMap(GameObject& associated,std::string file,TileSet* tileSet);
+            TileMap(GameObject& associated,std::string file,TileSet* tileSet,int collisionDepthOffset = 1);
             ~TileMap();
             void Load(std::string file);
             void LoadInfo(std::string file);    //Load the TileMapInfo
@@ -24,6 +24,7 @@
             
             void Start();
             void Render();
+            void RenderForeGround();
             void Update(float dt);
             bool Is(std::string type);
 
@@ -38,6 +39,7 @@
             int mapWidth;
             int mapHeight;
             int mapDepth;
+            int collisionDepthOffset;
     };
 
 #endif

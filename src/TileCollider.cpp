@@ -68,9 +68,15 @@ void TileCollider::Update(float dt){
 		}
 	}else{
 		if((!moving) && (!adjusted)){
+			if((associated.box.x + associated.box.w + 1) > Camera::limit.x){
+				associated.box.w += 50;
+			}
 			if((associated.box.x - 1) > 0){
 				associated.box.w -= 30;
 				associated.box.x += 25;
+				if((associated.box.w - 15) >= 1){
+					associated.box.w -= 15;
+				}
 			}
 			if((associated.box.y - 1) > 0){
 				associated.box.h -= 30;
@@ -80,9 +86,6 @@ void TileCollider::Update(float dt){
 			if((associated.box.x - 1) < 0){
 				associated.box.w += 50;
 				associated.box.x -= 50;
-			}
-			if((associated.box.x + associated.box.w) > Camera::limit.x){
-				associated.box.w += 50;
 			}
 			adjusted = true;
 		}	

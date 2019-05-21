@@ -105,7 +105,6 @@ std::string GameData::ParseTMX(std::string filetmx){
         txtfile.open (newfilename);
         while (!FileReader.eof()) {
             FileReader >> checkline;
-            std::cout << checkline << std::endl;
             if((checkline == "layer") && (!valuesget)){
                 std::getline(FileReader, checkline, '"');
                 std::getline(FileReader, checkline, '"');
@@ -130,7 +129,6 @@ std::string GameData::ParseTMX(std::string filetmx){
                 valuesget = true;
             }else if(checkline == "layer"){
                 std::getline(FileReader, checkline, '<');
-                std::cout << "depth+" << std::endl;
                 depth ++;
             }
             else if(checkline == "data"){

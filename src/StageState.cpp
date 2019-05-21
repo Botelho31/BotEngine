@@ -166,6 +166,7 @@ void StageState::Render(){
         }
         objectArray[i]->Render();
     }
+    tilemap->RenderForeGround();
     windoweffects->Render();
 }
 
