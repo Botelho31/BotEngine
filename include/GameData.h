@@ -22,7 +22,6 @@
             static int savePlayerHealth;
             static std::string checkpointMap;
             static std::string checkpointMapInfo;
-            static int checkpointCollisionDepth;
             static Vec2 checkpointPos;
             static Vec2 checkpointPosSpeed;
 

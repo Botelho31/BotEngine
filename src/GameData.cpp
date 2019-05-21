@@ -6,7 +6,6 @@ Vec2 GameData::savePlayerPos;
 int GameData::savePlayerHealth;
 std::string GameData::checkpointMap;
 std::string GameData::checkpointMapInfo;
-int GameData::checkpointCollisionDepth;
 Vec2 GameData::checkpointPos;
 Vec2 GameData::checkpointPosSpeed;
 
@@ -32,7 +31,6 @@ void GameData::SaveGame(){
     savefile << "\t[\n";
     savefile << "\t\t" << "map " << checkpointMap << "\n";
     savefile << "\t\t" << "mapInfo " << checkpointMapInfo << "\n";
-    savefile << "\t\t" << "collisionDepth " << checkpointCollisionDepth << "\n";
     savefile << "\t\t" << "playerPos " << savePlayerPos.x << " " << savePlayerPos.y << "\n";
     savefile << "\t\t" << "playerLife " << savePlayerHealth << "\n";
     savefile << "\t\t" << "checkpointPos " << checkpointPos.x << " " << checkpointPos.y << "\n";
@@ -57,8 +55,6 @@ void GameData::LoadGame(){
                 FileReader >> checkline;
                 FileReader >> checkpointMapInfo;
                 FileReader >> checkline;
-                FileReader >> checkpointCollisionDepth;
-                FileReader >> checkline;
                 FileReader >> savePlayerPos.x;
                 FileReader >> savePlayerPos.y;
                 FileReader >> checkline;
@@ -78,7 +74,6 @@ void GameData::LoadGame(){
         std::cout << "No Save File Found" << std::endl; //Printa um erro caso nao consiga dar load na file
         checkpointMap = "assets/map/tileMaptest-1.txt";
         checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
-        checkpointCollisionDepth = 1;
         checkpointPos = Vec2(100,500);
         savePlayerPos = checkpointPos;
     }

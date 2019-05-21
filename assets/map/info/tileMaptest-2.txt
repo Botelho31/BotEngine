@@ -1,3 +1,9 @@
+MapInfo
+  [
+    collisionDepth 0
+    parallaxDepth 0
+  ]
+
 Portal
   [
     portalBox 2900 1400 200 200

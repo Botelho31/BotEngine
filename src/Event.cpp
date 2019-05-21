@@ -2,13 +2,12 @@
 #include "../include/Collider.h"
 #include "../include/WindowEffects.h"
 
-Event::Event(GameObject& associated,EventType eventType,Rect box,std::string tileMap,std::string tileMapInfo,Vec2 portalloc,int collisionDepthOffset) : 
+Event::Event(GameObject& associated,EventType eventType,Rect box,std::string tileMap,std::string tileMapInfo,Vec2 portalloc) : 
     Component(associated){
     associated.box = box;
     this->tileMap = tileMap;
     this->tileMapInfo = tileMapInfo;
     this->portalLoc = portalloc;
-    this->collisionDepthOffset = collisionDepthOffset;
 
     this->eventtimer = new Timer();
     this->eventduration = 0;
@@ -66,10 +65,6 @@ Rect Event::GetBox(){
 
 Vec2 Event::GetPortalLoc(){
     return portalLoc;
-}
-
-int Event::GetCollisionDepthOffset(){
-    return collisionDepthOffset;
 }
 
 std::string Event::GetTileMap(){
