@@ -1,6 +1,6 @@
 MapInfo
   [
-    mapFile assets/map/tileMaptest-2.txt
+    mapFile assets/map/tileMaptest-2.tmx
     collisionDepth 0
     parallaxDepth 0
   ]

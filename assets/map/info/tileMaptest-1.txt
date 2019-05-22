@@ -43,7 +43,7 @@ FakeWall
 
 FakeWall
   [
-    pos 3150 1350
+    pos 3150 1200
     spritefile assets/img/BREAKABLEFAKEWALL.png
     breakable 1
   ]

@@ -339,7 +339,7 @@ void StageState::Start(){
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
     std::vector<std::string> tilesetfiles;
-    tilesetfiles.push_back("assets/img/TileSetTest8.png");
+    tilesetfiles.push_back("assets/img/TileSetTest9.png");
     tilesetfiles.push_back("assets/img/backgroundtest.jpg");
 	this->tileset = new TileSet(tilesetObj,50,50,tilesetfiles);
 	this->tilemap = new TileMap(*tileObj,GameData::checkpointMapInfo,tileset);
