@@ -17,6 +17,7 @@
 #include "../include/MovingTile.h"
 #include "../include/TileCollider.h"
 #include "../include/FakeWall.h"
+#include "../include/Eye.h"
 
 bool StageState::changingMap;
 
@@ -324,7 +325,7 @@ bool StageState::ChangingMap(){
 }
 
 void StageState::Start(){
-    // windoweffects->FadeToBlack(0.5);
+    windoweffects->FadeToBlack(0.5);
     
     //LOADS THE GAME DATA
     GameData::LoadGame();
@@ -350,6 +351,14 @@ void StageState::Start(){
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
 	objectArray.emplace_back(tileObj);
+
+    //EYE TESTING 
+
+    GameObject *eyeObj =  new GameObject();
+    eyeObj->box.Transform(500,1400);
+    Eye *eye = new Eye(*eyeObj,30);
+    eyeObj->AddComponent(eye);
+    AddObject(eyeObj);
 
     //Loads the player
     GameObject *playerObj = new GameObject();

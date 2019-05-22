@@ -2,6 +2,7 @@
 #include "../include/Collider.h"
 #include "../include/WindowEffects.h"
 #include "../include/Player.h"
+#include "../include/Camera.h"
 
 Eye::Eye(GameObject& associated,int radius) : 
     Component(associated){
@@ -37,15 +38,15 @@ void Eye::Update(float dt){
 }
 
 void Eye::Render() {
-    for(int i = 0;i < 4;i ++){
-        WindowEffects::DrawBox(associated.box.Added(i - associated.box.w/2,i - associated.box.h/2,-i,-i),ToPI(associated.angleDeg),0,0,0);
-    }
+    WindowEffects::FillRect(associated.box.Added(-Camera::pos.x,-Camera::pos.y,0,0),0,0,0,255);
+    WindowEffects::DrawCircle(originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
+    // WindowEffects::FillRect(associated.box,0,0,0,255);
 #ifdef DEBUG
-	InputManager *input = &(InputManager::GetInstance());
-	if(input->IsKeyDown(SDLK_EQUALS)){
-        Rect eyelimit = Rect(originalpos.Added(-radius,-radius).x,originalpos.Added(-radius,-radius).y,2*radius,2*radius);
-        WindowEffects::DrawBox(eyelimit,ToPI(associated.angleDeg),0,0,0);
-	}
+	// InputManager *input = &(InputManager::GetInstance());
+	// if(input->IsKeyDown(SDLK_EQUALS)){
+    //     Rect eyelimit = Rect(originalpos.Added(-radius,-radius).x,originalpos.Added(-radius,-radius).y,2*radius,2*radius);
+        // WindowEffects::DrawBox(eyelimit,ToPI(associated.angleDeg),0,0,0);
+	// }
 #endif // DEBUG
 }
 

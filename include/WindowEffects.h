@@ -23,6 +23,7 @@
             bool IsBlack(); //Returns if the screen is black
 
             static void DrawBox(Rect box,float angle,int r,int g,int b);
+            static void DrawCircle(int centreX, int centreY, int radius);
             static void FillRect(Rect box,int r,int g,int b,int a);
             static void AddBoxToDraw(Rect box,float angle,int r = 0,int g = 0,int b = 0); //Adds Box to draw Queue
         private:
