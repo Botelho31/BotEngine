@@ -78,13 +78,18 @@ void WindowEffects::FadeFromBlack(int seconds){
 }
 
 void WindowEffects::DrawToScreen(int r,int g,int b,int a){
+    FillRect(Rect(0,0,Camera::window.x,Camera::window.y),r,g,b,a);
+}
+
+void WindowEffects::FillRect(Rect box,int r,int g,int b,int a){
     SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(),r,g,b,a);
     SDL_Rect rect;
-    rect.x = 0;
-    rect.y = 0;
-    rect.w = Camera::window.x;
-    rect.h = Camera::window.y;
+    Vec2 origin = box.GetOrigin();
+    rect.x = origin.x;
+    rect.y = origin.y;
+    rect.w = box.w;
+    rect.h = box.h;
     SDL_RenderFillRect(Game::GetInstance().GetRenderer(),&rect);
 }
 
