@@ -78,6 +78,9 @@ void StageState::Update(float dt){
                 showfps = true;
             }
         }
+        if(input->KeyPress(SDLK_3)){
+            Camera::UnFollow();
+        }
         if(showfps){
             std::stringstream fpsstring;
             fpsstring << (int)(1/dt);
@@ -321,7 +324,7 @@ bool StageState::ChangingMap(){
 }
 
 void StageState::Start(){
-    windoweffects->FadeToBlack(0.5);
+    // windoweffects->FadeToBlack(0.5);
     
     //LOADS THE GAME DATA
     GameData::LoadGame();

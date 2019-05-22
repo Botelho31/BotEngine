@@ -43,8 +43,8 @@ void Camera::Update(float dt){
             pos.y = limit.y - window.y;
         }
     }else{
-        speed.x = 100;
-        speed.y = 100;
+        speed.x = 300;
+        speed.y = 300;
         if(input->IsKeyDown(UP_ARROW_KEY)){
             pos.y -= dt * speed.y;
         }

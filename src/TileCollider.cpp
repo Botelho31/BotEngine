@@ -48,7 +48,7 @@ void TileCollider::Update(float dt){
 							Vec2(box.x + box.w + 1,box.y + box.h/2),
 							Vec2(box.x - 1,box.y + box.h/2),
 		};
-		if(CanMove(Edges[0])){
+		if(CanMove(Edges[0]) || (Edges[0].y + 1 > Camera::limit.y)){
 			down = true;
 		}
 		if(CanMove(Edges[1])){
@@ -66,6 +66,10 @@ void TileCollider::Update(float dt){
 		if((up) && (down)){
 			maxY = true;
 		}
+		ENDLINE
+		// std::cout << associated.box.x << " " << associated.box.y << " " << associated.box.w << " " << associated.box.h << std::endl;
+		// std::cout << down << " " << up << " " << right << " " << left << std::endl;
+		// std::cout << maxX << " " << maxY << std::endl;
 	}else{
 		if((!moving) && (!adjusted)){
 			//ADJUSTMENTS FOR EDGES OF MAP
@@ -127,7 +131,7 @@ void TileCollider::NotifyCollision(GameObject& other){
 						}
 						tilecollider->deleted = true;
 						other.RequestDelete();
-						// KeepStill(true,0.5);
+						// KeepStill(true,1);
 					}
 				}else if(!tilecollider->maxY){
 					if((other.box.x == associated.box.x) && (other.box.w == associated.box.w)){
@@ -137,7 +141,7 @@ void TileCollider::NotifyCollision(GameObject& other){
 						}
 						tilecollider->deleted = true;
 						other.RequestDelete();
-						// KeepStill(true,0.5);
+						// KeepStill(true,1);
 					}
 				}
 				if(tilecollider->maxX){
@@ -145,6 +149,15 @@ void TileCollider::NotifyCollision(GameObject& other){
 						left = true;
 					}else if(tilecollider->box.x >= associated.box.x + associated.box.w){
 						right = true;
+					}
+					if(!tilecollider->maxY){
+						if((tilecollider->box.w != associated.box.w) || (tilecollider->box.x != associated.box.x)){
+							if(tilecollider->box.y < associated.box.y){
+								up = true;
+							}else{
+								down = true;
+							}
+						}
 					}
 				}
 				if(tilecollider->maxY){
