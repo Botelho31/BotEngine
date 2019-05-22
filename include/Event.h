@@ -11,7 +11,7 @@
         public:
             enum EventType{PORTAL,PLAYERDEATH,NOTHING};
 
-            Event(GameObject& associated,EventType eventType,Rect box,std::string tileMap,std::string tileMapInfo,Vec2 portalloc);
+            Event(GameObject& associated,EventType eventType,Rect box,std::string tileMapInfo,Vec2 portalloc);
             Event(GameObject& associated,EventType eventType,float eventduration);
             ~Event();
 
@@ -27,7 +27,6 @@
             Rect GetBox();
 
             Vec2 GetPortalLoc();
-            std::string GetTileMap();
             std::string GetTileMapInfo();
 
         private:
@@ -38,7 +37,6 @@
             bool processing;
 
             Vec2 portalLoc;
-            std::string tileMap;
             std::string tileMapInfo;
             
     };

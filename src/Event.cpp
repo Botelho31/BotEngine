@@ -2,10 +2,9 @@
 #include "../include/Collider.h"
 #include "../include/WindowEffects.h"
 
-Event::Event(GameObject& associated,EventType eventType,Rect box,std::string tileMap,std::string tileMapInfo,Vec2 portalloc) : 
+Event::Event(GameObject& associated,EventType eventType,Rect box,std::string tileMapInfo,Vec2 portalloc) : 
     Component(associated){
     associated.box = box;
-    this->tileMap = tileMap;
     this->tileMapInfo = tileMapInfo;
     this->portalLoc = portalloc;
 
@@ -22,7 +21,6 @@ Event::Event(GameObject& associated,EventType eventType,Rect box,std::string til
 
 Event::Event(GameObject& associated,EventType eventType,float duration) : 
     Component(associated){
-    this->tileMap = "";
     this->tileMapInfo = "";
 
     this->eventtimer = new Timer();
@@ -65,10 +63,6 @@ Rect Event::GetBox(){
 
 Vec2 Event::GetPortalLoc(){
     return portalLoc;
-}
-
-std::string Event::GetTileMap(){
-    return tileMap;
 }
 
 std::string Event::GetTileMapInfo(){

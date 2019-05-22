@@ -14,7 +14,7 @@ TileMap::TileMap(GameObject& associated,std::string file,TileSet* tileSet) : Com
     this->tileSet = tileSet;
     this->collisionDepthOffset = 0;
     this->parallaxDepthOffset = 0;
-    Load(file);
+    Load(LoadInfo(file));
 }
 
 TileMap::~TileMap(){
@@ -65,9 +65,10 @@ void TileMap::Load(std::string file){
     Camera::Update(0);
 }
 
-void TileMap::LoadInfo(std::string file){
+std::string TileMap::LoadInfo(std::string file){
     this->collisionDepthOffset = 0;
     this->parallaxDepthOffset = 0;
+    std::string mapfile;
     std::fstream FileReader;
     FileReader.open(file.c_str());
     std::string checkline;
@@ -75,9 +76,11 @@ void TileMap::LoadInfo(std::string file){
         while (!FileReader.eof()) {
             FileReader >> checkline;    //Checa as palavras do grafo
             if(checkline == "MapInfo"){        
-                while(checkline != "collisionDepth"){
+                while(checkline != "mapFile"){
                     FileReader >> checkline;
                 }   
+                FileReader >> mapfile;
+                FileReader >> checkline;
                 FileReader >> collisionDepthOffset;
                 FileReader >> checkline;
                 FileReader >> parallaxDepthOffset;
@@ -85,8 +88,10 @@ void TileMap::LoadInfo(std::string file){
         }
     }else{
         std::cout << "No TileMapInfo File for: " << file << std::endl; //Printa um erro caso nao consiga dar load na file
+        return "";
     }
     FileReader.close();
+    return mapfile;
 }
 
 void TileMap::SpawnMobs(std::string file){
@@ -99,7 +104,7 @@ void TileMap::SpawnMobs(std::string file){
             if(checkline == "Portal"){        
                 Rect portalbox;
                 Vec2 portalloc;
-                std::string tilemapfile,tilemapinfofile;
+                std::string tilemapinfofile;
                 while(checkline != "portalBox"){
                     FileReader >> checkline;
                 }   
@@ -112,12 +117,10 @@ void TileMap::SpawnMobs(std::string file){
                 FileReader >> checkline;
                 FileReader >> portalloc.y;  
                 FileReader >> checkline;
-                FileReader >> tilemapfile;
-                FileReader >> checkline;
                 FileReader >> tilemapinfofile;
 
                 GameObject *eventObj = new GameObject();
-                Event *event = new Event(*eventObj,Event::PORTAL,portalbox,tilemapfile,tilemapinfofile,portalloc);
+                Event *event = new Event(*eventObj,Event::PORTAL,portalbox,tilemapinfofile,portalloc);
                 eventObj->AddComponent(event);
                 Game::GetInstance().GetCurrentState().AddObject(eventObj);
 
@@ -191,7 +194,6 @@ void TileMap::SpawnMobs(std::string file){
 }
 
 void TileMap::Start(){
-    LoadInfo(GameData::checkpointMapInfo);
     LoadTileColliders();
     SpawnMobs(GameData::checkpointMapInfo);
 }

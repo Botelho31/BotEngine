@@ -1,5 +1,6 @@
 MapInfo
   [
+    mapFile assets/map/tileMaptest-1.tmx
     collisionDepth 1
     parallaxDepth 2
   ]
@@ -9,7 +10,6 @@ Portal
     portalBox 0 1400 200 200
     portalX 2995
     portalY 1530
-    tilemapfile assets/map/tileMaptest-2.txt
     tilemapinfofile assets/map/info/tileMaptest-2.txt
   ]
 Portal
@@ -17,7 +17,6 @@ Portal
     portalBox 2300 1500 200 300
     portalX 2055
     portalY 0
-    tilemapfile assets/map/tileMaptest-3.txt
     tilemapinfofile assets/map/info/tileMaptest-3.txt
   ]
   

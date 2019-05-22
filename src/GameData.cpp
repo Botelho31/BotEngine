@@ -4,7 +4,6 @@
 bool GameData::playerAlive;
 Vec2 GameData::savePlayerPos;
 int GameData::savePlayerHealth;
-std::string GameData::checkpointMap;
 std::string GameData::checkpointMapInfo;
 Vec2 GameData::checkpointPos;
 Vec2 GameData::checkpointPosSpeed;
@@ -29,7 +28,6 @@ void GameData::SaveGame(){
     savefile.open ("assets/saves/save.txt");
     savefile << "Save\n";
     savefile << "\t[\n";
-    savefile << "\t\t" << "map " << checkpointMap << "\n";
     savefile << "\t\t" << "mapInfo " << checkpointMapInfo << "\n";
     savefile << "\t\t" << "playerPos " << savePlayerPos.x << " " << savePlayerPos.y << "\n";
     savefile << "\t\t" << "playerLife " << savePlayerHealth << "\n";
@@ -48,11 +46,9 @@ void GameData::LoadGame(){
         while (!FileReader.eof()) {
             FileReader >> checkline;    
             if(checkline == "Save"){  
-                while(checkline != "map"){
+                while(checkline != "mapInfo"){
                     FileReader >> checkline;
-                }   
-                FileReader >> checkpointMap;
-                FileReader >> checkline;
+                }
                 FileReader >> checkpointMapInfo;
                 FileReader >> checkline;
                 FileReader >> savePlayerPos.x;
@@ -72,7 +68,6 @@ void GameData::LoadGame(){
     }else{
         ENDLINE
         std::cout << "No Save File Found" << std::endl; //Printa um erro caso nao consiga dar load na file
-        checkpointMap = "assets/map/tileMaptest-1.txt";
         checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
         checkpointPos = Vec2(100,500);
         savePlayerPos = checkpointPos;
@@ -83,7 +78,6 @@ void GameData::LoadGame(){
 
 void GameData::PrintGameData(){
     ENDLINE
-    std::cout << "Map: " << checkpointMap << std::endl;
     std::cout << "MapInfo: " << checkpointMapInfo << std::endl;
     std::cout << "PlayerPos: " << savePlayerPos.x << " " << savePlayerPos.y << std::endl;
     std::cout << "PlayerLife: " << savePlayerHealth << std::endl;

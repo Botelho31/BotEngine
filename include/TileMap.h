@@ -13,7 +13,7 @@
             TileMap(GameObject& associated,std::string file,TileSet* tileSet);
             ~TileMap();
             void Load(std::string file);
-            void LoadInfo(std::string file);    //Load the TileMapInfo
+            std::string LoadInfo(std::string file);    //Load the TileMapInfo
             void SpawnMobs(std::string file);
             void LoadTileColliders();   //Load the tileColliders
             void SetTileSet(TileSet *tileSet);
