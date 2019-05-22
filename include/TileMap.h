@@ -13,9 +13,13 @@
             TileMap(GameObject& associated,std::string file,TileSet* tileSet);
             ~TileMap();
             void Load(std::string file);
-            std::string LoadInfo(std::string file);    //Load the TileMapInfo
-            void SpawnMobs(std::string file);
-            void LoadTileColliders();   //Load the tileColliders
+
+            std::string LoadInfo(std::string file);    //Load the Map Info
+            void SpawnMobs(std::string file);   //Spawns the mobs
+            void LoadTileColliders();   //Load the Tile Colliders
+
+            void ExchangeMap(std::string infofile); // Exchanges maps completely
+            
             void SetTileSet(TileSet *tileSet);
             int& At(int x,int y,int z = 0);
             void RenderLayer(int layer,int cameraX = 0,int cameraY = 0);

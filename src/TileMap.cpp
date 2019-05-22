@@ -193,6 +193,12 @@ void TileMap::SpawnMobs(std::string file){
     FileReader.close();
 }
 
+void TileMap::ExchangeMap(std::string infofile){
+    Load(LoadInfo(infofile));
+    LoadTileColliders();
+    SpawnMobs(infofile);
+}
+
 void TileMap::Start(){
     LoadTileColliders();
     SpawnMobs(GameData::checkpointMapInfo);
