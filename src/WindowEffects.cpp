@@ -93,7 +93,66 @@ void WindowEffects::FillRect(Rect box,int r,int g,int b,int a){
     SDL_RenderFillRect(Game::GetInstance().GetRenderer(),&rect);
 }
 
-void WindowEffects::DrawCircle(int32_t centreX, int32_t centreY, int32_t radius){
+void WindowEffects::FillCircle(int centreX, int centreY, int radius){
+    centreX -= Camera::pos.x;
+    centreY -= Camera::pos.y;
+    for(int i = 0;i <= radius;i++){
+        DrawCircle(centreX,centreY,i);
+    }
+}
+
+void WindowEffects::FillCircleIfInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius){
+    for(int i = 0;i <= radius;i++){
+        DrawCircleInside(centreX,centreY,i,boundsX,boundsY,boundsRadius);
+    }
+}
+
+void WindowEffects::DrawPointIfInside(int x,int y,int circlex,int circley,int radius){
+    if(pow((x - circlex),2) + pow((y - circley),2) < pow(radius,2)){
+        SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(),x,y);
+    }
+}
+
+void WindowEffects::DrawCircleInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius){
+   const int32_t diameter = (radius * 2);
+
+   int32_t x = (radius - 1);
+   int32_t y = 0;
+   int32_t tx = 1;
+   int32_t ty = 1;
+   int32_t error = (tx - diameter);
+   std::cout << SDL_GetError() << " "<<  std::endl;
+   SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
+   SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, 255);
+   while (x >= y)
+   {
+      DrawPointIfInside(centreX + x, centreY - y,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX + x, centreY + y,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX - x, centreY - y,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX - x, centreY + y,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX + y, centreY - x,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX + y, centreY + x,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX - y, centreY - x,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX - y, centreY + x,boundsX,boundsY,boundsRadius);
+
+      if (error <= 0)
+      {
+         ++y;
+         error += ty;
+         ty += 2;
+      }
+
+      if (error > 0)
+      {
+         --x;
+         tx += 2;
+         error += (tx - diameter);
+      }
+   }
+   std::cout << SDL_GetError() << std::endl;
+}
+
+void WindowEffects::DrawCircle(int centreX, int centreY, int radius){
    const int32_t diameter = (radius * 2);
 
    int32_t x = (radius - 1);

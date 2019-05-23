@@ -9,8 +9,6 @@ Eye::Eye(GameObject& associated,int radius) :
     this->physics = new Physics(associated,&speed,true,true);
     associated.AddComponent(physics);
     this->radius = radius;
-    associated.box.w = 5;
-    associated.box.h = 5;
     originalpos = associated.box.GetCenter();
 
 
@@ -38,15 +36,12 @@ void Eye::Update(float dt){
 }
 
 void Eye::Render() {
-    WindowEffects::FillRect(associated.box.Added(-Camera::pos.x,-Camera::pos.y,0,0),0,0,0,255);
-    WindowEffects::DrawCircle(originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
-    // WindowEffects::FillRect(associated.box,0,0,0,255);
+    WindowEffects::FillCircleIfInside(associated.box.x - Camera::pos.x,associated.box.y - Camera::pos.y,10,originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
 #ifdef DEBUG
-	// InputManager *input = &(InputManager::GetInstance());
-	// if(input->IsKeyDown(SDLK_EQUALS)){
-    //     Rect eyelimit = Rect(originalpos.Added(-radius,-radius).x,originalpos.Added(-radius,-radius).y,2*radius,2*radius);
-        // WindowEffects::DrawBox(eyelimit,ToPI(associated.angleDeg),0,0,0);
-	// }
+	InputManager *input = &(InputManager::GetInstance());
+	if(input->IsKeyDown(SDLK_EQUALS)){
+        WindowEffects::DrawCircle(originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
+	}
 #endif // DEBUG
 }
 

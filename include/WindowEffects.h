@@ -22,9 +22,15 @@
             bool Drawing(); //Returns if it is drawing or not
             bool IsBlack(); //Returns if the screen is black
 
-            static void DrawBox(Rect box,float angle,int r,int g,int b);
-            static void DrawCircle(int centreX, int centreY, int radius);
             static void FillRect(Rect box,int r,int g,int b,int a);
+            static void DrawBox(Rect box,float angle,int r,int g,int b);
+            static void FillCircle(int centreX, int centreY, int radius);
+            static void DrawCircle(int centreX, int centreY, int radius);
+
+            static void FillCircleIfInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius);
+            static void DrawPointIfInside(int x,int y,int circlex,int circley,int radius);
+            static void DrawCircleInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius);
+
             static void AddBoxToDraw(Rect box,float angle,int r = 0,int g = 0,int b = 0); //Adds Box to draw Queue
         private:
             class BoxClass{ //Class that keeps a box and its color
