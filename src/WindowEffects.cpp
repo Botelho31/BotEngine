@@ -93,27 +93,34 @@ void WindowEffects::FillRect(Rect box,int r,int g,int b,int a){
     SDL_RenderFillRect(Game::GetInstance().GetRenderer(),&rect);
 }
 
-void WindowEffects::FillCircle(int centreX, int centreY, int radius){
-    centreX -= Camera::pos.x;
-    centreY -= Camera::pos.y;
-    for(int i = 0;i <= radius;i++){
-        DrawCircle(centreX,centreY,i);
+void WindowEffects::FillCircle(Circle drawCircle){
+    drawCircle.x -= Camera::pos.x;
+    drawCircle.y -= Camera::pos.y;
+    for(int i = 0;i <= drawCircle.radius;i++){
+        DrawCircle(drawCircle);
     }
 }
 
-void WindowEffects::FillCircleIfInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius){
+void WindowEffects::FillCircleIfInside(Circle drawCircle,Circle boundsCircle){
+    int radius = drawCircle.radius;
     for(int i = 0;i <= radius;i++){
-        DrawCircleInside(centreX,centreY,i,boundsX,boundsY,boundsRadius);
+        DrawCircleInside(drawCircle,boundsCircle);
+        drawCircle.radius --;
     }
 }
 
-void WindowEffects::DrawPointIfInside(int x,int y,int circlex,int circley,int radius){
-    if(pow((x - circlex),2) + pow((y - circley),2) < pow(radius,2)){
+void WindowEffects::DrawPointIfInside(int x,int y,Circle drawCircle){
+    if(drawCircle.IsInside({x,y})){
         SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(),x,y);
     }
 }
 
-void WindowEffects::DrawCircleInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius){
+void WindowEffects::DrawCircleInside(Circle drawCircle,Circle boundsCircle){
+
+   int centreX = drawCircle.x;
+   int centreY = drawCircle.y;
+   int radius = drawCircle.radius;
+
    const int32_t diameter = (radius * 2);
 
    int32_t x = (radius - 1);
@@ -121,19 +128,18 @@ void WindowEffects::DrawCircleInside(int centreX, int centreY, int radius,int bo
    int32_t tx = 1;
    int32_t ty = 1;
    int32_t error = (tx - diameter);
-   std::cout << SDL_GetError() << " "<<  std::endl;
    SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
    SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, 255);
    while (x >= y)
    {
-      DrawPointIfInside(centreX + x, centreY - y,boundsX,boundsY,boundsRadius);
-      DrawPointIfInside(centreX + x, centreY + y,boundsX,boundsY,boundsRadius);
-      DrawPointIfInside(centreX - x, centreY - y,boundsX,boundsY,boundsRadius);
-      DrawPointIfInside(centreX - x, centreY + y,boundsX,boundsY,boundsRadius);
-      DrawPointIfInside(centreX + y, centreY - x,boundsX,boundsY,boundsRadius);
-      DrawPointIfInside(centreX + y, centreY + x,boundsX,boundsY,boundsRadius);
-      DrawPointIfInside(centreX - y, centreY - x,boundsX,boundsY,boundsRadius);
-      DrawPointIfInside(centreX - y, centreY + x,boundsX,boundsY,boundsRadius);
+      DrawPointIfInside(centreX + x, centreY - y,boundsCircle);
+      DrawPointIfInside(centreX + x, centreY + y,boundsCircle);
+      DrawPointIfInside(centreX - x, centreY - y,boundsCircle);
+      DrawPointIfInside(centreX - x, centreY + y,boundsCircle);
+      DrawPointIfInside(centreX + y, centreY - x,boundsCircle);
+      DrawPointIfInside(centreX + y, centreY + x,boundsCircle);
+      DrawPointIfInside(centreX - y, centreY - x,boundsCircle);
+      DrawPointIfInside(centreX - y, centreY + x,boundsCircle);
 
       if (error <= 0)
       {
@@ -149,10 +155,14 @@ void WindowEffects::DrawCircleInside(int centreX, int centreY, int radius,int bo
          error += (tx - diameter);
       }
    }
-   std::cout << SDL_GetError() << std::endl;
 }
 
-void WindowEffects::DrawCircle(int centreX, int centreY, int radius){
+void WindowEffects::DrawCircle(Circle drawCircle){
+
+   int centreX = drawCircle.x;
+   int centreY = drawCircle.y;
+   int radius = drawCircle.radius;
+
    const int32_t diameter = (radius * 2);
 
    int32_t x = (radius - 1);
@@ -160,7 +170,6 @@ void WindowEffects::DrawCircle(int centreX, int centreY, int radius){
    int32_t tx = 1;
    int32_t ty = 1;
    int32_t error = (tx - diameter);
-   std::cout << SDL_GetError() << " "<<  std::endl;
    SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
    SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, 255);
    while (x >= y)
@@ -188,7 +197,6 @@ void WindowEffects::DrawCircle(int centreX, int centreY, int radius){
          error += (tx - diameter);
       }
    }
-   std::cout << SDL_GetError() << std::endl;
 }
 
 WindowEffects::Effect WindowEffects::GetCurrentEffect(){

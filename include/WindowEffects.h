@@ -6,6 +6,7 @@
     #define WINDOWEFFECTS_H
     #include "Rect.h"
     #include "Vec2.h"
+    #include "Circle.h"
 
     class WindowEffects{
         public:
@@ -24,12 +25,14 @@
 
             static void FillRect(Rect box,int r,int g,int b,int a);
             static void DrawBox(Rect box,float angle,int r,int g,int b);
-            static void FillCircle(int centreX, int centreY, int radius);
-            static void DrawCircle(int centreX, int centreY, int radius);
 
-            static void FillCircleIfInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius);
-            static void DrawPointIfInside(int x,int y,int circlex,int circley,int radius);
-            static void DrawCircleInside(int centreX, int centreY, int radius,int boundsX,int boundsY,int boundsRadius);
+            //Circle drawing functions
+            static void FillCircle(Circle drawCircle);
+            static void DrawCircle(Circle drawCircle);
+
+            static void DrawPointIfInside(int x,int y,Circle boundsCircle);
+            static void FillCircleIfInside(Circle drawCircle,Circle boundsCircle);
+            static void DrawCircleInside(Circle drawCircle,Circle boundsCircle);
 
             static void AddBoxToDraw(Rect box,float angle,int r = 0,int g = 0,int b = 0); //Adds Box to draw Queue
         private:

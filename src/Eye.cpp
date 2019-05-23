@@ -19,6 +19,7 @@ Eye::~Eye(){
 
 void Eye::Update(float dt){
     physics->Follow(Player::player->GetPosition(),100,dt);
+    
     float angle = associated.box.GetAngle(originalpos.x,originalpos.y);
     if(associated.box.GetCenter().GetDistance(originalpos.x,originalpos.y) > radius){
         if(associated.box.x < originalpos.x){
@@ -39,9 +40,9 @@ void Eye::Render() {
     WindowEffects::FillCircleIfInside(associated.box.x - Camera::pos.x,associated.box.y - Camera::pos.y,10,originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
-	if(input->IsKeyDown(SDLK_EQUALS)){
+	// if(input->IsKeyDown(SDLK_EQUALS)){
         WindowEffects::DrawCircle(originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
-	}
+	// }
 #endif // DEBUG
 }
 
