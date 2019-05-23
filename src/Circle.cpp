@@ -36,6 +36,14 @@ bool Circle::IsInside(Vec2 pos){
         return false;
     }
 }
+bool Circle::IsInside(Circle circle){
+    float dist = circle.GetDistanceFromCenter(this->x,this->y);
+    if(dist <= fabs(radius - circle.radius)){
+        return true;
+    }else{
+        return false;
+    }
+}
 void Circle::Transform(int x,int y){
     this->x = x;
     this->y = y;
@@ -44,6 +52,11 @@ void Circle::Transform(Vec2 pos){
     this->x = pos.x;
     this->y = pos.y;
 }
+
+Vec2 Circle::GetCenter(){
+    return Vec2(this->x,this->y);
+}
+
 float Circle::GetDistanceFromCenter(float x,float y){
     return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
 }

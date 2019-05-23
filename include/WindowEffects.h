@@ -27,8 +27,8 @@
             static void DrawBox(Rect box,float angle,int r,int g,int b);
 
             //Circle drawing functions
-            static void FillCircle(Circle drawCircle);
-            static void DrawCircle(Circle drawCircle);
+            static void FillCircle(Circle drawCircle,int r,int g,int b,int a);
+            static void DrawCircle(Circle drawCircle,int r,int g,int b,int a);
 
             static void DrawPointIfInside(int x,int y,Circle boundsCircle);
             static void FillCircleIfInside(Circle drawCircle,Circle boundsCircle);

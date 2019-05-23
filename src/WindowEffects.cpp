@@ -93,9 +93,9 @@ void WindowEffects::FillRect(Rect box,int r,int g,int b,int a){
     SDL_RenderFillRect(Game::GetInstance().GetRenderer(),&rect);
 }
 
-void WindowEffects::FillCircle(Circle drawCircle){
+void WindowEffects::FillCircle(Circle drawCircle,int r,int g,int b,int a){
     for(int i = 0;i <= drawCircle.radius;i++){
-        DrawCircle(drawCircle);
+        DrawCircle(drawCircle,r,g,b,a);
     }
 }
 
@@ -155,7 +155,7 @@ void WindowEffects::DrawCircleInside(Circle drawCircle,Circle boundsCircle){
    }
 }
 
-void WindowEffects::DrawCircle(Circle drawCircle){
+void WindowEffects::DrawCircle(Circle drawCircle,int r,int g,int b,int a){
 
    int centreX = drawCircle.x;
    int centreY = drawCircle.y;
@@ -169,7 +169,7 @@ void WindowEffects::DrawCircle(Circle drawCircle){
    int32_t ty = 1;
    int32_t error = (tx - diameter);
    SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
-   SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, 255);
+   SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), r, g, b, a);
    while (x >= y)
    {
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX + x, centreY - y);

@@ -479,6 +479,9 @@ void Player::KillPlayer(){
     GameData::playerAlive = false;
 
     Event *deathevent = new Event(*eventObj,Event::PLAYERDEATH,3.5);
+    while(!GameData::events.empty()){
+        GameData::events.pop();
+    }
     GameData::events.push(deathevent);
     SetSprite("assets/img/beltransparent.png");
     KeepStill(true);
@@ -622,7 +625,7 @@ void Player::NotifyCollision(GameObject& other){
     Component *component = other.GetComponent("Event");
     if(component){
         Event *event = dynamic_cast<Event*>(component);
-        if(!event->IsProcessing()){
+        if(!event->IsProcessing() && GameData::playerAlive){
             event->SetProcessing(true);
             GameData::events.push(event);
         }
