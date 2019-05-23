@@ -99,10 +99,25 @@ void WindowEffects::FillCircle(Circle drawCircle,int r,int g,int b,int a){
 }
 
 void WindowEffects::FillCircleIfInside(Circle drawCircle,Circle boundsCircle){
+    // int radius = drawCircle.radius;
+    // for(int i = 0;i <= radius;i++){
+    //     DrawCircleInside(drawCircle,boundsCircle);
+    //     drawCircle.radius --;
+    // }
+    
+    SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, 255);
     int radius = drawCircle.radius;
-    for(int i = 0;i <= radius;i++){
-        DrawCircleInside(drawCircle,boundsCircle);
-        drawCircle.radius --;
+    for (int w = 0; w < radius * 2; w++)
+    {
+        for (int h = 0; h < radius * 2; h++)
+        {
+            int dx = radius - w; // horizontal offset
+            int dy = radius - h; // vertical offset
+            if ((dx*dx + dy*dy) <= (radius * radius))
+            {
+                DrawPointIfInside(drawCircle.x + dx, drawCircle.y + dy,boundsCircle);
+            }
+        }
     }
 }
 
@@ -155,7 +170,7 @@ void WindowEffects::DrawCircleInside(Circle drawCircle,Circle boundsCircle){
 }
 
 void WindowEffects::DrawCircle(Circle drawCircle,int r,int g,int b,int a){
-
+    
    int centreX = drawCircle.x;
    int centreY = drawCircle.y;
    int radius = drawCircle.radius;

@@ -174,7 +174,7 @@ void StageState::Render(){
         objectArray[i]->Render();
     }
     tilemap->RenderForeGround();
-    light->Render();
+    //light->Render();
     windoweffects->Render();
 }
 
@@ -358,20 +358,20 @@ void StageState::Start(){
 
     //EYE TESTING 
 
-    // float posX = 720;
-    // float posY = 700;
-    // for(int i = 0; i < 3; i++){
-    //     posY += 120;
-    //     for(int j = 0; j < 4; j++){
-    //         GameObject *eyeObj =  new GameObject();
-    //         Circle bounds = Circle(posX,posY,30);
-    //         Eye *eye = new Eye(*eyeObj,bounds,30);
-    //         eyeObj->AddComponent(eye);
-    //         AddObject(eyeObj);
-    //         posX += 120;
-    //     }
-    //     posX = 720;
-    // }
+    float posX = 680;
+    float posY = 750;
+    for(int i = 0; i < 10; i++){
+        posY += 60;
+        for(int j = 0; j < 12; j++){
+            GameObject *eyeObj =  new GameObject();
+            Circle bounds = Circle(posX,posY,30);
+            Eye *eye = new Eye(*eyeObj,bounds,30);
+            eyeObj->AddComponent(eye);
+            AddObject(eyeObj);
+            posX += 60;
+        }
+        posX = 680;
+    }
 
     
 

@@ -19,7 +19,7 @@ Eye::~Eye(){
 
 void Eye::Update(float dt){
     bounds.Transform(associated.box.GetOrigin());
-    PupilFollow(Player::player->GetPosition(),100,dt);
+    PupilFollow(Player::player->GetPosition(),200,dt);
 
     float adjustdist = bounds.radius - pupil.GetDistanceFromCenter(bounds.x,bounds.y);
     float angle = bounds.GetAngleFromCenter(pupil.x,pupil.y);
