@@ -17,6 +17,7 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     associated.angleDeg = 0;
     currentFrame = 0;
     timeElapsed = 0;
+    this->parallaxvalue = 1;
 }
 
 Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime,float secondsToSelfDestruct,bool repeat) :
@@ -82,6 +83,10 @@ void Sprite::SetAlpha(int alpha){
     SDL_SetTextureAlphaMod(texture.get(),alpha);
 }
 
+void Sprite::SetParallax(float value){
+    parallaxvalue = value;
+}
+
 void Sprite::Update(float dt){
         timeElapsed += dt;
         if(timeElapsed >= frameTime ){
@@ -106,7 +111,7 @@ void Sprite::Update(float dt){
 }
 
 void Sprite::Render(){
-    Render(this->associated.box.x - Camera::pos.x,this->associated.box.y - Camera::pos.y);
+    Render(this->associated.box.x - Camera::pos.x * parallaxvalue,this->associated.box.y - Camera::pos.y);
 }
 
 void Sprite::Render(int x,int y){

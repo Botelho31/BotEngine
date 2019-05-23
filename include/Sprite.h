@@ -30,6 +30,7 @@
             void SetFrameCount(int frameCount);
             void SetFrameTime(float frameTime);
             void SetAlpha(int alpha);
+            void SetParallax(float value);
 
             void Update(float dt);
             void Render();
@@ -49,6 +50,8 @@
             float timeElapsed;
             float frameTime;
             bool repeat;
+
+            float parallaxvalue;
 
             float secondsToSelfDestruct;
             Timer *selfDestructCount;
