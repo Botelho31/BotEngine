@@ -12,11 +12,13 @@
             Circle(int x,int y,int radius);
             Circle(Vec2 center,int radius);
 
+            Circle Added(int x,int y,int radius = 0);
             bool IsInside(int x,int y);
             bool IsInside(Vec2 pos);
             void Transform(int x,int y);
             void Transform(Vec2 pos);
             float GetDistanceFromCenter(float x,float y);
+            float GetAngleFromCenter(float x,float y);
             int x,y,radius;
     };
 #endif

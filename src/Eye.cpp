@@ -4,14 +4,14 @@
 #include "../include/Player.h"
 #include "../include/Camera.h"
 
-Eye::Eye(GameObject& associated,int radius) : 
+Eye::Eye(GameObject& associated,Circle bounds,int pupilradius) : 
     Component(associated){
     this->physics = new Physics(associated,&speed,true,true);
     associated.AddComponent(physics);
-    this->radius = radius;
-    originalpos = associated.box.GetCenter();
-
-
+    pupil.radius = pupilradius;
+    this->bounds = bounds;
+    associated.box.Transform(bounds.x,bounds.y);
+    this->pupil.Transform(associated.box.GetOrigin());
 }
 
 Eye::~Eye(){
@@ -19,29 +19,30 @@ Eye::~Eye(){
 
 void Eye::Update(float dt){
     physics->Follow(Player::player->GetPosition(),100,dt);
-    
-    float angle = associated.box.GetAngle(originalpos.x,originalpos.y);
-    if(associated.box.GetCenter().GetDistance(originalpos.x,originalpos.y) > radius){
-        if(associated.box.x < originalpos.x){
-            associated.box.x += std::fabs((radius - associated.box.GetCenter().GetDistance(originalpos.x,originalpos.y)) * cos(angle));
+    this->pupil.Transform(associated.box.GetOrigin());
+
+    float angle = bounds.GetAngleFromCenter(pupil.x,pupil.y);
+    if(!bounds.IsInside({pupil.x,pupil.y})){
+        if(associated.box.x < bounds.x){
+            associated.box.x += std::fabs((bounds.radius - associated.box.GetCenter().GetDistance(bounds.x,bounds.y)) * cos(angle));
         }else{
-            associated.box.x -= std::fabs((radius - associated.box.GetCenter().GetDistance(originalpos.x,originalpos.y)) * cos(angle));
+            associated.box.x -= std::fabs((bounds.radius - associated.box.GetCenter().GetDistance(bounds.x,bounds.y)) * cos(angle));
         }
-        if(associated.box.GetCenter().y < originalpos.y){
-            associated.box.y += std::fabs((radius - associated.box.GetCenter().GetDistance(originalpos.x,originalpos.y)) * sin (angle));
+        if(associated.box.GetCenter().y < bounds.y){
+            associated.box.y += std::fabs((bounds.radius - associated.box.GetCenter().GetDistance(bounds.x,bounds.y)) * sin (angle));
         }else{
-            associated.box.y -= std::fabs((radius - associated.box.GetCenter().GetDistance(originalpos.x,originalpos.y)) * sin (angle));
+            associated.box.y -= std::fabs((bounds.radius - associated.box.GetCenter().GetDistance(bounds.x,bounds.y)) * sin (angle));
         }
-        
+        this->pupil.Transform(associated.box.GetOrigin());
     }
 }
 
 void Eye::Render() {
-    WindowEffects::FillCircleIfInside(associated.box.x - Camera::pos.x,associated.box.y - Camera::pos.y,10,originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
+    WindowEffects::FillCircleIfInside(pupil.Added(-Camera::pos.x,-Camera::pos.y),bounds.Added(-Camera::pos.x,-Camera::pos.y));
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	// if(input->IsKeyDown(SDLK_EQUALS)){
-        WindowEffects::DrawCircle(originalpos.x - Camera::pos.x,originalpos.y - Camera::pos.y,radius);
+        WindowEffects::DrawCircle(bounds.Added(-Camera::pos.x,-Camera::pos.y));
 	// }
 #endif // DEBUG
 }

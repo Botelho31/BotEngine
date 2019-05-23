@@ -5,10 +5,11 @@
 #ifndef EYE_H
     #define EYE_H
     #include "Physics.h"
+    #include "Circle.h"
 
     class Eye : public Component{
         public:
-            Eye(GameObject& associated,int radius);
+            Eye(GameObject& associated,Circle bounds,int pupilradius);
             ~Eye();
 
             void Update(float dt);
@@ -16,8 +17,8 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
         private:
-            float radius;
-            Vec2 originalpos;
+            Circle bounds;
+            Circle pupil;
             Vec2 speed;
             Physics *physics;
             

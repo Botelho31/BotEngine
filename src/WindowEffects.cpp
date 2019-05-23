@@ -94,8 +94,6 @@ void WindowEffects::FillRect(Rect box,int r,int g,int b,int a){
 }
 
 void WindowEffects::FillCircle(Circle drawCircle){
-    drawCircle.x -= Camera::pos.x;
-    drawCircle.y -= Camera::pos.y;
     for(int i = 0;i <= drawCircle.radius;i++){
         DrawCircle(drawCircle);
     }

@@ -16,6 +16,10 @@ Circle::Circle(Vec2 center,int radius){
     this->radius = radius;
 }
 
+Circle Circle::Added(int x,int y,int radius){
+    return Circle(this->x + x,this->y + y,this->radius + radius);
+}
+
 bool Circle::IsInside(int x,int y){
     if(pow((x - this->x),2) + pow((y - this->y),2) <= pow(radius,2)){
         return true;
@@ -42,4 +46,10 @@ void Circle::Transform(Vec2 pos){
 }
 float Circle::GetDistanceFromCenter(float x,float y){
     return sqrt(pow(this->x - x,2) + pow(this->y - y,2));
+}
+
+float Circle::GetAngleFromCenter(float x,float y){
+    float difX = x - this->x;
+    float difY = this->y - y;
+    return -atan2(difY,difX);
 }

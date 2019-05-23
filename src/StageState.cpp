@@ -18,6 +18,7 @@
 #include "../include/TileCollider.h"
 #include "../include/FakeWall.h"
 #include "../include/Eye.h"
+#include "../include/Circle.h"
 
 bool StageState::changingMap;
 
@@ -355,8 +356,8 @@ void StageState::Start(){
     //EYE TESTING 
 
     GameObject *eyeObj =  new GameObject();
-    eyeObj->box.Transform(500,1400);
-    Eye *eye = new Eye(*eyeObj,30);
+    Circle bounds = Circle(500,1400,30);
+    Eye *eye = new Eye(*eyeObj,bounds,10);
     eyeObj->AddComponent(eye);
     AddObject(eyeObj);
 
