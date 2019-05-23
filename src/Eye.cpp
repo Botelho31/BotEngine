@@ -92,7 +92,7 @@ void Eye::Render() {
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS)){
-        WindowEffects::DrawCircle(bounds.Added(-Camera::pos.x,-Camera::pos.y),255,0,0,255);
+        WindowEffects::DrawCircle(bounds.Added(-Camera::pos.x,-Camera::pos.y),0,0,0,255);
 	}
 #endif // DEBUG
 }

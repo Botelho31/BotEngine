@@ -19,6 +19,14 @@ Portal
     portalY 0
     tilemapinfofile assets/map/info/tileMaptest-3.txt
   ]
+
+Portal
+  [
+    portalBox 4200 530 200 300
+    portalX 50
+    portalY 1480
+    tilemapinfofile assets/map/info/BOSSROOM.txt
+  ]
   
 Minion
   [

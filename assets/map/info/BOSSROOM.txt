@@ -1,0 +1,14 @@
+MapInfo
+    [
+        mapFile assets/map/BOSSROOM.tmx
+        collisionDepth 0
+        parallaxDepth 0
+    ]
+
+Portal
+  [
+    portalBox 0 1280 200 200
+    portalX 4200
+    portalY 630
+    tilemapinfofile assets/map/info/tileMaptest-1.txt
+  ]

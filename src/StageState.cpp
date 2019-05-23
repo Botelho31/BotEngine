@@ -355,11 +355,22 @@ void StageState::Start(){
 
     //EYE TESTING 
 
-    GameObject *eyeObj =  new GameObject();
-    Circle bounds = Circle(500,1400,30);
-    Eye *eye = new Eye(*eyeObj,bounds,10);
-    eyeObj->AddComponent(eye);
-    AddObject(eyeObj);
+    float posX = 720;
+    float posY = 700;
+    for(int i = 0; i < 3; i++){
+        posY += 120;
+        for(int j = 0; j < 4; j++){
+            GameObject *eyeObj =  new GameObject();
+            Circle bounds = Circle(posX,posY,30);
+            Eye *eye = new Eye(*eyeObj,bounds,30);
+            eyeObj->AddComponent(eye);
+            AddObject(eyeObj);
+            posX += 120;
+        }
+        posX = 720;
+    }
+
+    
 
     //Loads the player
     GameObject *playerObj = new GameObject();

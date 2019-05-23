@@ -13,6 +13,8 @@
             static void LoadGame();
             static void PrintGameData();
 
+            static std::map<std::string,std::string> GetSpritesFiles(std::string spritesfile);
+
             static std::string ParseTMX(std::string filetmx);
             static std::string GetExtension(std::string file);
             static std::string SetExtension(std::string file,std::string ext);
