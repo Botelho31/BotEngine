@@ -33,9 +33,9 @@ Minion::Minion(GameObject& associated) : Component(associated){
     associated.AddComponent(physics);
 
     this->attacktimer = new Timer();
-
     sightangle = 0;
-    Sprite *minion =  new Sprite(associated,"assets/img/minionidletest.png",32,0.08);
+    spritefiles = GameData::GetSpritesFiles("assets/img/info/minion.txt");
+    Sprite *minion =  new Sprite(associated,spritefiles["idle"],32,0.08);
     this->minionsprite = minion;
     associated.AddComponent(minion);
     physics->SetCollider(0.5,0.65,0,33);
@@ -119,9 +119,9 @@ void Minion::Update(float dt){
         if(damagetimer->Get() > 0.20){
             damagetimer->Restart();
             if(state == CHASING){
-                SetSprite("assets/img/minionwalktest.png",8,0.08);
+                SetSprite(spritefiles["walking"],8,0.08);
             }else if(state == IDLE){
-                SetSprite("assets/img/minionidletest.png",32,0.08);
+                SetSprite(spritefiles["idle"],32,0.08);
             }
         }
     }
@@ -146,7 +146,7 @@ void Minion::Update(float dt){
 void Minion::DamageMinion(int damage){
     hp -= damage;
     if(!damagetimer->Started() && (!attacktimer->Started() && (hp > 0))){
-        SetSprite("assets/img/miniondamagetest.png",5,0.04);
+        SetSprite(spritefiles["damage"],5,0.04);
         damagetimer->Delay(0);
     }else if(hp <= 0){
         KillMinion();
@@ -155,7 +155,7 @@ void Minion::DamageMinion(int damage){
 
 void Minion::KillMinion(){
     GameObject *deadObj = new GameObject();
-    Sprite *deadsprite = new Sprite(*deadObj,"assets/img/miniondeadtest.png",30,0.02,0,false);
+    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["dead"],30,0.02,0,false);
     int xoffset = -40;
     if(minionsprite->IsFlipped()){
         deadsprite->Flip();
@@ -205,15 +205,15 @@ void Minion::AttackState(float distanceToPlayer,float dt){
                 minionsprite->Flip();
             }
         }
-        SetSprite("assets/img/minionattacktest.png",27,0.04,false);
+        SetSprite(spritefiles["attacking"],27,0.04,false);
         attacktimer->Delay(dt);
     }else if(!attacktimer->Started() && attackdelay->Started()){
         if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
             state = CHASING;
-            SetSprite("assets/img/minionwalktest.png",8,0.08);
+            SetSprite(spritefiles["walking"],8,0.08);
         }else{
             state = IDLE;
-            SetSprite("assets/img/minionidletest.png",32,0.08);
+            SetSprite(spritefiles["idle"],32,0.08);
         }
     }
 
@@ -240,10 +240,10 @@ void Minion::AttackState(float distanceToPlayer,float dt){
             attackdelay->Delay(dt);
             if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
                 state = CHASING;
-                SetSprite("assets/img/minionwalktest.png",8,0.08);
+                SetSprite(spritefiles["walking"],8,0.08);
             }else{
                 state = IDLE;
-                SetSprite("assets/img/minionidletest.png",32,0.08);
+                SetSprite(spritefiles["idle"],32,0.08);
             }
         }
     }
@@ -255,7 +255,7 @@ void Minion::ChasingState(float distanceToPlayer,float dt){
 
     if((distanceToPlayer >= sightrange) || ((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started()))){
         state = IDLE;
-        SetSprite("assets/img/minionidletest.png",32,0.08);
+        SetSprite(spritefiles["idle"],32,0.08);
     }else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (!attackdelay->Started())){
         state = ATTACKING;
     }else{
@@ -282,7 +282,7 @@ void Minion::IdleState(float distanceToPlayer,float dt){
     }
     else if(distanceToPlayer < sightrange){
         state = CHASING;
-        SetSprite("assets/img/minionwalktest.png",8,0.08);
+        SetSprite(spritefiles["walking"],8,0.08);
     }
     if(state == IDLE){
         IdleHandle(dt);

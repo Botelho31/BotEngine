@@ -49,6 +49,7 @@
 
             int gravspeed;
 
+            std::map<std::string,std::string> spritefiles;
             Sprite *minionsprite;
             Timer *idletimer;
             Timer *hittheground;
