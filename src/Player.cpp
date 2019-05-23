@@ -465,7 +465,7 @@ void Player::HealPlayer(int heal){
 void Player::KillPlayer(){
     Camera::UnFollow();
     GameObject *deadObj = new GameObject();
-    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["death"],17,0.06,0,false);
+    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["dead"],17,0.06,0,false);
     int xoffset = -40;
     if(playersprite->IsFlipped()){
         deadsprite->Flip();

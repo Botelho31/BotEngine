@@ -360,12 +360,12 @@ void StageState::Start(){
 
     float posX = 680;
     float posY = 750;
-    for(int i = 0; i < 10; i++){
+    for(int i = 0; i < 5; i++){
         posY += 60;
-        for(int j = 0; j < 12; j++){
+        for(int j = 0; j < 5; j++){
             GameObject *eyeObj =  new GameObject();
             Circle bounds = Circle(posX,posY,30);
-            Eye *eye = new Eye(*eyeObj,bounds,30);
+            Eye *eye = new Eye(*eyeObj,bounds,30,false);
             eyeObj->AddComponent(eye);
             AddObject(eyeObj);
             posX += 60;

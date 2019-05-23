@@ -88,7 +88,11 @@ Vec2 Eye::PupilFollow(Vec2 dest,float constspeed,float dt){
 }
 
 void Eye::Render() {
-    WindowEffects::FillCircleIfInside(pupil.Added(-Camera::pos.x,-Camera::pos.y),bounds.Added(-Camera::pos.x,-Camera::pos.y));
+    if(!keepPupilIn){
+         WindowEffects::FillCircleIfInside(pupil.Added(-Camera::pos.x,-Camera::pos.y),bounds.Added(-Camera::pos.x,-Camera::pos.y));
+    }else{
+        WindowEffects::FillCircle(pupil.Added(-Camera::pos.x,-Camera::pos.y),0,0,0,255);
+    }
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS)){

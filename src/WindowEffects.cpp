@@ -93,8 +93,10 @@ void WindowEffects::FillRect(Rect box,int r,int g,int b,int a){
 }
 
 void WindowEffects::FillCircle(Circle drawCircle,int r,int g,int b,int a){
-    for(int i = 0;i <= drawCircle.radius;i++){
+    int radius = drawCircle.radius;
+    for(int i = 0;i <= radius;i++){
         DrawCircle(drawCircle,r,g,b,a);
+        drawCircle.radius --;
     }
 }
 
@@ -104,7 +106,7 @@ void WindowEffects::FillCircleIfInside(Circle drawCircle,Circle boundsCircle){
     //     DrawCircleInside(drawCircle,boundsCircle);
     //     drawCircle.radius --;
     // }
-    
+
     SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, 255);
     int radius = drawCircle.radius;
     for (int w = 0; w < radius * 2; w++)
