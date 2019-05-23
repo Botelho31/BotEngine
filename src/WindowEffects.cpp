@@ -82,7 +82,6 @@ void WindowEffects::DrawToScreen(int r,int g,int b,int a){
 }
 
 void WindowEffects::FillRect(Rect box,int r,int g,int b,int a){
-    SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(),r,g,b,a);
     SDL_Rect rect;
     Vec2 origin = box.GetOrigin();
@@ -126,7 +125,6 @@ void WindowEffects::DrawCircleInside(Circle drawCircle,Circle boundsCircle){
    int32_t tx = 1;
    int32_t ty = 1;
    int32_t error = (tx - diameter);
-   SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
    SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 0, 0, 0, 255);
    while (x >= y)
    {
@@ -134,6 +132,7 @@ void WindowEffects::DrawCircleInside(Circle drawCircle,Circle boundsCircle){
       DrawPointIfInside(centreX + x, centreY + y,boundsCircle);
       DrawPointIfInside(centreX - x, centreY - y,boundsCircle);
       DrawPointIfInside(centreX - x, centreY + y,boundsCircle);
+      
       DrawPointIfInside(centreX + y, centreY - x,boundsCircle);
       DrawPointIfInside(centreX + y, centreY + x,boundsCircle);
       DrawPointIfInside(centreX - y, centreY - x,boundsCircle);
@@ -168,14 +167,14 @@ void WindowEffects::DrawCircle(Circle drawCircle,int r,int g,int b,int a){
    int32_t tx = 1;
    int32_t ty = 1;
    int32_t error = (tx - diameter);
-   SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
    SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), r, g, b, a);
-   while (x >= y)
-   {
+
+   while (x >= y){
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX + x, centreY - y);
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX + x, centreY + y);
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX - x, centreY - y);
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX - x, centreY + y);
+
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX + y, centreY - x);
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX + y, centreY + x);
       SDL_RenderDrawPoint(Game::GetInstance().GetRenderer(), centreX - y, centreY - x);

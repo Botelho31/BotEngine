@@ -19,6 +19,7 @@
 #include "../include/FakeWall.h"
 #include "../include/Eye.h"
 #include "../include/Circle.h"
+#include "../include/Light.h"
 
 bool StageState::changingMap;
 
@@ -30,6 +31,7 @@ StageState::StageState(){
     changingMap = false;
     mapcollision = false;
     showfps = false;
+    light = new Light();
     windoweffects = new WindowEffects();
     changingMapTimer = new Timer();
 
@@ -172,6 +174,7 @@ void StageState::Render(){
         objectArray[i]->Render();
     }
     tilemap->RenderForeGround();
+    light->Render();
     windoweffects->Render();
 }
 

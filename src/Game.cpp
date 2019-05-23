@@ -63,6 +63,7 @@ Game::Game(std::string Title,int Width,int Height){
                 SDL_GetRendererInfo(renderer,&info);
                 std::cout << "Driver in use: " << info.name << "\n" << std::endl;
             }
+            SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
             resources = new Resources();
             storedstate = nullptr;
             

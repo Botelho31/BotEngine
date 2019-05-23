@@ -10,6 +10,7 @@
     #include "TileMap.h"
     #include "Text.h"
     #include "WindowEffects.h"
+    #include "Light.h"
 
     class StageState : public State{
         public:
@@ -36,6 +37,7 @@
             bool showfps;
             Text *fps;
             WindowEffects *windoweffects;
+            Light *light;
 
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool mapcollision; //Boolean indicating if mapcollision is ready or not
