@@ -55,7 +55,8 @@ Player::Player(GameObject& associated) : Component(associated){
     this->physics = new Physics(associated,&speed);
     associated.AddComponent(physics);
 
-    Sprite *player =  new Sprite(associated,"assets/img/belidleswordtest.png",32,0.08);
+    this->spritefiles = GameData::GetSpritesFiles("assets/img/info/player.txt");
+    Sprite *player =  new Sprite(associated,spritefiles["idle"],32,0.08);
     this->playersprite = player;
     associated.AddComponent(player);
     physics->SetCollider(0.4,0.995,0,0);
@@ -108,15 +109,15 @@ void Player::Update(float dt){
             damagetimer->Restart();
             if(physics->IsGrounded()){
                 if(speed.x == 0){
-                    SetSprite("assets/img/belidleswordtest.png",32,0.08);
+                    SetSprite(spritefiles["idle"],32,0.08);
                 }else{
                     running = true;
-                    SetSprite("assets/img/belwalktest4.png",14,0.04);
+                    SetSprite(spritefiles["walking"],14,0.04);
                 }
             }
             else{
                 falling = true;
-                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+                SetSprite(spritefiles["falling"],4,0.04);
             }
         }
     }
@@ -177,7 +178,7 @@ void Player::AttackHandle(float dt){
     if((!nextattack.empty()) && (!swordattack->Started())){
         if(nextattack.front() == 1){
             float frametime = 0.03;
-            SetSprite("assets/img/belattacktest2.png",22,frametime,false);
+            SetSprite(spritefiles["attacking1"],22,frametime,false);
             player->swordradius = 100;
             delayedboost = frametime * 4.5;
             attacktiming = frametime * 10;
@@ -197,7 +198,7 @@ void Player::AttackHandle(float dt){
         }
         if(nextattack.front() == 2){
             float frametime = 0.03;
-            SetSprite("assets/img/belattack2test3.png",22,frametime,false);
+            SetSprite(spritefiles["attacking2"],22,frametime,false);
             swordradius = 90;
             delayedboost = frametime * 4.5;
             attacktiming = frametime * 10;
@@ -247,9 +248,9 @@ void Player::AttackHandle(float dt){
             speed.x = 0;
             nextattack.pop();
             if(physics->IsGrounded()){
-                SetSprite("assets/img/belidleswordtest.png",32,0.08);
+                SetSprite(spritefiles["idle"],32,0.08);
             }else{
-                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+                SetSprite(spritefiles["falling"],4,0.04);
             }
             swordattack->Restart();
         }
@@ -279,7 +280,7 @@ void Player::XMovement(float dt){
             running = false;
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
-            SetSprite("assets/img/belwalktest4.png",14,0.04);
+            SetSprite(spritefiles["walking"],14,0.04);
             running = true;
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
@@ -291,7 +292,7 @@ void Player::XMovement(float dt){
             running = false;
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started()) && (!jumpanimation->Started())){
-            SetSprite("assets/img/belwalktest4.png",14,0.04);
+            SetSprite(spritefiles["walking"],14,0.04);
             running = true;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
@@ -299,7 +300,7 @@ void Player::XMovement(float dt){
     if(input->IsKeyDown(SDLK_a) && input->IsKeyDown(SDLK_d) && (!falling) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
             physics->PerformXDeceleration(despeed,dt);
             if(running == true){
-                SetSprite("assets/img/belstoptest2.png",2,0.04,false);
+                SetSprite(spritefiles["walkingstop"],2,0.04,false);
                 runningstoptimer->Delay(dt);
                 running = false;
             }
@@ -308,7 +309,7 @@ void Player::XMovement(float dt){
     if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
         physics->PerformXDeceleration(despeed,dt);
         if(running == true){
-            SetSprite("assets/img/belstoptest2.png",2,0.04,false);
+            SetSprite(spritefiles["walkingstop"],2,0.04,false);
             runningstoptimer->Delay(dt);
             running = false;
         }
@@ -322,7 +323,7 @@ void Player::XMovement(float dt){
         }
         if(runningstoptimer->Get() >= 0.08){
             speed.x = 0;
-            SetSprite("assets/img/belidleswordtest.png",32,0.08);
+            SetSprite(spritefiles["idle"],32,0.08);
             runningstoptimer->Restart();
         }
     }
@@ -336,23 +337,23 @@ void Player::YMovement(float dt){
     if((physics->IsGrounded()) && falling){
         falling = false;
         if(!swordattack->Started() && !hittheground->Started()){
-            SetSprite("assets/img/belhitthegroundtest4.png",4,0.04,false,{0,0});
+            SetSprite(spritefiles["hittheground"],4,0.04,false,{0,0});
 
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
-            SpriteEffect("assets/img/smoketest.png",5,0.05,0.25,smoke1);
+            SpriteEffect(spritefiles["smoke"],5,0.05,0.25,smoke1);
             hittheground->Delay(dt);
         }
     }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
         if(physics->IsRight()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
-            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+            SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
         }
         if(physics->IsLeft()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y);
-            SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
+            SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
         }
     }
 
@@ -360,7 +361,7 @@ void Player::YMovement(float dt){
         hittheground->Update(dt);
         if(hittheground->Get() >= 0.12){
             if(!swordattack->Started()){
-                SetSprite("assets/img/belidleswordtest.png",32,0.08);
+                SetSprite(spritefiles["idle"],32,0.08);
             }
             hittheground->Restart();
         }
@@ -370,23 +371,23 @@ void Player::YMovement(float dt){
     if((input->KeyPress(SDLK_SPACE)) && (!hittheground->Started())){
         if(!swordattack->Started()){
             if(physics->IsGrounded()){
-                SetSprite("assets/img/beljumptest4.png",15,0.04,false);
+                SetSprite(spritefiles["jumping"],15,0.04,false);
                 jumpanimation->Delay(dt);
                 jumpsquat->Delay(dt);
             }else if(physics->IsRight()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
                 Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
-                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
-                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
+                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
+                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke2);
                 speed.y = ajump;
                 speed.x = -awalljump;
             }else if(physics->IsLeft()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x,collider.y);
                 Vec2 smoke2 = Vec2(collider.x,collider.y + collider.h);
-                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke1);
-                SpriteEffect("assets/img/sparktest.png",4,0.02,0.08,smoke2);
+                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
+                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke2);
                 speed.y = ajump;
                 speed.x = awalljump;
             }
@@ -415,14 +416,14 @@ void Player::YMovement(float dt){
             jumpanimation->Restart();
             if(!physics->IsGrounded() && !swordattack->Started()){
                 falling = true;
-                SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+                SetSprite(spritefiles["falling"],4,0.04);
             }
         }
     }
 
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,11) > 10) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
-        SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+        SetSprite(spritefiles["falling"],4,0.04);
         falling = true;
     }
 
@@ -452,7 +453,7 @@ void Player::DamagePlayer(int damage){
         hp = 0;
     }
     if(!damagetimer->Started() && !swordattack->Started()){
-        SetSprite("assets/img/beldamagetest2.png",7,0.03,false);
+        SetSprite(spritefiles["damage"],7,0.03,false);
         damagetimer->Delay(0);
     }
 }
@@ -464,7 +465,7 @@ void Player::HealPlayer(int heal){
 void Player::KillPlayer(){
     Camera::UnFollow();
     GameObject *deadObj = new GameObject();
-    Sprite *deadsprite = new Sprite(*deadObj,"assets/img/beldeathtest3.png",17,0.06,0,false);
+    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["death"],17,0.06,0,false);
     int xoffset = -40;
     if(playersprite->IsFlipped()){
         deadsprite->Flip();
@@ -483,7 +484,7 @@ void Player::KillPlayer(){
         GameData::events.pop();
     }
     GameData::events.push(deathevent);
-    SetSprite("assets/img/beltransparent.png");
+    SetSprite(spritefiles["transparent"]);
     KeepStill(true);
 }
 
@@ -537,14 +538,14 @@ void Player::Reset(Vec2 speed){
             }else{
                 speed.x = -600;
             }
-            SetSprite("assets/img/belwalktest4.png",14,0.04);
+            SetSprite(spritefiles["walking"],14,0.04);
         }else{
-            SetSprite("assets/img/belidleswordtest.png",32,0.08);
+            SetSprite(spritefiles["idle"],32,0.08);
         }
     }
     else{
         falling = true;
-        SetSprite("assets/img/belfreefallingtest3.png",4,0.04);
+        SetSprite(spritefiles["falling"],4,0.04);
     }
 }
 

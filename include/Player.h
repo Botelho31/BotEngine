@@ -83,6 +83,7 @@
             Timer *runningstoptimer;
             bool running;
 
+            std::map<std::string,std::string> spritefiles;
             Sprite *playersprite;
             InputManager *input;
             Physics *physics;
