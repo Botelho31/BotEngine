@@ -9,17 +9,26 @@ Eye::Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn) 
     pupil.radius = pupilradius;
     this->bounds = bounds;
     this->keepPupilIn = keepPupilIn;
-
     associated.box.Transform(bounds.x,bounds.y);
     this->pupil.Transform(associated.box.GetOrigin());
+    originalorigin = associated.box.GetOrigin();
 }
 
 Eye::~Eye(){
 }
 
 void Eye::Update(float dt){
+    Vec2 offset = originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y * parallaxvalue);
+    associated.box.Transform(offset.x,offset.y);
+
+
+    Vec2 boundsbefore  = bounds.GetCenter();
     bounds.Transform(associated.box.GetOrigin());
-    PupilFollow(Player::player->GetPosition(),200,dt);
+    Vec2 boundsafter = bounds.GetCenter();
+    pupil.x += boundsafter.x - boundsbefore.x;
+    pupil.y += boundsafter.y - boundsbefore.y;
+
+    PupilFollow(Player::player->GetPosition().Added(-Camera::pos.x,-Camera::pos.y),200,dt);
 
     float adjustdist = bounds.radius - pupil.GetDistanceFromCenter(bounds.x,bounds.y);
     float angle = bounds.GetAngleFromCenter(pupil.x,pupil.y);
@@ -38,6 +47,10 @@ void Eye::Update(float dt){
             pupil.y -= std::fabs(adjustdist * sin(angle));
         }
     }
+}
+
+void Eye::SetParallax(float value){
+    this->parallaxvalue = value;
 }
 
 Vec2 Eye::PupilFollow(Vec2 dest,float constspeed,float dt){
@@ -87,16 +100,16 @@ Vec2 Eye::PupilFollow(Vec2 dest,float constspeed,float dt){
     }
 }
 
-void Eye::Render() {
+void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
     if(!keepPupilIn){
-         WindowEffects::FillCircleIfInside(pupil.Added(-Camera::pos.x,-Camera::pos.y),bounds.Added(-Camera::pos.x,-Camera::pos.y));
+         WindowEffects::FillCircleIfInside(pupil,bounds);
     }else{
-        WindowEffects::FillCircle(pupil.Added(-Camera::pos.x,-Camera::pos.y),0,0,0,255);
+        WindowEffects::FillCircle(pupil,0,0,0,255);
     }
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS)){
-        WindowEffects::DrawCircle(bounds.Added(-Camera::pos.x,-Camera::pos.y),0,0,0,255);
+        WindowEffects::DrawCircle(bounds,0,0,0,255);
 	}
 #endif // DEBUG
 }
