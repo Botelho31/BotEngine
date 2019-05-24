@@ -1,0 +1,15 @@
+[
+    idle assets/img/belidleswordtest.png
+    walking assets/img/belwalktest4.png
+    walkingstop assets/img/belstoptest2.png
+    jumping assets/img/beljumptest4.png
+    damage assets/img/beldamagetest2.png
+    dead assets/img/beldeathtest3.png
+    falling assets/img/belfreefallingtest3.png
+    attacking1 assets/img/belattacktest2.png
+    attacking2 assets/img/belattack2test3.png
+    hittheground assets/img/belhitthegroundtest4.png
+    smoke assets/img/smoketest.png
+    spark assets/img/sparktest.png
+    transparent assets/img/beltransparent.png
+]

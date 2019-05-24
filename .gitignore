@@ -11,7 +11,8 @@
 dep/*
 bin/*
 assets/audio/*
-assets/img/*
+assets/img/*.png
+assets/img/*.jpeg
 assets/font/*
 .vscode/*
 reference/*
