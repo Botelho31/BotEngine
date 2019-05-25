@@ -19,9 +19,10 @@
             bool IsDead();
             void Start();
             void RequestDelete();
-            std::weak_ptr<Component> AddComponent(Component* cpt);
+            std::weak_ptr<Component> AddComponent(Component* cpt,int place = 0);
             void RemoveComponent(Component* cpt);
             Component* GetComponent(std::string type);
+            void ChangeComponentOrder(std::string type,std::string type2);
             Physics* GetPhysics();
             void NotifyCollision (GameObject& other);
             Rect box;

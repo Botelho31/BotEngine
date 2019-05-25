@@ -12,6 +12,7 @@
             Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn = false);
             ~Eye();
 
+            void Start();
             void Update(float dt);
             void Render();
             Vec2 PupilFollow(Vec2 dest,float constspeed,float dt);
@@ -27,6 +28,8 @@
 
             float parallaxvalue;
             Vec2 originalorigin;
+
+            Sprite *eyelid;
             
     };
 

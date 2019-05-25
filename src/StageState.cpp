@@ -366,7 +366,7 @@ void StageState::Start(){
             GameObject *eyeObj =  new GameObject();
             Circle bounds = Circle(posX,posY,30);
             Eye *eye = new Eye(*eyeObj,bounds,30);
-            // eye->SetParallax(0.5);
+            eye->SetParallax(0.5);
             eyeObj->AddComponent(eye);
             AddObject(eyeObj);
             // posX += 60;

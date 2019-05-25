@@ -111,7 +111,7 @@ void Sprite::Update(float dt){
 }
 
 void Sprite::Render(){
-    Render(this->associated.box.x - Camera::pos.x * parallaxvalue,this->associated.box.y - Camera::pos.y);
+    Render(this->associated.box.x - Camera::pos.x * parallaxvalue,this->associated.box.y - Camera::pos.y * parallaxvalue);
 }
 
 void Sprite::Render(int x,int y){

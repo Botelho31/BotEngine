@@ -44,9 +44,13 @@ void GameObject::RequestDelete(){
     isDead = true;
 }
 
-std::weak_ptr<Component> GameObject::AddComponent(Component* cpt){
+std::weak_ptr<Component> GameObject::AddComponent(Component* cpt,int place){
     std::shared_ptr<Component> component(cpt);
-    components.emplace_back(component);
+    if((place == 0) || (place >= components.size())){
+        components.emplace_back(component);
+    }else{
+        components.insert(components.begin() + place,component);
+    }
     if(started){
         cpt->Start();
     }
@@ -69,6 +73,33 @@ Component* GameObject::GetComponent(std::string type){
         }
     }
     return nullptr;
+}
+
+void GameObject::ChangeComponentOrder(std::string type,std::string type2){
+    int comp1 = -1;
+    int comp2 = -1;
+    Component *exchange1,*exchange2;
+    for(unsigned int i = 0; i < components.size();i++){
+        if(components[i]->Is(type)){
+            comp1 = i;
+            exchange1 = components[comp1].get();
+        }
+        else if(components[i]->Is(type2)){
+            comp2 = i;
+            exchange2 = components[comp2].get();
+        }
+    }
+    if((comp1 >= 0) && (comp2 >= 0) && (comp1 != comp2)){
+        if(comp1 > comp2){
+            int trade;
+            trade = comp1;
+            comp1 = comp2;
+            comp2 = trade;
+        }
+        std::cout << comp1 << " " << comp2 << std::endl;
+        std::cout << components.size() << std::endl;
+        std::iter_swap(components.begin() + comp1,components.begin() + comp2);
+    }
 }
 
 Physics* GameObject::GetPhysics(){
