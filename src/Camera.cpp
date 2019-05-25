@@ -8,6 +8,10 @@ Vec2 Camera::speed;
 Vec2 Camera::limit;
 Vec2 Camera::window;
 
+Timer* Camera::shakescreen = new Timer();
+float Camera::shaketime = 0;
+int Camera::shakeintensity = 10;
+
 void Camera::Follow(GameObject* newFocus){
     focus = newFocus;
 }
@@ -25,22 +29,59 @@ void Camera::Update(float dt){
         }
     #endif
     if(focus){
+        int intensity = shakeintensity * (shaketime - shakescreen->Get())/shaketime;
+        if(intensity <= 0){
+            intensity = 1;
+        }
         if( ((limit.x - (focus->box.x + focus->box.w/2)) >= window.x/2) &&
             ((focus->box.x + focus->box.w/2) >= (window.x/2)) ){
             pos.x  = focus->box.x - window.x/2 + (focus->box.w/2);
+            if(shakescreen->Started()){
+                int randX = (rand() % (intensity * 2)) - intensity + 1;
+                pos.x = focus->box.x - window.x/2 + (focus->box.w/2) + randX;
+            }
 
         }else if((focus->box.x + focus->box.w/2) < (window.x/2)){
             pos.x = 0;
+            if(shakescreen->Started()){
+                int randX = (rand() % intensity) + 1;
+                pos.x = 0 + randX;
+            }
         }else if((limit.x - (focus->box.x + focus->box.w/2)) < window.x/2){
             pos.x = limit.x - window.x;
+            if(shakescreen->Started()){
+                int randX = (rand() % intensity) + 1;
+                pos.x = limit.x - window.x - randX;
+            }
         }
         if(((limit.y - (focus->box.y + focus->box.h/2)) >= (window.y/2)) &&
         ((focus->box.y + focus->box.h/2) >= (window.y/2))){
             pos.y = focus->box.y - window.y/2 + (focus->box.h/2);
+            if(shakescreen->Started()){
+                int randY = (rand() % (intensity*2)) - intensity + 1;
+                pos.y = focus->box.y - window.y/2 + (focus->box.h/2) + randY;
+            }
         }else if((focus->box.y + focus->box.h/2) < (window.y/2)){
             pos.y = 0;
+
+            if(shakescreen->Started()){
+                int randY = (rand() % intensity) + 1;
+                pos.y = 0 + randY;
+            }
         }else if((limit.y - (focus->box.y + focus->box.h)) < (window.y/2 - focus->box.h/2)){
             pos.y = limit.y - window.y;
+
+            if(shakescreen->Started()){
+                int randY = (rand() % intensity) + 1;
+                pos.y = limit.y - window.y - randY;
+            }
+        }
+
+        if(shakescreen->Started()){
+            shakescreen->Update(dt);
+            if(shakescreen->Get() >= shaketime){
+                shakescreen->Restart();
+            }
         }
     }else{
         speed.x = 300;
@@ -59,6 +100,12 @@ void Camera::Update(float dt){
         }
     }
 
+}
+
+void Camera::ShakeScreen(float time,int intensity){
+    shaketime = time;
+    shakeintensity = intensity;
+    shakescreen->Delay(0);
 }
 
 void Camera::Correct(){

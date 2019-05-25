@@ -96,8 +96,6 @@ void GameObject::ChangeComponentOrder(std::string type,std::string type2){
             comp1 = comp2;
             comp2 = trade;
         }
-        std::cout << comp1 << " " << comp2 << std::endl;
-        std::cout << components.size() << std::endl;
         std::iter_swap(components.begin() + comp1,components.begin() + comp2);
     }
 }
