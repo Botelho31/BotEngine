@@ -19,6 +19,7 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
+            void SpawnMinion();
             void SetParallax(float value);
         private:
             bool keepPupilIn;

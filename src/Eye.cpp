@@ -3,6 +3,7 @@
 #include "../include/WindowEffects.h"
 #include "../include/Player.h"
 #include "../include/Camera.h"
+#include "../include/Minion.h"
 
 Eye::Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn) : 
     Component(associated){
@@ -10,7 +11,7 @@ Eye::Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn) 
     this->bounds = bounds;
     this->keepPupilIn = keepPupilIn;
     this->eyelid = new Sprite(associated,"assets/img/eyelidtest2.png");
-    // associated.AddComponent(eyelid);
+    associated.AddComponent(eyelid);
     associated.box.SetCenter({bounds.x,bounds.y});
     this->pupil.Transform(associated.box.GetCenter());
     originalorigin = associated.box.GetCenter();
@@ -18,21 +19,18 @@ Eye::Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn) 
 }
 
 Eye::~Eye(){
+    delete eyelid;
 }
 
 void Eye::Start(){
-    // associated.ChangeComponentOrder("Eye","Sprite");
+    associated.ChangeComponentOrder("Eye","Sprite");
 }
 
 void Eye::Update(float dt){
     Vec2 offset = originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y * parallaxvalue);
-    associated.box.Transform(offset.x,offset.y);
-    std::cout << associated.box.x << std::endl;
-    std::cout << associated.box.y << std::endl;
-
 
     Vec2 boundsbefore  = bounds.GetCenter();
-    bounds.Transform(associated.box.GetCenter());
+    bounds.Transform(offset);
     Vec2 boundsafter = bounds.GetCenter();
     pupil.x += boundsafter.x - boundsbefore.x;
     pupil.y += boundsafter.y - boundsbefore.y;
@@ -60,7 +58,7 @@ void Eye::Update(float dt){
 
 void Eye::SetParallax(float value){
     this->parallaxvalue = value;
-    // this->eyelid->SetParallax(value);
+    this->eyelid->SetParallax(value);
 }
 
 Vec2 Eye::PupilFollow(Vec2 dest,float constspeed,float dt){
@@ -123,7 +121,7 @@ void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
         WindowEffects::DrawCircle(bounds,0,0,0,255);
 	}
 #endif // DEBUG
-    eyelid->Render(associated.box.x,associated.box.y);
+    // eyelid->Render(bounds.x - associated.box.w/2,bounds.y - associated.box.h/2);
 }
 
 void Eye::NotifyCollision(GameObject& other){
@@ -136,4 +134,17 @@ bool Eye::Is(std::string type){
     }else{
         return false;
     }
+}
+
+void Eye::SpawnMinion(){
+    GameObject *minionObj =  new GameObject();
+    Minion *minion = new Minion(*minionObj);
+    minionObj->box.SetCenter(associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue));
+    minionObj->AddComponent(minion);
+    Game::GetInstance().GetCurrentState().AddObject(minionObj);
+
+    std::cout << minionObj->box.GetCenter().x << " " << minionObj->box.GetCenter().y << std::endl;
+    std::cout << bounds.x << " " << bounds.y << std::endl;
+    Rect todraw = Rect(associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue).x - associated.box.w/2,associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue).y - associated.box.h/2,associated.box.w,associated.box.h);
+    WindowEffects::AddBoxToDraw(todraw,0,0,255,0);
 }

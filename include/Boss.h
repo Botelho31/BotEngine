@@ -29,7 +29,7 @@
             void DamageBoss(int damage);
             void KillBoss();
             void SpawnEye(Vec2 pos);
-            // void SpawnMinion(Vec2 pos);
+            void SpawnMinion();
 
         private:
             enum bossState{IDLE,CHASING,ATTACKING};
@@ -57,6 +57,7 @@
             bool hitboxinstantiated;
             float damageCooldown;
 
+            Timer* minionspawntimer;
             std::vector<std::weak_ptr<GameObject>> eyes; 
     };
 

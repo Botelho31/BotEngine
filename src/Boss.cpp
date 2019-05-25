@@ -33,6 +33,8 @@ Boss::Boss(GameObject& associated) : Component(associated){
     this->bosssprite =  new Sprite(associated,spritefiles["transparent"],32,0.08);
     associated.AddComponent(bosssprite);
 
+
+    minionspawntimer = new Timer();
     float posX = associated.box.x;
     float posY = associated.box.y;
     for(int i = 0; i < 5; i++){
@@ -51,6 +53,7 @@ Boss::~Boss(){
     delete damagetimer;
     delete attacktimer;
     delete attackdelay;
+    delete minionspawntimer;
 }
 
 void Boss::Start(){
@@ -122,6 +125,23 @@ void Boss::ChasingState(float dt){
 }
 
 void Boss::IdleState(float dt){
+    minionspawntimer->Update(dt);
+    if(minionspawntimer->Get() > 2){
+        int minionspawn = (rand() % 5) + 1;
+        minionspawn = 5;
+        if(minionspawn == 5){
+            SpawnMinion();
+            std::cout << "SPAWNED MINION" << dt << std::endl;
+        }
+        minionspawntimer->Restart();
+    }
+}
+
+void Boss::SpawnMinion(){
+    int eyen = (rand() % eyes.size());
+    Component *eyecomp = eyes[eyen].lock()->GetComponent("Eye");
+    Eye *eye =  dynamic_cast<Eye*>(eyecomp);
+    eye->SpawnMinion();
 }
 
 void Boss::IdleHandle(float dt){
