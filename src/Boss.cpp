@@ -138,7 +138,7 @@ void Boss::IdleState(float dt){
         int minionspawn = (rand() % 5) + 1;
         if(minionspawn == 5){
             SpawnMinion();
-            InstantiateHitBox({Player::player->GetPosition().Added(-300,-100),300,100},2,{400,200});
+            // InstantiateHitBox({Player::player->GetPosition().Added(-300,-100),300,100},2,{400,200});
             std::cout << "SPAWNED MINION" << dt << std::endl;
         }
         minionspawntimer->Restart();

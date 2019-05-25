@@ -48,7 +48,9 @@ StageState::~StageState(){
     if(backgroundMusic){
         delete backgroundMusic;
     }
-    
+    while(!GameData::events.empty()){
+        GameData::events.pop();
+    }
     ENDLINE
     std::cout << "Saving Game" << std::endl;
     GameData::SaveGame();

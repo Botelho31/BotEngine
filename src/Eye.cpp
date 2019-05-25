@@ -19,7 +19,6 @@ Eye::Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn) 
 }
 
 Eye::~Eye(){
-    delete eyelid;
 }
 
 void Eye::Start(){
