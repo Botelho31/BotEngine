@@ -20,6 +20,7 @@
 #include "../include/Eye.h"
 #include "../include/Circle.h"
 #include "../include/Light.h"
+#include "../include/Boss.h"
 
 bool StageState::changingMap;
 
@@ -223,6 +224,7 @@ void StageState::ClearMobs(){
         Component *component4 = objectArray[i]->GetComponent("TileCollider");
         Component *component5 = objectArray[i]->GetComponent("DeadBody");
         Component *component6 = objectArray[i]->GetComponent("Event");
+        Component *component7 = objectArray[i]->GetComponent("FakeWall");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -239,6 +241,9 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
         else if(component6){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        else if(component7){
             objectArray.erase(objectArray.begin() + i);
         }
     }
@@ -343,6 +348,13 @@ void StageState::Start(){
     background->AddComponent(camerafollower);
 	objectArray.emplace_back(background);
 
+    //BOSS TESTING
+    GameObject *bossObj = new GameObject();
+    bossObj->box.Transform(1000,400);
+    Boss *boss = new Boss(*bossObj);
+    bossObj->AddComponent(boss);
+    AddObject(bossObj);
+
     //Loads the tilemap
 	GameObject *tileObj = new GameObject();
     GameObject *tilesetObj = new GameObject();
@@ -355,26 +367,6 @@ void StageState::Start(){
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
 	objectArray.emplace_back(tileObj);
-
-    //EYE TESTING 
-
-    float posX = 680;
-    float posY = 750;
-    // for(int i = 0; i < 5; i++){
-    //     posY += 60;
-    //     for(int j = 0; j < 5; j++){
-            GameObject *eyeObj =  new GameObject();
-            Circle bounds = Circle(posX,posY,30);
-            Eye *eye = new Eye(*eyeObj,bounds,30);
-            eye->SetParallax(0.5);
-            eyeObj->AddComponent(eye);
-            AddObject(eyeObj);
-            // posX += 60;
-    //     }
-    //     posX = 680;
-    // }
-
-    
 
     //Loads the player
     GameObject *playerObj = new GameObject();

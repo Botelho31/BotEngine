@@ -5,6 +5,7 @@
 #ifndef BOSS_H
     #define BOSS_H
     #include "Physics.h"
+    #include "Eye.h"
 
     class Boss : public Component{
         public:
@@ -16,20 +17,18 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
+            void AttackState(float dt); //Handles attack state
+            void IdleState(float dt); //Handles idle state
+            void ChasingState(float dt); //Handles chasing state
 
-            // void XMovement(float dt);   //Performs X Movement
-            // void YMovement(float dt);   //Performs Y Movement 
-            // void AttackState(float distanceToPlayer,float dt); //Handles attack state
-            // void IdleState(float distanceToPlayer,float dt); //Handles idle state
-            // void ChasingState(float distanceToPlayer,float dt); //Handles chasing state
+            void IdleHandle(float dt); //Handles minion Idle
 
-            // void IdleHandle(float dt); //Handles minion Idle
-
-            // void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
+            void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
 
             // Vec2 GetPosition();
-            // void DamageBoss(int damage);
-            // void KillBoss();
+            void DamageBoss(int damage);
+            void KillBoss();
+            void SpawnEye(Vec2 pos);
             // void SpawnMinion(Vec2 pos);
 
         private:
@@ -57,6 +56,8 @@
             Timer *attackdelay;
             bool hitboxinstantiated;
             float damageCooldown;
+
+            std::vector<std::weak_ptr<GameObject>> eyes; 
     };
 
 #endif
