@@ -9,6 +9,7 @@
         public:
             Rect();
             Rect(float x,float y,float w,float h);
+            Rect(Vec2 pos,float w,float h);
             bool Contains(float x,float y);
             bool Contains(Vec2 point);
             void Transform(float x,float y);

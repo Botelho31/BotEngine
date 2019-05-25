@@ -15,6 +15,13 @@ Rect::Rect(float x,float y,float w,float h){
     this->h = h;
 }
 
+Rect::Rect(Vec2 pos,float w,float h){
+    this->x = pos.x;
+    this->y = pos.y;
+    this->w = w;
+    this->h = h;
+}
+
 bool Rect::Contains(float x,float y){
     if(( (this->x <= x) && (x <= (this->x + this->w)) ) && ( (this->y <= y) && (y <= (this->y + this->h)) )){
         return true;
