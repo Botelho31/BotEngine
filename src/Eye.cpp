@@ -142,9 +142,4 @@ void Eye::SpawnMinion(){
     minionObj->box.SetCenter(associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue));
     minionObj->AddComponent(minion);
     Game::GetInstance().GetCurrentState().AddObject(minionObj);
-
-    std::cout << minionObj->box.GetCenter().x << " " << minionObj->box.GetCenter().y << std::endl;
-    std::cout << bounds.x << " " << bounds.y << std::endl;
-    Rect todraw = Rect(associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue).x - associated.box.w/2,associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue).y - associated.box.h/2,associated.box.w,associated.box.h);
-    WindowEffects::AddBoxToDraw(todraw,0,0,255,0);
 }

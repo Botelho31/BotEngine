@@ -101,6 +101,14 @@ void Boss::Update(float dt){
     }
 }
 
+void Boss::InstantiateHitBox(Rect hitbox,float duration,Vec2 knockback){
+    GameObject *hitboxObj = new GameObject();
+    std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+    HitBox *hitboxcomp = new HitBox(*hitboxObj,hitbox,owner,0,40,duration,duration,false,true,false,knockback,this);
+    hitboxObj->AddComponent(hitboxcomp);
+    Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
+}
+
 void Boss::DamageBoss(int damage){
     hp -= damage;
 }
@@ -128,9 +136,9 @@ void Boss::IdleState(float dt){
     minionspawntimer->Update(dt);
     if(minionspawntimer->Get() > 2){
         int minionspawn = (rand() % 5) + 1;
-        minionspawn = 5;
         if(minionspawn == 5){
             SpawnMinion();
+            InstantiateHitBox({Player::player->GetPosition().Added(-300,-100),300,100},2,{400,200});
             std::cout << "SPAWNED MINION" << dt << std::endl;
         }
         minionspawntimer->Restart();

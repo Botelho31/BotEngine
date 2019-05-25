@@ -25,7 +25,7 @@
 
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
 
-            // Vec2 GetPosition();
+            void InstantiateHitBox(Rect hitbox,float duration,Vec2 knockback);
             void DamageBoss(int damage);
             void KillBoss();
             void SpawnEye(Vec2 pos);
