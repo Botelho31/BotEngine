@@ -358,18 +358,18 @@ void StageState::Start(){
 
     //EYE TESTING 
 
-    // float posX = 680;
-    // float posY = 750;
+    float posX = 680;
+    float posY = 750;
     // for(int i = 0; i < 5; i++){
     //     posY += 60;
     //     for(int j = 0; j < 5; j++){
-    //         GameObject *eyeObj =  new GameObject();
-    //         Circle bounds = Circle(posX,posY,30);
-    //         Eye *eye = new Eye(*eyeObj,bounds,30);
-    //         eye->SetParallax(0.5);
-    //         eyeObj->AddComponent(eye);
-    //         AddObject(eyeObj);
-    //         posX += 60;
+            GameObject *eyeObj =  new GameObject();
+            Circle bounds = Circle(posX,posY,30);
+            Eye *eye = new Eye(*eyeObj,bounds,30);
+            // eye->SetParallax(0.5);
+            eyeObj->AddComponent(eye);
+            AddObject(eyeObj);
+            // posX += 60;
     //     }
     //     posX = 680;
     // }

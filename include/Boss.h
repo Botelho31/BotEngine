@@ -17,20 +17,20 @@
             void NotifyCollision(GameObject& other);
 
 
-            void XMovement(float dt);   //Performs X Movement
-            void YMovement(float dt);   //Performs Y Movement 
-            void AttackState(float distanceToPlayer,float dt); //Handles attack state
-            void IdleState(float distanceToPlayer,float dt); //Handles idle state
-            void ChasingState(float distanceToPlayer,float dt); //Handles chasing state
+            // void XMovement(float dt);   //Performs X Movement
+            // void YMovement(float dt);   //Performs Y Movement 
+            // void AttackState(float distanceToPlayer,float dt); //Handles attack state
+            // void IdleState(float distanceToPlayer,float dt); //Handles idle state
+            // void ChasingState(float distanceToPlayer,float dt); //Handles chasing state
 
-            void IdleHandle(float dt); //Handles minion Idle
+            // void IdleHandle(float dt); //Handles minion Idle
 
-            void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
+            // void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
 
-            Vec2 GetPosition();
-            void DamageBoss(int damage);
-            void KillBoss();
-            void SpawnMinion(Vec2 pos);
+            // Vec2 GetPosition();
+            // void DamageBoss(int damage);
+            // void KillBoss();
+            // void SpawnMinion(Vec2 pos);
 
         private:
             enum bossState{IDLE,CHASING,ATTACKING};

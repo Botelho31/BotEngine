@@ -97,7 +97,7 @@ void HitBox::NotifyCollision(GameObject& other){
             if(component1){
                 KeepStill(true,hitfreezetime);
                 component1->KeepStill(true,hitfreezetime);
-                HitEffect("assets/img/sparktest.png",4,0.04,0.16,collider->box.GetMirroredPoint(collisionpoint));
+                HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
                 hitfreezetime = 0;
                 knockback.x = 0;
                 knockback.y = 0;
