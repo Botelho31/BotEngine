@@ -29,7 +29,7 @@ void Camera::Update(float dt){
         }
     #endif
     if(focus){
-        int intensity = shakeintensity * (shaketime - shakescreen->Get())/shaketime;
+        int intensity = shakeintensity * ((shaketime - shakescreen->Get())/shaketime);
         if(intensity <= 0){
             intensity = 1;
         }

@@ -10,7 +10,7 @@ Eye::Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn) 
     this->bounds = bounds;
     this->keepPupilIn = keepPupilIn;
     this->eyelid = new Sprite(associated,"assets/img/eyelidtest2.png");
-    associated.AddComponent(eyelid);
+    // associated.AddComponent(eyelid);
     associated.box.SetCenter({bounds.x,bounds.y});
     this->pupil.Transform(associated.box.GetCenter());
     originalorigin = associated.box.GetCenter();
@@ -21,16 +21,18 @@ Eye::~Eye(){
 }
 
 void Eye::Start(){
-    associated.ChangeComponentOrder("Eye","Sprite");
+    // associated.ChangeComponentOrder("Eye","Sprite");
 }
 
 void Eye::Update(float dt){
     Vec2 offset = originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y * parallaxvalue);
-    // associated.box.Transform(offset.x,offset.y);
+    associated.box.Transform(offset.x,offset.y);
+    std::cout << associated.box.x << std::endl;
+    std::cout << associated.box.y << std::endl;
 
 
     Vec2 boundsbefore  = bounds.GetCenter();
-    bounds.Transform(offset);
+    bounds.Transform(associated.box.GetCenter());
     Vec2 boundsafter = bounds.GetCenter();
     pupil.x += boundsafter.x - boundsbefore.x;
     pupil.y += boundsafter.y - boundsbefore.y;
@@ -58,7 +60,7 @@ void Eye::Update(float dt){
 
 void Eye::SetParallax(float value){
     this->parallaxvalue = value;
-    this->eyelid->SetParallax(value);
+    // this->eyelid->SetParallax(value);
 }
 
 Vec2 Eye::PupilFollow(Vec2 dest,float constspeed,float dt){
@@ -114,12 +116,14 @@ void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
     }else{
         WindowEffects::FillCircle(pupil,0,0,0,255);
     }
+
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS)){
         WindowEffects::DrawCircle(bounds,0,0,0,255);
 	}
 #endif // DEBUG
+    eyelid->Render(associated.box.x,associated.box.y);
 }
 
 void Eye::NotifyCollision(GameObject& other){

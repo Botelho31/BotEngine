@@ -87,7 +87,7 @@ void StageState::Update(float dt){
             Camera::UnFollow();
         }
         if(input->KeyPress(SDLK_4)){
-            Camera::ShakeScreen(4,100);
+            Camera::ShakeScreen(1,200);
         }
         if(showfps){
             std::stringstream fpsstring;
