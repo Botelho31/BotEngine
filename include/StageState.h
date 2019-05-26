@@ -33,11 +33,15 @@
         private:
             TileSet *tileset;
             Music *backgroundMusic;
-            Text *playerhp;
             bool showfps;
             Text *fps;
             WindowEffects *windoweffects;
             Light *light;
+
+            //HUD
+            int playerHP;
+            std::vector<std::weak_ptr<GameObject>> playerHPIcons;
+
 
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool mapcollision; //Boolean indicating if mapcollision is ready or not

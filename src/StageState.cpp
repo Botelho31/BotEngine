@@ -36,13 +36,14 @@ StageState::StageState(){
     windoweffects = new WindowEffects();
     changingMapTimer = new Timer();
 
+    playerHP = 0;
+
     //Loads the background music;
     backgroundMusic = new Music("assets/audio/musicmenubel.ogg");
     // backgroundMusic->Play();
 }
 
 StageState::~StageState(){
-    playerhp = nullptr;
     delete windoweffects;
     delete changingMapTimer;
     if(backgroundMusic){
@@ -333,9 +334,33 @@ void StageState::HandleEvents(float dt){
 }
 
 void StageState::UpdateHP(){
-    std::stringstream playerhptext;
-    playerhptext << Player::player->GetLife();
-    this->playerhp->SetText(playerhptext.str());
+    int numberoficons = Player::player->GetLife()/10;
+    int dif = numberoficons - (playerHP/10);
+
+    if(dif > 0){
+        for(int i = 0;i < dif;i++){
+            GameObject* newIconObj = new GameObject();
+            if(playerHPIcons.empty()){
+                newIconObj->box.x = 50;
+                newIconObj->box.y = 20;
+            }else{
+                newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w;
+                newIconObj->box.y = 20;
+            }
+            Sprite *newIcon = new Sprite(*newIconObj,"assets/img/potato.png");
+            newIconObj->AddComponent(newIcon);
+            CameraFollower *camfollower =  new CameraFollower(*newIconObj);
+            newIconObj->AddComponent(camfollower);
+            std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
+            playerHPIcons.push_back(newiconweakptr);
+        }
+    }else{
+        for(int i = 0;i < abs(dif);i++){
+            playerHPIcons.back().lock()->RequestDelete();
+            playerHPIcons.erase(playerHPIcons.begin() + playerHPIcons.size() - 1);
+        }
+    }
+    playerHP = Player::player->GetLife();
 }
 
 bool StageState::ChangingMap(){
@@ -378,18 +403,6 @@ void StageState::Start(){
     playerObj->AddComponent(player);
     objectArray.emplace_back(playerObj);
     Camera::Follow(playerObj);
-
-    //Loads the player HP
-    GameObject *playerhpObj = new GameObject();
-    std::stringstream playerLife;
-    playerLife << player->GetLife();
-    playerhpObj->box.x = 50;
-    playerhpObj->box.y = 0;
-    this->playerhp = new Text(*playerhpObj,"assets/font/Callmemaybe.ttf",100,Text::BLENDED,playerLife.str(),{0,0,0});
-    CameraFollower *camerafollower2 = new CameraFollower(*playerhpObj);
-    playerhpObj->AddComponent(camerafollower2);
-    playerhpObj->AddComponent(playerhp);
-    objectArray.emplace_back(playerhpObj);
 
     //Loads the FPS
     GameObject *fpsObj = new GameObject();
