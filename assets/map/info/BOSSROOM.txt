@@ -12,3 +12,8 @@ Portal
     portalY 630
     tilemapinfofile assets/map/info/tileMaptest-1.txt
   ]
+  
+Boss
+  [
+    pos 1000 400
+  ]

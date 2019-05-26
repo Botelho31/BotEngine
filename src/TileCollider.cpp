@@ -66,7 +66,7 @@ void TileCollider::Update(float dt){
 		if((up) && (down)){
 			maxY = true;
 		}
-		ENDLINE
+		// ENDLINE
 		// std::cout << associated.box.x << " " << associated.box.y << " " << associated.box.w << " " << associated.box.h << std::endl;
 		// std::cout << down << " " << up << " " << right << " " << left << std::endl;
 		// std::cout << maxX << " " << maxY << std::endl;

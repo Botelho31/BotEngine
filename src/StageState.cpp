@@ -230,6 +230,7 @@ void StageState::ClearMobs(){
         Component *component5 = objectArray[i]->GetComponent("DeadBody");
         Component *component6 = objectArray[i]->GetComponent("Event");
         Component *component7 = objectArray[i]->GetComponent("FakeWall");
+        Component *component8 = objectArray[i]->GetComponent("Boss");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -249,6 +250,9 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
         else if(component7){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        else if(component8){
             objectArray.erase(objectArray.begin() + i);
         }
     }
@@ -352,13 +356,6 @@ void StageState::Start(){
 	background->AddComponent(bg);
     background->AddComponent(camerafollower);
 	objectArray.emplace_back(background);
-
-    //BOSS TESTING
-    GameObject *bossObj = new GameObject();
-    bossObj->box.Transform(1000,400);
-    Boss *boss = new Boss(*bossObj);
-    bossObj->AddComponent(boss);
-    AddObject(bossObj);
 
     //Loads the tilemap
 	GameObject *tileObj = new GameObject();

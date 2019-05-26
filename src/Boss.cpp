@@ -49,6 +49,9 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
 Boss::~Boss(){
     bosssprite = nullptr;
+    for(int i = 0;i < eyes.size();i++){
+        eyes[i].lock()->RequestDelete();
+    }
     delete invincibilitytimer;
     delete damagetimer;
     delete attacktimer;

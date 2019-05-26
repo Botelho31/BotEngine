@@ -123,8 +123,12 @@ void Player::Update(float dt){
     }
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
+        if(!invencible){
+            playersprite->SetAlpha(200);
+        }
         if((invincibilitytimer->Get() >= 1) && (invencible == false)){
             invincibilitytimer->Restart();
+            playersprite->SetAlpha(255);
         }
     }
 
@@ -550,6 +554,7 @@ void Player::Reset(Vec2 speed){
 }
 
 void Player::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
+    playersprite->SetAlpha(255);
     Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
     playersprite->SetFrameCount(framecount);
     playersprite->SetFrameTime(frametime);

@@ -6,6 +6,7 @@
 #include "../include/Minion.h"
 #include "../include/MovingTile.h"
 #include "../include/FakeWall.h"
+#include "../include/Boss.h"
 
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
@@ -125,7 +126,7 @@ void TileMap::SpawnMobs(std::string file){
                 Game::GetInstance().GetCurrentState().AddObject(eventObj);
 
             }
-            if(checkline == "Minion"){       
+            else if(checkline == "Minion"){       
                 Vec2 MinionPos;
                 while(checkline != "minionX"){
                     FileReader >> checkline;
@@ -139,7 +140,7 @@ void TileMap::SpawnMobs(std::string file){
                 minionObj->AddComponent(minion);
                 Game::GetInstance().GetCurrentState().AddObject(minionObj);
             }
-            if(checkline == "MovingTile"){
+            else if(checkline == "MovingTile"){
                 Vec2 start;
                 Vec2 dest;
                 float speed;
@@ -162,7 +163,7 @@ void TileMap::SpawnMobs(std::string file){
                 int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                 Game::GetInstance().GetCurrentState().AddObject(tileObj,place);
             }
-            if(checkline == "FakeWall"){
+            else if(checkline == "FakeWall"){
                 Vec2 pos;
                 std::string sprite;
                 bool breakable;
@@ -185,6 +186,20 @@ void TileMap::SpawnMobs(std::string file){
                 }else{
                     Game::GetInstance().GetCurrentState().AddObject(fakewallObj);
                 }
+            }
+            else if(checkline == "Boss"){
+                Vec2 pos;
+                while(checkline != "pos"){
+                    FileReader >> checkline;
+                }
+                FileReader >> pos.x;
+                FileReader >> pos.y;
+                GameObject *bossObj = new GameObject();
+                bossObj->box.Transform(pos.x,pos.y);
+                Boss *boss = new Boss(*bossObj);
+                bossObj->AddComponent(boss);
+                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                Game::GetInstance().GetCurrentState().AddObject(bossObj,place);
             }
         }
     }else{
