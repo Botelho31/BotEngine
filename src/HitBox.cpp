@@ -117,8 +117,8 @@ void HitBox::NotifyCollision(GameObject& other){
                     }
                 }
                 hitfreezetime = 0;
-                knockback.x = 0;
-                knockback.y = 0;
+                // knockback.x = 0;
+                // knockback.y = 0;
             }
             if(hitboxcomponent){
                 HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
