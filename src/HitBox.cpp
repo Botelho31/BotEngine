@@ -99,9 +99,9 @@ void HitBox::NotifyCollision(GameObject& other){
             Component *component1 = other.GetComponent("Minion");
             if(component1){
                 Minion *minion = dynamic_cast<Minion*>(component1);
-                KeepStill(true,hitfreezetime);
-                component1->KeepStill(true,hitfreezetime);
                 if((other.box.w != 0) && minion->GetState() != Minion::ATTACKING){
+                    KeepStill(true,hitfreezetime);
+                    component1->KeepStill(true,hitfreezetime);
                     if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
                         if(associated.angleDeg <= 0){
                             HitEffect("assets/img/sanguetest.png",8,0.04,0.32,collisionpoint,true, {35,0});

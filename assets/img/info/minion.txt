@@ -2,6 +2,7 @@
     idle        assets/img/minionidletest.png
     walking     assets/img/minionwalktest.png
     attacking   assets/img/minionattacktest.png
-    dead        assets/img/miniondeadtest.png
+    deadfront   assets/img/miniondeathfronttest.png
+    deadbehind  assets/img/miniondeathbehindtest.png
     damage      assets/img/miniondamagetest.png
 ]

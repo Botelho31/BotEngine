@@ -173,17 +173,32 @@ void Minion::DamageMinion(int damage){
 
 void Minion::KillMinion(){
     GameObject *deadObj = new GameObject();
-    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["dead"],30,0.02,0,false,true);
-    int xoffset = -40;
-    if(minionsprite->IsFlipped()){
-        deadsprite->Flip();
-        xoffset = 40;
+    int animrand = rand() % 2 + 1;
+    if(animrand == 1){
+        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadbehind"],32,0.04,0,false,true);
+        int xoffset = -40;
+        if(minionsprite->IsFlipped()){
+            deadsprite->Flip();
+            xoffset = 40;
+        }
+        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(xoffset,80),false);
+        deadObj->AddComponent(deadbody);
+        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
+        Game::GetInstance().GetCurrentState().AddObject(deadObj);
+        associated.RequestDelete();
+    }else{
+        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadfront"],36,0.04,0,false,true);
+        int xoffset = -40;
+        if(minionsprite->IsFlipped()){
+            deadsprite->Flip();
+            xoffset = 40;
+        }
+        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(-xoffset,80),false);
+        deadObj->AddComponent(deadbody);
+        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
+        Game::GetInstance().GetCurrentState().AddObject(deadObj);
+        associated.RequestDelete();
     }
-    DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-xoffset,70),false);
-    deadObj->AddComponent(deadbody);
-    deadObj->box.SetCenter(associated.box.GetCenter());
-    Game::GetInstance().GetCurrentState().AddObject(deadObj);
-    associated.RequestDelete();
 }
 
 void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
