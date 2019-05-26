@@ -123,10 +123,8 @@ void Player::Update(float dt){
     }
     if(invincibilitytimer->Started()){
         invincibilitytimer->Update(dt);
-        if(!invencible){
-            playersprite->SetAlpha(200);
-        }
-        if((invincibilitytimer->Get() >= 1) && (invencible == false)){
+        playersprite->SetAlpha(200);
+        if(invincibilitytimer->Get() >= 1){
             invincibilitytimer->Restart();
             playersprite->SetAlpha(255);
         }
@@ -483,7 +481,7 @@ void Player::KillPlayer(){
     GameObject *eventObj = new GameObject();
     GameData::playerAlive = false;
 
-    Event *deathevent = new Event(*eventObj,Event::PLAYERDEATH,3.5);
+    Event *deathevent = new Event(*eventObj,Event::PLAYERDEATH,2.5);
     while(!GameData::events.empty()){
         GameData::events.pop();
     }
@@ -581,7 +579,6 @@ void Player::KeepStill(bool freeze,float time){
 
 void Player::SetInvincibility(bool Invencible){
     this->invencible = Invencible;
-    invincibilitytimer->Delay(0);
 }
 
 void Player::MovePlayer(float x,float y,bool keepMomentum){
@@ -606,7 +603,7 @@ bool Player::Is(std::string type){
 }
 
 void Player::NotifyCollision(GameObject& other){
-    if(!invincibilitytimer->Started()){
+    if(!invincibilitytimer->Started() && !invencible){
         Component *component1 = other.GetComponent("HitBox");
         Component *component2 = other.GetComponent("Minion");
         if(component1){

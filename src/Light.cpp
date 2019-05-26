@@ -5,7 +5,6 @@ Light::Light(){
     this->windoweffects = new WindowEffects();
     lightsources.clear();
     lightsources.push_back(Circle(500 - Camera::pos.x,1000 - Camera::pos.y,300));
-    std::cout << lightsources.size() << std::endl;
 }
 Light::~Light(){
 
