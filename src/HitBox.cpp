@@ -1,5 +1,6 @@
 #include "../include/HitBox.h"
 #include "../include/Player.h"
+#include "../include/Minion.h"
 
 
 HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
@@ -95,19 +96,22 @@ void HitBox::NotifyCollision(GameObject& other){
         if(hitEnemy){
             Component *component1 = other.GetComponent("Minion");
             if(component1){
+                Minion *minion = dynamic_cast<Minion*>(component1);
                 KeepStill(true,hitfreezetime);
                 component1->KeepStill(true,hitfreezetime);
-                if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
-                    if(associated.angleDeg <= 0){
-                        HitEffect("assets/img/sanguetest.png",8,0.04,0.32,collisionpoint,true, {35,0});
+                if((other.box.w != 0) && minion->GetState() != Minion::ATTACKING){
+                    if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
+                        if(associated.angleDeg <= 0){
+                            HitEffect("assets/img/sanguetest.png",8,0.04,0.32,collisionpoint,true, {35,0});
+                        }else{
+                            HitEffect("assets/img/sanguetest2.png",8,0.04,0.32,collisionpoint,true, {35,-50});
+                        }
                     }else{
-                        HitEffect("assets/img/sanguetest2.png",8,0.04,0.32,collisionpoint,true, {35,-50});
-                    }
-                }else{
-                    if(associated.angleDeg >= 0){
-                        HitEffect("assets/img/sanguetest.png",8,0.04,0.32,collisionpoint,false, {-35,0}); //DIREITA
-                    }else{
-                        HitEffect("assets/img/sanguetest2.png",8,0.04,0.32,collisionpoint,false, {-35,-50}); //DIREITA
+                        if(associated.angleDeg >= 0){
+                            HitEffect("assets/img/sanguetest.png",8,0.04,0.32,collisionpoint,false, {-35,0}); //DIREITA
+                        }else{
+                            HitEffect("assets/img/sanguetest2.png",8,0.04,0.32,collisionpoint,false, {-35,-50}); //DIREITA
+                        }
                     }
                 }
                 hitfreezetime = 0;

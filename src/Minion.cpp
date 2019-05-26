@@ -167,7 +167,7 @@ void Minion::DamageMinion(int damage){
         SetSprite(spritefiles["damage"],5,0.04);
         damagetimer->Delay(0);
     }else if(hp <= 0){
-        // KillMinion();
+        KillMinion();
     }
 }
 
@@ -183,7 +183,6 @@ void Minion::KillMinion(){
     deadObj->AddComponent(deadbody);
     deadObj->box.SetCenter(associated.box.GetCenter());
     Game::GetInstance().GetCurrentState().AddObject(deadObj);
-
     associated.RequestDelete();
 }
 
@@ -380,4 +379,8 @@ void Minion::NotifyCollision(GameObject& other){
 Vec2 Minion::GetPosition(){
 
     return physics->GetCollider()->box.GetCenter();
+}
+
+Minion::minionState Minion::GetState(){
+    return state;
 }
