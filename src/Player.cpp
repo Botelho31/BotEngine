@@ -153,7 +153,7 @@ void Player::InstanceHitbox(){
     Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost),true,false,true,{350,100},this,0.1);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost),true,false,true,{300,100},this,0.15);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -182,7 +182,7 @@ void Player::AttackHandle(float dt){
             float frametime = 0.03;
             SetSprite(spritefiles["attacking1"],22,frametime,false);
             player->swordradius = 100;
-            delayedboost = frametime * 4.5;
+            delayedboost = frametime * 5;
             attacktiming = frametime * 10;
             endofattack = frametime * 25;
             if(playersprite->IsFlipped()){
@@ -202,7 +202,7 @@ void Player::AttackHandle(float dt){
             float frametime = 0.03;
             SetSprite(spritefiles["attacking2"],22,frametime,false);
             swordradius = 90;
-            delayedboost = frametime * 4.5;
+            delayedboost = frametime * 5;
             attacktiming = frametime * 10;
             endofattack = frametime * 25;
             if(playersprite->IsFlipped()){
