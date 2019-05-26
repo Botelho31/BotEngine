@@ -25,6 +25,16 @@ void WindowEffects::Update(float dt){
             }
             DrawToScreen(r,g,b,a);
             break;
+        case DIMSCREEN:
+            alphapersecond = currenteffectcap/currenteffectseconds;
+            if((a + (alphapersecond *dt)) >= currenteffectcap){
+                a = currenteffectcap;
+                currenteffectseconds = 0;
+            }else{
+                a += alphapersecond * dt;
+            }
+            DrawToScreen(r,g,b,a);
+            break;
         case FADEFROMBLACK:
             alphapersecond = -(255/currenteffectseconds);
             if((a + (alphapersecond *dt)) <= 0){
@@ -75,6 +85,16 @@ void WindowEffects::FadeFromBlack(int seconds){
     a = 255;
     this->currenteffectseconds = seconds;
     this->currentEffect = FADEFROMBLACK;
+}
+
+void WindowEffects::DimScreen(int seconds,int alphacap){
+    r = 0;
+    g = 0;
+    b = 0;
+    a = 0;
+    this->currenteffectseconds = seconds;
+    this->currentEffect = DIMSCREEN;
+    this->currenteffectcap = alphacap;
 }
 
 void WindowEffects::DrawToScreen(int r,int g,int b,int a){

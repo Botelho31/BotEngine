@@ -12,12 +12,13 @@
         public:
             WindowEffects();
             ~WindowEffects();
-            enum Effect {NOTHING,FADETOBLACK,FADEFROMBLACK};
+            enum Effect {NOTHING,FADETOBLACK,FADEFROMBLACK,DIMSCREEN};
             void Update(float dt);
             void Render(); //Render effects on to screen
             void Reset(); //Resets state to NOTHING
             void FadeToBlack(int seconds); //Sets state to fadetoblack
             void FadeFromBlack(int seconds); //Sets state to fadefromblack
+            void DimScreen(int seconds,int alphacap); //Sets state to fadefromblack
             void DrawToScreen(int r,int g,int b,int a); //Draws effect to whole screen
             Effect GetCurrentEffect();  //Gets the effect currently being used
             bool Drawing(); //Returns if it is drawing or not
@@ -50,8 +51,10 @@
                 int r,g,b;
             };
             static std::vector<BoxClass> drawqueue; // Queue of boxes to be drawn to screen
+
             Effect currentEffect;
             float currenteffectseconds;
+            float currenteffectcap;
             float r,g,b,a;
     };
 
