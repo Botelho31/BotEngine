@@ -21,6 +21,7 @@
 #include "../include/Circle.h"
 #include "../include/Light.h"
 #include "../include/Boss.h"
+#include "../include/PauseState.h"
 
 bool StageState::changingMap;
 
@@ -106,7 +107,8 @@ void StageState::Update(float dt){
 		quitRequested = true;
 	}
     if(input->KeyPress(ESCAPE_KEY)){
-        popRequested = true;
+        PauseState *pausestate = new PauseState();
+        Game::GetInstance().Push(pausestate);
     }
     for(unsigned int i = 0; i < objectArray.size();i++){
         if(mapcollision){

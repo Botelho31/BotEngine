@@ -46,11 +46,23 @@ void WindowEffects::Update(float dt){
             }
             DrawToScreen(r,g,b,a);
             break;
+        case UNDIMSCREEN:
+            alphapersecond = -(currenteffectcap/currenteffectseconds);
+            if((a + (alphapersecond *dt)) <= 0){
+                a = 0;
+                currentEffect = NOTHING;
+                currenteffectseconds = 0;
+            }else{
+                a += alphapersecond * dt;
+            }
+            DrawToScreen(r,g,b,a);
+            break;
         case NOTHING:
             break;
         default:
             break;
     }
+    std::cout << a << std::endl;
 }
 
 void WindowEffects::Render(){
@@ -95,6 +107,16 @@ void WindowEffects::DimScreen(int seconds,int alphacap){
     this->currenteffectseconds = seconds;
     this->currentEffect = DIMSCREEN;
     this->currenteffectcap = alphacap;
+}
+
+void WindowEffects::UnDimScreen(int seconds,int currentalpha){
+    r = 0;
+    g = 0;
+    b = 0;
+    a = currentalpha;
+    this->currenteffectseconds = seconds;
+    this->currentEffect = UNDIMSCREEN;
+    this->currenteffectcap = currentalpha;
 }
 
 void WindowEffects::DrawToScreen(int r,int g,int b,int a){
