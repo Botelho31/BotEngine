@@ -107,8 +107,11 @@ void Minion::Update(float dt){
             AttackState(distanceToPlayer,dt);
             break;
         case FALLINGFROMBOSS:
-            if(physics->IsGrounded() && !hittheground->Started()){
-                hittheground->Delay(dt);
+            if(physics->IsGrounded()){
+                if(!hittheground->Started()){
+                    hittheground->Delay(dt);
+                }
+                physics->PerformXDeceleration(despeed,dt);
             }
             if(hittheground->Started()){
                 hittheground->Update(dt);
@@ -160,7 +163,7 @@ void Minion::Update(float dt){
 
 void Minion::DamageMinion(int damage){
     hp -= damage;
-    if(!damagetimer->Started() && (!attacktimer->Started() && (hp > 0))){
+    if(!damagetimer->Started() && (!attacktimer->Started() && (hp > 0) && state != FALLINGFROMBOSS)){
         SetSprite(spritefiles["damage"],5,0.04);
         damagetimer->Delay(0);
     }else if(hp <= 0){
@@ -170,7 +173,7 @@ void Minion::DamageMinion(int damage){
 
 void Minion::KillMinion(){
     GameObject *deadObj = new GameObject();
-    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["dead"],30,0.02,0,false);
+    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["dead"],30,0.02,0,false,true);
     int xoffset = -40;
     if(minionsprite->IsFlipped()){
         deadsprite->Flip();

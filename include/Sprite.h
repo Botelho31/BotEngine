@@ -12,8 +12,8 @@
 
     class Sprite : public Component{
         public:
-            Sprite(GameObject& associated,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0,bool repeat = true);
-            Sprite(GameObject& associated,std::string file ,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0,bool repeat = true);
+            Sprite(GameObject& associated,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0,bool repeat = true,bool singularTexture = false);
+            Sprite(GameObject& associated,std::string file ,int frameCount = 1,float frameTime = 1,float secondsToSelfDestruct = 0,bool repeat = true,bool singularTexture = false);
             ~Sprite();
             void Open(std::string file); 
             void SetClip(int x,int y,int w,int h);
@@ -50,6 +50,7 @@
             float timeElapsed;
             float frameTime;
             bool repeat;
+            bool singularTexture;
 
             float parallaxvalue;
 

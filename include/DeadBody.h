@@ -32,6 +32,7 @@
 
             Timer *idletimer;
             bool idle;
+            int alphavalue;
 
             bool interaction;
 

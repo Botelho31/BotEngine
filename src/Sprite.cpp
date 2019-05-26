@@ -2,7 +2,7 @@
 #include "../include/State.h"
 #include "../include/Camera.h"
 
-Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secondsToSelfDestruct,bool repeat) : 
+Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secondsToSelfDestruct,bool repeat,bool singularTexture) : 
     Component(associated){
     this->frameCount = frameCount;
     this->frameTime = frameTime;
@@ -10,6 +10,7 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     this->selfDestructCount = new Timer();
     this->flip = false;
     this->repeat = repeat;
+    this->singularTexture = singularTexture;
     selfDestructCount->Restart();
     scale.x = 1;
     scale.y = 1;
@@ -20,18 +21,26 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     this->parallaxvalue = 1;
 }
 
-Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime,float secondsToSelfDestruct,bool repeat) :
-    Sprite(associated,frameCount,frameTime,secondsToSelfDestruct,repeat){
+Sprite::Sprite(GameObject& associated,std::string file,int frameCount,float frameTime,float secondsToSelfDestruct,bool repeat,bool singularTexture) :
+    Sprite(associated,frameCount,frameTime,secondsToSelfDestruct,repeat,singularTexture){
 
     Open(file);
 }
 
 Sprite::~Sprite(){
     delete selfDestructCount;
+    if(singularTexture){
+    }
 }
 
 void Sprite::Open(std::string file){
-    texture = Resources::GetImage(file);
+    if(singularTexture){
+        SDL_Texture *textureSDL = IMG_LoadTexture(Game::GetInstance().GetRenderer(), file.c_str());
+        std::shared_ptr<SDL_Texture> textptr(textureSDL,Resources::DeleteImage);
+        texture = textptr;
+    }else{
+        texture = Resources::GetImage(file);
+    }
     if(texture == nullptr){
         std::cout << "Error Loading Image: " << SDL_GetError() << std::endl;
         return;

@@ -12,6 +12,7 @@ DeadBody::DeadBody(GameObject& associated,Vec2 dyingspeed,Sprite *dyingsprite,Ve
 
     idletimer = new Timer();
     idle = false;
+    alphavalue = 255;
 
     this->physics = new Physics(associated,&speed,false);
     associated.AddComponent(physics);
@@ -43,9 +44,13 @@ void DeadBody::Update(float dt){
         IdleHandle(dt);
     }
     if(idle && !interaction){
-        // associated.RemoveComponent(associated.GetComponent("Physics"));
-        // associated.RemoveComponent(associated.GetComponent("Collider"));
-        // physics = nullptr;
+        alphavalue -= 50 * dt;
+        deadbodysprite->SetAlpha(alphavalue);
+        if(alphavalue == 0){
+            associated.RequestDelete();
+            // associated.RemoveComponent(associated.GetComponent("Physics"));
+            // associated.RemoveComponent(associated.GetComponent("Collider"));
+        }
     }
     if(interaction){
         if(invincibilitytimer->Started()){
