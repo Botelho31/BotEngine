@@ -46,6 +46,16 @@ int State::GetObjectPlaceAtLine(std::string componenttype){
     return -1;
 }
 
+int State::GetNumberOf(std::string type){
+    int count = 0;
+    for(int i = 0;i < objectArray.size();i++){
+        if(objectArray[i]->GetComponent(type)){
+            count ++;
+        }
+    }
+    return count;
+}
+
 TileMap* State::GetTileMap(){
     return tilemap;
 }

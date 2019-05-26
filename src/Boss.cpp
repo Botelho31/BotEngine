@@ -49,9 +49,6 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
 Boss::~Boss(){
     bosssprite = nullptr;
-    for(int i = 0;i < eyes.size();i++){
-        eyes[i].lock()->RequestDelete();
-    }
     delete invincibilitytimer;
     delete damagetimer;
     delete attacktimer;
@@ -125,7 +122,8 @@ void Boss::SpawnEye(Vec2 pos){
     Eye *eye = new Eye(*eyeObj,bounds,30);
     eye->SetParallax(0.5);
     eyeObj->AddComponent(eye);
-    std::weak_ptr<GameObject> eyeweak = Game::GetInstance().GetCurrentState().AddObject(eyeObj);
+    int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+    std::weak_ptr<GameObject> eyeweak = Game::GetInstance().GetCurrentState().AddObject(eyeObj,placeofplayer);
     eyes.push_back(eyeweak);
 }
 
@@ -136,15 +134,17 @@ void Boss::ChasingState(float dt){
 }
 
 void Boss::IdleState(float dt){
-    minionspawntimer->Update(dt);
-    if(minionspawntimer->Get() > 2){
-        int minionspawn = (rand() % 5) + 1;
-        if(minionspawn == 5){
-            SpawnMinion();
-            // InstantiateHitBox({Player::player->GetPosition().Added(-300,-100),300,100},2,{400,200});
-            std::cout << "SPAWNED MINION" << dt << std::endl;
+    if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
+        minionspawntimer->Update(dt);
+        if(minionspawntimer->Get() > 2){
+            int minionspawn = (rand() % 5) + 1;
+            if(minionspawn == 5){
+                SpawnMinion();
+                // InstantiateHitBox({Player::player->GetPosition().Added(-300,-100),300,100},2,{400,200});
+                std::cout << "SPAWNED MINION" << dt << std::endl;
+            }
+            minionspawntimer->Restart();
         }
-        minionspawntimer->Restart();
     }
 }
 

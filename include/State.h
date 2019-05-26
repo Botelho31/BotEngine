@@ -20,6 +20,7 @@
             virtual std::weak_ptr<GameObject> AddObject (GameObject* object,int place = 0);
             virtual std::weak_ptr<GameObject> GetObjectPtr (GameObject* object);
             virtual int GetObjectPlaceAtLine(std::string componenttype);
+            virtual int GetNumberOf(std::string type); // Gets the number of types currenrtly active on maps
             TileMap* GetTileMap();
             bool PopRequested();
             bool QuitRequested();
