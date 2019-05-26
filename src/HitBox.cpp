@@ -97,7 +97,19 @@ void HitBox::NotifyCollision(GameObject& other){
             if(component1){
                 KeepStill(true,hitfreezetime);
                 component1->KeepStill(true,hitfreezetime);
-                HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
+                if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
+                    if(associated.angleDeg <= 0){
+                        HitEffect("assets/img/sanguetest.png",8,0.04,0.32,collisionpoint,true, {35,0});
+                    }else{
+                        HitEffect("assets/img/sanguetest2.png",8,0.04,0.32,collisionpoint,true, {35,-50});
+                    }
+                }else{
+                    if(associated.angleDeg >= 0){
+                        HitEffect("assets/img/sanguetest.png",8,0.04,0.32,collisionpoint,false, {-35,0}); //DIREITA
+                    }else{
+                        HitEffect("assets/img/sanguetest2.png",8,0.04,0.32,collisionpoint,false, {-35,-50}); //DIREITA
+                    }
+                }
                 hitfreezetime = 0;
                 knockback.x = 0;
                 knockback.y = 0;
@@ -130,11 +142,14 @@ void HitBox::KeepStill(bool freeze,float time){
     }
 }
 
-void HitBox::HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point){
+void HitBox::HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point,bool flip,Vec2 offset){
     GameObject *effectObj = new GameObject();
     Sprite *effect = new Sprite(*effectObj,file,frames,frametime,duration,false);
-    effectObj->box.x = point.x - effectObj->box.w/2;
-    effectObj->box.y = point.y - effectObj->box.h/2;
+    if(flip){
+        effect->Flip();
+    }
+    effectObj->box.x = point.x - effectObj->box.w/2 + offset.x;
+    effectObj->box.y = point.y - effectObj->box.h/2 + offset.y;
     effectObj->AddComponent(effect);
     Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }

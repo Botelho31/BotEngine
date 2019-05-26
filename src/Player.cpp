@@ -609,7 +609,7 @@ void Player::NotifyCollision(GameObject& other){
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if(hitbox->GetOwner()){
-                if(hitbox->HitPlayer()){
+                if(hitbox->HitPlayer() && (hitbox->GetDamage() > 0)){
                     KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());
                     DamagePlayer(hitbox->GetDamage());
                     invincibilitytimer->Delay(0);

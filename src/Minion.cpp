@@ -167,7 +167,7 @@ void Minion::DamageMinion(int damage){
         SetSprite(spritefiles["damage"],5,0.04);
         damagetimer->Delay(0);
     }else if(hp <= 0){
-        KillMinion();
+        // KillMinion();
     }
 }
 

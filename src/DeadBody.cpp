@@ -46,7 +46,8 @@ void DeadBody::Update(float dt){
     if(idle && !interaction){
         alphavalue -= 150 * dt;
         deadbodysprite->SetAlpha(alphavalue);
-        if(alphavalue == 0){
+        if(alphavalue <= 0){
+            alphavalue = 0;
             associated.RequestDelete();
             // associated.RemoveComponent(associated.GetComponent("Physics"));
             // associated.RemoveComponent(associated.GetComponent("Collider"));
