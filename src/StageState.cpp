@@ -22,6 +22,7 @@
 #include "../include/Light.h"
 #include "../include/Boss.h"
 #include "../include/PauseState.h"
+#include "../include/MapState.h"
 
 bool StageState::changingMap;
 
@@ -116,6 +117,14 @@ void StageState::Update(float dt){
             GameData::events.push(pauseevent);
         }
     }
+
+    if(input->KeyPress(SDLK_m)){
+         if(GameData::events.size() == 0){
+            MapState* mapstate = new MapState();
+            Game::GetInstance().Push(mapstate);
+        }
+    }
+
     for(unsigned int i = 0; i < objectArray.size();i++){
         if(mapcollision && !pause){
             objectArray[i]->Update(dt);

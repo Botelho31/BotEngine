@@ -23,7 +23,6 @@ void HitBox::SetFunction( void(*NewFunc)(GameObject&,GameObject&,float) ){
 }
 
 void HitBox::Update(float dt){
-    // this->physics->Update(dt);
     if(secondsToSelfDestruct > 0){
         selfDestruct->Update(dt);
         damageCooldown -= dt;
