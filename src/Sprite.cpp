@@ -97,6 +97,7 @@ void Sprite::SetParallax(float value){
 }
 
 void Sprite::Update(float dt){
+    if((repeat) || (!repeat && (currentFrame < frameCount))){
         timeElapsed += dt;
         if(timeElapsed >= frameTime ){
             timeElapsed = 0;
@@ -110,13 +111,13 @@ void Sprite::Update(float dt){
             }
             SetClip((width/frameCount)*currentFrame,0,width/frameCount,height);
         }
-
-        if(secondsToSelfDestruct > 0){
-            selfDestructCount->Update(dt);
-            if(selfDestructCount->Get() > secondsToSelfDestruct){
-                associated.RequestDelete();
-            }
+    }
+    if(secondsToSelfDestruct > 0){
+        selfDestructCount->Update(dt);
+        if(selfDestructCount->Get() > secondsToSelfDestruct){
+            associated.RequestDelete();
         }
+    }
 }
 
 void Sprite::Render(){
