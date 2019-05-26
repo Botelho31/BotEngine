@@ -137,7 +137,7 @@ bool Eye::Is(std::string type){
 
 void Eye::SpawnMinion(){
     GameObject *minionObj =  new GameObject();
-    Minion *minion = new Minion(*minionObj);
+    Minion *minion = new Minion(*minionObj,Minion::FALLINGFROMBOSS);
     minionObj->box.SetCenter(associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue));
     minionObj->AddComponent(minion);
     Game::GetInstance().GetCurrentState().AddObject(minionObj);

@@ -1,8 +1,8 @@
 Save
 	[
 		mapInfo assets/map/info/BOSSROOM.txt
-		playerPos 221.162 1380.48
-		playerLife 150
+		playerPos 677.352 1379.58
+		playerLife 120
 		checkpointPos 50 1480
 		checkpointPosSpeed 600 0
 	]

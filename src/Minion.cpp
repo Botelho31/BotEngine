@@ -7,7 +7,7 @@
 #include "../include/DeadBody.h"
 #include "../include/GameData.h"
 
-Minion::Minion(GameObject& associated) : Component(associated){
+Minion::Minion(GameObject& associated,minionState startingState) : Component(associated){
     speed.x = 0;
     maxspeed = 600;
     aspeed = 700;
@@ -28,17 +28,22 @@ Minion::Minion(GameObject& associated) : Component(associated){
     idletimer = new Timer();
     idle = false;
 
-    state = IDLE;
+    state = startingState;
     this->physics = new Physics(associated,&speed,false,true);
     associated.AddComponent(physics);
 
     this->attacktimer = new Timer();
     sightangle = 0;
+    
     spritefiles = GameData::GetSpritesFiles("assets/img/info/minion.txt");
     Sprite *minion =  new Sprite(associated,spritefiles["idle"],32,0.08);
     this->minionsprite = minion;
     associated.AddComponent(minion);
     physics->SetCollider(0.5,0.65,0,33);
+
+    if(state == FALLINGFROMBOSS){
+
+    }
 }
 
 Minion::~Minion(){
@@ -101,6 +106,16 @@ void Minion::Update(float dt){
         case ATTACKING:
             AttackState(distanceToPlayer,dt);
             break;
+        case FALLINGFROMBOSS:
+            if(physics->IsGrounded() && !hittheground->Started()){
+                hittheground->Delay(dt);
+            }
+            if(hittheground->Started()){
+                hittheground->Update(dt);
+                if(hittheground->Get() > 2){
+                    state = IDLE;
+                }
+            }
         default:
             break;
     }

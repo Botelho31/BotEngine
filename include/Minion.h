@@ -8,7 +8,8 @@
 
     class Minion : public Component{
         public:
-            Minion(GameObject& associated);
+            enum minionState{IDLE,CHASING,ATTACKING,FALLINGFROMBOSS};
+            Minion(GameObject& associated,minionState startingState = IDLE);
             ~Minion();
             void Start();
             void Update(float dt);
@@ -33,7 +34,6 @@
 
             static void BiteHitbox(GameObject& hitbox,GameObject& owner,float dt);
         private:
-            enum minionState{IDLE,CHASING,ATTACKING};
             minionState state;
 
             int hp;
