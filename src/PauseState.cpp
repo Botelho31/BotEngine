@@ -1,5 +1,7 @@
 #include "../include/PauseState.h"
 #include "../include/Camera.h"
+#include "../include/Event.h"
+#include "../include/GameData.h"
 
 PauseState::PauseState(){
 }
@@ -18,6 +20,13 @@ void PauseState::Update(float dt){
 		quitRequested = true;
 	}
     if(input->KeyPress(ESCAPE_KEY)){
+        GameObject* quittohomeObj = new GameObject();
+        Event *quittohome = new Event(*quittohomeObj,Event::QUITTOMAINSCREEN);
+        quittohomeObj->AddComponent(quittohome);
+        GameData::events.push(quittohome);
+        popRequested = true;
+    }
+    if(input->KeyPress(SDLK_RETURN)){
         popRequested = true;
     }
 }

@@ -366,6 +366,10 @@ void StageState::HandleEvents(float dt){
                 GameData::events.pop();
             }
         }
+        else if(GameData::events.front()->GetType() == Event::QUITTOMAINSCREEN){
+            popRequested = true;
+            GameData::events.pop();
+        }
     }
 }
 
