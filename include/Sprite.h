@@ -25,6 +25,7 @@
             bool IsFlipped();
             void SetRepeat(bool repeat);
             bool IsOpen();
+            bool IsOver();
 
             void SetFrame(int frame);
             void SetFrameCount(int frameCount);

@@ -156,6 +156,14 @@ bool Sprite::IsFlipped(){
     return flip;
 }
 
+bool Sprite::IsOver(){
+    if(!repeat && ((frameCount - 1) == currentFrame)){
+        return true;
+    }else{
+        return false;
+    }
+}
+
 void Sprite::SetRepeat(bool repeat){
     this->repeat = repeat;
 }

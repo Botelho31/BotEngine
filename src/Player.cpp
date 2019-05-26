@@ -473,7 +473,7 @@ void Player::KillPlayer(){
         deadsprite->Flip();
         xoffset = 40;
     }
-    DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-xoffset,70),false);
+    DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.2),Vec2(-xoffset,70),true);
     deadObj->AddComponent(deadbody);
     deadObj->box.SetCenter(associated.box.GetCenter());
     Game::GetInstance().GetCurrentState().AddObject(deadObj);

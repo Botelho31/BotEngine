@@ -44,7 +44,7 @@ void DeadBody::Update(float dt){
         IdleHandle(dt);
     }
     if(idle && !interaction){
-        alphavalue -= 50 * dt;
+        alphavalue -= 150 * dt;
         deadbodysprite->SetAlpha(alphavalue);
         if(alphavalue == 0){
             associated.RequestDelete();
@@ -90,7 +90,7 @@ void DeadBody::NotifyCollision(GameObject& other){
 }
 
 void DeadBody::IdleHandle(float dt){
-    if((speed.x == 0) && (speed.y == 0)){
+    if((speed.x == 0) && (speed.y == 0) && (deadbodysprite->IsOver())){
         idletimer->Update(dt);
         if((idletimer->Get() > 2) && (idle == false)){
             idle = true;
