@@ -62,7 +62,6 @@ void WindowEffects::Update(float dt){
         default:
             break;
     }
-    std::cout << a << std::endl;
 }
 
 void WindowEffects::Render(){

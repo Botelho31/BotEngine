@@ -9,7 +9,7 @@
 
     class Event : public Component{
         public:
-            enum EventType{PORTAL,PLAYERDEATH,NOTHING};
+            enum EventType{PORTAL,PLAYERDEATH,PAUSE,UNPAUSE,NOTHING};
 
             Event(GameObject& associated,EventType eventType,Rect box,std::string tileMapInfo,Vec2 portalloc);
             Event(GameObject& associated,EventType eventType,float eventduration);

@@ -33,6 +33,7 @@ StageState::StageState(){
     changingMap = false;
     mapcollision = false;
     showfps = false;
+    pause = false;
     light = new Light();
     windoweffects = new WindowEffects();
     changingMapTimer = new Timer();
@@ -107,11 +108,16 @@ void StageState::Update(float dt){
 		quitRequested = true;
 	}
     if(input->KeyPress(ESCAPE_KEY)){
-        PauseState *pausestate = new PauseState();
-        Game::GetInstance().Push(pausestate);
+         if(GameData::events.size() == 0){
+            pause = true;
+            GameObject* pauseeventObj = new GameObject();
+            Event *pauseevent = new Event(*pauseeventObj,Event::PAUSE,0.5);
+            pauseeventObj->AddComponent(pauseevent);
+            GameData::events.push(pauseevent);
+        }
     }
     for(unsigned int i = 0; i < objectArray.size();i++){
-        if(mapcollision){
+        if(mapcollision && !pause){
             objectArray[i]->Update(dt);
         }else{
             if(!objectArray[i]->GetPhysics()){
@@ -123,7 +129,7 @@ void StageState::Update(float dt){
     //Expands the tile colliders to their maximum then starts interpreting tilecollision
     if(!mapcollision){
         ExpandTileColliders();
-    }else{
+    }else if(!pause){
         for(unsigned int i = 0; i < objectArray.size();i++){
             Component *component1 = objectArray[i]->GetComponent("Collider");
             if((component1) && ((i + 1) < objectArray.size())){
@@ -336,6 +342,30 @@ void StageState::HandleEvents(float dt){
                 }
             }
         }
+        else if(GameData::events.front()->GetType() == Event::PAUSE){
+            pause = true;
+            if(!windoweffects->Drawing()){
+                windoweffects->DimScreen(0.5,122);
+            }else{
+                GameData::events.front()->Update(dt);
+            }
+            if(GameData::events.front()->IsEventTimerOver()){
+                PauseState *pausestate = new PauseState();
+                Game::GetInstance().Push(pausestate);
+                GameData::events.pop();
+            }
+        }
+        else if(GameData::events.front()->GetType() == Event::UNPAUSE){
+            pause = false;
+            if(windoweffects->GetCurrentEffect() == WindowEffects::DIMSCREEN){
+                windoweffects->UnDimScreen(0.5,122);
+            }else{
+                GameData::events.front()->Update(dt);
+            }
+            if(GameData::events.front()->IsEventTimerOver()){
+                GameData::events.pop();
+            }
+        }
     }
 }
 
@@ -432,5 +462,8 @@ void StageState::Pause(){
 }
 
 void StageState::Resume(){
-
+    GameObject* unpauseeventObj = new GameObject();
+    Event *unpauseevent = new Event(*unpauseeventObj,Event::UNPAUSE,0.5);
+    unpauseeventObj->AddComponent(unpauseevent);
+    GameData::events.push(unpauseevent);
 }
