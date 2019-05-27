@@ -344,6 +344,7 @@ void StageState::HandleEvents(float dt){
                         GameData::checkpointPosSpeed.y = -900;
                     }
                     Player::player->KeepStill(false);
+                    Player::player->SetInvincibility(false);
                     Player::player->Reset(GameData::checkpointPosSpeed);
                     GameData::playerAlive = true;
                     GameData::events.pop();

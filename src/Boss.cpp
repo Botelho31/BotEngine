@@ -17,7 +17,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     speed.y = 0;
     gravspeed = 2000;
 
-    hp = 60;
+    hp = 800;
     attackrange = 150;
     sightrange = 500;
     damageCooldown = 0;
@@ -114,6 +114,10 @@ void Boss::DamageBoss(int damage){
 }
 
 void Boss::KillBoss(){
+    for(int i = 0;i < eyes.size();i ++){
+        eyes[i].lock()->RequestDelete();
+    }
+    associated.RequestDelete();
 }
 
 void Boss::SpawnEye(Vec2 pos){
@@ -136,11 +140,12 @@ void Boss::ChasingState(float dt){
 void Boss::IdleState(float dt){
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
         minionspawntimer->Update(dt);
-        if(minionspawntimer->Get() > 2){
+        if(minionspawntimer->Get() > 1){
             int minionspawn = (rand() % 5) + 1;
+            minionspawn = 5;
             if(minionspawn == 5){
                 SpawnMinion();
-                // InstantiateHitBox({Player::player->GetPosition().Added(-300,-100),300,100},2,{400,200});
+                InstantiateHitBox({Player::player->GetPosition().Added(-300,-100),300,100},2,{400,200});
                 // std::cout << "SPAWNED MINION" << dt << std::endl;
             }
             minionspawntimer->Restart();
@@ -175,6 +180,11 @@ void Boss::Render(){
         WindowEffects::DrawBox(sightline,sightangle,255,0,0);
 	}
     #endif // DEBUG
+
+    Rect lifebar =  Rect((Camera::window.x - hp*2)/2,Camera::window.y - 80,hp*2,50);
+
+    WindowEffects::FillRect(lifebar,0,0,0,255);
+    WindowEffects::FillRect(lifebar.Added(6,6,-12,-12),255,0,0,255);
 }
 
 bool Boss::Is(std::string type){
@@ -187,6 +197,14 @@ bool Boss::Is(std::string type){
 
 void Boss::NotifyCollision(GameObject& other){
     if(!invincibilitytimer->Started()){
-        
+        Component *component1 = other.GetComponent("HitBox");
+        if(component1){
+            HitBox *hitbox = dynamic_cast<HitBox*>(component1);
+            if((hitbox)  && hitbox->HitEnemy()){
+                DamageBoss(hitbox->GetDamage());
+                damageCooldown = hitbox->GetDamageCooldown();
+                invincibilitytimer->Delay(0);
+            }
+        }
     }
 }

@@ -487,6 +487,7 @@ void Player::KillPlayer(){
     }
     GameData::events.push(deathevent);
     SetSprite(spritefiles["transparent"]);
+    SetInvincibility(true);
     KeepStill(true);
 }
 
