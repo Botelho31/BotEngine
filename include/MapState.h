@@ -19,8 +19,8 @@
             class Map{
                 public:
                     Map(){}
-                    Rect GetMapRect(){
-                        return Rect(0,0,width*10,height*10);
+                    Rect GetMapRect(Vec2 scale){
+                        return Rect(0,0,width*scale.x,height*scale.y);
                     }
                     int At(int x,int y){
                         if((x < width) && (y < height)){
@@ -64,6 +64,9 @@
             bool centeronplayer;
             GameObject *playerIcon;
             std::vector<Map*> maps;
+
+            Vec2 sizeOfTile;
+            Vec2 printSize;
     };
 
 #endif

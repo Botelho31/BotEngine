@@ -10,9 +10,12 @@ MapState::MapState(){
     Camera::pos.y = 0;
     centeronplayer = false;
 
+    sizeOfTile = {50,50};
+    printSize = {10,10};
+
     playerIcon = new GameObject();
     Sprite *playersprite = new Sprite(*playerIcon,"assets/img/beltest2.png");
-    playersprite->SetScaleX(0.3,0.3);
+    playersprite->SetScaleX(0.2,0.2);
     playerIcon->AddComponent(playersprite);
     AddObject(playerIcon);
 }
@@ -39,6 +42,22 @@ void MapState::Update(float dt){
     if(input->KeyPress(SDLK_m)){
         popRequested = true;
     }
+    if(input->IsKeyDown(SDLK_EQUALS)){
+        float dif = 10 * dt;
+        Camera::pos = playerIcon->box.GetCenter().Added(-Camera::window.x/2,-Camera::window.y/2);
+        printSize = printSize.Added(dif,dif);
+        Component *playercomp = playerIcon->GetComponent("Sprite");
+        Sprite *playersprite = dynamic_cast<Sprite*>(playercomp);
+        playersprite->SetScaleX((2*printSize.x)/100,(4*printSize.y)/200);
+    }
+    if(input->IsKeyDown(SDLK_MINUS)){
+        float dif = 10 * dt;
+        Camera::pos = playerIcon->box.GetCenter().Added(-Camera::window.x/2,-Camera::window.y/2);
+        printSize = printSize.Added(-dif,-dif);
+        Component *playercomp = playerIcon->GetComponent("Sprite");
+        Sprite *playersprite = dynamic_cast<Sprite*>(playercomp);
+        playersprite->SetScaleX((2*printSize.x)/100,(4*printSize.y)/200);
+    }
 
 
 }
@@ -54,6 +73,7 @@ void MapState::Render(){
         PrintMap(maps[0],{0,0});
     }
     RenderArray();
+    windoweffects->Render();
 }
 
 void MapState::PrintMap(MapState::Map *map,Vec2 pos){
@@ -62,8 +82,8 @@ void MapState::PrintMap(MapState::Map *map,Vec2 pos){
     }else{
         if(map->mapInfoFile == GameData::checkpointMapInfo){
             Vec2 playerpos = Player::player->GetPosition();
-            playerpos.x /= 5;
-            playerpos.y /= 5;
+            playerpos.x /= sizeOfTile.x/printSize.x;
+            playerpos.y /= sizeOfTile.y/printSize.y;
             playerIcon->box.SetCenter(playerpos.Added(pos.x,pos.y));
             if(!centeronplayer){    
                 Camera::pos = playerIcon->box.GetCenter().Added(-Camera::window.x/2,-Camera::window.y/2);
@@ -74,8 +94,8 @@ void MapState::PrintMap(MapState::Map *map,Vec2 pos){
         PrintTileMap(map,pos);
         for(int i = 0;i < map->portals.size();i++){
             Vec2 frommap = ApproximateToSideOfMap(map,map->portals[i]->PortalBox);
-            frommap.x /= 5;
-            frommap.y /= 5;
+            frommap.x /= sizeOfTile.x/printSize.x;
+            frommap.y /= sizeOfTile.y/printSize.y;
             Map *mappointer = nullptr;
             for(int j = 0;j < maps.size();j++){
                 if(maps[j]->mapInfoFile == map->portals[i]->mapInfoTo){
@@ -84,8 +104,8 @@ void MapState::PrintMap(MapState::Map *map,Vec2 pos){
             }
             if(mappointer){
                 Vec2 tomap = ApproximateToSideOfMap(mappointer,map->portals[i]->PortalPosTo);
-                tomap.x /= 5;
-                tomap.y /= 5;
+                tomap.x /= sizeOfTile.x/printSize.x;
+                tomap.y /= sizeOfTile.y/printSize.y;
                 PrintMap(mappointer,frommap.Added(pos.x,pos.y).Added(-tomap.x,-tomap.y));
             }
             
@@ -102,12 +122,12 @@ Vec2 MapState::ApproximateToSideOfMap(Map *map,Rect pos){
         pos.y = 0;
     }
 
-    if((pos.x + pos.w) >= ((map->width*50) - 30)){
-        pos.x = (map->width*50);
+    if((pos.x + pos.w) >= ((map->width*sizeOfTile.x) - 30)){
+        pos.x = (map->width*sizeOfTile.x);
     }
 
-    if((pos.y + pos.h) >= ((map->height*50) - 30)){
-        pos.y = (map->height*50);
+    if((pos.y + pos.h) >= ((map->height*sizeOfTile.y) - 30)){
+        pos.y = (map->height*sizeOfTile.y);
     }
 
     return pos.GetOrigin();
@@ -121,12 +141,12 @@ Vec2 MapState::ApproximateToSideOfMap(Map *map,Vec2 pos){
         pos.y = 0;
     }
 
-    if(pos.x >= ((map->width*50) - 30)){
-        pos.x = (map->width*50);
+    if(pos.x >= ((map->width*sizeOfTile.x) - 30)){
+        pos.x = (map->width*sizeOfTile.x);
     }
 
-    if(pos.y >= ((map->height*50) - 30)){
-        pos.y = (map->height*50);
+    if(pos.y >= ((map->height*sizeOfTile.y) - 30)){
+        pos.y = (map->height*sizeOfTile.y);
     }
 
     return pos;
@@ -245,13 +265,14 @@ void MapState::GetMapSize(MapState::Map *map){
 }
 
 void MapState::PrintTileMap(MapState::Map *map,Vec2 pos){
-    windoweffects->FillRect(map->GetMapRect().Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),map->r,map->g,map->b,255);
+    Vec2 aproxprintsize = printSize;
+    windoweffects->FillRect(map->GetMapRect(aproxprintsize).Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),map->r,map->g,map->b,255);
     map->printed = true;
 
     for(int i = 0;i < map->height;i ++){
         for(int j = 0;j < map->width;j++){
             if(map->At(j,i) >= 0){
-                Rect printtileRect =  Rect(j*10,i*10,10,10);
+                Rect printtileRect =  Rect(j*printSize.x,i*printSize.y,ceil(printSize.x) + 1,ceil(printSize.y) + 1);
                 windoweffects->FillRect(printtileRect.Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),10,10,10,255);
             }
         }

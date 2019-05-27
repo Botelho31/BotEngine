@@ -65,12 +65,12 @@ void Sprite::SetScaleX(float scaleX,float scaleY){
     if(scaleX != 0){
         scale.x = scaleX;
         associated.box.x = associated.box.x + (associated.box.w - (associated.box.w*scaleX));
-        associated.box.w *= scaleX;
+        associated.box.w = width * scaleX;
     }
     if(scaleY != 0){
         scale.y = scaleY;
         associated.box.y = associated.box.y + (associated.box.h - (associated.box.h*scaleY));
-        associated.box.h *= scaleY;
+        associated.box.h = height * scaleY;
     }
 }
 
