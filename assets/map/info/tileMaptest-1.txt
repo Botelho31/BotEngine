@@ -7,22 +7,22 @@ MapInfo
 
 Portal
   [
-    portalBox 0 1400 200 200
+    portalBox 0 1350 200 200
     portalX 2995
-    portalY 1530
+    portalY 1450
     tilemapinfofile assets/map/info/tileMaptest-2.txt
   ]
 Portal
   [
     portalBox 2300 1500 200 300
-    portalX 2055
+    portalX 2050
     portalY 0
     tilemapinfofile assets/map/info/tileMaptest-3.txt
   ]
 
 Portal
   [
-    portalBox 4100 530 200 300
+    portalBox 4100 480 200 300
     portalX 25
     portalY 1380
     tilemapinfofile assets/map/info/BOSSROOM.txt

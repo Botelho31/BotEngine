@@ -71,8 +71,7 @@ void MapState::PrintMap(MapState::Map *map,Vec2 pos){
             }
 
         }
-        windoweffects->FillRect(map->GetMapRect().Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),map->r,map->g,map->b,255);
-        map->printed = true;
+        PrintTileMap(map,pos);
         for(int i = 0;i < map->portals.size();i++){
             Vec2 frommap = ApproximateToSideOfMap(map,map->portals[i]->PortalBox);
             frommap.x /= 5;
@@ -95,19 +94,20 @@ void MapState::PrintMap(MapState::Map *map,Vec2 pos){
 }
 
 Vec2 MapState::ApproximateToSideOfMap(Map *map,Rect pos){
-    if(pos.x <= 20){
-        pos.x = -20;
+    pos.Transform(pos.GetCenter().x,pos.GetCenter().y);
+    if(pos.x <= 30){
+        pos.x = 0;
     }
-    if(pos.y <= 20){
-        pos.y = -20;
+    if(pos.y <= 30){
+        pos.y = 0;
     }
 
     if((pos.x + pos.w) >= ((map->width*50) - 30)){
-        pos.x = ((map->width*50) + 20);
+        pos.x = (map->width*50);
     }
 
     if((pos.y + pos.h) >= ((map->height*50) - 30)){
-        pos.y = ((map->height*50) + 20);
+        pos.y = (map->height*50);
     }
 
     return pos.GetOrigin();
@@ -115,18 +115,18 @@ Vec2 MapState::ApproximateToSideOfMap(Map *map,Rect pos){
 
 Vec2 MapState::ApproximateToSideOfMap(Map *map,Vec2 pos){
     if(pos.x <= 30){
-        pos.x = -20;
+        pos.x = 0;
     }
     if(pos.y <= 30){
-        pos.y = -20;
+        pos.y = 0;
     }
 
     if(pos.x >= ((map->width*50) - 30)){
-        pos.x = ((map->width*50) + 20);
+        pos.x = (map->width*50);
     }
 
     if(pos.y >= ((map->height*50) - 30)){
-        pos.y = ((map->height*50) + 20);
+        pos.y = (map->height*50);
     }
 
     return pos;
@@ -229,12 +229,33 @@ void MapState::GetMapSize(MapState::Map *map){
             else if(iterator == 1){
                 map->height = numint;
             }
+            else if(iterator == 2){
+                map->depth = numint;
+            }else if(iterator >= (((map->depth - map->collisionDepthOffset - 1) * (map->width*map->height)) + 3)){
+                if(map->tileMatrix.size() < (map->width*map->height)){
+                    map->tileMatrix.push_back(numint-1);
+                }
+            }
             iterator ++;
         }
     }else{
         std::cout << "Couldnt get Map Sizes: " << file << std::endl;
     }
     FileReader.close();
+}
+
+void MapState::PrintTileMap(MapState::Map *map,Vec2 pos){
+    windoweffects->FillRect(map->GetMapRect().Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),map->r,map->g,map->b,255);
+    map->printed = true;
+
+    for(int i = 0;i < map->height;i ++){
+        for(int j = 0;j < map->width;j++){
+            if(map->At(j,i) >= 0){
+                Rect printtileRect =  Rect(j*10,i*10,10,10);
+                windoweffects->FillRect(printtileRect.Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),10,10,10,255);
+            }
+        }
+    }
 }
 
 void MapState::Start(){
