@@ -49,6 +49,7 @@
         private:
             WindowEffects *windoweffects;
 
+            bool centeronplayer;
             GameObject *playerIcon;
             std::vector<Map*> maps;
     };

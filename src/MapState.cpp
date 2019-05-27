@@ -8,6 +8,7 @@ MapState::MapState(){
     this->windoweffects = new WindowEffects();
     Camera::pos.x = 0;
     Camera::pos.y = 0;
+    centeronplayer = false;
 
     playerIcon = new GameObject();
     Sprite *playersprite = new Sprite(*playerIcon,"assets/img/beltest2.png");
@@ -64,6 +65,11 @@ void MapState::PrintMap(MapState::Map *map,Vec2 pos){
             playerpos.x /= 5;
             playerpos.y /= 5;
             playerIcon->box.SetCenter(playerpos.Added(pos.x,pos.y));
+            if(!centeronplayer){    
+                Camera::pos = playerIcon->box.GetCenter().Added(-Camera::window.x/2,-Camera::window.y/2);
+                centeronplayer = true;
+            }
+
         }
         windoweffects->FillRect(map->GetMapRect().Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),map->r,map->g,map->b,255);
         map->printed = true;
@@ -237,15 +243,15 @@ void MapState::Start(){
     GetMapsInfo("assets/map/info/listOfMaps.txt");
     for(int i = 0;i < maps.size();i++){
         GetMapSize(maps[i]);
-        std::cout << maps[i]->mapInfoFile << std::endl;
-        std::cout << "\tWidth: " << maps[i]->width << std::endl;
-        std::cout << "\tHeight: " << maps[i]->height << std::endl;
-        std::cout << "\tCollision Depth: " << maps[i]->collisionDepthOffset << std::endl;
-        for(int j = 0;j < maps[i]->portals.size() ;j++){
-            std::cout << "\t" << maps[i]->portals[j]->mapInfoTo << std::endl;
-            std::cout << "\t\t" << maps[i]->portals[j]->PortalBox.x << " " << maps[i]->portals[j]->PortalBox.y << std::endl;
-            std::cout << "\t\t" << maps[i]->portals[j]->PortalPosTo.x << " " << maps[i]->portals[j]->PortalPosTo.y << std::endl;
-        }
+    //     std::cout << maps[i]->mapInfoFile << std::endl;
+    //     std::cout << "\tWidth: " << maps[i]->width << std::endl;
+    //     std::cout << "\tHeight: " << maps[i]->height << std::endl;
+    //     std::cout << "\tCollision Depth: " << maps[i]->collisionDepthOffset << std::endl;
+    //     for(int j = 0;j < maps[i]->portals.size() ;j++){
+    //         std::cout << "\t" << maps[i]->portals[j]->mapInfoTo << std::endl;
+    //         std::cout << "\t\t" << maps[i]->portals[j]->PortalBox.x << " " << maps[i]->portals[j]->PortalBox.y << std::endl;
+    //         std::cout << "\t\t" << maps[i]->portals[j]->PortalPosTo.x << " " << maps[i]->portals[j]->PortalPosTo.y << std::endl;
+    //     }
     }
 }
 
