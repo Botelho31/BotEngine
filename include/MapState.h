@@ -28,7 +28,6 @@
                             return tileMatrix[tilePlace];
                         }else{
                             int error = -1;
-                            // std::cout << "Tile not Located" << std::endl;
                             return error;
                         }
                     }
@@ -47,11 +46,12 @@
             void Update(float dt);
             void Render();
 
-            void PrintMap(Map *map,Vec2 pos);
-            void PrintTileMap(Map *map,Vec2 pos);
-            void GetMapsInfo(std::string maplistfile);
-            void GetMapSize(Map *map);
+            void PrintMap(Map *map,Vec2 pos); // Prints the WholeMap
+            void PrintTileMap(Map *map,Vec2 pos); //Prints a single TileMap at specified location
+            void GetMapsInfo(std::string maplistfile);  //Gets the map files
+            void GetMapSize(Map *map);  //Gets the map matrix and size
 
+            //Aproximate portaloc to side of map for printing
             Vec2 ApproximateToSideOfMap(Map *map,Rect pos);
             Vec2 ApproximateToSideOfMap(Map *map,Vec2 pos);
             
