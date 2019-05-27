@@ -173,7 +173,46 @@ std::string GameData::ParseTMX(std::string filetmx){
     FileReader.close();
 
     return newfilename;
-}   
+}  
+
+std::vector<int> GameData::ParseTileMap(std::string tilemapfile,int& width,int& height,int& depth){
+    if(GameData::GetExtension(tilemapfile) == "tmx"){
+        tilemapfile = GameData::ParseTMX(tilemapfile);
+    }
+    std::ifstream FileReader;
+    FileReader.open(tilemapfile);
+    std::stringstream num;
+    std::string number;
+    std::vector<int> tileMatrix;
+    int numint = 0;
+    int iterator = 0;
+    if (FileReader.is_open()) {
+        while (!FileReader.eof()) {
+            num.clear();
+            std::getline(FileReader, number, ',');
+            num << number;
+            num >> numint;
+            if(iterator == 0){
+                width = numint;
+            }
+            else if(iterator == 1){
+                height = numint;
+            }
+            else if(iterator == 2){
+                depth = numint;
+            }
+            else{
+                tileMatrix.push_back(numint-1);
+            }
+            iterator ++;
+        }
+    }else{
+        std::cout << "Couldnt open tilemap: " << tilemapfile << std::endl;
+    }
+    FileReader.close();
+
+    return tileMatrix;
+}
 
 std::string GameData::GetExtension(std::string file){
     std::stringstream filestream;

@@ -15,7 +15,8 @@
 
             static std::map<std::string,std::string> GetSpritesFiles(std::string spritesfile);
 
-            static std::string ParseTMX(std::string filetmx);
+            static std::string ParseTMX(std::string filetmx);   //Parses TMX and returns TXT tilemap file
+            static std::vector<int> ParseTileMap(std::string tilemapfile,int& width,int& height,int& depth); //Parses TXT tilemap and returns tilematrix
             static std::string GetExtension(std::string file);
             static std::string SetExtension(std::string file,std::string ext);
 

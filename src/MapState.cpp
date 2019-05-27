@@ -227,41 +227,12 @@ void MapState::GetMapsInfo(std::string maplistfile){
 }
 
 void MapState::GetMapSize(MapState::Map *map){
-    std::string file = map->mapFile;
-    if(GameData::GetExtension(file) == "tmx"){
-        file = GameData::ParseTMX(file);
-    }
-    std::ifstream FileReader;
-    FileReader.open(file);
-    std::stringstream num;
-    std::string number;
-    int numint = 0;
-    int iterator = 0;
-    if (FileReader.is_open()) {
-        while (!FileReader.eof()) {
-            num.clear();
-            std::getline(FileReader, number, ',');
-            num << number;
-            num >> numint;
-            if(iterator == 0){
-                map->width = numint;
-            }
-            else if(iterator == 1){
-                map->height = numint;
-            }
-            else if(iterator == 2){
-                map->depth = numint;
-            }else if(iterator >= (((map->depth - map->collisionDepthOffset - 1) * (map->width*map->height)) + 3)){
-                if(map->tileMatrix.size() < (map->width*map->height)){
-                    map->tileMatrix.push_back(numint-1);
-                }
-            }
-            iterator ++;
+    map->tileMatrix = GameData::ParseTileMap(map->mapFile,map->width,map->height,map->depth);
+    for(int i = map->tileMatrix.size();i >= 0;i --){
+        if(i < (((map->depth - map->collisionDepthOffset - 1) * (map->width*map->height)))){
+            map->tileMatrix.erase(map->tileMatrix.begin() + i);
         }
-    }else{
-        std::cout << "Couldnt get Map Sizes: " << file << std::endl;
     }
-    FileReader.close();
 }
 
 void MapState::PrintTileMap(MapState::Map *map,Vec2 pos){

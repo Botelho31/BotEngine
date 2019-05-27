@@ -24,40 +24,7 @@ TileMap::~TileMap(){
 }
 
 void TileMap::Load(std::string file){
-    if(GameData::GetExtension(file) == "tmx"){
-        file = GameData::ParseTMX(file);
-    }
-    std::ifstream FileReader;
-    FileReader.open(file);
-    std::stringstream num;
-    std::string number;
-    tileMatrix.clear();
-    int numint = 0;
-    int iterator = 0;
-    if (FileReader.is_open()) {
-        while (!FileReader.eof()) {
-            num.clear();
-            std::getline(FileReader, number, ',');
-            num << number;
-            num >> numint;
-            if(iterator == 0){
-                this->mapWidth = numint;
-            }
-            else if(iterator == 1){
-                this->mapHeight = numint;
-            }
-            else if(iterator == 2){
-                this->mapDepth = numint;
-            }
-            else{
-                this->tileMatrix.push_back(numint-1);
-            }
-            iterator ++;
-        }
-    }else{
-        std::cout << "Couldnt open tilemap: " << file << std::endl;
-    }
-    FileReader.close();
+    tileMatrix = GameData::ParseTileMap(file,mapWidth,mapHeight,mapDepth);
     associated.box.w = this->mapWidth * tileSet->GetTileWidth();
     associated.box.h = this->mapHeight * tileSet->GetTileHeight();
     Camera::limit.x = associated.box.w;
