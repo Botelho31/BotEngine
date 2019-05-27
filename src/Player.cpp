@@ -586,9 +586,10 @@ void Player::MovePlayer(float x,float y,bool keepMomentum){
         speed.y = 0;
         speed.x = 0;
     }
-    associated.box.x = x - associated.box.w/2;
-    associated.box.y = y - associated.box.h/2;
-    physics->GetCollider()->Update(0);
+    std::cout << x << " " << y << std::endl;
+    physics->GetCollider()->box.x = x - physics->GetCollider()->box.w/2;
+    physics->GetCollider()->box.y = y - physics->GetCollider()->box.h/2;
+    physics->GetCollider()->UpdateAssociated();
 }
 
 void Player::Render(){

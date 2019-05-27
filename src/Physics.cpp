@@ -105,9 +105,9 @@ void Physics::CorrectDistance(){
             }
         }
         #ifdef DEBUG
-        // for(int i = 0;i < disttofix.size();i++){
-        //     std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
-        // }
+        for(int i = 0;i < disttofix.size();i++){
+            std::cout << i << " " << disttofix[i] << " " << dists[disttofix[i]] << std::endl;   
+        }
         #endif
         if(!disttofix.empty()){
             if(disttofix[0] == 0){

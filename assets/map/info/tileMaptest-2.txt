@@ -8,8 +8,8 @@ MapInfo
 Portal
   [
     portalBox 2900 1350 200 200
-    portalX 80
-    portalY 1530
+    portalX 50
+    portalY 1479
     tilemapinfofile assets/map/info/tileMaptest-1.txt
   ]
 

@@ -119,7 +119,7 @@ void StageState::Update(float dt){
     }
 
     if(input->KeyPress(SDLK_m)){
-         if(GameData::events.size() == 0){
+         if(!windoweffects->Drawing()){
             MapState* mapstate = new MapState();
             Game::GetInstance().Push(mapstate);
         }
