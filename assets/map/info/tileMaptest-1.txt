@@ -22,9 +22,9 @@ Portal
 
 Portal
   [
-    portalBox 4200 530 200 300
-    portalX 50
-    portalY 1480
+    portalBox 4100 530 200 300
+    portalX 25
+    portalY 1380
     tilemapinfofile assets/map/info/BOSSROOM.txt
   ]
   
