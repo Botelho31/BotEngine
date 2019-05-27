@@ -236,3 +236,24 @@ std::string GameData::SetExtension(std::string file,std::string ext){
 
     return newfilestream.str();
 }
+
+Vec2 GameData::GetSizeOfPng(std::string pngfile){
+    Vec2 size;
+    FILE *f=fopen(pngfile.c_str(),"rb");
+    if (f==0){
+        return Vec2(0,0);
+    }
+    fseek(f,0,SEEK_END);
+    long len=ftell(f);
+    fseek(f,0,SEEK_SET);
+    if (len<24) {
+        fclose(f);
+        return Vec2(0,0);
+    }
+    unsigned char buf[24]; fread(buf,1,24,f);
+
+    size.x = (buf[16]<<24) + (buf[17]<<16) + (buf[18]<<8) + (buf[19]<<0);
+    size.y = (buf[20]<<24) + (buf[21]<<16) + (buf[22]<<8) + (buf[23]<<0);
+
+    return size;
+}

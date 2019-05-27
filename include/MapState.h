@@ -38,6 +38,7 @@
                     std::string mapInfoFile;
                     int width,height,depth;
                     int collisionDepthOffset;
+                    std::vector<Rect> fakewalls;
                     std::vector<Portal*> portals;
             };
             MapState();

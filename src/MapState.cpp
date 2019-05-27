@@ -18,6 +18,8 @@ MapState::MapState(){
     playersprite->SetScaleX(0.2,0.2);
     playerIcon->AddComponent(playersprite);
     AddObject(playerIcon);
+
+    Vec2 size = GameData::GetSizeOfPng("assets/img/FAKEWALL.png");
 }
 
 MapState::~MapState(){
@@ -188,7 +190,7 @@ void MapState::GetMapsInfo(std::string maplistfile){
                         map->collisionDepthOffset = collisionDepthOffset;
                         map->mapFile = newmapfile;
                     }
-                    if(checkline == "Portal"){        
+                    else if(checkline == "Portal"){        
                         Rect portalbox;
                         Vec2 portalloc;
                         std::string tilemapinfofile;
@@ -210,6 +212,23 @@ void MapState::GetMapsInfo(std::string maplistfile){
                         portal->PortalBox = portalbox;
                         portal->PortalPosTo = portalloc;
                         map->portals.emplace_back(portal);
+                    }
+                    else if(checkline == "FakeWall"){
+                        Vec2 pos;
+                        std::string sprite;
+                        Vec2 sizeofsprite;
+                        while(checkline != "pos"){
+                            FileReaderpermap >> checkline;
+                        } 
+                        FileReaderpermap >> pos.x;
+                        FileReaderpermap >> pos.y;
+                        FileReaderpermap >> checkline;
+                        FileReaderpermap >> sprite;
+                        FileReaderpermap >> checkline;
+                        FileReaderpermap >> checkline;
+                        sizeofsprite = GameData::GetSizeOfPng(sprite);
+                        Rect fakewall = Rect(pos.x,pos.y,sizeofsprite.x,sizeofsprite.y);
+                        map->fakewalls.push_back(fakewall);
                     }
                 }
                 maps.emplace_back(map);
@@ -247,6 +266,14 @@ void MapState::PrintTileMap(MapState::Map *map,Vec2 pos){
                 windoweffects->FillRect(printtileRect.Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),10,10,10,255);
             }
         }
+    }
+    for(int i = 0;i < map->fakewalls.size();i++){
+        Rect fakewall = map->fakewalls[i];
+        fakewall.x /= sizeOfTile.x/printSize.x; 
+        fakewall.y /= sizeOfTile.y/printSize.y;
+        fakewall.w /= sizeOfTile.x/printSize.x;
+        fakewall.h /= sizeOfTile.y/printSize.y;
+        windoweffects->FillRect(fakewall.Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),10,10,10,255);
     }
 }
 
