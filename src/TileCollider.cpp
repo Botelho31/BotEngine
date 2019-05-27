@@ -30,6 +30,7 @@ TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving) :
 	}
 	pressing = false;
  	deleted = false;
+	marked = false;
 	associated.box = tilebox;
 }
 
@@ -37,6 +38,16 @@ void TileCollider::Start(){
 }
 
 void TileCollider::Update(float dt){
+	#ifdef DEBUG
+		if(marked){
+			ENDLINE
+			std::cout << associated.box.x << " " << associated.box.y << " " << associated.box.w << " " << associated.box.h << std::endl;
+			std::cout << down << " " << up << " " << right << " " << left << std::endl;
+			std::cout << maxX << " " << maxY << std::endl;
+			std::cout << adjusted << std::endl;
+		}
+	#endif
+
 	if(moving){
 		box = associated.box.Added(25,30,-30,-30);
 	}else{
@@ -66,10 +77,6 @@ void TileCollider::Update(float dt){
 		if((up) && (down)){
 			maxY = true;
 		}
-		// ENDLINE
-		// std::cout << associated.box.x << " " << associated.box.y << " " << associated.box.w << " " << associated.box.h << std::endl;
-		// std::cout << down << " " << up << " " << right << " " << left << std::endl;
-		// std::cout << maxX << " " << maxY << std::endl;
 	}else{
 		if((!moving) && (!adjusted)){
 			//ADJUSTMENTS FOR EDGES OF MAP
@@ -93,6 +100,7 @@ void TileCollider::Update(float dt){
 				associated.box.h -= 30;
 				associated.box.y += 30;
 			}
+			box = associated.box;
 			adjusted = true;
 		}	
 	}
@@ -112,7 +120,11 @@ void TileCollider::Render() {
 #ifdef DEBUG
 	InputManager *input = &(InputManager::GetInstance());
 	if(input->IsKeyDown(SDLK_EQUALS)){
-		WindowEffects::DrawBox(box,ToPI(associated.angleDeg),0,255,255);
+		if(marked){
+			WindowEffects::DrawBox(box,ToPI(associated.angleDeg),0,0,255);
+		}else{
+			WindowEffects::DrawBox(box,ToPI(associated.angleDeg),0,255,255);
+		}
 	}
 #endif // DEBUG
 }

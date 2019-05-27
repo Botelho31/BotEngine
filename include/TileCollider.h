@@ -17,7 +17,6 @@
             void NotifyCollision(GameObject& other);
             void NotifyMobCollision(GameObject& other);
             bool CanMove(Vec2 vector);
-
             float Ceiling(float number);
             
             bool moving;
@@ -33,6 +32,8 @@
 
             bool pressing;
             bool deleted;
+
+            bool marked; // FOR DEBUGGING
             Rect box;
     };
 
