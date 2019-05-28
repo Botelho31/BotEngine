@@ -350,12 +350,18 @@ void Player::YMovement(float dt){
         if(physics->IsRight()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
-            SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
+            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30){
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                cachepoint = smoke1;
+            }
         }
         if(physics->IsLeft()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y);
-            SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
+            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30){
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                cachepoint = smoke1;
+            }
         }
     }
 
@@ -380,16 +386,16 @@ void Player::YMovement(float dt){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
                 Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
-                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
-                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke2);
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke2);
                 speed.y = ajump;
                 speed.x = -awalljump;
             }else if(physics->IsLeft()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x,collider.y);
                 Vec2 smoke2 = Vec2(collider.x,collider.y + collider.h);
-                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
-                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke2);
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke2);
                 speed.y = ajump;
                 speed.x = awalljump;
             }

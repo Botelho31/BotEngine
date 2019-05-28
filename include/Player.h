@@ -87,6 +87,8 @@
             Sprite *playersprite;
             InputManager *input;
             Physics *physics;
+
+            Vec2 cachepoint;
     };
 
 #endif

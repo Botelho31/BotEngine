@@ -175,7 +175,7 @@ void Minion::KillMinion(){
     GameObject *deadObj = new GameObject();
     int animrand = rand() % 2 + 1;
     if(animrand == 1){
-        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadbehind"],32,0.04,0,false,true);
+        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadbehind"],34,0.04,0,false,true);
         int xoffset = -40;
         if(minionsprite->IsFlipped()){
             deadsprite->Flip();
