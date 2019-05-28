@@ -405,16 +405,24 @@ void Player::YMovement(float dt){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
                 Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
-                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
-                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke2);
+                if(physics->IsColliding(Rect(smoke1.Added(1,0),1,1))){
+                    SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                }
+                if(physics->IsColliding(Rect(smoke2.Added(1,0),1,1))){
+                    SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke2);
+                }
                 speed.y = ajump;
                 speed.x = -awalljump;
             }else if(physics->IsLeft()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x,collider.y);
                 Vec2 smoke2 = Vec2(collider.x,collider.y + collider.h);
-                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
-                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke2);
+                if(physics->IsColliding(Rect(smoke1.Added(-1,0),1,1))){
+                    SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                }
+                if(physics->IsColliding(Rect(smoke2.Added(-1,0),1,1))){
+                    SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke2);
+                }
                 speed.y = ajump;
                 speed.x = awalljump;
             }
