@@ -10,6 +10,7 @@
     attacking2 assets/img/belattack2test3.png
     hittheground assets/img/belhitthegroundtest4.png
     smoke assets/img/smoketest.png
+    smoke2 assets/img/smoke2test.png
     spark assets/img/sparktest.png
     transparent assets/img/beltransparent.png
 ]

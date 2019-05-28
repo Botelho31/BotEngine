@@ -350,12 +350,12 @@ void Player::YMovement(float dt){
         if(physics->IsRight()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
-            SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
+            SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
         }
         if(physics->IsLeft()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y);
-            SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
+            SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
         }
     }
 
@@ -380,16 +380,16 @@ void Player::YMovement(float dt){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
                 Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
-                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
-                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke2);
+                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
+                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke2);
                 speed.y = ajump;
                 speed.x = -awalljump;
             }else if(physics->IsLeft()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x,collider.y);
                 Vec2 smoke2 = Vec2(collider.x,collider.y + collider.h);
-                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke1);
-                SpriteEffect(spritefiles["spark"],4,0.02,0.08,smoke2);
+                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke1);
+                SpriteEffect(spritefiles["smoke2"],5,0.02,0.08,smoke2);
                 speed.y = ajump;
                 speed.x = awalljump;
             }

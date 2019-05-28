@@ -31,6 +31,8 @@
             void SpawnEye(Vec2 pos);
             void SpawnMinion();
 
+            static void HandHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the hand
+
         private:
             enum bossState{IDLE,CHASING,ATTACKING};
             bossState state;
