@@ -41,6 +41,9 @@ void MapState::Update(float dt){
 	if(input->QuitRequested()){
 		quitRequested = true;
 	}
+    if(input->KeyPress(ESCAPE_KEY)){
+        popRequested = true;
+    }
     if(input->KeyPress(SDLK_m)){
         popRequested = true;
     }
@@ -256,14 +259,21 @@ void MapState::GetMapSize(MapState::Map *map){
 
 void MapState::PrintTileMap(MapState::Map *map,Vec2 pos){
     Vec2 aproxprintsize = printSize;
-    windoweffects->FillRect(map->GetMapRect(aproxprintsize).Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),map->r,map->g,map->b,255);
+    Rect maprect = map->GetMapRect(aproxprintsize).Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y);
+    maprect.x += 2;
+    maprect.y += 2;
+    maprect.w -= 4;
+    maprect.h -= 4;
+    // maprect.w = round(maprect.w);
+    // maprect.h = round(maprect.h);
+    windoweffects->FillRect(maprect,map->r,map->g,map->b,255);
     map->printed = true;
 
     for(int i = 0;i < map->height;i ++){
         for(int j = 0;j < map->width;j++){
             if(map->At(j,i) >= 0){
-                Rect printtileRect =  Rect(j*printSize.x,i*printSize.y,ceil(printSize.x) + 1,ceil(printSize.y) + 1);
-                windoweffects->FillRect(printtileRect.Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),10,10,10,255);
+                Rect printtileRect =  Rect(j*printSize.x,i*printSize.y,ceil(printSize.x) + 1,ceil(printSize.y) + 1).Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y);            
+                windoweffects->FillRect(printtileRect,0,0,0,255);
             }
         }
     }
@@ -273,7 +283,7 @@ void MapState::PrintTileMap(MapState::Map *map,Vec2 pos){
         fakewall.y /= sizeOfTile.y/printSize.y;
         fakewall.w /= sizeOfTile.x/printSize.x;
         fakewall.h /= sizeOfTile.y/printSize.y;
-        windoweffects->FillRect(fakewall.Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),10,10,10,255);
+        windoweffects->FillRect(fakewall.Added(pos.x -Camera::pos.x,pos.y -Camera::pos.y),0,0,0,255);
     }
 }
 
