@@ -275,6 +275,25 @@ void Player::XMovement(float dt){
         running = false;
     }
 
+    if(running){
+        std::cout << "running" << dt << std::endl;
+        if(playersprite->IsFlipped()){
+            Collider *collider = physics->GetCollider();
+            Vec2 smoke1 = Vec2(collider->box.x + collider->box.w,collider->box.y + collider->box.h).Added(25,-25);
+            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 150){
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                cachepoint = smoke1;
+            }
+        }else{
+            Collider *collider = physics->GetCollider();
+            Vec2 smoke1 = Vec2(collider->box.x,collider->box.y + collider->box.h).Added(-25,-25);
+            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 150){
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                cachepoint = smoke1;
+            }
+        }
+    }
+
     if(input->IsKeyDown(SDLK_d) && !input->IsKeyDown(SDLK_a)){
         if(playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
@@ -350,7 +369,7 @@ void Player::YMovement(float dt){
         if(physics->IsRight()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
-            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30){
+            if((smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30) && physics->IsColliding(Rect(smoke1.Added(1,0),1,1))){
                 SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
                 cachepoint = smoke1;
             }
@@ -358,7 +377,7 @@ void Player::YMovement(float dt){
         if(physics->IsLeft()){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y);
-            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30){
+            if((smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30) && physics->IsColliding(Rect(smoke1.Added(-1,0),1,1))){
                 SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
                 cachepoint = smoke1;
             }
