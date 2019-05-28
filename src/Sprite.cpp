@@ -80,7 +80,9 @@ void Sprite::SetFrame(int frame){
 }
 
 void Sprite::SetFrameCount(int frameCount){
-    currentFrame = 0;
+    if(frameCount > 0){
+        currentFrame = 0;
+    } 
     this->frameCount = frameCount;
 }
 

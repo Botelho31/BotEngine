@@ -370,7 +370,7 @@ void Player::YMovement(float dt){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
             if((smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30) && physics->IsColliding(Rect(smoke1.Added(1,0),1,1))){
-                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                SpriteEffect(spritefiles["smoke2"],6,0.05,0.25,smoke1);
                 cachepoint = smoke1;
             }
         }
@@ -378,7 +378,7 @@ void Player::YMovement(float dt){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y);
             if((smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30) && physics->IsColliding(Rect(smoke1.Added(-1,0),1,1))){
-                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                SpriteEffect(spritefiles["smoke2"],6,0.05,0.25,smoke1);
                 cachepoint = smoke1;
             }
         }
