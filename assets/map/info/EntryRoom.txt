@@ -7,7 +7,7 @@ MapInfo
 
 Portal
   [
-    portalBox 200 1850 200 200
+    portalBox 200 1850 250 200
     portalX 970
     portalY 0
     tilemapinfofile assets/map/info/MiddleTerm.txt
