@@ -1,0 +1,8 @@
+[
+    idle        assets/img/flyingminionidletest.png
+    walking     assets/img/flyingminionidletest.png
+    attacking   assets/img/flyingminionidletest.png
+    deadfront   assets/img/flyingminionidletest.png
+    deadbehind  assets/img/flyingminionidletest.png
+    damage      assets/img/flyingminionidletest.png
+]
