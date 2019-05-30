@@ -7,8 +7,8 @@ MapInfo
 
 Portal
   [
-    portalBox 1850 750 200 200
-    portalX 50
-    portalY 0
+    portalBox 1850 2500 200 300
+    portalX 30
+    portalY 2580
     tilemapinfofile assets/map/info/Room-1.txt
   ]

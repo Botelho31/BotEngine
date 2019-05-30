@@ -4,3 +4,11 @@ MapInfo
     collisionDepth 0
     parallaxDepth 0
   ]
+
+Portal
+  [
+    portalBox 0 2450 200 200
+    portalX 1940
+    portalY 2630
+    tilemapinfofile assets/map/info/MiddleTerm.txt
+  ]

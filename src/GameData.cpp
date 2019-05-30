@@ -70,6 +70,7 @@ void GameData::LoadGame(){
         std::cout << "No Save File Found" << std::endl; //Printa um erro caso nao consiga dar load na file
         checkpointMapInfo = "assets/map/info/EntryRoom.txt";
         checkpointPos = Vec2(3120,1530);
+        savePlayerHealth = 150;
         savePlayerPos = checkpointPos;
     }
     playerAlive = true;
