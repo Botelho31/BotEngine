@@ -68,8 +68,8 @@ void GameData::LoadGame(){
     }else{
         ENDLINE
         std::cout << "No Save File Found" << std::endl; //Printa um erro caso nao consiga dar load na file
-        checkpointMapInfo = "assets/map/info/tileMaptest-1.txt";
-        checkpointPos = Vec2(100,500);
+        checkpointMapInfo = "assets/map/info/EntryRoom.txt";
+        checkpointPos = Vec2(3120,1530);
         savePlayerPos = checkpointPos;
     }
     playerAlive = true;

@@ -8,9 +8,9 @@ MapInfo
 Portal
   [
     portalBox 0 1280 200 200
-    portalX 4200
-    portalY 630
-    tilemapinfofile assets/map/info/tileMaptest-1.txt
+    portalX 4175
+    portalY 1530
+    tilemapinfofile assets/map/info/EntryRoom.txt
   ]
   
 Boss

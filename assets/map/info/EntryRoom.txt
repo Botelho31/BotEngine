@@ -1,0 +1,22 @@
+MapInfo
+  [
+    mapFile assets/map/EntryRoom.tmx
+    collisionDepth 1
+    parallaxDepth 0
+  ]
+
+Portal
+  [
+    portalBox 200 1850 200 200
+    portalX 970
+    portalY 0
+    tilemapinfofile assets/map/info/MiddleTerm.txt
+  ]
+
+Portal
+  [
+    portalBox 4042 1428 200 200
+    portalX 20
+    portalY 1380
+    tilemapinfofile assets/map/info/BOSSROOM.txt
+  ]

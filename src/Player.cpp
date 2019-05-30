@@ -275,8 +275,8 @@ void Player::XMovement(float dt){
         running = false;
     }
 
+    //Smoke on running printign
     if(running){
-        std::cout << "running" << dt << std::endl;
         if(playersprite->IsFlipped()){
             Collider *collider = physics->GetCollider();
             Vec2 smoke1 = Vec2(collider->box.x + collider->box.w,collider->box.y + collider->box.h).Added(25,-25);

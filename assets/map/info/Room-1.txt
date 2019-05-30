@@ -1,0 +1,6 @@
+MapInfo
+  [
+    mapFile assets/map/Room-1.tmx
+    collisionDepth 0
+    parallaxDepth 0
+  ]

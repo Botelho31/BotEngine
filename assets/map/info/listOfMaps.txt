@@ -1,4 +1,3 @@
-tileMaptest-1.txt
+EntryRoom.txt
 BOSSROOM.txt
-tileMaptest-2.txt
-tileMaptest-3.txt
+MiddleTerm.txt

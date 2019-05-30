@@ -418,7 +418,7 @@ bool StageState::ChangingMap(){
 }
 
 void StageState::Start(){
-    windoweffects->FadeToBlack(0.5);
+    // windoweffects->FadeToBlack(0.5);
     
     //LOADS THE GAME DATA
     GameData::LoadGame();
