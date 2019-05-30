@@ -114,6 +114,7 @@ std::map<std::string,std::string> GameData::GetSpritesFiles(std::string spritesf
 std::string GameData::ParseTMX(std::string filetmx){
 
     std::string newfilename = SetExtension(filetmx,"txt");
+   newfilename = AddToPath(newfilename,"txts");
     std::ifstream FileReader;
     FileReader.open(filetmx);
     std::string checkline;
@@ -234,6 +235,26 @@ std::string GameData::SetExtension(std::string file,std::string ext){
     std::stringstream newfilestream;
     newfilestream << checkfile;
     newfilestream << "." << ext;
+
+    return newfilestream.str();
+}
+
+std::string GameData::AddToPath(std::string file,std::string newpath){
+    std::string checkline;
+    std::stringstream newfilestream;
+    std::stringstream filestream;
+    std::vector<std::string> path;
+    filestream << file;
+    while(!filestream.eof()){
+        std::getline(filestream,checkline,'/');
+        path.push_back(checkline);
+    }
+
+    for(int i = 0;i < path.size() - 1;i++){
+        newfilestream << path[i] << "/";
+    }
+    newfilestream << newpath << "/";
+    newfilestream << path[path.size() - 1];
 
     return newfilestream.str();
 }

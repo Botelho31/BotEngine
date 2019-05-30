@@ -19,6 +19,7 @@
             static std::vector<int> ParseTileMap(std::string tilemapfile,int& width,int& height,int& depth); //Parses TXT tilemap and returns tilematrix
             static std::string GetExtension(std::string file);
             static std::string SetExtension(std::string file,std::string ext);
+            static std::string AddToPath(std::string file,std::string newpath);
             static Vec2 GetSizeOfPng(std::string pngfile);
 
             static bool playerAlive;
