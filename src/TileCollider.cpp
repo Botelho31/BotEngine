@@ -6,6 +6,7 @@
 #include "../include/Collision.h"
 #include "../include/Collider.h"
 #include "../include/Physics.h"
+#include "../include/StageState.h"
 
 TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving) : 
     Component(associated),box(tilebox){
@@ -78,7 +79,7 @@ void TileCollider::Update(float dt){
 			maxY = true;
 		}
 	}else{
-		if((!moving) && (!adjusted)){
+		if((!moving) && (!adjusted) && (StageState::LoadedTileColliders())){
 			//ADJUSTMENTS FOR EDGES OF MAP
 			if((associated.box.x + associated.box.w + 1) > Camera::limit.x){
 				associated.box.w += 50;

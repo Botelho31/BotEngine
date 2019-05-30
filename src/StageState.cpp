@@ -25,6 +25,8 @@
 #include "../include/MapState.h"
 
 bool StageState::changingMap;
+bool StageState::mapcollision;
+bool StageState::loadedTileColliders;
 
 StageState::StageState(){
     quitRequested = false;
@@ -204,14 +206,20 @@ void StageState::Render(){
 
 void StageState::ExpandTileColliders(){
     bool mapcollisionloaded = true;
+    bool adjustedtilecolliders = true;
+    loadedTileColliders = false;
+
     int notloaded = 0;
     for(unsigned int i = 0; i < objectArray.size();i++){
         Component *component1 = objectArray[i]->GetComponent("TileCollider");
         if(component1){
             TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
-            if((!tilecollider1->maxX || !tilecollider1->maxY || !tilecollider1->adjusted) && !tilecollider1->moving){
+            if((!tilecollider1->maxX || !tilecollider1->maxY) && !tilecollider1->moving){
                 mapcollisionloaded = false;
                 notloaded ++;
+            }
+            if(!tilecollider1->adjusted){
+                adjustedtilecolliders = false;
             }
             if((i + 1) < objectArray.size()){
                 for(unsigned int j = i + 1; j < objectArray.size();j++){
@@ -231,6 +239,9 @@ void StageState::ExpandTileColliders(){
         std::cout << floor((1 - (float)notloaded/(float)initialtiles)*100) << "% \tOf Map Loaded" <<   std::endl;
     #endif
     if(mapcollisionloaded){
+        loadedTileColliders = true;
+    }
+    if(mapcollisionloaded && adjustedtilecolliders){
         ENDLINE
         std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
@@ -480,4 +491,12 @@ void StageState::Resume(){
     Event *unpauseevent = new Event(*unpauseeventObj,Event::UNPAUSE,0.5);
     unpauseeventObj->AddComponent(unpauseevent);
     GameData::events.push(unpauseevent);
+}
+
+bool StageState::MapCollisionLoaded(){
+    return mapcollision;
+}
+
+bool StageState::LoadedTileColliders(){
+    return loadedTileColliders;
 }
