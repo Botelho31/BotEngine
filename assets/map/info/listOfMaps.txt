@@ -2,3 +2,4 @@ EntryRoom.txt
 BOSSROOM.txt
 MiddleTerm.txt
 Room-1.txt
+Room-2.txt
