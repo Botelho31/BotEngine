@@ -1,8 +1,8 @@
 Save
 	[
-		mapInfo assets/map/info/MiddleTerm.txt
-		playerPos 1082.6 3780.35
+		mapInfo assets/map/info/Room-6.txt
+		playerPos 3255.15 1380
 		playerLife 150
-		checkpointPos 0 3380
-		checkpointPosSpeed 600 0
+		checkpointPos 3250 1380
+		checkpointPosSpeed -444 0
 	]

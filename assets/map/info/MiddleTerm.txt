@@ -20,3 +20,19 @@ Portal
     portalY 2780
     tilemapinfofile assets/map/info/Room-2.txt
   ]
+
+Portal
+  [
+    portalBox 1850 4350 200 250
+    portalX 40
+    portalY 1530
+    tilemapinfofile assets/map/info/Room-3.txt
+  ]
+
+Portal
+  [
+    portalBox 850 5102 300 250
+    portalX 400
+    portalY 0
+    tilemapinfofile assets/map/info/MiddleTerm2.txt
+  ]

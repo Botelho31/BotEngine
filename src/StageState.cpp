@@ -200,7 +200,6 @@ void StageState::Render(){
         objectArray[i]->Render();
     }
     tilemap->RenderForeGround();
-    //light->Render();
     windoweffects->Render();
 }
 
@@ -216,7 +215,10 @@ void StageState::ExpandTileColliders(){
             TileCollider *tilecollider1 = dynamic_cast<TileCollider*>(component1);
             if((!tilecollider1->maxX || !tilecollider1->maxY) && !tilecollider1->moving){
                 mapcollisionloaded = false;
+                // tilecollider1->marked = true;
                 notloaded ++;
+            }else{
+                // tilecollider1->marked = false;
             }
             if(!tilecollider1->adjusted){
                 adjustedtilecolliders = false;
@@ -429,7 +431,7 @@ bool StageState::ChangingMap(){
 }
 
 void StageState::Start(){
-    // windoweffects->FadeToBlack(0.5);
+    windoweffects->FadeToBlack(0.5);
     
     //LOADS THE GAME DATA
     GameData::LoadGame();

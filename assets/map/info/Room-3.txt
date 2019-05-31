@@ -1,0 +1,14 @@
+MapInfo
+  [
+    mapFile assets/map/Room-3.tmx
+    collisionDepth 1
+    parallaxDepth 2
+  ]
+
+Portal
+  [
+    portalBox 0 1400 200 200
+    portalX 1940
+    portalY 4480
+    tilemapinfofile assets/map/info/MiddleTerm.txt
+  ]

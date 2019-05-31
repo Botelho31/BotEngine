@@ -179,6 +179,15 @@ void TileCollider::NotifyCollision(GameObject& other){
 					}else if(tilecollider->box.y >= associated.box.y + associated.box.h){
 						down = true;
 					}
+					if(!tilecollider->maxX){
+						if((tilecollider->box.h != associated.box.h) || (tilecollider->box.y != associated.box.y)){
+							if(tilecollider->box.x < associated.box.x){
+								left = true;
+							}else{
+								right = true;
+							}
+						}
+					}
 				}
 			}
 		}
