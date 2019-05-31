@@ -82,7 +82,10 @@ void MapState::Render(){
     for(int i = 0;i < maps.size();i++){
         maps[i]->printed = false;
     }
-    if(maps.size() > 0){
+    // if(maps.size() > 0){
+    //     PrintMap(maps[0],{0,0});
+    // }
+    for(int i = 0;i < maps.size();i++){
         PrintMap(maps[0],{0,0});
     }
     RenderArray();
@@ -165,95 +168,86 @@ Vec2 MapState::ApproximateToSideOfMap(Map *map,Vec2 pos){
     return pos;
 }
 
-void MapState::GetMapsInfo(std::string maplistfile){
-    std::fstream FileReader;
-    FileReader.open(maplistfile);
+void MapState::GetMapsInfo(){
     std::string mapfile;
-
-    if (FileReader.is_open()) {
-        while (!FileReader.eof()) {
-            mapfile.clear();
-            FileReader >> mapfile;
-            std::stringstream mapPrefix;
-            mapPrefix << "assets/map/info/" << mapfile;
-            mapfile = mapPrefix.str();
-            mapPrefix.clear();
-            std::fstream FileReaderpermap;
-            FileReaderpermap.open(mapfile);
-            std::string checkline;
-            if (FileReaderpermap.is_open()) {
-                Map *map =  new Map();
-                map->r  = (rand() % 255) + 1;
-                map->g = (rand() % 255) + 1;
-                map->b = (rand() % 255) + 1;
-                map->mapInfoFile = mapfile;
-                while (!FileReaderpermap.eof()){
+    std::fstream FileReaderpermap;
+    std::string checkline;
+    std::cout << GameData::listOfDiscoveredMaps.size() << std::endl;
+    for(int i = 0;i < GameData::listOfDiscoveredMaps.size();i++){
+        mapfile = GameData::listOfDiscoveredMaps[i];
+        FileReaderpermap.open(mapfile);
+        if (FileReaderpermap.is_open()) {
+            Map *map =  new Map();
+            map->r  = (rand() % 255) + 1;
+            map->g = (rand() % 255) + 1;
+            map->b = (rand() % 255) + 1;
+            map->mapInfoFile = mapfile;
+            while (!FileReaderpermap.eof()){
+                FileReaderpermap >> checkline;
+                if(checkline == "MapInfo"){ 
+                    std::string newmapfile; 
+                    int collisionDepthOffset;      
+                    while(checkline != "mapFile"){
+                        FileReaderpermap >> checkline;
+                    }   
+                    FileReaderpermap >> newmapfile;
                     FileReaderpermap >> checkline;
-                    if(checkline == "MapInfo"){ 
-                        std::string newmapfile; 
-                        int collisionDepthOffset;      
-                        while(checkline != "mapFile"){
-                            FileReaderpermap >> checkline;
-                        }   
-                        FileReaderpermap >> newmapfile;
-                        FileReaderpermap >> checkline;
-                        FileReaderpermap >> collisionDepthOffset;
-                        map->collisionDepthOffset = collisionDepthOffset;
-                        map->mapFile = newmapfile;
-                    }
-                    else if(checkline == "Portal"){        
-                        Rect portalbox;
-                        Vec2 portalloc;
-                        std::string tilemapinfofile;
-                        while(checkline != "portalBox"){
-                            FileReaderpermap >> checkline;
-                        }   
-                        FileReaderpermap >> portalbox.x;
-                        FileReaderpermap >> portalbox.y;
-                        FileReaderpermap >> portalbox.w;
-                        FileReaderpermap >> portalbox.h;
-                        FileReaderpermap >> checkline;
-                        FileReaderpermap >> portalloc.x;
-                        FileReaderpermap >> checkline;
-                        FileReaderpermap >> portalloc.y;  
-                        FileReaderpermap >> checkline;
-                        FileReaderpermap >> tilemapinfofile;
-                        Portal *portal = new Portal();
-                        portal->mapInfoTo = tilemapinfofile;
-                        portal->PortalBox = portalbox;
-                        portal->PortalPosTo = portalloc;
-                        map->portals.emplace_back(portal);
-                    }
-                    else if(checkline == "FakeWall"){
-                        Vec2 pos;
-                        std::string sprite;
-                        Vec2 sizeofsprite;
-                        while(checkline != "pos"){
-                            FileReaderpermap >> checkline;
-                        } 
-                        FileReaderpermap >> pos.x;
-                        FileReaderpermap >> pos.y;
-                        FileReaderpermap >> checkline;
-                        FileReaderpermap >> sprite;
-                        FileReaderpermap >> checkline;
-                        FileReaderpermap >> checkline;
-                        sizeofsprite = GameData::GetSizeOfPng(sprite);
-                        Rect fakewall = Rect(pos.x,pos.y,sizeofsprite.x,sizeofsprite.y);
-                        map->fakewalls.push_back(fakewall);
-                    }
+                    FileReaderpermap >> collisionDepthOffset;
+                    map->collisionDepthOffset = collisionDepthOffset;
+                    map->mapFile = newmapfile;
                 }
-                maps.emplace_back(map);
-            }else{
-                ENDLINE
-                std::cout << "No Map File Found: " << mapfile << std::endl; //Printa um erro caso nao consiga dar load na file
-                FileReaderpermap.close();
+                else if(checkline == "Portal"){        
+                    Rect portalbox;
+                    Vec2 portalloc;
+                    std::string tilemapinfofile;
+                    while(checkline != "portalBox"){
+                        FileReaderpermap >> checkline;
+                    }   
+                    FileReaderpermap >> portalbox.x;
+                    FileReaderpermap >> portalbox.y;
+                    FileReaderpermap >> portalbox.w;
+                    FileReaderpermap >> portalbox.h;
+                    FileReaderpermap >> checkline;
+                    FileReaderpermap >> portalloc.x;
+                    FileReaderpermap >> checkline;
+                    FileReaderpermap >> portalloc.y;  
+                    FileReaderpermap >> checkline;
+                    FileReaderpermap >> tilemapinfofile;
+                    Portal *portal = new Portal();
+                    portal->mapInfoTo = tilemapinfofile;
+                    portal->PortalBox = portalbox;
+                    portal->PortalPosTo = portalloc;
+                    map->portals.emplace_back(portal);
+                }
+                else if(checkline == "FakeWall"){
+                    Vec2 pos;
+                    std::string sprite;
+                    Vec2 sizeofsprite;
+                    while(checkline != "pos"){
+                        FileReaderpermap >> checkline;
+                    } 
+                    FileReaderpermap >> pos.x;
+                    FileReaderpermap >> pos.y;
+                    FileReaderpermap >> checkline;
+                    FileReaderpermap >> sprite;
+                    FileReaderpermap >> checkline;
+                    FileReaderpermap >> checkline;
+                    sizeofsprite = GameData::GetSizeOfPng(sprite);
+                    Rect fakewall = Rect(pos.x,pos.y,sizeofsprite.x,sizeofsprite.y);
+                    map->fakewalls.push_back(fakewall);
+                }
             }
+            maps.emplace_back(map);
+            FileReaderpermap.close();
+        }else{
+            ENDLINE
+            std::cout << "No Map File Found: " << mapfile << std::endl; //Printa um erro caso nao consiga dar load na file
+            FileReaderpermap.close();
         }
-    }else{
-        ENDLINE
-        std::cout << "No Maps File Found: " << maplistfile << std::endl; //Printa um erro caso nao consiga dar load na file
+
     }
-    FileReader.close();
+    FileReaderpermap.close();
+
 }
 
 void MapState::GetMapSize(MapState::Map *map){
@@ -298,7 +292,7 @@ void MapState::PrintTileMap(MapState::Map *map,Vec2 pos){
 void MapState::Start(){
     Camera::UnFollow();
     StartArray();
-    GetMapsInfo("assets/map/info/listOfMaps.txt");
+    GetMapsInfo();
     for(int i = 0;i < maps.size();i++){
         GetMapSize(maps[i]);
     //     std::cout << maps[i]->mapInfoFile << std::endl;
