@@ -3,6 +3,7 @@
 #include "../include/Event.h"
 #include "../include/GameData.h"
 #include "../include/Player.h"
+#include "../include/CameraFollower.h"
 
 MapState::MapState(){
     this->windoweffects = new WindowEffects();
@@ -18,6 +19,13 @@ MapState::MapState(){
     playersprite->SetScaleX(0.2,0.2);
     playerIcon->AddComponent(playersprite);
     AddObject(playerIcon);
+
+    GameObject *celphoneObj = new GameObject();
+    Sprite *celphone =  new Sprite(*celphoneObj,"assets/img/belcellphone.png");
+    celphoneObj->AddComponent(celphone);
+    CameraFollower *camfollow =  new CameraFollower(*celphoneObj);
+    celphoneObj->AddComponent(camfollow);
+    AddObject(celphoneObj);
 
     Vec2 size = GameData::GetSizeOfPng("assets/img/FAKEWALL.png");
 }
