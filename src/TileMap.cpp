@@ -41,6 +41,7 @@ std::string TileMap::LoadInfo(std::string file){
     FileReader.open(file.c_str());
     std::string checkline;
     if (FileReader.is_open()) {
+        GameData::AddMap(file);
         while (!FileReader.eof()) {
             FileReader >> checkline;    //Checa as palavras do grafo
             if(checkline == "MapInfo"){        

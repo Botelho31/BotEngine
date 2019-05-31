@@ -10,6 +10,7 @@
     class GameData{
         public:
             static void SaveGame();
+            static void AddMap(std::string mapfile);
             static void LoadGame();
             static void PrintGameData();
 
@@ -28,6 +29,7 @@
             static std::string checkpointMapInfo;
             static Vec2 checkpointPos;
             static Vec2 checkpointPosSpeed;
+            static std::vector<std::string> listOfDiscoveredMaps;
 
             static std::queue<Event*> events;
     };

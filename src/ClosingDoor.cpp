@@ -27,15 +27,16 @@ ClosingDoor::~ClosingDoor(){
 }
 
 void ClosingDoor::Update(float dt){
+    Vec2 delta;
     switch(state){
             case OPENING:
-                Vec2 delta = physics->Follow(opened,100,dt);
+                delta = physics->Follow(opened,100,dt);
                 if(delta == Vec2(0,0)){
                     state = STANDBY;
                 }
                 break;
             case CLOSING:
-                Vec2 delta = physics->Follow(closed,100,dt);
+                delta = physics->Follow(closed,100,dt);
                 if(delta == Vec2(0,0)){
                     state = STANDBY;
                 }

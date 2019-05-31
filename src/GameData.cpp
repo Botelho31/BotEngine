@@ -7,6 +7,7 @@ int GameData::savePlayerHealth;
 std::string GameData::checkpointMapInfo;
 Vec2 GameData::checkpointPos;
 Vec2 GameData::checkpointPosSpeed;
+std::vector<std::string> GameData::listOfDiscoveredMaps;
 
 std::queue<Event*> GameData::events;
 
@@ -33,6 +34,12 @@ void GameData::SaveGame(){
     savefile << "\t\t" << "playerLife " << savePlayerHealth << "\n";
     savefile << "\t\t" << "checkpointPos " << checkpointPos.x << " " << checkpointPos.y << "\n";
     savefile << "\t\t" << "checkpointPosSpeed " << checkpointPosSpeed.x << " " << checkpointPosSpeed.y << "\n";
+    savefile << "\t]\n";
+    savefile << "ListOfDiscoveredMaps\n";
+    savefile << "\t[\n";
+    for(int i = 0;i < listOfDiscoveredMaps.size();i++){
+        savefile << "\t\t" << listOfDiscoveredMaps[i] << "\n";
+    }
     savefile << "\t]\n";
     savefile.close();
     std::cout << "Game Saved" << std::endl;
@@ -64,6 +71,15 @@ void GameData::LoadGame(){
                 ENDLINE
                 std::cout << "Game Loaded" << std::endl;
             }
+            if(checkline == "ListOfDiscoveredMaps"){
+                FileReader >> checkline;
+                while(checkline != "]"){
+                    if((checkline != "]") && (checkline != "[")){
+                        AddMap(checkline);
+                    }
+                    FileReader >> checkline;
+                }
+            }
         }
     }else{
         ENDLINE
@@ -72,9 +88,22 @@ void GameData::LoadGame(){
         checkpointPos = Vec2(3120,1530);
         savePlayerHealth = 150;
         savePlayerPos = checkpointPos;
+        AddMap("assets/map/info/EntryRoom.txt");
     }
     playerAlive = true;
     FileReader.close();
+}
+
+void GameData::AddMap(std::string map){
+    bool discovered = false;
+    for(int i = 0;i < listOfDiscoveredMaps.size();i++){
+        if(map == listOfDiscoveredMaps[i]){
+            discovered = true;
+        }
+    }
+    if(!discovered){
+        listOfDiscoveredMaps.push_back(map);
+    }
 }
 
 void GameData::PrintGameData(){
