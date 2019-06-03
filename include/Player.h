@@ -65,6 +65,7 @@
             float attacktiming;
             float endofattack;
             float delayedboost;
+            float boost;
             std::queue<int> nextattack; 
 
             Timer *invincibilitytimer;

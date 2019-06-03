@@ -161,7 +161,7 @@ void Player::InstanceHitbox(){
 
 void Player::AttackHandle(float dt){
     //HANDLING ATTACK
-    if(input->KeyPress(SDLK_e) == true){    //TESTING SWORD ON E
+    if(input->KeyPress(SDLK_e)){    //TESTING SWORD ON E
         if(nextattack.empty()){
             nextattack.push(1);
         }
@@ -174,6 +174,15 @@ void Player::AttackHandle(float dt){
             if(nextattack.size() <  2){
                 nextattack.push(1);
             }
+        }else if(nextattack.back() == 3){
+            if(nextattack.size() < 2){
+                nextattack.push(1);
+            }
+        }
+    }
+    if(input->KeyPress(SDLK_r)){
+        if(nextattack.empty()){
+            nextattack.push(3);
         }
     }
     //PERFORMS THE NEXT ATTACK IN QUEUE
@@ -181,7 +190,8 @@ void Player::AttackHandle(float dt){
         if(nextattack.front() == 1){
             float frametime = 0.03;
             SetSprite(spritefiles["attacking1"],22,frametime,false);
-            player->swordradius = 100;
+            swordradius = 100;
+            boost = 500;
             delayedboost = frametime * 5;
             attacktiming = frametime * 10;
             endofattack = frametime * 25;
@@ -202,9 +212,31 @@ void Player::AttackHandle(float dt){
             float frametime = 0.03;
             SetSprite(spritefiles["attacking2"],22,frametime,false);
             swordradius = 90;
+            boost = 500;
             delayedboost = frametime * 5;
             attacktiming = frametime * 10;
             endofattack = frametime * 25;
+            if(playersprite->IsFlipped()){
+                player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
+                player->swordarc =  PI - 0.5;
+                player->aswordangle = 70;
+
+            }else{
+                player->asword = -((PI * 0.35)/(attacktiming - delayedboost));
+                player->swordarc =  0.5;
+                player->aswordangle = -70;
+            }
+            swordattack->Delay(dt);
+            delayedboosttimer->Delay(dt);
+        }
+        if(nextattack.front() == 3){
+            float frametime = 0.03;
+            SetSprite(spritefiles["attacking3"],31,frametime,false);
+            swordradius = 90;
+            boost = -500;
+            delayedboost = frametime * 14;
+            attacktiming = frametime * 20;
+            endofattack = frametime * 35;
             if(playersprite->IsFlipped()){
                 player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
                 player->swordarc =  PI - 0.5;
@@ -229,9 +261,9 @@ void Player::AttackHandle(float dt){
             InstanceHitbox();
             if(physics->IsGrounded()){
                 if(playersprite->IsFlipped()){
-                    speed.x = -500;
+                    speed.x = -boost;
                 }else{
-                    speed.x = 500;
+                    speed.x = boost;
                 }
             }
             delayedboosttimer->Restart();
