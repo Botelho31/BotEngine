@@ -46,7 +46,6 @@ void TitleState::Update(float dt){
     State::UpdateArray(dt);
 
     if(playButton->isSelected()){
-        std::cout << "test" << std::endl;
         Game::GetInstance().Push(new StageState());
     }
     else if(input->KeyPress(SDLK_SPACE)){

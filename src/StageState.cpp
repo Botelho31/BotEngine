@@ -112,8 +112,11 @@ void StageState::Update(float dt){
 		quitRequested = true;
 	}
     if(input->KeyPress(ESCAPE_KEY)){
-         if(GameData::events.size() == 0){
+         if((GameData::events.size() == 0) || ((GameData::events.size() == 1) && (GameData::events.front()->GetType() == Event::PORTAL) && (windoweffects->GetCurrentEffect() != WindowEffects::FADETOBLACK)) ){
             pause = true;
+            if(GameData::events.size() == 1){
+                GameData::events.pop();
+            }
             GameObject* pauseeventObj = new GameObject();
             Event *pauseevent = new Event(*pauseeventObj,Event::PAUSE,0.5);
             pauseeventObj->AddComponent(pauseevent);
