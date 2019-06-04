@@ -27,7 +27,7 @@ TitleState::TitleState(){
     AddObject(mousePointerObj);
 
     GameObject *playButtonObj = new GameObject();
-    Button *playButton = new Button(*playButtonObj,{0,0},"assets/img/normalPlayButton.png","assets/img/highlightedPlayButton.png","assets/img/selectedPlayButton.png");
+    this->playButton = new Button(*playButtonObj,{0,0},"assets/img/normalPlayButton.png","assets/img/highlightedPlayButton.png","assets/img/selectedPlayButton.png");
     playButtonObj->box.SetCenter({970,830});
     playButtonObj->AddComponent(playButton);
     AddObject(playButtonObj);
@@ -45,7 +45,11 @@ void TitleState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     State::UpdateArray(dt);
 
-    if(input->KeyPress(SDLK_SPACE)){
+    if(playButton->isSelected()){
+        std::cout << "test" << std::endl;
+        Game::GetInstance().Push(new StageState());
+    }
+    else if(input->KeyPress(SDLK_SPACE)){
         Game::GetInstance().Push(new StageState());
     } 
 
@@ -77,6 +81,7 @@ void TitleState::Start(){
 
 void TitleState::Resume(){
     Camera::pos.Transform(0,0);
+    playButton->Reset();
 }
 
 void TitleState::Pause(){

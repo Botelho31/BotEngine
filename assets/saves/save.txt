@@ -1,9 +1,9 @@
 Save
 	[
-		mapInfo assets/map/info/Room-4.txt
-		playerPos 1413.53 1630.31
+		mapInfo assets/map/info/MiddleTerm3.txt
+		playerPos 311.264 1729.66
 		playerLife 150
-		checkpointPos 3000 1630
+		checkpointPos 1980 2480
 		checkpointPosSpeed -600 0
 	]
 ListOfDiscoveredMaps

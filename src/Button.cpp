@@ -30,6 +30,20 @@ void Button::Render(){
 
 }
 
+bool Button::isSelected(){
+    if(state == SELECTED){
+        return true;
+    }else{
+        return false;
+    }
+}
+
+void Button::Reset(){
+    state == NORMAL;
+    colliding = false;
+    SetSprite(normalfile);
+}
+
 void Button::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
     Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
     buttonsprite->SetFrameCount(framecount);

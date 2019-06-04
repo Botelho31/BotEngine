@@ -79,7 +79,7 @@ void State::StartArray(){
 
 void State::UpdateArray(float dt){
 	InputManager *input = &(InputManager::GetInstance());
-	if(input->IsKeyDown(ESCAPE_KEY) || input->QuitRequested()){
+	if(input->KeyPress(ESCAPE_KEY) || input->QuitRequested()){
 		quitRequested = true;
 	}
     for(unsigned int i = 0; i < objectArray.size();i++){

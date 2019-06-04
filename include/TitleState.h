@@ -6,6 +6,7 @@
     #define TITLESTATE_H
     #include "State.h"
     #include "Timer.h"
+    #include "Button.h"
 
     class TitleState : public State{
         public:
@@ -20,6 +21,7 @@
             void Resume();
             void Pause();
         private:
+            Button *playButton;
     };
 
 #endif

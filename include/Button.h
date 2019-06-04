@@ -18,6 +18,9 @@
             void Render();
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
+            
+            bool isSelected();
+            void Reset();
 
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0});
         private:

@@ -8,7 +8,6 @@ MousePointer::MousePointer(GameObject& associated) : Component(associated){
     associated.box.h = 5;
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
-    std::cout << "oi" << std::endl;
 }
 
 MousePointer::~MousePointer(){
