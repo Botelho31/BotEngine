@@ -69,7 +69,8 @@ std::string TileMap::LoadInfo(std::string file){
                 FileReader >> backgroundscale.y;
                 StageState::ChangeBackground(backgroundfile,backgroundParallax,backgroundscale);
                 GameObject *tilesetObj = new GameObject();
-	            SetTileSet(new TileSet(tilesetObj,50,50,tilesetfiles));
+                TileSet *newtileset = new TileSet(tilesetObj,50,50,tilesetfiles);
+	            SetTileSet(newtileset);
             }
         }
     }else{
@@ -239,10 +240,12 @@ void TileMap::LoadTileColliders(){
 }
 
 void TileMap::SetTileSet(TileSet* tileSet){
-    if(this->tileSet){
+    if(this->tileSet != nullptr){
         delete this->tileSet;
+        this->tileSet = tileSet;
+    }else{
+        this->tileSet = tileSet;
     }
-    this->tileSet = tileSet;
 }
 
 int& TileMap::At(int x,int y,int z){

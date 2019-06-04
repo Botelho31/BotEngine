@@ -1,10 +1,10 @@
 Save
 	[
-		mapInfo assets/map/info/Room-3.txt
-		playerPos 862.729 1530
+		mapInfo assets/map/info/Room-2.txt
+		playerPos 411.252 2579.75
 		playerLife 150
-		checkpointPos 40 1530
-		checkpointPosSpeed 600 0
+		checkpointPos 1980 2780
+		checkpointPosSpeed -592 0
 	]
 ListOfDiscoveredMaps
 	[
