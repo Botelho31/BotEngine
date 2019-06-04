@@ -47,6 +47,7 @@
 
             std::weak_ptr<GameObject> owner;
             Component *component;
+            Vec2 speed;
             Physics *physics;
 
             

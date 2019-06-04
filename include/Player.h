@@ -25,7 +25,6 @@
             int GetLife(); // Returns current hp
             GameObject* GetAssociated();
 
-            void InstanceHitbox();
             void AttackHandle(float dt); // Handles player attack
             void XMovement(float dt);   //Performs X Movement
             void YMovement(float dt);   //Performs Y Movement
@@ -43,7 +42,11 @@
             void HealPlayer(int heal);
             void KnockBack(Rect hitbox,Vec2 knockback);
 
+
+            void InstanceHitbox();
+            void InstanceProjectileHitbox();
             static void SwordHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the sword
+            static void ProjectileHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the sword projectile
 
             static Player *player;
         private:

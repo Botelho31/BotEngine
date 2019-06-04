@@ -136,6 +136,19 @@ void Player::Update(float dt){
     }
 }
 
+void Player::InstanceHitbox(){
+    Collider *collider = physics->GetCollider();
+    Vec2 vector = Vec2(swordradius,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
+    Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
+    GameObject *swordObj = new GameObject();
+    std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost),true,false,true,{300,100},this,0.04);
+    swordhitbox->SetFunction(SwordHitbox);
+    swordObj->AddComponent(swordhitbox);
+    Game::GetInstance().GetCurrentState().AddObject(swordObj);
+}
+
+
 void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
     Component *component1 = owner.GetComponent("Player");
     Player *player = dynamic_cast<Player*>(component1);
@@ -148,16 +161,40 @@ void Player::SwordHitbox(GameObject& hitbox,GameObject& owner,float dt){
     
 }
 
-void Player::InstanceHitbox(){
-    Collider *collider = physics->GetCollider();
-    Vec2 vector = Vec2(swordradius,0).GetRotated(player->swordarc) + Vec2(collider->box.x + collider->box.w/2,collider->box.y + collider->box.h/2);
-    Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
-    GameObject *swordObj = new GameObject();
+void Player::ProjectileHitbox(GameObject& hitbox,GameObject& owner,float dt){
+    Physics *physics = hitbox.GetPhysics();
+
+    if(owner.box.GetCenter().x < physics->GetCollider()->box.GetCenter().x){
+        physics->PerformXAcceleration(true,2000,1000,100,dt);
+    }else{
+        physics->PerformXAcceleration(false,2000,1000,100,dt);
+    }
+    physics->PrintValues();
+    physics->PerformXMovement(dt);
+    if((physics->IsLeft() || physics->IsRight()) && !hitbox.IsDead()){
+        hitbox.RequestDelete();
+    }
+}
+
+void Player::InstanceProjectileHitbox(){
+    Vec2 start = Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h/2);
+    GameObject *projectileObj = new GameObject();
+    Sprite *projectilesprite = new Sprite(*projectileObj,"assets/img/projetilattack3test.png",10,0.04);
+    projectileObj->AddComponent(projectilesprite);
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost),true,false,true,{300,100},this,0.04);
-    swordhitbox->SetFunction(SwordHitbox);
-    swordObj->AddComponent(swordhitbox);
-    Game::GetInstance().GetCurrentState().AddObject(swordObj);
+    HitBox *projectilehitbox = new HitBox(*projectileObj,{0,0,0,0},owner,0,30,5,5,true,false,true,{300,100},this,0.04);
+
+    if(playersprite->IsFlipped()){
+        start = Vec2(associated.box.x,associated.box.y + associated.box.h/2);
+        projectilesprite->Flip();
+    }
+    projectilehitbox->GetCollider()->SetScale({0.5,0.5});
+    projectileObj->box.SetCenter(start);
+
+
+    projectilehitbox->SetFunction(ProjectileHitbox);
+    projectileObj->AddComponent(projectilehitbox);
+    Game::GetInstance().GetCurrentState().AddObject(projectileObj);
 }
 
 void Player::AttackHandle(float dt){
@@ -259,7 +296,11 @@ void Player::AttackHandle(float dt){
     if(delayedboosttimer->Started()){
         delayedboosttimer->Update(dt);
         if(delayedboosttimer->Get() >= delayedboost){
-            InstanceHitbox();
+            if(nextattack.front() == 3){
+                InstanceProjectileHitbox();
+            }else{
+                InstanceHitbox();
+            }
             if(physics->IsGrounded()){
                 if(playersprite->IsFlipped()){
                     speed.x = -boost;

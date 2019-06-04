@@ -5,10 +5,12 @@
 
 HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
     Component(associated),secondsToSelfDestruct(secondsToSelfDestruct),Move(NULL),owner(owner),damageCooldown(damageCooldown + hitfreezetime),hitPlayer(hitPlayer),hitEnemy(hitEnemy),disconnected(disconnected),damage(damage),knockback(knockback),component(component),hitfreezetime(hitfreezetime){
-    associated.box = hitbox;
+    if(hitbox == Rect(0,0,0,0)){
+    }else{
+        associated.box = hitbox;
+    }
     associated.angleDeg = angledeg;
     this->selfDestruct = new Timer();
-    Vec2 speed;
     this->physics = new Physics(associated,&speed,true);
     associated.AddComponent(physics);
 }
