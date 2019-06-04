@@ -20,7 +20,6 @@
             void Resume();
             void Pause();
         private:
-            Timer *texttimer;
     };
 
 #endif
