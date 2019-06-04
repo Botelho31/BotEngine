@@ -37,6 +37,7 @@ void TileMap::Load(std::string file){
 std::string TileMap::LoadInfo(std::string file){
     this->collisionDepthOffset = 0;
     this->parallaxDepthOffset = 0;
+    std::vector<std::string> tilesetfiles;
     std::string mapfile;
     std::fstream FileReader;
     FileReader.open(file.c_str());
@@ -54,6 +55,14 @@ std::string TileMap::LoadInfo(std::string file){
                 FileReader >> collisionDepthOffset;
                 FileReader >> checkline;
                 FileReader >> parallaxDepthOffset;
+                FileReader >> checkline;
+                FileReader >> checkline;
+                while(checkline != "]"){
+                    tilesetfiles.push_back(checkline);
+                    FileReader >> checkline;
+                }   
+                GameObject *tilesetObj = new GameObject();
+	            SetTileSet(new TileSet(tilesetObj,50,50,tilesetfiles));
             }
         }
     }else{
@@ -223,6 +232,9 @@ void TileMap::LoadTileColliders(){
 }
 
 void TileMap::SetTileSet(TileSet* tileSet){
+    if(this->tileSet){
+        delete this->tileSet;
+    }
     this->tileSet = tileSet;
 }
 

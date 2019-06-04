@@ -3,6 +3,7 @@ MapInfo
     mapFile assets/map/EntryRoom.tmx
     collisionDepth 1
     parallaxDepth 0
+    tilesetfiles assets/img/Tile2.6.png
   ]
 
 Portal

@@ -3,6 +3,7 @@ MapInfo
     mapFile assets/map/tileMaptest-1.tmx
     collisionDepth 1
     parallaxDepth 2
+    tilesetfiles assets/img/Tile2.6.png
   ]
 
 Portal

@@ -3,6 +3,7 @@ MapInfo
     mapFile assets/map/MiddleTerm.tmx
     collisionDepth 0
     parallaxDepth 0
+    tilesetfiles assets/img/Tile2.6.png
   ]
 
 Portal
