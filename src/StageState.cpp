@@ -455,12 +455,7 @@ void StageState::Start(){
 
     //Loads the tilemap
 	GameObject *tileObj = new GameObject();
-    GameObject *tilesetObj = new GameObject();
-    std::vector<std::string> tilesetfiles;
-    tilesetfiles.push_back("assets/img/Tile2.6.png");
-    tilesetfiles.push_back("assets/img/backgroundtest.jpg");
-	this->tileset = new TileSet(tilesetObj,50,50,tilesetfiles);
-	this->tilemap = new TileMap(*tileObj,GameData::checkpointMapInfo,tileset);
+	this->tilemap = new TileMap(*tileObj,GameData::checkpointMapInfo);
 	tileObj->box.x = 0;
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
