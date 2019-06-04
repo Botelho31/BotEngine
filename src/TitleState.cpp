@@ -5,6 +5,7 @@
 #include "../include/StageState.h"
 #include "../include/Camera.h"
 #include "../include/Text.h"
+#include "../include/MousePointer.h"
 
 TitleState::TitleState(){
     quitRequested = false;
@@ -17,6 +18,10 @@ TitleState::TitleState(){
     titleobj->AddComponent(title);
     AddObject(titleobj);
 
+    GameObject *mousePointerObj = new GameObject();
+    MousePointer *mousepointer = new MousePointer(*mousePointerObj);
+    mousePointerObj->AddComponent(mousepointer);
+    AddObject(mousePointerObj);
 }
 
 TitleState::~TitleState(){
@@ -34,13 +39,11 @@ void TitleState::Update(float dt){
     if(input->KeyPress(SDLK_SPACE)){
         Game::GetInstance().Push(new StageState());
     }
-
+    State::UpdateArray(dt); 
 }
 
 void TitleState::Render(){
-    for(unsigned int i = 0; i < objectArray.size();i++){
-        objectArray[i]->Render();
-    }
+    State::RenderArray();
 }
 
 void TitleState::Start(){

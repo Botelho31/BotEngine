@@ -8,6 +8,7 @@ MousePointer::MousePointer(GameObject& associated) : Component(associated){
     associated.box.h = 5;
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
+    std::cout << "oi" << std::endl;
 }
 
 MousePointer::~MousePointer(){
@@ -16,7 +17,7 @@ MousePointer::~MousePointer(){
 
 void MousePointer::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
-    Vec2 mouse = Vec2(input->GetMouseX() * 2  + Camera::pos.x,input->GetMouseY() * 2  + Camera::pos.y);
+    Vec2 mouse = Vec2(input->GetMouseX() * 2,input->GetMouseY() * 2);
     associated.box.SetCenter(mouse);
 }
 
