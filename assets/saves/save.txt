@@ -1,7 +1,7 @@
 Save
 	[
 		mapInfo assets/map/info/Room-6.txt
-		playerPos 3178.93 1380
+		playerPos 2105.1 1479.52
 		playerLife 150
 		checkpointPos 3250 1380
 		checkpointPosSpeed -600 0

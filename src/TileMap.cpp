@@ -7,6 +7,7 @@
 #include "../include/MovingTile.h"
 #include "../include/FakeWall.h"
 #include "../include/Boss.h"
+#include "../include/Spike.h"
 
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
@@ -154,6 +155,23 @@ void TileMap::SpawnMobs(std::string file){
                 }else{
                     Game::GetInstance().GetCurrentState().AddObject(fakewallObj);
                 }
+            }
+            else if(checkline == "Spike"){
+                Rect spikebox;
+                while(checkline != "spikeBox"){
+                    FileReader >> checkline;
+                }
+                FileReader >> spikebox.x;
+                FileReader >> spikebox.y;
+                FileReader >> spikebox.w;
+                FileReader >> spikebox.h;
+
+                GameObject *spikeObj = new GameObject();
+                spikeObj->box = spikebox;
+                Spike *spike = new Spike(*spikeObj,{400,400});
+                spikeObj->AddComponent(spike);
+                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                Game::GetInstance().GetCurrentState().AddObject(spikeObj,place);
             }
             else if(checkline == "Boss"){
                 Vec2 pos;

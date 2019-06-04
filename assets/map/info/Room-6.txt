@@ -12,3 +12,8 @@ Portal
     portalY 3280
     tilemapinfofile assets/map/info/MiddleTerm3.txt
   ]
+
+Spike
+  [
+    spikeBox 1600 1650 400 150
+  ]

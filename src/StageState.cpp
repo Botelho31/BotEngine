@@ -264,6 +264,7 @@ void StageState::ClearMobs(){
         Component *component7 = objectArray[i]->GetComponent("FakeWall");
         Component *component8 = objectArray[i]->GetComponent("Boss");
         Component *component9 = objectArray[i]->GetComponent("Eye");
+        Component *component10 = objectArray[i]->GetComponent("Spike");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -289,6 +290,9 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
         else if(component9){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        else if(component10){
             objectArray.erase(objectArray.begin() + i);
         }
     }
@@ -458,13 +462,6 @@ void StageState::Start(){
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
 	objectArray.emplace_back(tileObj);
-
-    //SPIKE TESTING
-    GameObject *spikeObj = new GameObject();
-    spikeObj->box = Rect(1600,1650,400,150);
-    Spike *spike = new Spike(*spikeObj,{400,400});
-    spikeObj->AddComponent(spike);
-    AddObject(spikeObj);
 
     //Loads the player
     GameObject *playerObj = new GameObject();
