@@ -2,8 +2,9 @@
 #include "../include/Collision.h"
 
 MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular) : Component(associated){
-    this->tilesprite = new Sprite(associated,"assets/img/movingtile1.png");
+    this->tilesprite = new Sprite(associated,"assets/img/movingtile2.png");
     associated.AddComponent(tilesprite);
+
     this->associated.box.x = start.x - associated.box.w/2;
     this->associated.box.y = start.y - associated.box.h/2;
     this->constspeed = speed;
