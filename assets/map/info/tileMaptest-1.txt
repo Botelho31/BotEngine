@@ -12,6 +12,7 @@ Portal
     portalY 1480
     tilemapinfofile assets/map/info/tileMaptest-2.txt
   ]
+  
 Portal
   [
     portalBox 2300 1500 200 300
