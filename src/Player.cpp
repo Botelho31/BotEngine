@@ -10,6 +10,7 @@
 #include "../include/Minion.h"
 #include "../include/GameData.h"
 #include "../include/DeadBody.h"
+#include "../include/Spike.h"
 
 Player *Player::player;
 
@@ -673,6 +674,7 @@ void Player::NotifyCollision(GameObject& other){
     if(!invincibilitytimer->Started() && !invencible){
         Component *component1 = other.GetComponent("HitBox");
         Component *component2 = other.GetComponent("Minion");
+        Component *component3 = other.GetComponent("Spike");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if(hitbox->GetOwner()){
@@ -688,6 +690,13 @@ void Player::NotifyCollision(GameObject& other){
             Collider *collider = dynamic_cast<Collider*>(collidercomponent);
             KnockBack(collider->box,Vec2(400,400));
             DamagePlayer(10);
+            invincibilitytimer->Delay(0);
+        }else if(component3){
+            Component *collidercomponent = other.GetComponent("Collider");
+            Collider *collider = dynamic_cast<Collider*>(collidercomponent);
+            Spike *spike = dynamic_cast<Spike*>(component3);
+            KnockBack(collider->box,spike->GetKnockback());
+            DamagePlayer(spike->GetDamage());
             invincibilitytimer->Delay(0);
         }
     }
