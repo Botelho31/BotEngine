@@ -7,6 +7,7 @@
     #include "Component.h"
     #include "Physics.h"
     #include "Sprite.h"
+    #include "TileSet.h"
 
     class Spike : public Component{
         public:
@@ -21,6 +22,7 @@
         private:
             Vec2 knockback;
             int damage;
+            TileSet *spiketileset;
     };
 
 #endif

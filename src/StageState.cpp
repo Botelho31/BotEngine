@@ -23,6 +23,7 @@
 #include "../include/Boss.h"
 #include "../include/PauseState.h"
 #include "../include/MapState.h"
+#include "../include/Spike.h"
 
 bool StageState::changingMap;
 bool StageState::mapcollision;
@@ -457,6 +458,13 @@ void StageState::Start(){
 	tileObj->box.y = 0;
 	tileObj->AddComponent(tilemap);
 	objectArray.emplace_back(tileObj);
+
+    //SPIKE TESTING
+    GameObject *spikeObj = new GameObject();
+    spikeObj->box = Rect(1600,1650,400,150);
+    Spike *spike = new Spike(*spikeObj,{400,400});
+    spikeObj->AddComponent(spike);
+    AddObject(spikeObj);
 
     //Loads the player
     GameObject *playerObj = new GameObject();
