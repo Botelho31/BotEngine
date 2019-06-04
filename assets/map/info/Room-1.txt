@@ -4,7 +4,6 @@ MapInfo
     collisionDepth 1
     parallaxDepth 1
     tilesetfiles assets/img/Tile2.6.png
-                 assets/img/fundos/room1.png
   ]
 
 Portal
