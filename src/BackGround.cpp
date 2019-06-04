@@ -8,8 +8,8 @@ BackGround::BackGround(GameObject& go,std::string backgroundfile) : Component(go
 }
 
 void BackGround::Update(float dt){
-    associated.box.x = originalpos.x - Camera::pos.x * 0.5;
-    associated.box.y = originalpos.y - Camera::pos.y;
+    associated.box.x = originalpos.x - Camera::pos.x * 0.25;
+    associated.box.y = originalpos.y;
 }
 
 void BackGround::Render(){

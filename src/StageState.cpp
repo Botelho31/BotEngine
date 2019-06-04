@@ -24,10 +24,12 @@
 #include "../include/PauseState.h"
 #include "../include/MapState.h"
 #include "../include/Spike.h"
+#include "../include/BackGround.h"
 
 bool StageState::changingMap;
 bool StageState::mapcollision;
 bool StageState::loadedTileColliders;
+BackGround * StageState::background;
 
 StageState::StageState(){
     quitRequested = false;
@@ -445,13 +447,11 @@ void StageState::Start(){
     GameData::LoadGame();
 
     //Loads the background
-	GameObject *background = new GameObject();
-    Sprite *bg = new Sprite(*background,"assets/img/fundobranco.jpg");
-    CameraFollower *camerafollower = new CameraFollower(*background);
-    bg->SetScaleX(4,4);
-	background->AddComponent(bg);
-    background->AddComponent(camerafollower);
-	objectArray.emplace_back(background);
+	GameObject *backgroundObj = new GameObject();
+    backgroundObj->box.Transform(0,0);
+    this->background = new BackGround(*backgroundObj,"assets/img/fundos/room1.png");
+	backgroundObj->AddComponent(background);
+	objectArray.emplace_back(backgroundObj);
 
     //Loads the tilemap
 	GameObject *tileObj = new GameObject();
@@ -504,4 +504,8 @@ bool StageState::MapCollisionLoaded(){
 
 bool StageState::LoadedTileColliders(){
     return loadedTileColliders;
+}
+
+void StageState::ChangeBackground(std::string file){
+    background->SetFile(file);
 }

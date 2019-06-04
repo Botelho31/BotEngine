@@ -11,6 +11,7 @@
     #include "Text.h"
     #include "WindowEffects.h"
     #include "Light.h"
+    #include "BackGround.h"
 
     class StageState : public State{
         public:
@@ -32,6 +33,8 @@
             static bool ChangingMap();  //Check if the tilemap is changing
             static bool MapCollisionLoaded();
             static bool LoadedTileColliders();
+
+            static void ChangeBackground(std::string file);
         private:
             TileSet *tileset;
             Music *backgroundMusic;
@@ -52,6 +55,7 @@
             static bool loadedTileColliders;
             static bool mapcollision; //Boolean indicating if mapcollision is ready or not
             static bool changingMap;    //Keeps the bool if the map is changing
+            static BackGround *background;
     };
 
 #endif
