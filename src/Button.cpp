@@ -19,8 +19,12 @@ Button::~Button(){
 
 void Button::Update(float dt){
     if((!colliding) && (state != NORMAL)){
+        if(state == SELECTED){
+            SetSprite(normalfile,1,1,true,{0,10});
+        }else{
+            SetSprite(normalfile);
+        }
         state = NORMAL;
-        SetSprite(normalfile);
     }
 
     colliding = false;
@@ -70,7 +74,7 @@ void Button::NotifyCollision(GameObject& other){
         if(mousepointer->IsPressed()){
             if(state != SELECTED){
                 state = SELECTED;
-                SetSprite(selectedfile);
+                SetSprite(selectedfile,1,1,true,{0,-10});
             }
         }else{
             if(state != HIGHLIGHTED){
