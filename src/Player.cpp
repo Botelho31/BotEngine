@@ -180,7 +180,7 @@ void Player::AttackHandle(float dt){
             }
         }
     }
-    if(input->KeyPress(SDLK_r)){
+    if(input->KeyPress(SDLK_q)){
         if(nextattack.empty()){
             nextattack.push(3);
         }
@@ -233,9 +233,9 @@ void Player::AttackHandle(float dt){
             float frametime = 0.03;
             SetSprite(spritefiles["attacking3"],31,frametime,false);
             swordradius = 90;
-            boost = -500;
-            delayedboost = frametime * 14;
-            attacktiming = frametime * 20;
+            boost = 700;
+            delayedboost = frametime * 20;
+            attacktiming = frametime * 26;
             endofattack = frametime * 35;
             if(playersprite->IsFlipped()){
                 player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
