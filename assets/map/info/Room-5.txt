@@ -1,8 +1,8 @@
 MapInfo
   [
     mapFile assets/map/Room-5.tmx
-    collisionDepth 0
-    parallaxDepth 0
+    collisionDepth 1
+    parallaxDepth 1
   ]
 
 Portal
@@ -15,20 +15,20 @@ Portal
 
 Spike
   [
-    spikeBox 100 1650 450 150
+    spikeBox 50 1650 500 150
   ]
 
 Spike
   [
-    spikeBox 600 1650 500 150
+    spikeBox 550 1650 550 150
   ]
 
 Spike
   [
-    spikeBox 1150 1650 350 150
+    spikeBox 1100 1650 400 150
   ]
 
 Spike
   [
-    spikeBox 1550 1650 400 150
+    spikeBox 1500 1650 450 150
   ]
