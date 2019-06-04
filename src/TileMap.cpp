@@ -240,10 +240,10 @@ void TileMap::LoadTileColliders(){
 }
 
 void TileMap::SetTileSet(TileSet* tileSet){
-    if(this->tileSet != nullptr){
-        delete this->tileSet;
+    if(this->tileSet == nullptr){
         this->tileSet = tileSet;
     }else{
+        delete this->tileSet;
         this->tileSet = tileSet;
     }
 }
