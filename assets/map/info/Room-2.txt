@@ -1,8 +1,8 @@
 MapInfo
   [
     mapFile assets/map/Room-2.tmx
-    collisionDepth 0
-    parallaxDepth 0
+    collisionDepth 1
+    parallaxDepth 1
   ]
 
 Portal
@@ -11,4 +11,14 @@ Portal
     portalX 0
     portalY 3380
     tilemapinfofile assets/map/info/MiddleTerm.txt
+  ]
+
+Spike
+  [
+    spikeBox 50 3200 1650 150
+  ]
+
+Spike
+  [
+    spikeBox 300 1550 1650 150
   ]
