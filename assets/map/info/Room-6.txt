@@ -1,13 +1,13 @@
 MapInfo
   [
     mapFile assets/map/Room-6.tmx
-    collisionDepth 0
-    parallaxDepth 0
+    collisionDepth 1
+    parallaxDepth 1
   ]
 
 Portal
   [
-    portalBox 3200 1050 50 300
+    portalBox 3250 1200 50 300
     portalX 30
     portalY 3280
     tilemapinfofile assets/map/info/MiddleTerm3.txt
@@ -15,20 +15,20 @@ Portal
 
 Spike
   [
-    spikeBox 1150 1650 400 150
+    spikeBox 1100 1650 450 150
   ]
 
 Spike
   [
-    spikeBox 1600 1650 450 150
+    spikeBox 1550 1650 500 150
   ]
 
 Spike
   [
-    spikeBox 2100 1650 550 150
+    spikeBox 2050 1650 600 150
   ]
 
 Spike
   [
-    spikeBox 2700 1650 450 150
+    spikeBox 2650 1650 500 150
   ]
