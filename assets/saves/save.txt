@@ -1,7 +1,7 @@
 Save
 	[
 		mapInfo assets/map/info/Room-4.txt
-		playerPos 877.368 1630
+		playerPos 849.627 1630
 		playerLife 150
 		checkpointPos 3000 1630
 		checkpointPosSpeed -600 0

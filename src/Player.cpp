@@ -169,7 +169,6 @@ void Player::ProjectileHitbox(GameObject& hitbox,GameObject& owner,float dt){
     }else{
         physics->PerformXAcceleration(false,2000,1000,100,dt);
     }
-    physics->PrintValues();
     physics->PerformXMovement(dt);
     if((physics->IsLeft() || physics->IsRight()) && !hitbox.IsDead()){
         hitbox.RequestDelete();
@@ -179,16 +178,17 @@ void Player::ProjectileHitbox(GameObject& hitbox,GameObject& owner,float dt){
 void Player::InstanceProjectileHitbox(){
     Vec2 start = Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h/2);
     GameObject *projectileObj = new GameObject();
-    Sprite *projectilesprite = new Sprite(*projectileObj,"assets/img/projetilattack3test.png",10,0.04);
+    Sprite *projectilesprite = new Sprite(*projectileObj,spritefiles["projectileattack"],10,0.04);
     projectileObj->AddComponent(projectilesprite);
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *projectilehitbox = new HitBox(*projectileObj,{0,0,0,0},owner,0,30,5,5,true,false,true,{300,100},this,0.04);
+    HitBox *projectilehitbox = new HitBox(*projectileObj,{0,0,0,0},owner,0,30,5,0.5,true,false,true,{300,100},this,0.04);
 
+    //Differentiates starting point based on where player is turned at moment of instance
     if(playersprite->IsFlipped()){
         start = Vec2(associated.box.x,associated.box.y + associated.box.h/2);
         projectilesprite->Flip();
     }
-    projectilehitbox->GetCollider()->SetScale({0.5,0.5});
+    projectilehitbox->GetCollider()->SetScale({0.8,0.5});
     projectileObj->box.SetCenter(start);
 
 
@@ -273,7 +273,7 @@ void Player::AttackHandle(float dt){
             swordradius = 90;
             boost = 700;
             delayedboost = frametime * 20;
-            attacktiming = frametime * 26;
+            attacktiming = frametime * 30;
             endofattack = frametime * 35;
             if(playersprite->IsFlipped()){
                 player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
