@@ -36,6 +36,9 @@ void TileMap::Load(std::string file){
 std::string TileMap::LoadInfo(std::string file){
     this->collisionDepthOffset = 0;
     this->parallaxDepthOffset = 0;
+    std::string backgroundfile;
+    bool backgroundParallax;
+    Vec2 backgroundscale;
     std::vector<std::string> tilesetfiles;
     std::string mapfile;
     std::fstream FileReader;
@@ -56,10 +59,15 @@ std::string TileMap::LoadInfo(std::string file){
                 FileReader >> parallaxDepthOffset;
                 FileReader >> checkline;
                 FileReader >> checkline;
-                while(checkline != "]"){
+                while(checkline != "background"){
                     tilesetfiles.push_back(checkline);
                     FileReader >> checkline;
-                }   
+                }
+                FileReader >> backgroundfile;
+                FileReader >> backgroundParallax;
+                FileReader >> backgroundscale.x;
+                FileReader >> backgroundscale.y;
+                StageState::ChangeBackground(backgroundfile,backgroundParallax,backgroundscale);
                 GameObject *tilesetObj = new GameObject();
 	            SetTileSet(new TileSet(tilesetObj,50,50,tilesetfiles));
             }
