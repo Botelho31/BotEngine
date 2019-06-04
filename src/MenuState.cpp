@@ -15,7 +15,7 @@ MenuState::MenuState(){
     popRequested = false;
 
     GameObject *titleobj =  new GameObject();
-    Sprite *title = new Sprite(*titleobj,"assets/img/titlescreenreference.png");
+    Sprite *title = new Sprite(*titleobj,"assets/img/menuscreen.png");
     titleobj->box.x = 0;
     titleobj->box.y = 0;
     titleobj->AddComponent(title);
@@ -27,28 +27,29 @@ MenuState::MenuState(){
     AddObject(mousePointerObj);
 
     GameObject *newgameButtonObj = new GameObject();
-    this->newgameButton = new Button(*newgameButtonObj,{0,0},"assets/img/normalPlayButton.png","assets/img/highlightedPlayButton.png","assets/img/selectedPlayButton.png");
-    newgameButtonObj->box.SetCenter({970,830});
+    this->newgameButton = new Button(*newgameButtonObj,{969,560},"assets/img/buttons/normal/newgameButton.png","assets/img/buttons/highlighted/newgameButton.png","assets/img/buttons/selected/newgameButton.png");
     newgameButtonObj->AddComponent(newgameButton);
     AddObject(newgameButtonObj);
 
     GameObject *loadButtonObj = new GameObject();
-    this->loadButton = new Button(*loadButtonObj,{0,0},"assets/img/normalPlayButton.png","assets/img/highlightedPlayButton.png","assets/img/selectedPlayButton.png");
-    loadButtonObj->box.SetCenter({970,830});
+    this->loadButton = new Button(*loadButtonObj,{967,675},"assets/img/buttons/normal/loadButton.png","assets/img/buttons/highlighted/loadButton.png","assets/img/buttons/selected/loadButton.png");
     loadButtonObj->AddComponent(loadButton);
     AddObject(loadButtonObj);
 
     GameObject *optionsButtonObj = new GameObject();
-    this->optionsButton = new Button(*optionsButtonObj,{0,0},"assets/img/normalPlayButton.png","assets/img/highlightedPlayButton.png","assets/img/selectedPlayButton.png");
-    optionsButtonObj->box.SetCenter({970,830});
+    this->optionsButton = new Button(*optionsButtonObj,{968,784},"assets/img/buttons/normal/optionsButton.png","assets/img/buttons/highlighted/optionsButton.png","assets/img/buttons/selected/optionsButton.png");
     optionsButtonObj->AddComponent(optionsButton);
     AddObject(optionsButtonObj);
 
     GameObject *quitButtonObj = new GameObject();
-    this->quitButton = new Button(*quitButtonObj,{0,0},"assets/img/normalPlayButton.png","assets/img/highlightedPlayButton.png","assets/img/selectedPlayButton.png");
-    quitButtonObj->box.SetCenter({970,830});
+    this->quitButton = new Button(*quitButtonObj,{968,890},"assets/img/buttons/normal/quitButton.png","assets/img/buttons/highlighted/quitButton.png","assets/img/buttons/selected/quitButton.png");
     quitButtonObj->AddComponent(quitButton);
     AddObject(quitButtonObj);
+
+    GameObject *infoButtonObj = new GameObject();
+    this->infoButton = new Button(*infoButtonObj,{1734,966},"assets/img/buttons/normal/infoButton.png","assets/img/buttons/highlighted/infoButton.png","assets/img/buttons/selected/infoButton.png");
+    infoButtonObj->AddComponent(infoButton);
+    AddObject(infoButtonObj);
 }
 
 MenuState::~MenuState(){
@@ -72,8 +73,11 @@ void MenuState::Update(float dt){
     else if(optionsButton->isSelected()){
 
     }
+    else if(infoButton->isSelected()){
+
+    }
     else if(quitButton->isSelected()){
-        popRequested = true;
+        quitRequested = true;
     }
     else if(input->KeyPress(SDLK_SPACE)){
         Game::GetInstance().Push(new StageState());

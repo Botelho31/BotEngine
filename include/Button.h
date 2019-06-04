@@ -30,6 +30,7 @@
             std::string highlightedfile;
             std::string selectedfile; 
             bool colliding;   
+            Vec2 center;
     };
 
 #endif

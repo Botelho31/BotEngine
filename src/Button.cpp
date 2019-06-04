@@ -11,6 +11,8 @@ Button::Button(GameObject& associated,Vec2 center,std::string normalfile,std::st
     state = NORMAL;
     Collider *collider = new Collider(associated);
     associated.AddComponent(collider);
+    this->center = center;
+    associated.box.SetCenter(center);
 }
 
 Button::~Button(){
@@ -20,7 +22,8 @@ Button::~Button(){
 void Button::Update(float dt){
     if((!colliding) && (state != NORMAL)){
         if(state == SELECTED){
-            SetSprite(normalfile,1,1,true,{0,10});
+            SetSprite(normalfile);
+            associated.box.SetCenter(center);
         }else{
             SetSprite(normalfile);
         }
@@ -74,7 +77,7 @@ void Button::NotifyCollision(GameObject& other){
         if(mousepointer->IsPressed()){
             if(state != SELECTED){
                 state = SELECTED;
-                SetSprite(selectedfile,1,1,true,{0,-10});
+                SetSprite(selectedfile);
             }
         }else{
             if(state != HIGHLIGHTED){

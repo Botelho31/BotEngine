@@ -9,6 +9,7 @@
 #include "../include/Collider.h"
 #include "../include/Collision.h"
 #include "../include/Button.h"
+#include "../include/MenuState.h"
 
 TitleState::TitleState(){
     quitRequested = false;
@@ -33,8 +34,7 @@ TitleState::TitleState(){
     AddObject(textObj);
 
     GameObject *playButtonObj = new GameObject();
-    this->playButton = new Button(*playButtonObj,{0,0},"assets/img/buttons/normalPlayButton.png","assets/img/buttons/highlightedPlayButton2.png","assets/img/buttons/selectedPlayButton.png");
-    playButtonObj->box.SetCenter({970,830});
+    this->playButton = new Button(*playButtonObj,{970,830},"assets/img/buttons/normal/playButton.png","assets/img/buttons/highlighted/playButton.png","assets/img/buttons/selected/playButton.png");
     playButtonObj->AddComponent(playButton);
     AddObject(playButtonObj);
 }
@@ -52,10 +52,10 @@ void TitleState::Update(float dt){
     State::UpdateArray(dt);
 
     if(playButton->isSelected()){
-        Game::GetInstance().Push(new StageState());
+        Game::GetInstance().Push(new MenuState());
     }
     else if(input->KeyPress(SDLK_SPACE)){
-        Game::GetInstance().Push(new StageState());
+        Game::GetInstance().Push(new MenuState());
     } 
 
     for(unsigned int i = 0; i < objectArray.size();i++){

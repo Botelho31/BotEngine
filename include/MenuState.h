@@ -25,6 +25,7 @@
             Button *loadButton;
             Button *optionsButton;
             Button *quitButton;
+            Button *infoButton;
     };
 
 #endif
