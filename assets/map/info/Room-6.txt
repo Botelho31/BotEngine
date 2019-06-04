@@ -15,5 +15,20 @@ Portal
 
 Spike
   [
-    spikeBox 1600 1650 400 150
+    spikeBox 1150 1650 400 150
+  ]
+
+Spike
+  [
+    spikeBox 1600 1650 450 150
+  ]
+
+Spike
+  [
+    spikeBox 2100 1650 550 150
+  ]
+
+Spike
+  [
+    spikeBox 2700 1650 450 150
   ]
