@@ -6,6 +6,8 @@
 #include "../include/Camera.h"
 #include "../include/Text.h"
 #include "../include/MousePointer.h"
+#include "../include/Collider.h"
+#include "../include/Collision.h"
 
 TitleState::TitleState(){
     quitRequested = false;
@@ -25,6 +27,7 @@ TitleState::TitleState(){
 }
 
 TitleState::~TitleState(){
+    objectArray.clear();
 }
 
 void TitleState::LoadAssets(){
@@ -33,13 +36,28 @@ void TitleState::LoadAssets(){
 
 void TitleState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
-    if(input->KeyPress(ESCAPE_KEY) || input->QuitRequested()){
-		quitRequested = true;
-	}
+    State::UpdateArray(dt);
+
     if(input->KeyPress(SDLK_SPACE)){
         Game::GetInstance().Push(new StageState());
+    } 
+
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        Component *component1 = objectArray[i]->GetComponent("Collider");
+        if((component1) && ((i + 1) < objectArray.size())){
+            Collider *collider1 = dynamic_cast<Collider*>(component1);
+            for(unsigned int j = i + 1; j < objectArray.size();j++){
+                Component *component2 = objectArray[j]->GetComponent("Collider");
+                if(component2){
+                    Collider *collider2 = dynamic_cast<Collider*>(component2);
+                    if(Collision::IsColliding(collider1->box,collider2->box,ToPI(objectArray[i]->angleDeg),ToPI(objectArray[j]->angleDeg))){
+                        objectArray[i]->NotifyCollision(*objectArray[j]);
+                        objectArray[j]->NotifyCollision(*objectArray[i]);
+                    }
+                }
+            }
+        }
     }
-    State::UpdateArray(dt); 
 }
 
 void TitleState::Render(){
