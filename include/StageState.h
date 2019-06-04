@@ -34,7 +34,7 @@
             static bool MapCollisionLoaded();
             static bool LoadedTileColliders();
 
-            static void ChangeBackground(std::string file);
+            static void ChangeBackground(std::string file,bool parallax = true,Vec2 scale = {1,1});
         private:
             TileSet *tileset;
             Music *backgroundMusic;

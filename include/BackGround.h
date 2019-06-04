@@ -8,16 +8,17 @@
 
     class BackGround : public Component{
         public:
-            BackGround(GameObject& go,std::string backgroundfile);
+            BackGround(GameObject& go,std::string backgroundfile,bool parallax = true);
             
             void Update(float dt);
             void Render();
             bool Is(std::string type);
 
-            void SetFile(std::string backgroundfile);
+            void ChangeBackground(std::string backgroundfile,bool parallax = true,Vec2 scale = {1,1});
         private:
             Vec2 originalpos;
             Sprite* backgroundsprite;
+            bool parallax;
     };
 
 #endif
