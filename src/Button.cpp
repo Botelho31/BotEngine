@@ -1,5 +1,6 @@
 #include "../include/Button.h"
 #include "../include/MousePointer.h"
+#include "../include/Collider.h"
 
 Button::Button(GameObject& associated,Vec2 center,std::string normalfile,std::string highlightedfile,std::string selectedfile) : Component(associated){
     buttonsprite = new Sprite(associated,normalfile);
@@ -8,6 +9,8 @@ Button::Button(GameObject& associated,Vec2 center,std::string normalfile,std::st
     this->highlightedfile = highlightedfile;
     this->selectedfile = selectedfile;
     state = NORMAL;
+    Collider *collider = new Collider(associated);
+    associated.AddComponent(collider);
 }
 
 Button::~Button(){

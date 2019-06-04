@@ -8,13 +8,14 @@
 #include "../include/MousePointer.h"
 #include "../include/Collider.h"
 #include "../include/Collision.h"
+#include "../include/Button.h"
 
 TitleState::TitleState(){
     quitRequested = false;
     popRequested = false;
 
     GameObject *titleobj =  new GameObject();
-    Sprite *title = new Sprite(*titleobj,"assets/img/titlescreen.png");
+    Sprite *title = new Sprite(*titleobj,"assets/img/titlescreenreference.png");
     titleobj->box.x = 0;
     titleobj->box.y = 0;
     titleobj->AddComponent(title);
@@ -24,6 +25,12 @@ TitleState::TitleState(){
     MousePointer *mousepointer = new MousePointer(*mousePointerObj);
     mousePointerObj->AddComponent(mousepointer);
     AddObject(mousePointerObj);
+
+    GameObject *playButtonObj = new GameObject();
+    Button *playButton = new Button(*playButtonObj,{0,0},"assets/img/normalPlayButton.png","assets/img/highlightedPlayButton.png","assets/img/selectedPlayButton.png");
+    playButtonObj->box.SetCenter({970,830});
+    playButtonObj->AddComponent(playButton);
+    AddObject(playButtonObj);
 }
 
 TitleState::~TitleState(){

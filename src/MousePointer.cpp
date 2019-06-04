@@ -19,6 +19,9 @@ void MousePointer::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
     Vec2 mouse = Vec2(input->GetMouseX() * 2,input->GetMouseY() * 2);
     associated.box.SetCenter(mouse);
+    if(input->IsKeyDown(SDLK_EQUALS)){
+        std::cout << mouse.x << " " << mouse.y << std::endl;
+    }
 }
 
 void MousePointer::Render(){
