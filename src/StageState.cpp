@@ -421,11 +421,11 @@ void StageState::UpdateHP(){
         for(int i = 0;i < dif;i++){
             GameObject* newIconObj = new GameObject();
             if(playerHPIcons.empty()){
-                newIconObj->box.x = 50;
-                newIconObj->box.y = 20;
+                newIconObj->box.x = 300;
+                newIconObj->box.y = 100;
             }else{
                 newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w;
-                newIconObj->box.y = 20;
+                newIconObj->box.y = 100;
             }
             newIconObj->renderAfterForeGround = true;
             Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/vida.png");
@@ -487,6 +487,16 @@ void StageState::Start(){
     fpsObj->AddComponent(camerafollower3);
     fpsObj->AddComponent(fps);
     objectArray.emplace_back(fpsObj); 
+
+    //Loads the bel icon
+    GameObject *belIconObj = new GameObject();
+    belIconObj->renderAfterForeGround = true;
+    Sprite *belIcon = new Sprite(*belIconObj,"assets/img/HUD/belicon.png");
+    belIconObj->box.Transform(50,20);
+    CameraFollower *camfollower =  new CameraFollower(*belIconObj);
+    belIconObj->AddComponent(camfollower);
+    belIconObj->AddComponent(belIcon);
+    AddObject(belIconObj);
        
     //FINISHES LOADING
 
