@@ -40,7 +40,7 @@ Player::Player(GameObject& associated) : Component(associated){
     swordattack = new Timer();
     delayedboosttimer = new Timer();
 
-    hp = 150;
+    hp = PLAYERHP;
     invencible = false;
     invincibilitytimer = new Timer();
     damagetimer = new Timer();
@@ -613,7 +613,7 @@ void Player::SpriteEffect(std::string file,int frames,float frametime,float dura
 
 void Player::Reset(Vec2 speed){
     SetSpeed(speed);
-    SetHealth(150);
+    SetHealth(PLAYERHP);
     swordattack->Restart();
     delayedboosttimer->Restart();
     invincibilitytimer->Restart();

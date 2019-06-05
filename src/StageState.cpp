@@ -475,8 +475,8 @@ void StageState::UpdateHP(){
                 std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
                 playerDeathIcons.push_back(newiconweakptr);
             }
-        }else if((playerHP == 0) && (dif < 15)){
-            for(int i = 0;i < (15 - numberoficons);i++){
+        }else if((playerHP == 0) && (dif < PLAYERHP/10)){
+            for(int i = 0;i < (PLAYERHP/10 - numberoficons);i++){
                 GameObject* newIconObj = new GameObject();
                 if(playerHPIcons.empty()){
                     newIconObj->box.x = 300 + 58 * i;

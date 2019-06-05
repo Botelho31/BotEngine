@@ -28,6 +28,8 @@
   #include "Resources.h"
   #include "InputManager.h"
 
+  #define PLAYERHP 150
+
   class Game {
 
     public:
