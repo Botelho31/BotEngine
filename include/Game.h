@@ -29,6 +29,10 @@
   #include "InputManager.h"
 
   #define PLAYERHP 150
+  #define PLAYERSWORDDAMAGE 20
+  #define PLAYERPROJECTILEDAMAGE 30
+  #define MINIONHP 60
+  #define MINIONDAMAGE 30
 
   class Game {
 

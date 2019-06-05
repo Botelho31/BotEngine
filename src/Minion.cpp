@@ -17,7 +17,7 @@ Minion::Minion(GameObject& associated,minionState startingState) : Component(ass
     gravspeed = 2000;
     hittheground = new Timer();
 
-    hp = 60;
+    hp = MINIONHP;
     attackrange = 150;
     sightrange = 500;
     damageCooldown = 0;
@@ -262,7 +262,7 @@ void Minion::AttackState(float distanceToPlayer,float dt){
             }
             GameObject *hitboxObj = new GameObject();
             std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.44,0.44,false,true,false,{400,100},this);
+            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,MINIONDAMAGE,0.44,0.44,false,true,false,{400,100},this);
             minionhitbox->SetFunction(BiteHitbox);
             hitboxObj->AddComponent(minionhitbox);
             Game::GetInstance().GetCurrentState().AddObject(hitboxObj);

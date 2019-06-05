@@ -142,7 +142,7 @@ void Player::InstanceHitbox(){
     Rect hitbox = Rect(vector.x - 50,vector.y - 30,100,60);
     GameObject *swordObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,20,attacktiming - delayedboost,(attacktiming - delayedboost),true,false,true,{300,100},this,0.04);
+    HitBox *swordhitbox = new HitBox(*swordObj,hitbox,owner,0,PLAYERSWORDDAMAGE,attacktiming - delayedboost,(attacktiming - delayedboost),true,false,true,{300,100},this,0.04);
     swordhitbox->SetFunction(SwordHitbox);
     swordObj->AddComponent(swordhitbox);
     Game::GetInstance().GetCurrentState().AddObject(swordObj);
@@ -181,7 +181,7 @@ void Player::InstanceProjectileHitbox(){
     Sprite *projectilesprite = new Sprite(*projectileObj,spritefiles["projectileattack"],10,0.04);
     projectileObj->AddComponent(projectilesprite);
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *projectilehitbox = new HitBox(*projectileObj,{0,0,0,0},owner,0,30,5,0.5,true,false,true,{300,100},this,0.04);
+    HitBox *projectilehitbox = new HitBox(*projectileObj,{0,0,0,0},owner,0,PLAYERPROJECTILEDAMAGE,5,0.5,true,false,true,{300,100},this,0.04);
 
     //Differentiates starting point based on where player is turned at moment of instance
     if(playersprite->IsFlipped()){
