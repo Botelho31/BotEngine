@@ -428,7 +428,7 @@ void StageState::UpdateHP(){
                 newIconObj->box.y = 20;
             }
             newIconObj->renderAfterForeGround = true;
-            Sprite *newIcon = new Sprite(*newIconObj,"assets/img/potato.png");
+            Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/vida.png");
             newIconObj->AddComponent(newIcon);
             CameraFollower *camfollower =  new CameraFollower(*newIconObj);
             newIconObj->AddComponent(camfollower);

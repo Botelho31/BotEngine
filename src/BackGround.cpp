@@ -10,7 +10,7 @@ BackGround::BackGround(GameObject& go,std::string backgroundfile,bool parallax) 
 
 void BackGround::Update(float dt){
     if(parallax){
-        associated.box.x = originalpos.x - Camera::pos.x * 0.25;
+        associated.box.x = originalpos.x - Camera::pos.x * 0.03125;
         associated.box.y = originalpos.y;
     }else{
         associated.box.x = originalpos.x + Camera::pos.x;
