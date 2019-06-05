@@ -9,7 +9,7 @@
     attacking1 assets/img/belattacktest2.png
     attacking2 assets/img/belattack2test3.png
     attacking3 assets/img/belattack3test2.png
-    projectileattack assets/img/projetilattack3test2.png
+    projectileattack assets/img/projetilattack3test.png
     hittheground assets/img/belhitthegroundtest4.png
     smoke assets/img/smoketest.png
     smoke2 assets/img/smoke2test.png

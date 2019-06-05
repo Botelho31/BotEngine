@@ -1,7 +1,7 @@
 Save
 	[
 		mapInfo assets/map/info/MiddleTerm.txt
-		playerPos 980.244 3779.67
+		playerPos 46.278 3380
 		playerLife 150
 		checkpointPos 0 3380
 		checkpointPosSpeed 600 0
