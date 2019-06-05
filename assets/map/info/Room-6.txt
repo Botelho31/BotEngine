@@ -50,3 +50,10 @@ Spike
     spikeBox 100 450 150 1200
     flipped 1
   ]
+
+FakeWall
+  [
+    pos 50 450
+    spritefile assets/img/fakewallroom6.png
+    breakable 0
+  ]
