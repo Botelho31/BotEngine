@@ -46,7 +46,7 @@ bool Button::isSelected(){
 }
 
 void Button::Reset(){
-    state == NORMAL;
+    state = NORMAL;
     colliding = false;
     SetSprite(normalfile);
 }
