@@ -416,75 +416,86 @@ void StageState::HandleEvents(float dt){
 void StageState::UpdateHP(){
     int numberoficons = Player::player->GetLife()/10;
     int dif = numberoficons - (playerHP/10);
-    if(dif > 0){
-        for(int i = 0;i < dif;i++){
-            if(playerDeathIcons.size() > 0){
-                playerDeathIcons.front().lock()->RequestDelete();
-                playerDeathIcons.erase(playerDeathIcons.begin() + 0);
-            }
-        }
-        for(int i = 0;i < dif;i++){
-            GameObject* newIconObj = new GameObject();
-            if(playerHPIcons.empty()){
-                newIconObj->box.x = 300;
-                newIconObj->box.y = 100;
-            }else{
-                newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w;
-                newIconObj->box.y = 100;
-            }
-            newIconObj->renderAfterForeGround = true;
-            Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/vida.png");
-            newIconObj->AddComponent(newIcon);
-            CameraFollower *camfollower =  new CameraFollower(*newIconObj);
-            newIconObj->AddComponent(camfollower);
-            std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
-            playerHPIcons.push_back(newiconweakptr);
-        }
-    }else{
-        for(int i = 0;i < abs(dif);i++){
+    if((!GameData::playerAlive)){
+        for(int i = 0;i < playerHPIcons.size();i++){
             playerHPIcons.back().lock()->RequestDelete();
             playerHPIcons.erase(playerHPIcons.begin() + playerHPIcons.size() - 1);
         }
-    }
+        for(int i = 0;i < playerDeathIcons.size();i++){
+            playerDeathIcons.back().lock()->RequestDelete();
+            playerDeathIcons.erase(playerDeathIcons.begin() + playerDeathIcons.size() - 1);
+        }
+    }else{
+        if(dif > 0){
+            for(int i = 0;i < dif;i++){
+                if(playerDeathIcons.size() > 0){
+                    playerDeathIcons.front().lock()->RequestDelete();
+                    playerDeathIcons.erase(playerDeathIcons.begin() + 0);
+                }
+            }
+            for(int i = 0;i < dif;i++){
+                GameObject* newIconObj = new GameObject();
+                if(playerHPIcons.empty()){
+                    newIconObj->box.x = 300;
+                    newIconObj->box.y = 100;
+                }else{
+                    newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w;
+                    newIconObj->box.y = 100;
+                }
+                newIconObj->renderAfterForeGround = true;
+                Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/vida.png");
+                newIconObj->AddComponent(newIcon);
+                CameraFollower *camfollower =  new CameraFollower(*newIconObj);
+                newIconObj->AddComponent(camfollower);
+                std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
+                playerHPIcons.push_back(newiconweakptr);
+            }
+        }else{
+            for(int i = 0;i < abs(dif);i++){
+                playerHPIcons.back().lock()->RequestDelete();
+                playerHPIcons.erase(playerHPIcons.begin() + playerHPIcons.size() - 1);
+            }
+        }
 
-    if(dif < 0){
-        for(int i = 0;i < abs(dif);i++){
-            GameObject* newIconObj = new GameObject();
-            if(playerHPIcons.empty()){
-                newIconObj->box.x = 300 + 58 * i;
-                newIconObj->box.y = 100;    
-            }else{
-                newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w +  playerHPIcons.back().lock()->box.w * i;
-                newIconObj->box.y = 100;
+        if(dif < 0){
+            for(int i = 0;i < abs(dif);i++){
+                GameObject* newIconObj = new GameObject();
+                if(playerHPIcons.empty()){
+                    newIconObj->box.x = 300 + 58 * i;
+                    newIconObj->box.y = 100;    
+                }else{
+                    newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w +  playerHPIcons.back().lock()->box.w * i;
+                    newIconObj->box.y = 100;
+                }
+                newIconObj->renderAfterForeGround = true;
+                Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/morte.png");
+                newIconObj->AddComponent(newIcon);
+                CameraFollower *camfollower =  new CameraFollower(*newIconObj);
+                newIconObj->AddComponent(camfollower);
+                std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
+                playerDeathIcons.push_back(newiconweakptr);
             }
-            newIconObj->renderAfterForeGround = true;
-            Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/morte.png");
-            newIconObj->AddComponent(newIcon);
-            CameraFollower *camfollower =  new CameraFollower(*newIconObj);
-            newIconObj->AddComponent(camfollower);
-            std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
-            playerDeathIcons.push_back(newiconweakptr);
-        }
-    }else if((playerHP == 0) && (dif < 15)){
-        for(int i = 0;i < (15 - numberoficons);i++){
-            GameObject* newIconObj = new GameObject();
-            if(playerHPIcons.empty()){
-                newIconObj->box.x = 300 + 58 * i;
-                newIconObj->box.y = 100;    
-            }else{
-                newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w +  playerHPIcons.back().lock()->box.w * i;
-                newIconObj->box.y = 100;
+        }else if((playerHP == 0) && (dif < 15)){
+            for(int i = 0;i < (15 - numberoficons);i++){
+                GameObject* newIconObj = new GameObject();
+                if(playerHPIcons.empty()){
+                    newIconObj->box.x = 300 + 58 * i;
+                    newIconObj->box.y = 100;    
+                }else{
+                    newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w +  playerHPIcons.back().lock()->box.w * i;
+                    newIconObj->box.y = 100;
+                }
+                newIconObj->renderAfterForeGround = true;
+                Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/morte.png");
+                newIconObj->AddComponent(newIcon);
+                CameraFollower *camfollower =  new CameraFollower(*newIconObj);
+                newIconObj->AddComponent(camfollower);
+                std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
+                playerDeathIcons.push_back(newiconweakptr);
             }
-            newIconObj->renderAfterForeGround = true;
-            Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/morte.png");
-            newIconObj->AddComponent(newIcon);
-            CameraFollower *camfollower =  new CameraFollower(*newIconObj);
-            newIconObj->AddComponent(camfollower);
-            std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
-            playerDeathIcons.push_back(newiconweakptr);
         }
+        playerHP = Player::player->GetLife();
     }
-    playerHP = Player::player->GetLife();
 }
 
 bool StageState::ChangingMap(){
