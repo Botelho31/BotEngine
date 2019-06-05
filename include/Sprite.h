@@ -21,7 +21,7 @@
             Vec2 GetScale();
             int GetWidth();
             int GetHeight();
-            void Flip();
+            void Flip(bool vertical = false);
             bool IsFlipped();
             void SetRepeat(bool repeat);
             bool IsOpen();
@@ -43,6 +43,7 @@
             int width;
             int height;
             bool flip;
+            bool flipvertical;
             Vec2 scale;
             SDL_Rect clip_rect;
 

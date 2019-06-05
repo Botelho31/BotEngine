@@ -9,6 +9,7 @@ Sprite::Sprite(GameObject& associated,int frameCount,float frameTime,float secon
     this->secondsToSelfDestruct = secondsToSelfDestruct;
     this->selfDestructCount = new Timer();
     this->flip = false;
+    this->flipvertical = false;
     this->repeat = repeat;
     this->singularTexture = singularTexture;
     selfDestructCount->Restart();
@@ -133,7 +134,11 @@ void Sprite::Render(int x,int y){
     dst_rect.w = clip_rect.w * scale.x;
     dst_rect.h = clip_rect.h * scale.y;
     if(flip){
-        SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_HORIZONTAL);
+        if(flipvertical){
+            SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_VERTICAL);
+        }else{
+            SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_HORIZONTAL);
+        }
     }else{
         SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clip_rect,&dst_rect,associated.angleDeg,nullptr,SDL_FLIP_NONE);
     }
@@ -147,11 +152,15 @@ int Sprite::GetHeight(){
     return height * scale.y;
 }
 
-void Sprite::Flip(){
+void Sprite::Flip(bool vertical){
     if(flip){
         flip = false;
+        flipvertical = false;
     }else{
         flip = true;
+        if(vertical){
+            flipvertical = true;
+        }
     }
 }
 
