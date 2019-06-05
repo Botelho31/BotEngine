@@ -57,3 +57,7 @@ int TileSet::GetTileHeight(){
 int TileSet::GetTileWidth(){
     return tileWidth;
 }
+
+void TileSet::SetAngle(float angle){
+    owner->angleDeg = angle;
+}

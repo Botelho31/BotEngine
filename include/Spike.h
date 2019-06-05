@@ -23,6 +23,7 @@
             Vec2 knockback;
             int damage;
             TileSet *spiketileset;
+            TileSet *spiketileset2;
     };
 
 #endif
