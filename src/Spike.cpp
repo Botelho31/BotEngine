@@ -45,7 +45,6 @@ void Spike::Render(){
         }
     }
     else if((associated.box.w == spiketileset->GetTileHeight()) && (associated.box.h > spiketileset->GetTileWidth())){
-        spiketileset->SetAngle(-90);
         int currentHeight = 0;
         int currentIndex = 1;
         for(int i = 0;i < (associated.box.h/spiketileset->GetTileWidth());i++){
