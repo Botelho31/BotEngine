@@ -166,6 +166,7 @@ void TileMap::SpawnMobs(std::string file){
                 FakeWall *fakewall = new FakeWall(*fakewallObj,sprite,breakable);
                 fakewallObj->AddComponent(fakewall);
                 fakewallObj->box.Transform(pos.x,pos.y);
+                fakewallObj->renderAfterForeGround = true;
                 if(breakable){
                     int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                     Game::GetInstance().GetCurrentState().AddObject(fakewallObj,place);

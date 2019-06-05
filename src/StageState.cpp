@@ -203,9 +203,16 @@ void StageState::Render(){
             objectArray[i]->box.x = Camera::pos.x;
             objectArray[i]->box.y = Camera::pos.y;
         }
-        objectArray[i]->Render();
+        if(!objectArray[i]->renderAfterForeGround){
+            objectArray[i]->Render();
+        }
     }
     tilemap->RenderForeGround();
+    for(unsigned int i = 0; i < objectArray.size();i++){
+        if(objectArray[i]->renderAfterForeGround){
+            objectArray[i]->Render();
+        }
+    }
     windoweffects->Render();
 }
 
@@ -420,6 +427,7 @@ void StageState::UpdateHP(){
                 newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w;
                 newIconObj->box.y = 20;
             }
+            newIconObj->renderAfterForeGround = true;
             Sprite *newIcon = new Sprite(*newIconObj,"assets/img/potato.png");
             newIconObj->AddComponent(newIcon);
             CameraFollower *camfollower =  new CameraFollower(*newIconObj);

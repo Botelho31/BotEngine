@@ -28,6 +28,7 @@
             Rect box;
             bool started;
             double angleDeg; // SENTIDO HORARIO EM GRAUS
+            bool renderAfterForeGround;
         private:
             std::vector<std::shared_ptr<Component>> components;
             bool isDead;

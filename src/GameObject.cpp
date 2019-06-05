@@ -7,6 +7,7 @@ GameObject::GameObject(){
     this->isDead = false;
     this->started = false;
     this->angleDeg = 0;
+    this->renderAfterForeGround = false;
 }
 
 GameObject::~GameObject(){
