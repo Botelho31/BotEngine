@@ -26,19 +26,23 @@ MovingTile
 Spike
   [
     spikeBox 50 1650 500 150
+    flipped 0
   ]
 
 Spike
   [
     spikeBox 550 1650 550 150
+    flipped 0
   ]
 
 Spike
   [
     spikeBox 1100 1650 400 150
+    flipped 0
   ]
 
 Spike
   [
     spikeBox 1500 1650 450 150
+    flipped 0
   ]

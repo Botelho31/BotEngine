@@ -175,6 +175,7 @@ void TileMap::SpawnMobs(std::string file){
             }
             else if(checkline == "Spike"){
                 Rect spikebox;
+                bool flipped;
                 while(checkline != "spikeBox"){
                     FileReader >> checkline;
                 }
@@ -182,10 +183,12 @@ void TileMap::SpawnMobs(std::string file){
                 FileReader >> spikebox.y;
                 FileReader >> spikebox.w;
                 FileReader >> spikebox.h;
+                FileReader >> checkline;
+                FileReader >> flipped;
 
                 GameObject *spikeObj = new GameObject();
                 spikeObj->box = spikebox;
-                Spike *spike = new Spike(*spikeObj,{400,400});
+                Spike *spike = new Spike(*spikeObj,{400,400},flipped);
                 spikeObj->AddComponent(spike);
                 int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                 Game::GetInstance().GetCurrentState().AddObject(spikeObj,place);

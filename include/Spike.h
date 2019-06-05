@@ -11,7 +11,7 @@
 
     class Spike : public Component{
         public:
-            Spike(GameObject& associated,Vec2 knockback);
+            Spike(GameObject& associated,Vec2 knockback,bool flipped);
             ~Spike();
             void Update(float dt);
             void Render();
@@ -24,6 +24,7 @@
             int damage;
             TileSet *spiketileset;
             TileSet *spiketileset2;
+            bool flipped;
     };
 
 #endif

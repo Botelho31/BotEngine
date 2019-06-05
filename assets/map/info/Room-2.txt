@@ -18,9 +18,11 @@ Portal
 Spike
   [
     spikeBox 50 3000 1650 150
+    flipped 0
   ]
 
 Spike
   [
     spikeBox 300 1550 1650 150
+    flipped 0
   ]
