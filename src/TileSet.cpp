@@ -58,6 +58,14 @@ int TileSet::GetTileWidth(){
     return tileWidth;
 }
 
-void TileSet::SetAngle(float angle){
-    owner->angleDeg = angle;
+void TileSet::Flip(bool horizontal){
+    if(horizontal){
+        for(int i = 0;i < tilesets.size();i++){
+            tilesets[i]->Flip();
+        }
+    }else{
+        for(int i = 0;i < tilesets.size();i++){
+            tilesets[i]->Flip(true);
+        }
+    }
 }

@@ -14,7 +14,8 @@
             void RenderTile(int index,float x,float y);
             int GetTileWidth();
             int GetTileHeight();
-            void SetAngle(float angle);
+
+            void Flip(bool horizontal = true);
         private:
             GameObject *owner;
             std::vector<Sprite*> tilesets;
