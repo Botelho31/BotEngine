@@ -50,6 +50,8 @@
             Vec2 speed;
             Physics *physics;
 
+            Vec2 cachepoint;
+
             
             void (*Move)(GameObject&,GameObject&,float);
     };

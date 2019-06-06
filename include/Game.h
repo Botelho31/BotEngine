@@ -28,7 +28,7 @@
   #include "Resources.h"
   #include "InputManager.h"
 
-  #define PLAYERHP 150
+  #define PLAYERHP 70
   #define PLAYERSWORDDAMAGE 20
   #define PLAYERPROJECTILEDAMAGE 30
   #define MINIONHP 60

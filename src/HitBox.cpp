@@ -40,7 +40,10 @@ void HitBox::Update(float dt){
         if(owner.lock().get()->GetComponent("Player")){
             Vec2 collisionpoint = physics->GetCollisionPoint(owner.lock().get()->box.GetCenter(),GetEdge());
             if((collisionpoint.x != 0) && (collisionpoint.y != 0)){
-                HitEffect("assets/img/sparktest.png",4,0.02,0.08,collisionpoint);
+                if(cachepoint.GetDistance(collisionpoint.x,collisionpoint.y) > 25){
+                    HitEffect("assets/img/sparktest2.png",5,0.04,0.20,collisionpoint);
+                    cachepoint = collisionpoint;
+                }
                 Component *component1 = owner.lock().get()->GetComponent("Player");
                 Player *player = dynamic_cast<Player*>(component1);
                 // component1->KeepStill(true,1);
@@ -92,7 +95,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     KeepStill(true,hitfreezetime);
                     hitbox->KeepStill(true,hitfreezetime);
                     hitfreezetime = 0;
-                    HitEffect("assets/img/sparktest.png",4,0.04,0.16,collisionpoint);
+                    HitEffect("assets/img/sparktest2.png",5,0.04,0.20,collisionpoint);
                 }
             }
         }
@@ -128,7 +131,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     hitbox->KeepStill(true,hitfreezetime);
                     hitfreezetime = 0;
                     if(collider){
-                         HitEffect("assets/img/sparktest.png",4,0.04,0.16,collider->box.GetCenter());
+                         HitEffect("assets/img/sparktest2.png",5,0.04,0.20,collider->box.GetCenter());
                     }
                 }
             }
