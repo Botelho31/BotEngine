@@ -14,3 +14,12 @@ Portal
     portalY 4480
     tilemapinfofile assets/map/info/MiddleTerm.txt
   ]
+
+MovingTile
+  [
+    startPos 2000 1025
+    speed -200
+    destPos 500 1025
+    circular 0
+    file assets/img/movingtile2.png
+  ]

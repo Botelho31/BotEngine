@@ -24,11 +24,13 @@ Spike::Spike(GameObject& associated,Vec2 knockback,bool flipped) : Component(ass
 
     collider->Update(0);
     if(associated.box.w == spiketileset->GetTileHeight()){
-        collider->box.h -= 60;
+        collider->box.h -= 90;
+        collider->box.w -= 10;
         collider->UpdateScale();
     }
     if(associated.box.h == spiketileset->GetTileHeight()){
-        collider->box.w -= 60;
+        collider->box.w -= 70;
+        collider->box.h -= 10;
         collider->UpdateScale();
     }
 }
