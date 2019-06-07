@@ -9,7 +9,7 @@
 
     class Eye : public Component{
         public:
-            Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn = false);
+            Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keepPupilIn = false);
             ~Eye();
 
             void Start();
@@ -21,6 +21,11 @@
 
             void SpawnMinion();
             void SetParallax(float value);
+            
+            void SetOriginalPoint(float addX,float addY);
+            void GoToEndPoint(float constspeed,float dt);
+            void GoToStartPoint(float constspeed,float dt);
+            void Follow(Vec2 pos,float constspeed,float dt);
         private:
             bool keepPupilIn;
             Circle bounds;
@@ -29,6 +34,8 @@
 
             float parallaxvalue;
             Vec2 originalorigin;
+            Vec2 start;
+            Vec2 end;
 
             Sprite *eyelid;
             

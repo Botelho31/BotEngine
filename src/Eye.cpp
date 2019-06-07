@@ -5,16 +5,18 @@
 #include "../include/Camera.h"
 #include "../include/Minion.h"
 
-Eye::Eye(GameObject& associated,Circle bounds,int pupilradius,bool keepPupilIn) : 
+Eye::Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keepPupilIn) : 
     Component(associated){
     pupil.radius = pupilradius;
     this->bounds = bounds;
     this->keepPupilIn = keepPupilIn;
-    this->eyelid = new Sprite(associated,"assets/img/eyelidtest2.png");
-    associated.AddComponent(eyelid);
+    // this->eyelid = new Sprite(associated,"assets/img/eyelidtest2.png");
+    // associated.AddComponent(eyelid);
     associated.box.SetCenter({bounds.x,bounds.y});
     this->pupil.Transform(associated.box.GetCenter());
     originalorigin = associated.box.GetCenter();
+    start = originalorigin;
+    this->end = end;
     parallaxvalue = 1;
 }
 
@@ -26,7 +28,7 @@ void Eye::Start(){
 }
 
 void Eye::Update(float dt){
-    Vec2 offset = originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y * parallaxvalue);
+    Vec2 offset = originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y);
 
     Vec2 boundsbefore  = bounds.GetCenter();
     bounds.Transform(offset);
@@ -56,9 +58,58 @@ void Eye::Update(float dt){
 }
 
 void Eye::SetParallax(float value){
-    this->parallaxvalue = value;
-    this->eyelid->SetParallax(value);
+    // this->parallaxvalue = value;
+    // this->eyelid->SetParallax(value);
 }
+
+void Eye::SetOriginalPoint(float addX,float addY){
+    originalorigin =  originalorigin.Added(addX,addY);
+}
+
+void Eye::GoToEndPoint(float constspeed,float dt){
+    Follow(end,constspeed,dt);
+}
+
+void Eye::GoToStartPoint(float constspeed,float dt){
+    Follow(start,constspeed,dt);
+}
+
+void Eye::Follow(Vec2 dest,float constspeed,float dt){
+    Vec2 speed;
+    float angle = originalorigin.GetAngle(dest.x,dest.y);
+    speed.x = abs(constspeed * cos(angle));
+    speed.y = abs(constspeed * sin(angle));
+    if(originalorigin.x == dest.x){
+
+    }
+    else if(originalorigin.x < dest.x){
+        originalorigin.x += speed.x * dt;
+        if(originalorigin.x > dest.x){
+            originalorigin.x = dest.x;
+        }
+    }else{
+        originalorigin.x -= speed.x * dt;
+        if(originalorigin.x < dest.x){
+            originalorigin.x = dest.x;
+        }
+    }
+
+
+    if(originalorigin.y == dest.y){
+    }
+    else if(originalorigin.y < dest.y){
+        originalorigin.y += speed.y * dt;
+        if(originalorigin.y > dest.y){
+            originalorigin.y = dest.y;
+        }
+    }else{
+        originalorigin.y -= speed.y * dt;
+        if(originalorigin.y < dest.y){
+            originalorigin.y = dest.y;
+        }
+    }
+}
+
 
 Vec2 Eye::PupilFollow(Vec2 dest,float constspeed,float dt){
     Vec2 delta;
