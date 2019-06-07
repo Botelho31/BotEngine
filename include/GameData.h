@@ -31,6 +31,7 @@
             static Vec2 checkpointPosSpeed;
             static std::vector<std::string> listOfDiscoveredMaps;
             static std::vector<int> listOfDiscoveredSouls;
+            static bool playerSword;
 
             static std::queue<Event*> events;
     };

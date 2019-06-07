@@ -2,6 +2,7 @@
 #include "../include/Player.h"
 
 bool GameData::playerAlive;
+bool GameData::playerSword;
 Vec2 GameData::savePlayerPos;
 int GameData::savePlayerHealth;
 std::string GameData::checkpointMapInfo;

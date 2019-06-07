@@ -24,6 +24,13 @@ void Soul::Update(float dt){
         catchinganimation->Update(dt);
         if(catchinganimation->Get() > 2){
             catchinganimation->Restart();
+            if(GameData::listOfDiscoveredSouls.size() == 3){
+                GameData::playerSword = true; //WHERE PLAYER GETS SWORD
+                GameObject* swordeventObj = new GameObject();
+                Event *swordevent = new Event(*swordeventObj,Event::PLAYERGETSSWORD,2);
+                swordeventObj->AddComponent(swordevent);
+                GameData::events.push(swordevent);
+            }
             associated.RequestDelete();
         }
     }

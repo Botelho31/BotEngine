@@ -412,6 +412,22 @@ void StageState::HandleEvents(float dt){
             popRequested = true;
             GameData::events.pop();
         }
+        else if(GameData::events.front()->GetType() == Event::PLAYERGETSSWORD){
+            pause = true;
+            if(!windoweffects->Drawing()){
+                windoweffects->DimScreen(0.5,122);
+            }else{
+                GameData::events.front()->Update(dt);
+            }
+            if(GameData::events.front()->IsEventTimerOver()){
+                InputManager *input = &(InputManager::GetInstance());
+                if(input->KeyPress(SDLK_SPACE)){
+                    windoweffects->DimScreen(0.5,0);
+                    pause = false;
+                    GameData::events.pop();
+                }
+            }
+        }
     }
 }
 
