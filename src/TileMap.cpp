@@ -8,6 +8,7 @@
 #include "../include/FakeWall.h"
 #include "../include/Boss.h"
 #include "../include/Spike.h"
+#include "../include/Soul.h"
 
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
@@ -206,6 +207,29 @@ void TileMap::SpawnMobs(std::string file){
                     place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                 }
                 Game::GetInstance().GetCurrentState().AddObject(spikeObj,place);
+            }
+            else if(checkline == "Soul"){
+                Vec2 soulPos;
+                int soulID;
+                while(checkline != "soulPos"){
+                    FileReader >> checkline;
+                }
+                FileReader >> soulPos.x;
+                FileReader >> soulPos.y;
+                FileReader >> checkline;
+                FileReader >> soulID;
+                bool playerHasCatchedSoul = false;
+                for(int i = 0;i < GameData::listOfDiscoveredSouls.size();i++){
+                    if(soulID == GameData::listOfDiscoveredSouls[i]){
+                        playerHasCatchedSoul = true;
+                    }
+                }
+                if(!playerHasCatchedSoul){
+                    GameObject *soulObj = new GameObject();
+                    soulObj->box.Transform(soulPos.x,soulPos.y);
+                    Soul *soul = new Soul(*soulObj,soulID);
+                    Game::GetInstance().GetCurrentState().AddObject(soulObj);
+                }
             }
             else if(checkline == "Boss"){
                 Vec2 pos;

@@ -1,4 +1,5 @@
 #include "../include/Soul.h"
+#include "../include/GameData.h"
 
 Soul::Soul(GameObject& associated,int soulID) : Component(associated){
     this->soulID = soulID;
@@ -47,9 +48,10 @@ void Soul::NotifyCollision(GameObject& other){
             catched = true;
             catchinganimation->Delay(0);
             SetSprite(catchedsprite);
-
             //LOGIC THAT WORKS AFTER PLAYER CATCHES SOUL
-
+            GameData::listOfDiscoveredSouls.push_back(soulID);
+            GameData::checkpointPos = associated.box.GetCenter();
+            GameData::checkpointPosSpeed = Vec2(0,0);
         }
     }
 }

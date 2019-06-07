@@ -30,6 +30,7 @@
             static Vec2 checkpointPos;
             static Vec2 checkpointPosSpeed;
             static std::vector<std::string> listOfDiscoveredMaps;
+            static std::vector<int> listOfDiscoveredSouls;
 
             static std::queue<Event*> events;
     };
