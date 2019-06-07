@@ -32,7 +32,7 @@
   #define PLAYERSWORDDAMAGE 20
   #define PLAYERPROJECTILEDAMAGE 30
   #define MINIONHP 60
-  #define MINIONDAMAGE 30
+  #define MINIONDAMAGE 10
 
   class Game {
 
