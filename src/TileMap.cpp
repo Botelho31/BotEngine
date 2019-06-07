@@ -171,12 +171,14 @@ void TileMap::SpawnMobs(std::string file){
                     int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                     Game::GetInstance().GetCurrentState().AddObject(fakewallObj,place);
                 }else{
-                    Game::GetInstance().GetCurrentState().AddObject(fakewallObj);
+                    int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("HUD");
+                    Game::GetInstance().GetCurrentState().AddObject(fakewallObj,place);
                 }
             }
             else if(checkline == "Spike"){
                 Rect spikebox;
                 bool flipped;
+                bool behind;
                 while(checkline != "spikeBox"){
                     FileReader >> checkline;
                 }
@@ -186,12 +188,21 @@ void TileMap::SpawnMobs(std::string file){
                 FileReader >> spikebox.h;
                 FileReader >> checkline;
                 FileReader >> flipped;
+                FileReader >> checkline;
+                FileReader >> behind;
 
                 GameObject *spikeObj = new GameObject();
                 spikeObj->box = spikebox;
                 Spike *spike = new Spike(*spikeObj,{400,400},flipped);
                 spikeObj->AddComponent(spike);
-                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                int place = 0;
+                if(behind){
+                    place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("TileMap");
+                    std::cout << place << std::endl;
+                }
+                // else{
+                    place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                // }
                 Game::GetInstance().GetCurrentState().AddObject(spikeObj,place);
             }
             else if(checkline == "Boss"){

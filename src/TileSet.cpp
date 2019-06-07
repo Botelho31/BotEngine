@@ -22,7 +22,7 @@ TileSet::~TileSet(){
     delete owner;
 }
 
-void TileSet::RenderTile(int index,float x,float y,bool debug){
+void TileSet::RenderTile(int index,float x,float y){
     bool printing = true;
     int tilesetindex = 0;
     while(printing){

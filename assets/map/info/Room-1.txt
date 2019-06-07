@@ -19,4 +19,12 @@ Spike
   [
     spikeBox 350 2900 1450 150
     flipped 0
+    behind 0
+  ]
+
+Spike
+  [
+    spikeBox 50 1700 150 500
+    flipped 1
+    behind 1
   ]

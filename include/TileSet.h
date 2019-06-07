@@ -11,7 +11,7 @@
         public:
             TileSet(GameObject* owner,int tileWidth,int tileHeight,std::vector<std::string> files);
             ~TileSet();
-            void RenderTile(int index,float x,float y,bool debug = false);
+            void RenderTile(int index,float x,float y);
             int GetTileWidth();
             int GetTileHeight();
 
