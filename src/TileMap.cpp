@@ -198,11 +198,10 @@ void TileMap::SpawnMobs(std::string file){
                 int place = 0;
                 if(behind){
                     place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("TileMap");
-                    std::cout << place << std::endl;
                 }
-                // else{
+                else{
                     place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
-                // }
+                }
                 Game::GetInstance().GetCurrentState().AddObject(spikeObj,place);
             }
             else if(checkline == "Boss"){

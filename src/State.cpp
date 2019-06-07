@@ -71,8 +71,15 @@ bool State::QuitRequested(){
 
 void State::StartArray(){
     LoadAssets();
+    bool tilemapStarted;
     for(unsigned int i = 0; i < objectArray.size();i++){
-        objectArray[i]->Start();
+        if(objectArray[i]->GetComponent("TileMap") && !tilemapStarted){
+            objectArray[i]->Start();
+            tilemapStarted = true;
+        }else if(objectArray[i]->GetComponent("TileMap") && tilemapStarted){
+        }else{
+            objectArray[i]->Start();
+        }
     }
     started = true;
 }
