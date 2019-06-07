@@ -37,3 +37,9 @@ Spike
     flipped 0
     behind 0
   ]
+
+Soul
+  [
+    soulPos 233 221
+    soulID 4
+  ]

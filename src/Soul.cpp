@@ -21,7 +21,7 @@ Soul::~Soul(){
 
 void Soul::Update(float dt){
     if(catchinganimation->Started()){
-        catchinganimation->Update(0);
+        catchinganimation->Update(dt);
         if(catchinganimation->Get() > 2){
             catchinganimation->Restart();
             associated.RequestDelete();
@@ -45,6 +45,7 @@ void Soul::NotifyCollision(GameObject& other){
     if(!catched){
         Component *component = other.GetComponent("Player");
         if(component){
+            std::cout << "Catched soul" << std::endl;
             catched = true;
             catchinganimation->Delay(0);
             SetSprite(catchedsprite);

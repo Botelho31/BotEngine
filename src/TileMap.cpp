@@ -228,6 +228,7 @@ void TileMap::SpawnMobs(std::string file){
                     GameObject *soulObj = new GameObject();
                     soulObj->box.Transform(soulPos.x,soulPos.y);
                     Soul *soul = new Soul(*soulObj,soulID);
+                    soulObj->AddComponent(soul);
                     Game::GetInstance().GetCurrentState().AddObject(soulObj);
                 }
             }

@@ -87,7 +87,7 @@ void GameData::LoadGame(){
                     FileReader >> checkline;
                 }
             }
-            if(checkline ==  "listOfDiscoveredSouls"){
+            if(checkline ==  "ListOfDiscoveredSouls"){
                 FileReader >> checkline;
                 while(checkline != "]"){
                     if((checkline != "]") && (checkline != "[")){
