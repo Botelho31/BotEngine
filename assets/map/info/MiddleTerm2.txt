@@ -22,3 +22,21 @@ Portal
     portalY 50
     tilemapinfofile assets/map/info/MiddleTerm3.txt
   ]
+
+Minion
+  [
+    minionX 1150
+    minionY 500
+  ]
+
+Minion
+  [
+    minionX 1800
+    minionY 800
+  ]
+
+Minion
+  [
+    minionX 550
+    minionY 800
+  ]
