@@ -152,6 +152,10 @@ int Sprite::GetHeight(){
     return height * scale.y;
 }
 
+int Sprite::GetCurrentFrame(){
+    return currentFrame;
+}
+
 void Sprite::Flip(bool vertical){
     if(flip){
         flip = false;

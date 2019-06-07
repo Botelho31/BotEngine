@@ -21,6 +21,7 @@
             Vec2 GetScale();
             int GetWidth();
             int GetHeight();
+            int GetCurrentFrame();
             void Flip(bool vertical = false);
             bool IsFlipped();
             void SetRepeat(bool repeat);

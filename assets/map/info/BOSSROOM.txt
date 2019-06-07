@@ -17,5 +17,5 @@ Portal
   
 Boss
   [
-    pos 1000 400
+    pos 700 500
   ]
