@@ -1,6 +1,7 @@
 #include "../include/Soul.h"
 
-Soul::Soul(GameObject& associated) : Component(associated){
+Soul::Soul(GameObject& associated,int soulID) : Component(associated){
+    this->soulID = soulID;
     catched = false;
     normalsprite = "assets/img/beltransparent.png";
     catchedsprite = "assets/img/beltransparent.png";
@@ -47,7 +48,8 @@ void Soul::NotifyCollision(GameObject& other){
             catchinganimation->Delay(0);
             SetSprite(catchedsprite);
 
-            
+            //LOGIC THAT WORKS AFTER PLAYER CATCHES SOUL
+
         }
     }
 }

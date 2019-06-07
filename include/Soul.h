@@ -11,7 +11,7 @@
 
     class Soul : public Component{
         public:
-            Soul(GameObject& associated);
+            Soul(GameObject& associated,int soulID);
             ~Soul();
             void Update(float dt);
             void Render();
@@ -21,6 +21,7 @@
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0});
 
         private:
+            int soulID;
             bool catched;
             Timer *catchinganimation;
             Sprite *soulsprite;
