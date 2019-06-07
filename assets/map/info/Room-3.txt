@@ -23,3 +23,29 @@ MovingTile
     circular 0
     file assets/img/movingtile2.png
   ]
+
+Spike
+  [
+    spikeBox 0 700 150 650
+    flipped 1
+    behind 1
+  ]
+
+Spike
+  [
+    spikeBox 2300 400 150 600
+    flipped 0
+    behind 0
+  ]
+
+Minion
+  [
+    minionX 1330
+    minionY 800
+  ]
+
+Minion
+  [
+    minionX 2000
+    minionY 1500
+  ]
