@@ -28,3 +28,10 @@ Spike
     flipped 0
     behind 0
   ]
+
+Spike
+  [
+    spikeBox 0 600 150 950
+    flipped 1
+    behind 1
+  ]

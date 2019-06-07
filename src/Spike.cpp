@@ -6,9 +6,9 @@ Spike::Spike(GameObject& associated,Vec2 knockback,bool flipped) : Component(ass
     this->knockback = knockback;
     this->damage = 300;
     Collider *collider = new Collider(associated);
-    collider->SetScale({0.9,0.9});
     associated.AddComponent(collider);
     this->flipped = flipped;
+    this->adjusted = 0;
 
     GameObject *ownerObj = new GameObject();
     std::vector<std::string> tilesprites;
@@ -21,6 +21,16 @@ Spike::Spike(GameObject& associated,Vec2 knockback,bool flipped) : Component(ass
     tilesprites2.push_back("assets/img/Spiketest2.png");
     tilesprites2.push_back("assets/img/Spiketest22.png");
     spiketileset2 = new TileSet(ownerObj2,150,50,tilesprites2);
+
+    collider->Update(0);
+    if(associated.box.w == spiketileset->GetTileHeight()){
+        collider->box.h -= 60;
+        collider->UpdateScale();
+    }
+    if(associated.box.h == spiketileset->GetTileHeight()){
+        collider->box.w -= 60;
+        collider->UpdateScale();
+    }
 }
 
 Spike::~Spike(){

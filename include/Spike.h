@@ -25,6 +25,7 @@
             TileSet *spiketileset;
             TileSet *spiketileset2;
             bool flipped;
+            bool adjusted;
     };
 
 #endif
