@@ -1,8 +1,8 @@
 #include "../include/MovingTile.h"
 #include "../include/Collision.h"
 
-MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular) : Component(associated){
-    this->tilesprite = new Sprite(associated,"assets/img/movingtile2.png");
+MovingTile::MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular,std::string file) : Component(associated){
+    this->tilesprite = new Sprite(associated,file);
     associated.AddComponent(tilesprite);
 
     this->associated.box.x = start.x - associated.box.w/2;

@@ -21,6 +21,7 @@ MovingTile
     speed -100
     destPos 900 700
     circular 0
+    file assets/img/movingtile2.png
   ]
 
 Spike

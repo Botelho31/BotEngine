@@ -131,6 +131,7 @@ void TileMap::SpawnMobs(std::string file){
                 Vec2 dest;
                 float speed;
                 bool circular;
+                std::string file;
                 while(checkline != "startPos"){
                     FileReader >> checkline;
                 } 
@@ -143,8 +144,10 @@ void TileMap::SpawnMobs(std::string file){
                 FileReader >> dest.y;
                 FileReader >> checkline;
                 FileReader >> circular;
+                FileReader >> checkline;
+                FileReader >> file;
                 GameObject *tileObj = new GameObject();
-                MovingTile *movingtile = new MovingTile(*tileObj,speed,start,dest,circular);
+                MovingTile *movingtile = new MovingTile(*tileObj,speed,start,dest,circular,file);
                 tileObj->AddComponent(movingtile);
                 int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                 Game::GetInstance().GetCurrentState().AddObject(tileObj,place);

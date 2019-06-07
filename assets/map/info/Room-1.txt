@@ -21,6 +21,25 @@ MovingTile
     speed -200
     destPos 300 1680
     circular 0
+    file assets/img/movingtile2.png
+  ]
+
+MovingTile
+  [
+    startPos 750 400
+    speed -200
+    destPos 750 650
+    circular 0
+    file assets/img/movingtile3.png
+  ]
+
+MovingTile
+  [
+    startPos 1250 650
+    speed -200
+    destPos 1250 400
+    circular 0
+    file assets/img/movingtile3.png
   ]
 
 Spike

@@ -10,7 +10,7 @@
 
     class MovingTile : public Component{
         public:
-            MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular);
+            MovingTile(GameObject& associated,float speed,Vec2 start,Vec2 dest,bool circular,std::string file);
             ~MovingTile();
             void Update(float dt);
             void Render();
