@@ -4,8 +4,8 @@
 Soul::Soul(GameObject& associated,int soulID) : Component(associated){
     this->soulID = soulID;
     catched = false;
-    normalsprite = "assets/img/beltransparent.png";
-    catchedsprite = "assets/img/beltransparent.png";
+    normalsprite = "assets/img/testsoul.png";
+    catchedsprite = "assets/img/testsoul.png";
     catchinganimation =  new Timer();
 
     this->soulsprite = new Sprite(associated,normalsprite);

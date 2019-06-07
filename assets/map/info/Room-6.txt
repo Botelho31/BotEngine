@@ -15,6 +15,12 @@ Portal
     tilemapinfofile assets/map/info/MiddleTerm3.txt
   ]
 
+Soul
+  [
+    soulPos 233 221
+    soulID 6
+  ]
+
 MovingTile
   [
     startPos 2100 1600

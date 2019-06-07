@@ -275,6 +275,7 @@ void StageState::ClearMobs(){
         Component *component8 = objectArray[i]->GetComponent("Boss");
         Component *component9 = objectArray[i]->GetComponent("Eye");
         Component *component10 = objectArray[i]->GetComponent("Spike");
+        Component *component11 = objectArray[i]->GetComponent("Soul");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -303,6 +304,9 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
         else if(component10){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        else if(component11){
             objectArray.erase(objectArray.begin() + i);
         }
     }

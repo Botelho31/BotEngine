@@ -15,6 +15,12 @@ Portal
     tilemapinfofile assets/map/info/MiddleTerm3.txt
   ]
 
+Soul
+  [
+    soulPos 233 221
+    soulID 4
+  ]
+
 MovingTile
   [
     startPos 930 650
@@ -36,10 +42,4 @@ Spike
     spikeBox 2850 50 150 1350
     flipped 0
     behind 0
-  ]
-
-Soul
-  [
-    soulPos 233 221
-    soulID 4
   ]

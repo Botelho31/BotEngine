@@ -1,10 +1,10 @@
 Save
 	[
-		mapInfo assets/map/info/Room-4.txt
-		playerPos 1290.79 1080.37
+		mapInfo assets/map/info/Room-6.txt
+		playerPos 3205.66 1380
 		playerLife 70
-		checkpointPos 283 321
-		checkpointPosSpeed 0 0
+		checkpointPos 3250 1380
+		checkpointPosSpeed -600 0
 	]
 ListOfDiscoveredMaps
 	[
@@ -22,5 +22,6 @@ ListOfDiscoveredMaps
 	]
 ListOfDiscoveredSouls
 	[
+		4
 		4
 	]
