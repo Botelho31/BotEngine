@@ -488,7 +488,7 @@ float Physics::PerformXMovement(float dt){
         if((speed->x * dt) < 0){
             modX = speed->x * dt;
         }
-        if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),0),ToPI(associated.angleDeg))){
+        if(IsColliding(collider->box.Added(modX,0,std::fabs(speed->x * dt),-1),ToPI(associated.angleDeg))){
             speed->x = speed->x/2;
             if(IsRight() && (speed->x > 0)){
                 speed->x = 0;

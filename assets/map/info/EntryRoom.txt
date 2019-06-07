@@ -22,3 +22,21 @@ Portal
     portalY 1380
     tilemapinfofile assets/map/info/BOSSROOM.txt
   ]
+
+  MovingTile
+  [
+    startPos 2660 1100
+    speed -200
+    destPos 2660 1600
+    circular 0
+    file assets/img/movingtile2.png
+  ]
+
+MovingTile
+  [
+    startPos 3550 1100
+    speed -200
+    destPos 3550 1600
+    circular 0
+    file assets/img/movingtile3.png
+  ]

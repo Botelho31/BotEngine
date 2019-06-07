@@ -165,20 +165,23 @@ void MovingTile::MoveObject(GameObject& other,Vec2 deltamov){
                 other.box.y += deltamov.y;
             }else{
                 float interval = deltamov.y/2;
-                while(std::fabs(interval) > 0.01){
+                bool isColliding = true;
+                while((std::fabs(interval) > 0.01) && !isColliding){
                     if(physics1->IsColliding(movedY,ToPI(other.angleDeg))){
                         deltamov.y -= interval;
                         interval /= 2;
+                        isColliding = true;
                     }else{
                         deltamov.y += interval;
                         interval /= 2;
+                        isColliding = false;
                     }
                     movedY = collider1->box.Added(deltamov.x,deltamov.y);
                 }
                 if(deltamov.y < 0){
                     deltamov.y = ceil(deltamov.y);
                 }else{
-                    deltamov.y = floor(deltamov.y);
+                    deltamov.y = deltamov.y;
                 }
                 other.box.y += deltamov.y;                
             }
