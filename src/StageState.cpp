@@ -25,6 +25,7 @@
 #include "../include/MapState.h"
 #include "../include/Spike.h"
 #include "../include/BackGround.h"
+#include "../include/HUD.h"
 
 bool StageState::changingMap;
 bool StageState::mapcollision;
@@ -40,11 +41,8 @@ StageState::StageState(){
     mapcollision = false;
     showfps = false;
     pause = false;
-    light = new Light();
     windoweffects = new WindowEffects();
     changingMapTimer = new Timer();
-
-    playerHP = 0;
 
     //Loads the background music;
     backgroundMusic = new Music("assets/audio/musicmenubel.ogg");
@@ -170,7 +168,7 @@ void StageState::Update(float dt){
             objectArray.erase(objectArray.begin() + i);
         }
     }
-    UpdateHP();
+
     windoweffects->Update(dt);
     
     HandleEvents(dt);    //HANDLE TILEMAP EXCHANGE
@@ -413,91 +411,6 @@ void StageState::HandleEvents(float dt){
     }
 }
 
-void StageState::UpdateHP(){
-    int numberoficons = Player::player->GetLife()/10;
-    int dif = numberoficons - (playerHP/10);
-    if((!GameData::playerAlive)){
-        for(int i = 0;i < playerHPIcons.size();i++){
-            playerHPIcons.back().lock()->RequestDelete();
-            playerHPIcons.erase(playerHPIcons.begin() + playerHPIcons.size() - 1);
-        }
-        for(int i = 0;i < playerDeathIcons.size();i++){
-            playerDeathIcons.back().lock()->RequestDelete();
-            playerDeathIcons.erase(playerDeathIcons.begin() + playerDeathIcons.size() - 1);
-        }
-    }else{
-        if(dif > 0){
-            for(int i = 0;i < dif;i++){
-                if(playerDeathIcons.size() > 0){
-                    playerDeathIcons.front().lock()->RequestDelete();
-                    playerDeathIcons.erase(playerDeathIcons.begin() + 0);
-                }
-            }
-            for(int i = 0;i < dif;i++){
-                GameObject* newIconObj = new GameObject();
-                if(playerHPIcons.empty()){
-                    newIconObj->box.x = 300;
-                    newIconObj->box.y = 100;
-                }else{
-                    newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w;
-                    newIconObj->box.y = 100;
-                }
-                newIconObj->renderAfterForeGround = true;
-                Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/vida.png");
-                newIconObj->AddComponent(newIcon);
-                CameraFollower *camfollower =  new CameraFollower(*newIconObj);
-                newIconObj->AddComponent(camfollower);
-                std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
-                playerHPIcons.push_back(newiconweakptr);
-            }
-        }else{
-            for(int i = 0;i < abs(dif);i++){
-                playerHPIcons.back().lock()->RequestDelete();
-                playerHPIcons.erase(playerHPIcons.begin() + playerHPIcons.size() - 1);
-            }
-        }
-
-        if(dif < 0){
-            for(int i = 0;i < abs(dif);i++){
-                GameObject* newIconObj = new GameObject();
-                if(playerHPIcons.empty()){
-                    newIconObj->box.x = 300 + 58 * i;
-                    newIconObj->box.y = 100;    
-                }else{
-                    newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w +  playerHPIcons.back().lock()->box.w * i;
-                    newIconObj->box.y = 100;
-                }
-                newIconObj->renderAfterForeGround = true;
-                Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/morte.png");
-                newIconObj->AddComponent(newIcon);
-                CameraFollower *camfollower =  new CameraFollower(*newIconObj);
-                newIconObj->AddComponent(camfollower);
-                std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
-                playerDeathIcons.push_back(newiconweakptr);
-            }
-        }else if((playerHP == 0) && (dif < PLAYERHP/10)){
-            for(int i = 0;i < (PLAYERHP/10 - numberoficons);i++){
-                GameObject* newIconObj = new GameObject();
-                if(playerHPIcons.empty()){
-                    newIconObj->box.x = 300 + 58 * i;
-                    newIconObj->box.y = 100;    
-                }else{
-                    newIconObj->box.x = playerHPIcons.back().lock()->box.x + playerHPIcons.back().lock()->box.w +  playerHPIcons.back().lock()->box.w * i;
-                    newIconObj->box.y = 100;
-                }
-                newIconObj->renderAfterForeGround = true;
-                Sprite *newIcon = new Sprite(*newIconObj,"assets/img/HUD/morte.png");
-                newIconObj->AddComponent(newIcon);
-                CameraFollower *camfollower =  new CameraFollower(*newIconObj);
-                newIconObj->AddComponent(camfollower);
-                std::weak_ptr<GameObject> newiconweakptr = AddObject(newIconObj);
-                playerDeathIcons.push_back(newiconweakptr);
-            }
-        }
-        playerHP = Player::player->GetLife();
-    }
-}
-
 bool StageState::ChangingMap(){
     return changingMap;
 }
@@ -542,26 +455,11 @@ void StageState::Start(){
     fpsObj->AddComponent(fps);
     objectArray.emplace_back(fpsObj); 
 
-    //Loads the bel icon
-    GameObject *belIconObj = new GameObject();
-    belIconObj->renderAfterForeGround = true;
-    Sprite *belIcon = new Sprite(*belIconObj,"assets/img/HUD/belicon.png");
-    belIconObj->box.Transform(50,20);
-    CameraFollower *camfollower =  new CameraFollower(*belIconObj);
-    belIconObj->AddComponent(camfollower);
-    belIconObj->AddComponent(belIcon);
-    AddObject(belIconObj);
-
-    GameObject *belIconObj2 = new GameObject();
-    belIconObj2->renderAfterForeGround = true;
-    Sprite *belIcon2 = new Sprite(*belIconObj2,"assets/img/HUD/barraleatoria.png");
-    belIconObj2->box.Transform(300,175);
-    CameraFollower *camfollower2 =  new CameraFollower(*belIconObj2);
-    belIconObj2->AddComponent(camfollower2);
-    belIconObj2->AddComponent(belIcon2);
-    AddObject(belIconObj2);
-       
-    //FINISHES LOADING
+    GameObject *hudObj = new GameObject();
+    HUD *hud = new HUD(*hudObj);
+    hudObj->renderAfterForeGround = true;
+    hudObj->AddComponent(hud);
+    AddObject(hudObj);
 
     StartArray();
 

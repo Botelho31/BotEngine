@@ -42,14 +42,6 @@
             Text *fps;
             WindowEffects *windoweffects;
 
-            Light *light;
-
-            //HUD
-            int playerHP;
-            std::vector<std::weak_ptr<GameObject>> playerHPIcons;
-            std::vector<std::weak_ptr<GameObject>> playerDeathIcons;
-
-
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool pause;
             int initialtiles;
