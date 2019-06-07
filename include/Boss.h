@@ -28,7 +28,7 @@
             void InstantiateHitBox(Rect hitbox,float duration,Vec2 knockback);
             void DamageBoss(int damage);
             void KillBoss();
-            void SpawnEye(Vec2 pos);
+            void SpawnEye(Vec2 pos,Vec2 endpos);
             void SpawnMinion();
 
             static void HandHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the hand

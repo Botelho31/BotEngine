@@ -30,21 +30,14 @@ Boss::Boss(GameObject& associated) : Component(associated){
     this->attacktimer = new Timer();
     sightangle = 0;
     spritefiles = GameData::GetSpritesFiles("assets/img/info/player.txt");
-    this->bosssprite =  new Sprite(associated,spritefiles["transparent"],32,0.08);
+    this->bosssprite =  new Sprite(associated,"assets/img/bossidletest.png",28,0.04);
     associated.AddComponent(bosssprite);
 
 
     minionspawntimer = new Timer();
     float posX = associated.box.x;
     float posY = associated.box.y;
-    for(int i = 0; i < 5; i++){
-        posY += 75;
-        for(int j = 0; j < 5; j++){
-            SpawnEye({posX,posY});
-            posX += 100;
-        }
-        posX = associated.box.x;
-    }
+    SpawnEye({1532,1046},{1532,1012});
 }
 
 Boss::~Boss(){
@@ -133,10 +126,10 @@ void Boss::KillBoss(){
     associated.RequestDelete();
 }
 
-void Boss::SpawnEye(Vec2 pos){
+void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
     GameObject *eyeObj =  new GameObject();
     Circle bounds = Circle(pos.x,pos.y,35);
-    Eye *eye = new Eye(*eyeObj,bounds,30);
+    Eye *eye = new Eye(*eyeObj,bounds,endpos,30);
     eye->SetParallax(0.5);
     eyeObj->AddComponent(eye);
     int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
@@ -151,17 +144,27 @@ void Boss::ChasingState(float dt){
 }
 
 void Boss::IdleState(float dt){
+    for(int i = 0;i < eyes.size();i++){
+        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
+        Eye *eye = dynamic_cast<Eye*>(eyecomp);
+        if(bosssprite->GetCurrentFrame() >= 14){
+            eye->GoToEndPoint(62,dt);
+        }else{
+            eye->GoToStartPoint(55,dt);
+        }
+    }
+
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
         minionspawntimer->Update(dt);
         if(minionspawntimer->Get() > 1){
-            int minionspawn = (rand() % 5) + 1;
-            minionspawn = 5;
-            if(minionspawn == 5){
-                SpawnMinion();
-                InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
-                // std::cout << "SPAWNED MINION" << dt << std::endl;
-            }
-            minionspawntimer->Restart();
+            // int minionspawn = (rand() % 5) + 1;
+            // minionspawn = 5;
+            // if(minionspawn == 5){
+            //     SpawnMinion();
+            //     InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
+            //     // std::cout << "SPAWNED MINION" << dt << std::endl;
+            // }
+            // minionspawntimer->Restart();
         }
     }
 }
