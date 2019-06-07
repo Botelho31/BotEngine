@@ -42,6 +42,12 @@ void GameData::SaveGame(){
         savefile << "\t\t" << listOfDiscoveredMaps[i] << "\n";
     }
     savefile << "\t]\n";
+    savefile << "ListOfDiscoveredSouls\n";
+    savefile << "\t[\n";
+    for(int i = 0;i < listOfDiscoveredSouls.size();i++){
+        savefile << "\t\t" << listOfDiscoveredSouls[i] << "\n";
+    }
+    savefile << "\t]\n";
     savefile.close();
     std::cout << "Game Saved" << std::endl;
 }
@@ -77,6 +83,19 @@ void GameData::LoadGame(){
                 while(checkline != "]"){
                     if((checkline != "]") && (checkline != "[")){
                         AddMap(checkline);
+                    }
+                    FileReader >> checkline;
+                }
+            }
+            if(checkline ==  "listOfDiscoveredSouls"){
+                FileReader >> checkline;
+                while(checkline != "]"){
+                    if((checkline != "]") && (checkline != "[")){
+                        std::stringstream soul;
+                        int soulID;
+                        soul << checkline;
+                        soul >> soulID;
+                        listOfDiscoveredSouls.push_back(soulID);
                     }
                     FileReader >> checkline;
                 }
