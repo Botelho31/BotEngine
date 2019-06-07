@@ -43,9 +43,8 @@ void HUD::Render(){
         life->RenderTile(0,currentWidth,height);
         currentWidth += life->GetTileWidth();
     }
-    std::cout << (PLAYERHP/10) - numberoficons << std::endl;
     for(int i = 0;i < ((PLAYERHP/10) - numberoficons);i++){
-        life->RenderTile(1,currentWidth,height);
+        life->RenderTile(1,currentWidth,height,true);
         currentWidth += life->GetTileWidth();
     }
 }

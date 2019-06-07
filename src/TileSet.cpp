@@ -22,7 +22,7 @@ TileSet::~TileSet(){
     delete owner;
 }
 
-void TileSet::RenderTile(int index,float x,float y){
+void TileSet::RenderTile(int index,float x,float y,bool debug){
     bool printing = true;
     int tilesetindex = 0;
     while(printing){
@@ -34,7 +34,7 @@ void TileSet::RenderTile(int index,float x,float y){
             printing = false;
 
         }else{
-            if(index > (rows[tilesetindex]*columns[tilesetindex])){
+            if(index >= (rows[tilesetindex]*columns[tilesetindex])){
                 if((tilesetindex + 1) < tilesets.size()){
                     index -= rows[tilesetindex]*columns[tilesetindex];
                     tilesetindex ++;
