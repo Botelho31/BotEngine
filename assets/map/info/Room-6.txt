@@ -15,6 +15,15 @@ Portal
     tilemapinfofile assets/map/info/MiddleTerm3.txt
   ]
 
+MovingTile
+  [
+    startPos 2100 1600
+    speed -300
+    destPos 2100 1200
+    circular 0
+    file assets/img/movingtile3.png
+  ]
+
 Spike
   [
     spikeBox 1100 1650 450 150
@@ -24,12 +33,12 @@ Spike
 
 Spike
   [
-    spikeBox 1550 1650 500 150
+    spikeBox 1550 1650 1100 150
     flipped 0
     behind 0
   ]
 
-Spike
+Spikelul
   [
     spikeBox 2050 1650 600 150
     flipped 0
