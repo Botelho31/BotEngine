@@ -73,10 +73,11 @@ void State::StartArray(){
     LoadAssets();
     bool tilemapStarted;
     for(unsigned int i = 0; i < objectArray.size();i++){
-        if(objectArray[i]->GetComponent("TileMap") && !tilemapStarted){
-            objectArray[i]->Start();
-            tilemapStarted = true;
-        }else if(objectArray[i]->GetComponent("TileMap") && tilemapStarted){
+        if(objectArray[i]->GetComponent("TileMap")){
+            if(!tilemapStarted){
+                objectArray[i]->Start();
+                tilemapStarted = true;
+            }
         }else{
             objectArray[i]->Start();
         }

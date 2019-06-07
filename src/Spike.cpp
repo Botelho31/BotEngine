@@ -6,6 +6,7 @@ Spike::Spike(GameObject& associated,Vec2 knockback,bool flipped) : Component(ass
     this->knockback = knockback;
     this->damage = 300;
     Collider *collider = new Collider(associated);
+    collider->SetScale({0.9,0.9});
     associated.AddComponent(collider);
     this->flipped = flipped;
 
