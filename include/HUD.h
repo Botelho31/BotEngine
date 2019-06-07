@@ -18,7 +18,8 @@
             bool Is(std::string type);
         private:
             TileSet *life;
-            std::weak_ptr<GameObject> belicon,bar;
+            GameObject* belicon;
+            GameObject* bar;
     };
 
 #endif

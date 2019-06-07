@@ -3,23 +3,21 @@
 #include "../include/Player.h"
 
 HUD::HUD(GameObject& associated) : Component(associated){
-    GameObject *belIconObj = new GameObject();
-    belIconObj->renderAfterForeGround = true;
-    Sprite *belIcon = new Sprite(*belIconObj,"assets/img/HUD/belicon.png");
-    belIconObj->box.Transform(50,20);
-    CameraFollower *camfollower =  new CameraFollower(*belIconObj);
-    belIconObj->AddComponent(camfollower);
-    belIconObj->AddComponent(belIcon);
-    belicon = Game::GetInstance().GetCurrentState().AddObject(belIconObj);
+    this->belicon = new GameObject();
+    belicon->renderAfterForeGround = true;
+    Sprite *belIcon = new Sprite(*belicon,"assets/img/HUD/belicon.png");
+    belicon->box.Transform(50,20);
+    CameraFollower *camfollower =  new CameraFollower(*belicon);
+    belicon->AddComponent(camfollower);
+    belicon->AddComponent(belIcon);
 
-    GameObject *belIconObj2 = new GameObject();
-    belIconObj2->renderAfterForeGround = true;
-    Sprite *belIcon2 = new Sprite(*belIconObj2,"assets/img/HUD/barraleatoria.png");
-    belIconObj2->box.Transform(300,175);
-    CameraFollower *camfollower2 =  new CameraFollower(*belIconObj2);
-    belIconObj2->AddComponent(camfollower2);
-    belIconObj2->AddComponent(belIcon2);
-    bar = Game::GetInstance().GetCurrentState().AddObject(belIconObj2);
+    bar = new GameObject();
+    bar->renderAfterForeGround = true;
+    Sprite *belIcon2 = new Sprite(*bar,"assets/img/HUD/barraleatoria.png");
+    bar->box.Transform(300,175);
+    CameraFollower *camfollower2 =  new CameraFollower(*bar);
+    bar->AddComponent(camfollower2);
+    bar->AddComponent(belIcon2);
 
     GameObject *ownerObj = new GameObject();
     std::vector<std::string> lifesprites;
@@ -30,12 +28,18 @@ HUD::HUD(GameObject& associated) : Component(associated){
 
 HUD::~HUD(){
     delete life;
+    delete belicon;
+    delete bar;
 }
 
 void HUD::Update(float dt){
+    belicon->Update(dt);
+    bar->Update(dt);
 }
 
 void HUD::Render(){
+    belicon->Render();
+    bar->Render();
     int numberoficons = Player::player->GetLife()/10;
     int currentWidth = 300;
     int height = 100;

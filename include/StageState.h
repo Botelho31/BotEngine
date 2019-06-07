@@ -12,6 +12,7 @@
     #include "WindowEffects.h"
     #include "Light.h"
     #include "BackGround.h"
+    #include "HUD.h"
 
     class StageState : public State{
         public:
@@ -28,7 +29,6 @@
             void ExpandTileColliders(); //Handles TileColliders expansion in the opening of new TileMaps
             void HandleEvents(float dt); //Handles event
             void ClearMobs(); //Clear all mobs and hitboxes from screen
-            void UpdateHP();  //Updates the playerHP being displayed on HUD
             
             static bool ChangingMap();  //Check if the tilemap is changing
             static bool MapCollisionLoaded();
@@ -41,6 +41,7 @@
             bool showfps;
             Text *fps;
             WindowEffects *windoweffects;
+            GameObject* HUDdisplay;
 
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool pause;

@@ -170,6 +170,7 @@ void StageState::Update(float dt){
     }
 
     windoweffects->Update(dt);
+    HUDdisplay->Update(dt);
     
     HandleEvents(dt);    //HANDLE TILEMAP EXCHANGE
 
@@ -212,6 +213,7 @@ void StageState::Render(){
         }
     }
     windoweffects->Render();
+    HUDdisplay->Render();
 }
 
 void StageState::ExpandTileColliders(){
@@ -475,11 +477,10 @@ void StageState::Start(){
     fpsObj->AddComponent(fps);
     objectArray.emplace_back(fpsObj); 
 
-    GameObject *hudObj = new GameObject();
-    HUD *hud = new HUD(*hudObj);
-    hudObj->renderAfterForeGround = true;
-    hudObj->AddComponent(hud);
-    AddObject(hudObj);
+    this->HUDdisplay = new GameObject();
+    HUD *hudcomp = new HUD(*HUDdisplay);
+    HUDdisplay->renderAfterForeGround = true;
+    HUDdisplay->AddComponent(hudcomp);
 
     StartArray();
 
