@@ -169,8 +169,8 @@ void StageState::Update(float dt){
         }
     }
 
-    windoweffects->Update(dt);
     HUDdisplay->Update(dt);
+    windoweffects->Update(dt);
     
     HandleEvents(dt);    //HANDLE TILEMAP EXCHANGE
 
@@ -212,8 +212,8 @@ void StageState::Render(){
             objectArray[i]->Render();
         }
     }
-    windoweffects->Render();
     HUDdisplay->Render();
+    windoweffects->Render();
 }
 
 void StageState::ExpandTileColliders(){
