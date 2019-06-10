@@ -51,9 +51,12 @@ MenuState::MenuState(){
     this->infoButton = new Button(*infoButtonObj,{1734,966},"assets/img/buttons/normal/infoButton.png","assets/img/buttons/highlighted/infoButton.png","assets/img/buttons/selected/infoButton.png");
     infoButtonObj->AddComponent(infoButton);
     AddObject(infoButtonObj);
+
+    GameData::GetListOfSaves("assets/saves/listofsaves.txt");
 }
 
 MenuState::~MenuState(){
+    GameData::SaveListOfSaves("assets/saves/listofsaves.txt");
     objectArray.clear();
 }
 
@@ -64,12 +67,10 @@ void MenuState::LoadAssets(){
 void MenuState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     State::UpdateArray(dt);
-
     if(newgameButton->isSelected()){
 
     }
     else if(loadButton->isSelected()){
-        GameData::saveFile = "assets/saves/save.txt";
         Game::GetInstance().Push(new StageState());
     }
     else if(optionsButton->isSelected()){
@@ -82,7 +83,6 @@ void MenuState::Update(float dt){
         quitRequested = true;
     }
     else if(input->KeyPress(SDLK_SPACE)){
-        GameData::saveFile = "assets/saves/save.txt";
         Game::GetInstance().Push(new StageState());
     } 
 
@@ -121,5 +121,4 @@ void MenuState::Resume(){
 }
 
 void MenuState::Pause(){
-
 }

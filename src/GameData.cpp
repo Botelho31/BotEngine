@@ -1,7 +1,7 @@
 #include "../include/GameData.h"
 #include "../include/Player.h"
 
-std::string GameData::saveFile;
+std::vector<std::string> GameData::saveFiles;
 bool GameData::playerAlive;
 bool GameData::playerSword;
 Vec2 GameData::savePlayerPos;
@@ -14,6 +14,76 @@ std::vector<int> GameData::listOfDiscoveredSouls;
 
 std::queue<Event*> GameData::events;
 
+
+bool GameData::ChooseSave(int chosenI){
+    if((chosenI >= 0) && (chosenI < saveFiles.size())){
+        if(chosenI == 0){
+            return true;
+        }else{
+            std::iter_swap(saveFiles.begin(),saveFiles.begin() + chosenI);
+        }
+    }else{
+        std::cout << "Chosen Save does not Exist" << std::endl;
+        return false;
+    }
+}
+
+void GameData::GetListOfSaves(std::string savelist){
+    std::fstream FileReader;
+    FileReader.open(savelist);
+    std::string checkline;
+    if (FileReader.is_open()) {
+        while (!FileReader.eof()) {
+            FileReader >> checkline;    
+            if(checkline == "ListOfSaves"){  
+                FileReader >> checkline;
+                while(checkline != "]"){
+                    if((checkline != "]") && (checkline != "[")){
+                        saveFiles.push_back(checkline);
+                    }
+                    FileReader >> checkline;
+                }
+            }
+        }
+    }else{
+        ENDLINE
+        std::cout << "No Save on Save List" << std::endl; //Printa um erro caso nao consiga dar load na file
+    }
+    FileReader.close();
+}
+
+void GameData::SaveListOfSaves(std::string savelist){
+    std::ofstream savefile;
+    savefile.open (savelist);
+    savefile << "ListOfSaves\n";
+    savefile << "\t[\n";
+    for(int i = 0;i < saveFiles.size();i++){
+        savefile << "\t\t" << saveFiles[i] << "\n";
+    }
+    savefile << "\t]\n";
+    savefile.close();
+}
+
+
+
+bool GameData::AddSave(std::string savename){
+    std::string savefile = AddToPath(AddToPath(SetExtension(savename,"txt"),"assets"),"saves");
+    std::cout << savefile << std::endl;
+    bool saveExists = false;
+    for(int i = 0;i < saveFiles.size();i++){
+        if(saveFiles[i] == savefile){
+            saveExists = true;
+        }
+    }
+    if(!saveExists){
+        saveFiles.push_back(savefile);
+        return true;
+    }else{
+        std::cout << "Save Already Exists" << std::endl;
+        return false;
+    }
+}
+
 void GameData::SaveGame(){
     std::ofstream savefile;
     ENDLINE
@@ -25,11 +95,11 @@ void GameData::SaveGame(){
         savePlayerHealth = Player::player->GetLife();
         std::cout << "Player Data Saved" << std::endl;
     }else{
-        savePlayerHealth = 150;
+        savePlayerHealth = PLAYERHP;
         std::cout << "Couldn't Find Player Data" << std::endl;
     }
     ENDLINE
-    savefile.open (saveFile);
+    savefile.open (saveFiles[0]);
     savefile << "Save\n";
     savefile << "\t[\n";
     savefile << "\t\t" << "mapInfo " << checkpointMapInfo << "\n";
@@ -56,7 +126,7 @@ void GameData::SaveGame(){
 
 void GameData::LoadGame(){
     std::fstream FileReader;
-    FileReader.open(saveFile);
+    FileReader.open(saveFiles[0]);
     std::string checkline;
     if (FileReader.is_open()) {
         while (!FileReader.eof()) {

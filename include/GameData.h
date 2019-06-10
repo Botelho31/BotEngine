@@ -9,6 +9,11 @@
 
     class GameData{
         public:
+            static bool ChooseSave(int chosenI);
+            static bool AddSave(std::string savename);
+            static void GetListOfSaves(std::string savelist);
+            static void SaveListOfSaves(std::string savelist);
+
             static void SaveGame();
             static void AddMap(std::string mapfile);
             static void LoadGame();
@@ -23,7 +28,7 @@
             static std::string AddToPath(std::string file,std::string newpath);
             static Vec2 GetSizeOfPng(std::string pngfile);
 
-            static std::string saveFile;
+            static std::vector<std::string> saveFiles;
 
             static bool playerAlive;
             static Vec2 savePlayerPos;
