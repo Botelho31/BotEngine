@@ -96,7 +96,7 @@ void Boss::Update(float dt){
 
 void Boss::HandHitbox(GameObject& hitbox,GameObject& owner,float dt){
     Physics* physics = hitbox.GetPhysics();
-    // Component *component = hitbox.GetComponent("HitBox");
+    Component *component = hitbox.GetComponent("HitBox");
     physics->PerformGravity(1000,dt);
     physics->PerformYMovement(dt);
 
@@ -157,14 +157,14 @@ void Boss::IdleState(float dt){
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
         minionspawntimer->Update(dt);
         if(minionspawntimer->Get() > 1){
-            // int minionspawn = (rand() % 5) + 1;
-            // minionspawn = 5;
-            // if(minionspawn == 5){
-            //     SpawnMinion();
-            //     InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
-            //     // std::cout << "SPAWNED MINION" << dt << std::endl;
-            // }
-            // minionspawntimer->Restart();
+            int minionspawn = (rand() % 5) + 1;
+            minionspawn = 5;
+            if(minionspawn == 5){
+                SpawnMinion();
+                InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
+                // std::cout << "SPAWNED MINION" << dt << std::endl;
+            }
+            minionspawntimer->Restart();
         }
     }
 }

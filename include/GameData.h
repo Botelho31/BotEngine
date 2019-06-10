@@ -23,6 +23,8 @@
             static std::string AddToPath(std::string file,std::string newpath);
             static Vec2 GetSizeOfPng(std::string pngfile);
 
+            static std::string saveFile;
+
             static bool playerAlive;
             static Vec2 savePlayerPos;
             static int savePlayerHealth;

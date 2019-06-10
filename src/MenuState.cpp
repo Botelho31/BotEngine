@@ -9,6 +9,7 @@
 #include "../include/Collider.h"
 #include "../include/Collision.h"
 #include "../include/Button.h"
+#include "../include/GameData.h"
 
 MenuState::MenuState(){
     quitRequested = false;
@@ -68,6 +69,7 @@ void MenuState::Update(float dt){
 
     }
     else if(loadButton->isSelected()){
+        GameData::saveFile = "assets/saves/save.txt";
         Game::GetInstance().Push(new StageState());
     }
     else if(optionsButton->isSelected()){
@@ -80,6 +82,7 @@ void MenuState::Update(float dt){
         quitRequested = true;
     }
     else if(input->KeyPress(SDLK_SPACE)){
+        GameData::saveFile = "assets/saves/save.txt";
         Game::GetInstance().Push(new StageState());
     } 
 

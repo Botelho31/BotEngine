@@ -1,6 +1,7 @@
 #include "../include/GameData.h"
 #include "../include/Player.h"
 
+std::string GameData::saveFile;
 bool GameData::playerAlive;
 bool GameData::playerSword;
 Vec2 GameData::savePlayerPos;
@@ -28,7 +29,7 @@ void GameData::SaveGame(){
         std::cout << "Couldn't Find Player Data" << std::endl;
     }
     ENDLINE
-    savefile.open ("assets/saves/save.txt");
+    savefile.open (saveFile);
     savefile << "Save\n";
     savefile << "\t[\n";
     savefile << "\t\t" << "mapInfo " << checkpointMapInfo << "\n";
@@ -55,7 +56,7 @@ void GameData::SaveGame(){
 
 void GameData::LoadGame(){
     std::fstream FileReader;
-    FileReader.open("assets/saves/save.txt");
+    FileReader.open(saveFile);
     std::string checkline;
     if (FileReader.is_open()) {
         while (!FileReader.eof()) {
@@ -99,6 +100,9 @@ void GameData::LoadGame(){
                         listOfDiscoveredSouls.push_back(soulID);
                     }
                     FileReader >> checkline;
+                }
+                if(listOfDiscoveredSouls.size() >= 3){
+                    playerSword = true;
                 }
             }
         }
