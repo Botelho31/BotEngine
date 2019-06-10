@@ -98,3 +98,17 @@
 	#endif
 	#undef INCLUDE_SDL_NET 
 #endif // INCLUDE_SDL_NET
+
+#ifdef INCLUDE_SDL_GAMECONTROLLER
+	#ifdef _WIN32
+		#include <SDL2/SDL_gamecontroller.h>
+	#elif __APPLE__
+		#include "TargetConditionals.h"
+		#include <SDL2/SDL_gamecontroller.h>
+	#elif __linux__
+		#include <SDL2/SDL_gamecontroller.h>
+	#else
+		#error "Unknown compiler"
+	#endif
+	#undef INCLUDE_SDL_GAMECONTROLLER 
+#endif // INCLUDE_SDL_GAMECONTROLLER

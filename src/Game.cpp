@@ -26,7 +26,7 @@ Game::Game(std::string Title,int Width,int Height){
         dt = 0;
         Camera::window.x = Width;
         Camera::window.y = Height;
-        if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER) == 0){
+        if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) == 0){
             std::cout << "Game instance Created\n" << std::endl;
             std::cout << "Number of Img Libraries Initialized: " << IMG_Init(IMG_INIT_JPG  |  IMG_INIT_PNG  |  IMG_INIT_TIF) << "\n" << std::endl;
             if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY,MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS,1024) == 0){
@@ -66,7 +66,6 @@ Game::Game(std::string Title,int Width,int Height){
             SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
             resources = new Resources();
             storedstate = nullptr;
-            
 
         }else{
             std::cout << "Fatal Error: SDL not initialized - " << SDL_GetError() << std::endl;

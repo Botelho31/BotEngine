@@ -6,6 +6,18 @@ InputManager::InputManager(){
     mouseX = 0;
     mouseY = 0;
     updateCouter = 0;
+
+    //GAME CONTROLLER INITIATING
+    // std::cout << "Controller test" << std::endl;
+    // for(int i = 0;i < SDL_NumJoysticks();i++){
+    //     if(SDL_IsGameController(i)){
+    //         controller = SDL_GameControllerOpen(i);
+    //         std::cout << "Controller Detected" << std::endl;
+    //         break;
+    //     }
+    //     std::cout << SDL_GetError() << std::endl;
+    // }
+    
     for(int i = 0; i < 6; i++){
         mouseState[i] = false;
         mouseUpdate[i] = 0;
@@ -36,6 +48,13 @@ void InputManager::Update(){
 			quitRequested = true;
 		}
         if(!(event.key.repeat)){
+            //GAME CONTROLLER TESTING
+            // if(event.type == SDL_CONTROLLERBUTTONDOWN){
+            //     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_A){
+            //         std::cout << "A" << std::endl;
+            //     }
+            // }
+            //END CONTROLLER TESTING
             if(event.type == SDL_MOUSEBUTTONUP) {
                 mouseState[event.button.button] = false;
                 mouseUpdate[event.button.button] = updateCouter;

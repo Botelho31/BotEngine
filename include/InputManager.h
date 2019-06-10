@@ -44,5 +44,7 @@
 
             int mouseX;
             int mouseY;
+
+            SDL_GameController *controller;
     };
 #endif
