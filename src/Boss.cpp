@@ -7,6 +7,7 @@
 #include "../include/WindowEffects.h"
 #include "../include/DeadBody.h"
 #include "../include/GameData.h"
+#include "../include/StageState.h"
 
 Boss::Boss(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -30,14 +31,13 @@ Boss::Boss(GameObject& associated) : Component(associated){
     this->attacktimer = new Timer();
     sightangle = 0;
     spritefiles = GameData::GetSpritesFiles("assets/img/info/player.txt");
-    this->bosssprite =  new Sprite(associated,"assets/img/bossidletest.png",28,0.04);
+    this->bosssprite =  new Sprite(associated,"assets/img/bossidletest2.png",28,0.04);
     associated.AddComponent(bosssprite);
 
 
     minionspawntimer = new Timer();
-    float posX = associated.box.x;
-    float posY = associated.box.y;
-    SpawnEye({1532,1046},{1532,1012});
+
+    SpawnHead({1350,650});
 }
 
 Boss::~Boss(){
@@ -126,6 +126,47 @@ void Boss::KillBoss(){
     associated.RequestDelete();
 }
 
+
+void Boss::MoveHead(Vec2 speed,float dt){
+    head.lock()->box.x += speed.x * dt;
+    head.lock()->box.y += speed.y * dt;
+
+    for(int i = 0;i < eyes.size();i++){
+        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
+        Eye *eye = dynamic_cast<Eye*>(eyecomp);
+        if(eyecomp){
+            eye->SetOriginalPoint(speed.x *dt,speed.y*dt);
+        }
+    }
+}
+
+void Boss::DestroyHead(){
+    head.lock()->RequestDelete();
+    for(int i = 0;i < eyes.size();i++){
+        eyes[i].lock()->RequestDelete();
+    }
+}
+
+void Boss::SpawnHead(Vec2 pos){
+    GameObject *headobj = new GameObject();
+    headobj->box.x = pos.x;
+    headobj->box.y = pos.y;
+    Sprite* headsprite = new Sprite(*headobj,"assets/img/bossheadtest.png");
+    headobj->AddComponent(headsprite);
+    head = Game::GetInstance().GetCurrentState().AddObject(headobj);
+
+    //Up Eyes
+    SpawnEye({1543,878},{1532,1012});
+    SpawnEye({1640,878},{1532,1012});
+    SpawnEye({1737,878},{1532,1012});
+
+    //Down Eyes
+    SpawnEye({1485,953},{1532,1012});
+    SpawnEye({1591,953},{1532,1012});
+    SpawnEye({1693,953},{1532,1012});
+    SpawnEye({1800,950},{1532,1012});
+}
+
 void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
     GameObject *eyeObj =  new GameObject();
     Circle bounds = Circle(pos.x,pos.y,35);
@@ -144,29 +185,29 @@ void Boss::ChasingState(float dt){
 }
 
 void Boss::IdleState(float dt){
-    for(int i = 0;i < eyes.size();i++){
-        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
-        Eye *eye = dynamic_cast<Eye*>(eyecomp);
+    if(StageState::MapCollisionLoaded()){
         if(bosssprite->GetCurrentFrame() >= 14){
-            eye->GoToEndPoint(62,dt);
+            std::cout << "test " << dt << std::endl;
+            MoveHead({0,55},dt);
         }else{
-            eye->GoToStartPoint(55,dt);
+            std::cout << "test2 " << dt << std::endl;
+            MoveHead({0,-55},dt);
         }
     }
 
-    if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
-        minionspawntimer->Update(dt);
-        if(minionspawntimer->Get() > 1){
-            int minionspawn = (rand() % 5) + 1;
-            minionspawn = 5;
-            if(minionspawn == 5){
-                SpawnMinion();
-                InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
-                // std::cout << "SPAWNED MINION" << dt << std::endl;
-            }
-            minionspawntimer->Restart();
-        }
-    }
+    // if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
+    //     minionspawntimer->Update(dt);
+    //     if(minionspawntimer->Get() > 1){
+    //         int minionspawn = (rand() % 5) + 1;
+    //         minionspawn = 5;
+    //         if(minionspawn == 5){
+    //             SpawnMinion();
+    //             InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
+    //             // std::cout << "SPAWNED MINION" << dt << std::endl;
+    //         }
+    //         minionspawntimer->Restart();
+    //     }
+    // }
 }
 
 void Boss::SpawnMinion(){

@@ -28,6 +28,10 @@
             void InstantiateHitBox(Rect hitbox,float duration,Vec2 knockback);
             void DamageBoss(int damage);
             void KillBoss();
+
+            void MoveHead(Vec2 speed,float dt);
+            void DestroyHead();
+            void SpawnHead(Vec2 pos);
             void SpawnEye(Vec2 pos,Vec2 endpos);
             void SpawnMinion();
 
@@ -61,6 +65,7 @@
 
             Timer* minionspawntimer;
             std::vector<std::weak_ptr<GameObject>> eyes; 
+            std::weak_ptr<GameObject> head;
     };
 
 #endif
