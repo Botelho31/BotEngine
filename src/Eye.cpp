@@ -58,7 +58,7 @@ void Eye::Update(float dt){
 }
 
 void Eye::SetParallax(float value){
-    // this->parallaxvalue = value;
+    this->parallaxvalue = value;
     // this->eyelid->SetParallax(value);
 }
 
