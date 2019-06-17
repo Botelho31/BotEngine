@@ -66,21 +66,24 @@ void Eye::SetOriginalPoint(float addX,float addY){
     originalorigin =  originalorigin.Added(addX,addY);
 }
 
-void Eye::GoToEndPoint(float constspeed,float dt){
-    Follow(end,constspeed,dt);
+bool Eye::GoToEndPoint(float constspeed,float dt){
+    return Follow(end,constspeed,dt);
 }
 
-void Eye::GoToStartPoint(float constspeed,float dt){
-    Follow(start,constspeed,dt);
+bool Eye::GoToStartPoint(float constspeed,float dt){
+    return Follow(start,constspeed,dt);
 }
 
-void Eye::Follow(Vec2 dest,float constspeed,float dt){
+bool Eye::Follow(Vec2 dest,float constspeed,float dt){
     Vec2 speed;
     float angle = originalorigin.GetAngle(dest.x,dest.y);
     speed.x = abs(constspeed * cos(angle));
     speed.y = abs(constspeed * sin(angle));
-    if(originalorigin.x == dest.x){
 
+    bool gotx = false;
+    bool goty = false;
+    if(originalorigin.x == dest.x){
+        gotx = true;
     }
     else if(originalorigin.x < dest.x){
         originalorigin.x += speed.x * dt;
@@ -96,6 +99,7 @@ void Eye::Follow(Vec2 dest,float constspeed,float dt){
 
 
     if(originalorigin.y == dest.y){
+        goty = true;
     }
     else if(originalorigin.y < dest.y){
         originalorigin.y += speed.y * dt;
@@ -107,6 +111,10 @@ void Eye::Follow(Vec2 dest,float constspeed,float dt){
         if(originalorigin.y < dest.y){
             originalorigin.y = dest.y;
         }
+    }
+    
+    if(gotx && goty){
+        return true;
     }
 }
 

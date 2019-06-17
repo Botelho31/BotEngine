@@ -9,6 +9,7 @@
 #include "../include/GameData.h"
 #include "../include/StageState.h"
 #include "../include/ParallaxFollower.h"
+#include "../include/InputManager.h"
 
 Boss::Boss(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -40,7 +41,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     minionspawntimer = new Timer();
 
-    SpawnHead({associated.box.x + 650,associated.box.y + 150});
+    SpawnHead({associated.box.x + 520,associated.box.y + 80}); //520 80 650 150
 }
 
 Boss::~Boss(){
@@ -141,7 +142,6 @@ void Boss::MoveHead(Vec2 speed,float dt){
             eye->SetOriginalPoint(speed.x *dt,speed.y*dt);
         }
     }
-    std::cout << head.lock()->box.x << std::endl;
 }
 
 void Boss::DestroyHead(){
@@ -152,26 +152,25 @@ void Boss::DestroyHead(){
 }
 
 void Boss::SpawnHead(Vec2 pos){
-    //1350 650
     GameObject *headobj = new GameObject();
     headobj->box.x = pos.x;
     headobj->box.y = pos.y;
-    Sprite* headsprite = new Sprite(*headobj,"assets/img/bossheadtest.png");
+    Sprite* headsprite = new Sprite(*headobj,"assets/img/bossheadtest2.png",16,0.04);
     ParallaxFollower *parallaxfollower = new ParallaxFollower(*headobj,0.5);
     headobj->AddComponent(parallaxfollower);
     headobj->AddComponent(headsprite);
     head = Game::GetInstance().GetCurrentState().AddObject(headobj);
 
     //Up Eyes
-    SpawnEye({pos.x + 193,pos.y + 228},{1532,1012});
-    SpawnEye({pos.x + 290,pos.y + 228},{1532,1012});
-    SpawnEye({pos.x + 387,pos.y + 228},{1532,1012});
+    SpawnEye({pos.x + 313,pos.y + 288},{1532,1012});
+    SpawnEye({pos.x + 406,pos.y + 288},{1532,1012});
+    SpawnEye({pos.x + 507,pos.y + 288},{1532,1012});
 
     //Down Eyes
-    SpawnEye({pos.x + 135,pos.y + 303},{1532,1012});
-    SpawnEye({pos.x + 241,pos.y + 303},{1532,1012});
-    SpawnEye({pos.x + 343,pos.y + 303},{1532,1012});
-    SpawnEye({pos.x + 450,pos.y + 303},{1532,1012});
+    SpawnEye({pos.x + 253,pos.y + 361},{1532,1012});
+    SpawnEye({pos.x + 360,pos.y + 361},{1532,1012});
+    SpawnEye({pos.x + 463,pos.y + 361},{1532,1012});
+    SpawnEye({pos.x + 568,pos.y + 361},{1532,1012});
 }
 
 void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
@@ -192,6 +191,8 @@ void Boss::ChasingState(float dt){
 }
 
 void Boss::IdleState(float dt){
+    InputManager *input =  &(InputManager::GetInstance());
+
     if(StageState::MapCollisionLoaded()){
         if(bosssprite->GetCurrentFrame() >= 14){
             MoveHead({0,55},dt);
@@ -199,6 +200,11 @@ void Boss::IdleState(float dt){
             MoveHead({0,-55},dt);
         }
     }
+
+    // if(input->IsKeyDown(SDLK_7)){
+    //     std::cout << head.lock()->box.x - ((input->GetMouseX() * 2) + Camera::pos.x) << std::endl;
+    //     std::cout << head.lock()->box.y - ((input->GetMouseY() * 2) + Camera::pos.y) << std::endl;
+    // }
 
     // if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
     //     minionspawntimer->Update(dt);

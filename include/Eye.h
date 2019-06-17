@@ -23,9 +23,9 @@
             void SetParallax(float value);
             
             void SetOriginalPoint(float addX,float addY);
-            void GoToEndPoint(float constspeed,float dt);
-            void GoToStartPoint(float constspeed,float dt);
-            void Follow(Vec2 pos,float constspeed,float dt);
+            bool GoToEndPoint(float constspeed,float dt);
+            bool GoToStartPoint(float constspeed,float dt);
+            bool Follow(Vec2 pos,float constspeed,float dt);
         private:
             bool keepPupilIn;
             Circle bounds;
