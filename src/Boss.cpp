@@ -33,7 +33,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     this->attacktimer = new Timer();
     sightangle = 0;
     spritefiles = GameData::GetSpritesFiles("assets/img/info/player.txt");
-    this->bosssprite =  new Sprite(associated,"assets/img/bossidletest2.png",28,0.04);
+    this->bosssprite =  new Sprite(associated,"assets/img/bossidletest2.png",24,0.04);
     associated.AddComponent(bosssprite);
 
     ParallaxFollower *parallaxfollower = new ParallaxFollower(associated,0.5);
@@ -41,7 +41,15 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     minionspawntimer = new Timer();
 
-    SpawnHead({associated.box.x + 520,associated.box.y + 80}); //520 80 650 150
+    SpawnHead({associated.box.x + 540,associated.box.y + 100}); //520 80 650 150
+
+    // GameObject *handobj = new GameObject();
+    // handobj->box.Transform(associated.box.x + 200,associated.box.y + 750);
+    // Sprite *sprite = new Sprite(*handobj,"assets/img/bossIdlemaorascunho.png");
+    // ParallaxFollower *parallaxfollower2 = new ParallaxFollower(*handobj,0.5);
+    // handobj->AddComponent(parallaxfollower2);
+    // handobj->AddComponent(sprite);
+    // Game::GetInstance().GetCurrentState().AddObject(handobj);
 }
 
 Boss::~Boss(){
@@ -184,6 +192,59 @@ void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
     eyes.push_back(eyeweak);
 }
 
+void Boss::CatchParallax(){
+    for(int i = 0;i < eyes.size();i++){
+        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
+        Eye *eye = dynamic_cast<Eye*>(eyecomp);
+        if(eyecomp){
+            eye->SetParallax(0.5);
+            Vec2 pos = eye->GetOriginalPoint();
+            Vec2 pos2 = eye->GetStart();
+            eye->SetOriginalPoint(pos.x - pos2.x,pos.y - pos2.y);
+        }
+    }
+
+    GameObject *headObj = head.lock().get();
+    Component *comp = headObj->GetComponent("ParallaxFollower");
+    if(comp){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+        parallaxfollower->SetParallax(0.5);
+    }
+
+    Component *comp2 = associated.GetComponent("ParallaxFollower");
+    if(comp2){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
+        parallaxfollower->SetParallax(0.5);
+    }
+}
+
+void Boss::StopParallax(){
+
+    for(int i = 0;i < eyes.size();i++){
+        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
+        Eye *eye = dynamic_cast<Eye*>(eyecomp);
+        if(eyecomp){
+            Vec2 pos = eye->GetPos();
+            eye->SetParallax(1);
+            Vec2 pos2 = eye->GetPos();
+            eye->SetOriginalPoint(pos.x - pos2.x,pos.y - pos2.y);
+        }
+    }
+
+    GameObject *headObj = head.lock().get();
+    Component *comp = headObj->GetComponent("ParallaxFollower");
+    if(comp){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+        parallaxfollower->SetParallax(1);
+    }
+
+    Component *comp2 = associated.GetComponent("ParallaxFollower");
+    if(comp2){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
+        parallaxfollower->SetParallax(1);
+    }
+}
+
 void Boss::AttackState(float dt){
 }
 
@@ -194,16 +255,18 @@ void Boss::IdleState(float dt){
     InputManager *input =  &(InputManager::GetInstance());
 
     if(StageState::MapCollisionLoaded()){
-        if(bosssprite->GetCurrentFrame() >= 14){
+        if(bosssprite->GetCurrentFrame() >= 12){
             MoveHead({0,55},dt);
         }else{
             MoveHead({0,-55},dt);
         }
     }
 
-    // if(input->IsKeyDown(SDLK_7)){
-    //     std::cout << head.lock()->box.x - ((input->GetMouseX() * 2) + Camera::pos.x) << std::endl;
-    //     std::cout << head.lock()->box.y - ((input->GetMouseY() * 2) + Camera::pos.y) << std::endl;
+    // if(input->KeyPress(SDLK_7)){
+    //     StopParallax();
+    // }
+    // if(input->KeyPress(SDLK_8)){
+    //     CatchParallax();
     // }
 
     // if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){

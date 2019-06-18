@@ -35,6 +35,9 @@
             void SpawnEye(Vec2 pos,Vec2 endpos);
             void SpawnMinion();
 
+            void StopParallax();
+            void CatchParallax();
+
             static void HandHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the hand
 
         private:

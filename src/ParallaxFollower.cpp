@@ -7,7 +7,9 @@ ParallaxFollower::ParallaxFollower(GameObject& go,float parallax) : Component(go
 }
 
 void ParallaxFollower::Update(float dt){
-    associated.box.x = originalpos.x + Camera::pos.x * parallax;
+    if(parallax != 1){
+        associated.box.x = originalpos.x + Camera::pos.x * parallax;
+    }
 }
 
 void ParallaxFollower::Render(){
@@ -20,4 +22,8 @@ bool ParallaxFollower::Is(std::string type){
     }else{
         return false;
     }
+}
+
+void ParallaxFollower::SetParallax(float parallax){
+    this->parallax = parallax;
 }

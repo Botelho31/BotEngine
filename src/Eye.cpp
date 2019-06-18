@@ -62,6 +62,19 @@ void Eye::SetParallax(float value){
     // this->eyelid->SetParallax(value);
 }
 
+
+Vec2 Eye::GetPos(){
+    return originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y);
+}
+
+Vec2 Eye::GetStart(){
+    return start;
+}
+
+Vec2 Eye::GetOriginalPoint(){
+    return originalorigin;
+}
+
 void Eye::SetOriginalPoint(float addX,float addY){
     originalorigin =  originalorigin.Added(addX,addY);
 }
