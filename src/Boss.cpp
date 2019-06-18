@@ -200,7 +200,7 @@ void Boss::CatchParallax(){
         Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
         if(comp){
             ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
-            parallaxfollower->SetParallax(0.5);
+            parallaxfollower->SetParallax(0.5,true);
         }
     }
 
@@ -208,13 +208,13 @@ void Boss::CatchParallax(){
     Component *comp2 = headObj->GetComponent("ParallaxFollower");
     if(comp2){
         ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
-        parallaxfollower->SetParallax(0.5);
+        parallaxfollower->SetParallax(0.5,true);
     }
 
     Component *comp3 = associated.GetComponent("ParallaxFollower");
     if(comp3){
         ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp3);
-        parallaxfollower->SetParallax(0.5);
+        parallaxfollower->SetParallax(0.5,true);
     }
 }
 
