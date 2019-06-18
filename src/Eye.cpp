@@ -28,7 +28,7 @@ void Eye::Start(){
 }
 
 void Eye::Update(float dt){
-    Vec2 offset = originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y);
+    Vec2 offset = associated.box.GetOrigin().Added(- Camera::pos.x,-Camera::pos.y);
 
     Vec2 boundsbefore  = bounds.GetCenter();
     bounds.Transform(offset);
@@ -36,7 +36,7 @@ void Eye::Update(float dt){
     pupil.x += boundsafter.x - boundsbefore.x;
     pupil.y += boundsafter.y - boundsbefore.y;
 
-    PupilFollow(Player::player->GetPosition().Added(-Camera::pos.x,-Camera::pos.y),200,dt);
+    PupilFollow(Player::player->GetPosition().Added(- Camera::pos.x, - Camera::pos.y),200,dt);
 
     float adjustdist = bounds.radius - pupil.GetDistanceFromCenter(bounds.x,bounds.y);
     float angle = bounds.GetAngleFromCenter(pupil.x,pupil.y);
@@ -55,28 +55,6 @@ void Eye::Update(float dt){
             pupil.y -= std::fabs(adjustdist * sin(angle));
         }
     }
-}
-
-void Eye::SetParallax(float value){
-    this->parallaxvalue = value;
-    // this->eyelid->SetParallax(value);
-}
-
-
-Vec2 Eye::GetPos(){
-    return originalorigin.Added(-Camera::pos.x * parallaxvalue,-Camera::pos.y);
-}
-
-Vec2 Eye::GetStart(){
-    return start;
-}
-
-Vec2 Eye::GetOriginalPoint(){
-    return originalorigin;
-}
-
-void Eye::SetOriginalPoint(float addX,float addY){
-    originalorigin =  originalorigin.Added(addX,addY);
 }
 
 bool Eye::GoToEndPoint(float constspeed,float dt){
@@ -191,7 +169,8 @@ void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
 	if(input->IsKeyDown(SDLK_EQUALS)){
         WindowEffects::DrawCircle(bounds,0,0,0,255);
 	}
-#endif // DEBUG
+#endif 
+    // DEBUG
     // eyelid->Render(bounds.x - associated.box.w/2,bounds.y - associated.box.h/2);
 }
 

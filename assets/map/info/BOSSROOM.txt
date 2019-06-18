@@ -17,5 +17,5 @@ Portal
   
 Boss
   [
-    pos 350 510
+    pos 250 200
   ]

@@ -20,14 +20,7 @@
             void NotifyCollision(GameObject& other);
 
             void SpawnMinion();
-            void SetParallax(float value);
-            
-            Vec2 GetPos();
-            Vec2 GetStart();
-            Vec2 GetOriginalPoint();
 
-
-            void SetOriginalPoint(float addX,float addY);
             bool GoToEndPoint(float constspeed,float dt);
             bool GoToStartPoint(float constspeed,float dt);
             bool Follow(Vec2 pos,float constspeed,float dt);

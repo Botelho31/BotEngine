@@ -41,7 +41,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     minionspawntimer = new Timer();
 
-    SpawnHead({associated.box.x + 540,associated.box.y + 100}); //520 80 650 150
+    SpawnHead({associated.box.x + 840,associated.box.y + 400}); //520 80 650 150
 
     // GameObject *handobj = new GameObject();
     // handobj->box.Transform(associated.box.x + 200,associated.box.y + 750);
@@ -144,11 +144,13 @@ void Boss::MoveHead(Vec2 speed,float dt){
     head.lock()->box.y += speed.y * dt;
 
     for(int i = 0;i < eyes.size();i++){
-        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
-        Eye *eye = dynamic_cast<Eye*>(eyecomp);
-        if(eyecomp){
-            eye->SetOriginalPoint(speed.x *dt,speed.y*dt);
-        }
+        // Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
+        eyes[i].lock()->box = eyes[i].lock()->box.Added({speed.x *dt,speed.y*dt,0,0});
+
+        // Eye *eye = dynamic_cast<Eye*>(eyecomp);
+        // if(eyecomp){
+        //     eye->SetOriginalPoint(speed.x *dt,speed.y*dt);
+        // }
     }
 }
 
@@ -185,7 +187,8 @@ void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
     GameObject *eyeObj =  new GameObject();
     Circle bounds = Circle(pos.x,pos.y,35);
     Eye *eye = new Eye(*eyeObj,bounds,endpos,30);
-    eye->SetParallax(0.5);
+    ParallaxFollower *parallaxfollower = new ParallaxFollower(*eyeObj,0.5);
+    eyeObj->AddComponent(parallaxfollower);
     eyeObj->AddComponent(eye);
     int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
     std::weak_ptr<GameObject> eyeweak = Game::GetInstance().GetCurrentState().AddObject(eyeObj,placeofplayer);
@@ -194,26 +197,23 @@ void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
 
 void Boss::CatchParallax(){
     for(int i = 0;i < eyes.size();i++){
-        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
-        Eye *eye = dynamic_cast<Eye*>(eyecomp);
-        if(eyecomp){
-            eye->SetParallax(0.5);
-            Vec2 pos = eye->GetOriginalPoint();
-            Vec2 pos2 = eye->GetStart();
-            eye->SetOriginalPoint(pos.x - pos2.x,pos.y - pos2.y);
+        Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
+        if(comp){
+            ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+            parallaxfollower->SetParallax(0.5);
         }
     }
 
     GameObject *headObj = head.lock().get();
-    Component *comp = headObj->GetComponent("ParallaxFollower");
-    if(comp){
-        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+    Component *comp2 = headObj->GetComponent("ParallaxFollower");
+    if(comp2){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
         parallaxfollower->SetParallax(0.5);
     }
 
-    Component *comp2 = associated.GetComponent("ParallaxFollower");
-    if(comp2){
-        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
+    Component *comp3 = associated.GetComponent("ParallaxFollower");
+    if(comp3){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp3);
         parallaxfollower->SetParallax(0.5);
     }
 }
@@ -221,13 +221,10 @@ void Boss::CatchParallax(){
 void Boss::StopParallax(){
 
     for(int i = 0;i < eyes.size();i++){
-        Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
-        Eye *eye = dynamic_cast<Eye*>(eyecomp);
-        if(eyecomp){
-            Vec2 pos = eye->GetPos();
-            eye->SetParallax(1);
-            Vec2 pos2 = eye->GetPos();
-            eye->SetOriginalPoint(pos.x - pos2.x,pos.y - pos2.y);
+        Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
+        if(comp){
+            ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+            parallaxfollower->SetParallax(1);
         }
     }
 
@@ -262,12 +259,12 @@ void Boss::IdleState(float dt){
         }
     }
 
-    // if(input->KeyPress(SDLK_7)){
-    //     StopParallax();
-    // }
-    // if(input->KeyPress(SDLK_8)){
-    //     CatchParallax();
-    // }
+    if(input->KeyPress(SDLK_7)){
+        StopParallax();
+    }
+    if(input->KeyPress(SDLK_8)){
+        CatchParallax();
+    }
 
     // if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
     //     minionspawntimer->Update(dt);
