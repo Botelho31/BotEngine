@@ -46,7 +46,7 @@ void Eye::Update(float dt){
             if(eyepop->Started()){
                 eyepop->Update(dt);
                 if(eyepop->Get() > 1.28){
-                    SetSprite("assets/img/beltransparent.png");
+                    SetSprite("assets/img/olhopoppingin.png",36,0.04,false);
     
                     GameObject *minionObj =  new GameObject();
                     Minion *minion = new Minion(*minionObj,Minion::FALLINGFROMBOSS);
@@ -57,22 +57,21 @@ void Eye::Update(float dt){
                     eyepop->Restart();
 
                     eyein->Delay(0);
-                    
+
                 }
             }
             else if(eyein->Started()){
                 eyein->Update(dt);
-                if(eyein->Get() > 2){
-
+                if(eyein->Get() > 1.44){
+                    eyein->Restart();
+                    SetSprite("assets/img/beltransparent.png");
+                    stopPrint = false;
                 }
             }
         }else if(PupilFollow(bounds.GetCenter(),200,dt) == Vec2(0,0)){
             stopPrint = true;
             if(eyepop->Started()){
                 SetSprite("assets/img/olhopoppingout.png",34,0.04,false);
-            }
-            else if(eyein->Started()){
-
             }
         }
     }else{

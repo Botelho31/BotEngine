@@ -59,6 +59,10 @@ Boss::~Boss(){
     delete attacktimer;
     delete attackdelay;
     delete minionspawntimer;
+
+    if(!head.expired()){
+        head.lock()->RequestDelete();
+    }
 }
 
 void Boss::Start(){
@@ -144,13 +148,8 @@ void Boss::MoveHead(Vec2 speed,float dt){
     head.lock()->box.y += speed.y * dt;
 
     for(int i = 0;i < eyes.size();i++){
-        // Component *eyecomp = eyes[i].lock()->GetComponent("Eye");
-        eyes[i].lock()->box = eyes[i].lock()->box.Added({speed.x *dt,speed.y*dt,0,0});
-
-        // Eye *eye = dynamic_cast<Eye*>(eyecomp);
-        // if(eyecomp){
-        //     eye->SetOriginalPoint(speed.x *dt,speed.y*dt);
-        // }
+        eyes[i].lock()->box.x += speed.x * dt;
+        eyes[i].lock()->box.y += speed.y * dt;
     }
 }
 
@@ -172,12 +171,12 @@ void Boss::SpawnHead(Vec2 pos){
     head = Game::GetInstance().GetCurrentState().AddObject(headobj);
 
     //Up Eyes
-    SpawnEye({pos.x + 313,pos.y + 288},{1532,1012});
-    SpawnEye({pos.x + 406,pos.y + 288},{1532,1012});
-    SpawnEye({pos.x + 507,pos.y + 288},{1532,1012});
+    SpawnEye({pos.x + 314,pos.y + 285},{1532,1012});
+    SpawnEye({pos.x + 408,pos.y + 285},{1532,1012});
+    SpawnEye({pos.x + 508,pos.y + 285},{1532,1012});
 
     //Down Eyes
-    SpawnEye({pos.x + 253,pos.y + 361},{1532,1012});
+    SpawnEye({pos.x + 255,pos.y + 361},{1532,1012});
     SpawnEye({pos.x + 360,pos.y + 361},{1532,1012});
     SpawnEye({pos.x + 463,pos.y + 361},{1532,1012});
     SpawnEye({pos.x + 568,pos.y + 361},{1532,1012});
