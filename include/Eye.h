@@ -38,6 +38,9 @@
             Sprite *eyelid;
             Timer *eyepop;
             Timer *eyein;
+            Timer *eyedelay;
+
+            std::map<std::string,std::string> spritefiles;
 
             
     };

@@ -32,8 +32,8 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     this->attacktimer = new Timer();
     sightangle = 0;
-    spritefiles = GameData::GetSpritesFiles("assets/img/info/player.txt");
-    this->bosssprite =  new Sprite(associated,"assets/img/bossidletest2.png",24,0.04);
+    spritefiles = GameData::GetSpritesFiles("assets/img/info/boss.txt");
+    this->bosssprite =  new Sprite(associated,spritefiles["idle"],24,0.04);
     associated.AddComponent(bosssprite);
 
     ParallaxFollower *parallaxfollower = new ParallaxFollower(associated,0.5);
@@ -41,7 +41,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     minionspawntimer = new Timer();
 
-    SpawnHead({associated.box.x + 840,associated.box.y + 400}); //520 80 650 150
+    SpawnHead({associated.box.x + 300,associated.box.y + 45}); //520 80 650 150
 
     // GameObject *handobj = new GameObject();
     // handobj->box.Transform(associated.box.x + 200,associated.box.y + 750);
@@ -164,7 +164,7 @@ void Boss::SpawnHead(Vec2 pos){
     GameObject *headobj = new GameObject();
     headobj->box.x = pos.x;
     headobj->box.y = pos.y;
-    Sprite* headsprite = new Sprite(*headobj,"assets/img/bossheadtest2.png",16,0.04);
+    Sprite* headsprite = new Sprite(*headobj,spritefiles["head"],16,0.04);
     ParallaxFollower *parallaxfollower = new ParallaxFollower(*headobj,0.5);
     headobj->AddComponent(parallaxfollower);
     headobj->AddComponent(headsprite);

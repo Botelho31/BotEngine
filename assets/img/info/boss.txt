@@ -1,0 +1,4 @@
+[
+    idle assets/img/bossidletest3.png
+    head assets/img/bossheadtest2.png
+]

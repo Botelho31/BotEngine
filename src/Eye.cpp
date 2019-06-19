@@ -5,13 +5,15 @@
 #include "../include/Camera.h"
 #include "../include/Minion.h"
 #include "../include/ParallaxFollower.h"
+#include "../include/GameData.h"
 
 Eye::Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keepPupilIn) : 
     Component(associated){
     pupil.radius = pupilradius;
     this->bounds = bounds;
     this->keepPupilIn = keepPupilIn;
-    this->eyelid = new Sprite(associated,"assets/img/beltransparent.png");
+    spritefiles = GameData::GetSpritesFiles("assets/img/info/eye.txt");
+    this->eyelid = new Sprite(associated,spritefiles["transparent"]);
     associated.AddComponent(eyelid);
     associated.box.SetCenter({bounds.x,bounds.y});
     this->pupil.Transform(associated.box.GetCenter());
@@ -21,11 +23,14 @@ Eye::Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keep
 
     eyepop = new Timer();
     eyein = new Timer();
+    eyedelay = new Timer();
+
 }
 
 Eye::~Eye(){
     delete eyepop;
     delete eyein;
+    delete eyedelay;
 }
 
 void Eye::Start(){
@@ -41,12 +46,12 @@ void Eye::Update(float dt){
     pupil.x += boundsafter.x - boundsbefore.x;
     pupil.y += boundsafter.y - boundsbefore.y;
 
-    if(eyepop->Started() || eyein->Started()){
+    if(eyepop->Started() || eyein->Started() || eyedelay->Started()){
         if(stopPrint){
             if(eyepop->Started()){
                 eyepop->Update(dt);
                 if(eyepop->Get() > 1.28){
-                    SetSprite("assets/img/olhopoppingin.png",36,0.04,false);
+                    SetSprite(spritefiles["eyeempty"]);
     
                     GameObject *minionObj =  new GameObject();
                     Minion *minion = new Minion(*minionObj,Minion::FALLINGFROMBOSS);
@@ -56,22 +61,30 @@ void Eye::Update(float dt){
 
                     eyepop->Restart();
 
-                    eyein->Delay(0);
+                    eyedelay->Delay(0);
 
+                }
+            }
+            else if(eyedelay->Started()){
+                eyedelay->Update(dt);
+                if(eyedelay->Get() > 3){
+                    SetSprite(spritefiles["eyein"],36,0.04,false);
+                    eyedelay->Restart();
+                    eyein->Delay(0);
                 }
             }
             else if(eyein->Started()){
                 eyein->Update(dt);
                 if(eyein->Get() > 1.44){
                     eyein->Restart();
-                    SetSprite("assets/img/beltransparent.png");
+                    SetSprite(spritefiles["transparent"]);
                     stopPrint = false;
                 }
             }
         }else if(PupilFollow(bounds.GetCenter(),200,dt) == Vec2(0,0)){
             stopPrint = true;
             if(eyepop->Started()){
-                SetSprite("assets/img/olhopoppingout.png",34,0.04,false);
+                SetSprite(spritefiles["eyepop"],34,0.04,false);
             }
         }
     }else{
@@ -207,12 +220,12 @@ void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
         }
     }
 
-#ifdef DEBUG
-	InputManager *input = &(InputManager::GetInstance());
-	if(input->IsKeyDown(SDLK_EQUALS)){
-        WindowEffects::DrawCircle(bounds,0,0,0,255);
-	}
-#endif 
+    #ifdef DEBUG
+        InputManager *input = &(InputManager::GetInstance());
+        if(input->IsKeyDown(SDLK_EQUALS)){
+            WindowEffects::DrawCircle(bounds,0,0,0,255);
+        }
+    #endif 
     // DEBUG
     eyelid->Render(bounds.x - associated.box.w/2,bounds.y - associated.box.h/2);
 }

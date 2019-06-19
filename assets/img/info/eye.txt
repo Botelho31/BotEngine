@@ -1,0 +1,6 @@
+[
+    eyepop assets/img/olhopoppingout.png
+    eyein assets/img/olhopoppingin.png
+    eyeempty assets/img/olhoempty.png
+    transparent assets/img/beltransparent.png
+]
