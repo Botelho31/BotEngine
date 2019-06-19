@@ -16,14 +16,14 @@
             void Render();
             bool Is(std::string type);
 
+            bool Follow(Vec2 dest,float constspeed,float dt);
             void AddOriginalPos(Vec2 add);
             void SetParallax(float parallax,bool catchParallax = false);
         private:
             Vec2 originalpos;
             float parallax;
             bool catchParallax;
-            
-            Physics *physics;
+        
             Vec2 speed;
     };
 
