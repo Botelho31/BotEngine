@@ -259,26 +259,26 @@ void Boss::IdleState(float dt){
         }
     }
 
-    if(input->KeyPress(SDLK_7)){
-        StopParallax();
-    }
-    if(input->KeyPress(SDLK_8)){
-        CatchParallax();
-    }
-
-    // if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
-    //     minionspawntimer->Update(dt);
-    //     if(minionspawntimer->Get() > 1){
-    //         int minionspawn = (rand() % 5) + 1;
-    //         minionspawn = 5;
-    //         if(minionspawn == 5){
-    //             SpawnMinion();
-    //             InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
-    //             // std::cout << "SPAWNED MINION" << dt << std::endl;
-    //         }
-    //         minionspawntimer->Restart();
-    //     }
+    // if(input->KeyPress(SDLK_7)){
+    //     StopParallax();
     // }
+    // if(input->KeyPress(SDLK_8)){
+    //     CatchParallax();
+    // }
+
+    if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
+        minionspawntimer->Update(dt);
+        if(minionspawntimer->Get() > 1){
+            int minionspawn = (rand() % 5) + 1;
+            minionspawn = 5;
+            if(minionspawn == 5){
+                SpawnMinion();
+                // InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
+                // std::cout << "SPAWNED MINION" << dt << std::endl;
+            }
+            minionspawntimer->Restart();
+        }
+    }
 }
 
 void Boss::SpawnMinion(){

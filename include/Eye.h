@@ -15,12 +15,13 @@
             void Start();
             void Update(float dt);
             void Render();
-            Vec2 PupilFollow(Vec2 dest,float constspeed,float dt);
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
             void SpawnMinion();
+            void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0});
 
+            Vec2 PupilFollow(Vec2 dest,float constspeed,float dt);
             bool GoToEndPoint(float constspeed,float dt);
             bool GoToStartPoint(float constspeed,float dt);
             bool Follow(Vec2 pos,float constspeed,float dt);
@@ -30,12 +31,14 @@
             Circle pupil;
             Vec2 speed;
 
-            float parallaxvalue;
-            Vec2 originalorigin;
             Vec2 start;
             Vec2 end;
 
+            bool stopPrint;
             Sprite *eyelid;
+            Timer *eyepop;
+            Timer *eyein;
+
             
     };
 

@@ -5,4 +5,5 @@
     deadfront   assets/img/miniondeathfronttest2.png
     deadbehind  assets/img/miniondeathbehindtest2.png
     damage      assets/img/miniondamagetest.png
+    falling     assets/img/minionfallingtest.png
 ]

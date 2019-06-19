@@ -42,7 +42,8 @@ Minion::Minion(GameObject& associated,minionState startingState) : Component(ass
     physics->SetCollider(0.5,0.65,0,33);
 
     if(state == FALLINGFROMBOSS){
-
+        physics->GetCollider()->Update(0);
+        SetSprite(spritefiles["falling"],18,0.04,true);
     }
 }
 
@@ -115,8 +116,14 @@ void Minion::Update(float dt){
             }
             if(hittheground->Started()){
                 hittheground->Update(dt);
+                if(physics->IsGrounded()){
+                    hittheground->Restart();
+                    state = IDLE;
+                    SetSprite(spritefiles["idle"],32,0.08);
+                }
                 if(hittheground->Get() > 2){
                     state = IDLE;
+                    SetSprite(spritefiles["idle"],32,0.08);
                 }
             }
         default:

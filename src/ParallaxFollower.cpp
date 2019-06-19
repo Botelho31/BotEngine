@@ -40,6 +40,11 @@ bool ParallaxFollower::Is(std::string type){
     }
 }
 
+void ParallaxFollower::AddOriginalPos(Vec2 add){
+    originalpos.x += add.x;
+    originalpos.y += add.y;
+}
+
 void ParallaxFollower::SetParallax(float parallax,bool catchParallax){
     this->parallax = parallax;
     this->catchParallax = catchParallax;

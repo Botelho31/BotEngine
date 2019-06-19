@@ -4,23 +4,28 @@
 #include "../include/Player.h"
 #include "../include/Camera.h"
 #include "../include/Minion.h"
+#include "../include/ParallaxFollower.h"
 
 Eye::Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keepPupilIn) : 
     Component(associated){
     pupil.radius = pupilradius;
     this->bounds = bounds;
     this->keepPupilIn = keepPupilIn;
-    // this->eyelid = new Sprite(associated,"assets/img/eyelidtest2.png");
-    // associated.AddComponent(eyelid);
+    this->eyelid = new Sprite(associated,"assets/img/beltransparent.png");
+    associated.AddComponent(eyelid);
     associated.box.SetCenter({bounds.x,bounds.y});
     this->pupil.Transform(associated.box.GetCenter());
-    originalorigin = associated.box.GetCenter();
-    start = originalorigin;
+    start = associated.box.GetCenter();
     this->end = end;
-    parallaxvalue = 1;
+    stopPrint = false;
+
+    eyepop = new Timer();
+    eyein = new Timer();
 }
 
 Eye::~Eye(){
+    delete eyepop;
+    delete eyein;
 }
 
 void Eye::Start(){
@@ -28,7 +33,7 @@ void Eye::Start(){
 }
 
 void Eye::Update(float dt){
-    Vec2 offset = associated.box.GetOrigin().Added(- Camera::pos.x,-Camera::pos.y);
+    Vec2 offset = associated.box.GetCenter().Added(- Camera::pos.x,-Camera::pos.y);
 
     Vec2 boundsbefore  = bounds.GetCenter();
     bounds.Transform(offset);
@@ -36,23 +41,59 @@ void Eye::Update(float dt){
     pupil.x += boundsafter.x - boundsbefore.x;
     pupil.y += boundsafter.y - boundsbefore.y;
 
-    PupilFollow(Player::player->GetPosition().Added(- Camera::pos.x, - Camera::pos.y),200,dt);
+    if(eyepop->Started() || eyein->Started()){
+        if(stopPrint){
+            if(eyepop->Started()){
+                eyepop->Update(dt);
+                if(eyepop->Get() > 1.28){
+                    SetSprite("assets/img/beltransparent.png");
+    
+                    GameObject *minionObj =  new GameObject();
+                    Minion *minion = new Minion(*minionObj,Minion::FALLINGFROMBOSS);
+                    minionObj->box.SetCenter(associated.box.GetCenter());
+                    minionObj->AddComponent(minion);
+                    Game::GetInstance().GetCurrentState().AddObject(minionObj);
 
-    float adjustdist = bounds.radius - pupil.GetDistanceFromCenter(bounds.x,bounds.y);
-    float angle = bounds.GetAngleFromCenter(pupil.x,pupil.y);
-    if(keepPupilIn){
-        adjustdist = fabs(bounds.radius - pupil.radius) - pupil.GetDistanceFromCenter(bounds.x,bounds.y);
-    }
-    if((!bounds.IsInside(pupil) && keepPupilIn) || (!bounds.IsInside(pupil.GetCenter()) && !keepPupilIn)){
-        if(pupil.x < bounds.x){
-            pupil.x += std::fabs(adjustdist * cos(angle));
-        }else{
-            pupil.x -= std::fabs(adjustdist * cos(angle));
+                    eyepop->Restart();
+
+                    eyein->Delay(0);
+                    
+                }
+            }
+            else if(eyein->Started()){
+                eyein->Update(dt);
+                if(eyein->Get() > 2){
+
+                }
+            }
+        }else if(PupilFollow(bounds.GetCenter(),200,dt) == Vec2(0,0)){
+            stopPrint = true;
+            if(eyepop->Started()){
+                SetSprite("assets/img/olhopoppingout.png",34,0.04,false);
+            }
+            else if(eyein->Started()){
+
+            }
         }
-        if(pupil.y < bounds.y){
-            pupil.y += std::fabs(adjustdist * sin(angle));
-        }else{
-            pupil.y -= std::fabs(adjustdist * sin(angle));
+    }else{
+        PupilFollow(Player::player->GetPosition().Added(- Camera::pos.x, - Camera::pos.y),200,dt);
+
+        float adjustdist = bounds.radius - pupil.GetDistanceFromCenter(bounds.x,bounds.y);
+        float angle = bounds.GetAngleFromCenter(pupil.x,pupil.y);
+        if(keepPupilIn){
+            adjustdist = fabs(bounds.radius - pupil.radius) - pupil.GetDistanceFromCenter(bounds.x,bounds.y);
+        }
+        if((!bounds.IsInside(pupil) && keepPupilIn) || (!bounds.IsInside(pupil.GetCenter()) && !keepPupilIn)){
+            if(pupil.x < bounds.x){
+                pupil.x += std::fabs(adjustdist * cos(angle));
+            }else{
+                pupil.x -= std::fabs(adjustdist * cos(angle));
+            }
+            if(pupil.y < bounds.y){
+                pupil.y += std::fabs(adjustdist * sin(angle));
+            }else{
+                pupil.y -= std::fabs(adjustdist * sin(angle));
+            }
         }
     }
 }
@@ -67,40 +108,40 @@ bool Eye::GoToStartPoint(float constspeed,float dt){
 
 bool Eye::Follow(Vec2 dest,float constspeed,float dt){
     Vec2 speed;
-    float angle = originalorigin.GetAngle(dest.x,dest.y);
+    float angle = associated.box.GetCenter().GetAngle(dest.x,dest.y);
     speed.x = abs(constspeed * cos(angle));
     speed.y = abs(constspeed * sin(angle));
 
     bool gotx = false;
     bool goty = false;
-    if(originalorigin.x == dest.x){
+    if(associated.box.GetCenter().x == dest.x){
         gotx = true;
     }
-    else if(originalorigin.x < dest.x){
-        originalorigin.x += speed.x * dt;
-        if(originalorigin.x > dest.x){
-            originalorigin.x = dest.x;
+    else if(associated.box.GetCenter().x < dest.x){
+        associated.box.x += speed.x * dt;
+        if(associated.box.GetCenter().x > dest.x){
+            associated.box.x = dest.x;
         }
     }else{
-        originalorigin.x -= speed.x * dt;
-        if(originalorigin.x < dest.x){
-            originalorigin.x = dest.x;
+        associated.box.x -= speed.x * dt;
+        if(associated.box.GetCenter().x < dest.x){
+            associated.box.x = dest.x;
         }
     }
 
 
-    if(originalorigin.y == dest.y){
+    if(associated.box.GetCenter().y == dest.y){
         goty = true;
     }
-    else if(originalorigin.y < dest.y){
-        originalorigin.y += speed.y * dt;
-        if(originalorigin.y > dest.y){
-            originalorigin.y = dest.y;
+    else if(associated.box.GetCenter().y < dest.y){
+        associated.box.y += speed.y * dt;
+        if(associated.box.GetCenter().y > dest.y){
+            associated.box.y = dest.y;
         }
     }else{
-        originalorigin.y -= speed.y * dt;
-        if(originalorigin.y < dest.y){
-            originalorigin.y = dest.y;
+        associated.box.y -= speed.y * dt;
+        if(associated.box.GetCenter().y < dest.y){
+            associated.box.y = dest.y;
         }
     }
     
@@ -155,13 +196,16 @@ Vec2 Eye::PupilFollow(Vec2 dest,float constspeed,float dt){
             delta.y = 0;
         }
     }
+    return delta;
 }
 
 void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
-    if(!keepPupilIn){
-         WindowEffects::FillCircleIfInside(pupil,bounds);
-    }else{
-        WindowEffects::FillCircle(pupil,0,0,0,255);
+    if(!stopPrint){
+        if(!keepPupilIn){
+            WindowEffects::FillCircleIfInside(pupil,bounds);
+        }else{
+            WindowEffects::FillCircle(pupil,0,0,0,255);
+        }
     }
 
 #ifdef DEBUG
@@ -171,7 +215,7 @@ void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
 	}
 #endif 
     // DEBUG
-    // eyelid->Render(bounds.x - associated.box.w/2,bounds.y - associated.box.h/2);
+    eyelid->Render(bounds.x - associated.box.w/2,bounds.y - associated.box.h/2);
 }
 
 void Eye::NotifyCollision(GameObject& other){
@@ -186,10 +230,25 @@ bool Eye::Is(std::string type){
     }
 }
 
+void Eye::SetSprite(std::string file,int framecount,float frametime,bool repeat,Vec2 offset){
+    Rect prepos = Rect(associated.box.x,associated.box.y,associated.box.w,associated.box.h);
+    eyelid->SetFrameCount(framecount);
+    eyelid->SetFrameTime(frametime);
+    eyelid->SetRepeat(repeat);
+    eyelid->Open(file);
+    Vec2 newbox = associated.box.GetCenter();
+    associated.box.x = prepos.GetCenter().x - (associated.box.w/2) + offset.x;
+    associated.box.y = prepos.GetCenter().y - (associated.box.h/2) + offset.y;
+    Vec2 adjustedbox = associated.box.GetCenter();
+    Component *comp = associated.GetComponent("ParallaxFollower");
+    if(comp){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+        parallaxfollower->AddOriginalPos({adjustedbox.x - newbox.x,adjustedbox.y - newbox.y});
+    }
+}
+
 void Eye::SpawnMinion(){
-    GameObject *minionObj =  new GameObject();
-    Minion *minion = new Minion(*minionObj,Minion::FALLINGFROMBOSS);
-    minionObj->box.SetCenter(associated.box.GetCenter().Added(Camera::pos.x * parallaxvalue,Camera::pos.y * parallaxvalue));
-    minionObj->AddComponent(minion);
-    Game::GetInstance().GetCurrentState().AddObject(minionObj);
+    if(!stopPrint){
+        eyepop->Delay(0);
+    }
 }
