@@ -1,0 +1,5 @@
+[
+    spit		assets/img/spit.png
+    spitSplashing	assets/img/spitsplashing.png
+    spitPuddle		assets/img/spitpuddle.png
+]

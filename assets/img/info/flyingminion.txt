@@ -1,8 +1,10 @@
 [
-    idle        assets/img/flyingminionidletest.png
-    walking     assets/img/flyingminionidletest.png
-    attacking   assets/img/flyingminionidletest.png
-    deadfront   assets/img/flyingminionidletest.png
-    deadbehind  assets/img/flyingminionidletest.png
-    damage      assets/img/flyingminionidletest.png
+    idle        assets/img/flyingminionidle.png
+    flying	assets/img/flyingminionidle.png
+    spit	assets/img/flyingminionspit.png
+    deadfront   assets/img/flyingminionidle.png
+    deadbehind  assets/img/flyingminionidle.png
+    damage      assets/img/flyingminiondamage.png
+    spitting	assets/img/flyingminionspitting.png
+    flush	assets/img/flyingminionflush.png
 ]
