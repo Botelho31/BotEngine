@@ -482,6 +482,22 @@ void Physics::PerformXDeceleration(float despeed,float dt){
     }
 }
 
+void Physics::PerformYDeceleration(float despeed,float dt){
+    if(speed->y > 0){
+        if((speed->y - despeed * dt) < 0){
+            speed->y = 0;
+        }else{
+            speed->y -= despeed * dt;
+        }
+    }else{
+        if((speed->y + despeed * dt) > 0){
+            speed->y = 0;
+        }else{
+            speed->y += despeed * dt;
+        }
+    }
+}
+
 float Physics::PerformXMovement(float dt){
     if(speed->x != 0){
         float modX = 0;

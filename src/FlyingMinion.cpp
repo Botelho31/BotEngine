@@ -6,55 +6,73 @@
 #include "../include/WindowEffects.h"
 #include "../include/DeadBody.h"
 #include "../include/GameData.h"
+#include "../include/Spit.h"
 
 FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : Component(associated){
+    //Movement related variables
     speed.x = 0;
-    maxspeed = 600;
-    aspeed = 700;
-    despeed = 800;
-
     speed.y = 0;
     gravspeed = 0;
-    hittheground = new Timer();
 
+    maxspeed = 300;
+    aspeed = 200;
+    despeed = 2000;
+
+    //Minion health
     hp = 60;
-    attackrange = 150;
-    sightrange = 500;
+
+
+    //Sight related variables
+    sightrange = 800;
+    sightanglerange[0] = PI/2 - PI/8;                 //Range of 45 deg, centered right bellow minion (90 degrees)
+    sightanglerange[1] = PI/2 + PI/8;
+
+    downsightrange = 1250;
+    downsightanglerange[0] = PI/2 - PI/12;             //Range of 30 deg, centered right bellow minion (90 degrees)
+    downsightanglerange[1] = PI/2 + PI/12;
+
+    sightangle = 0;
+    downsightangle = 0;
+
+    minyspit = 500;
+    maxyspit = 750;
+
+
+    //Time related variables
     damageCooldown = 0;
+
     invincibilitytimer =  new Timer();
     damagetimer = new Timer();
-    attackdelay = new Timer();
-
+    spitdelay = new Timer();
     idletimer = new Timer();
+    spittimer = new Timer();
+
+
+    //State related variables
     idle = false;
-
+    spitted = false;
     state = startingState;
-    this->physics = new Physics(associated,&speed,false,true);
-    associated.AddComponent(physics);
 
-    this->attacktimer = new Timer();
-    sightangle = 0;
-    
+
+    //Add components to the Game Object
     spritefiles = GameData::GetSpritesFiles("assets/img/info/flyingminion.txt");
     Sprite *minion =  new Sprite(associated,spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
-    this->minionsprite = minion;
+    minionsprite = minion;
     associated.AddComponent(minion);
-    physics->SetCollider(0.5,0.65,0,33);
 
-    if(state == FALLINGFROMBOSS){
+    physics = new Physics(associated,&speed,false,true);
+    associated.AddComponent(physics);
+    physics->SetCollider(0.5,0.65,0,0);
 
-    }
 }
 
 FlyingMinion::~FlyingMinion(){
     minionsprite = nullptr;
     physics = nullptr;
     delete idletimer;
-    delete hittheground;
     delete invincibilitytimer;
     delete damagetimer;
-    delete attacktimer;
-    delete attackdelay;
+    delete spitdelay;
 }
 
 void FlyingMinion::Start(){
@@ -62,7 +80,6 @@ void FlyingMinion::Start(){
 }
 
 void FlyingMinion::Update(float dt){
-    // physics->Update(dt);
     int distanceToPlayer = sightrange;
     Vec2 player = Vec2(0,0);
     if(Player::player && GameData::playerAlive){
@@ -95,30 +112,23 @@ void FlyingMinion::Update(float dt){
             sightline.w = 10;
             sightline.h = 10;
         }
+
+
+    DefineState(distanceToPlayer);
+        
+
     }
     switch(state){
         case IDLE:
-            IdleState(distanceToPlayer,dt);
+            IdleState(dt);
             break;
-        case CHASING:
-            ChasingState(distanceToPlayer,dt);
+        case POSITIONING:
+            PositioningState(dt);
             break;
-        case ATTACKING:
-            AttackState(distanceToPlayer,dt);
+        case SPITTING:
+            std::cout<<"SPITTING"<<std::endl;
+            SpittingState(dt);
             break;
-        case FALLINGFROMBOSS:
-            if(physics->IsGrounded()){
-                if(!hittheground->Started()){
-                    hittheground->Delay(dt);
-                }
-                physics->PerformXDeceleration(despeed,dt);
-            }
-            if(hittheground->Started()){
-                hittheground->Update(dt);
-                if(hittheground->Get() > 2){
-                    state = IDLE;
-                }
-            }
         default:
             break;
     }
@@ -126,19 +136,17 @@ void FlyingMinion::Update(float dt){
     XMovement(dt);
     YMovement(dt);
 
-    if(attackdelay->Started()){
-        attackdelay->Update(dt);
-        if(attackdelay->Get() > 0.5){
-            attackdelay->Restart();
+    if(spitdelay->Started()){
+        spitdelay->Update(dt);
+        if(spitdelay->Get() > FLYINGMINION_SPITDELAY){
+            spitdelay->Restart();
         }
     }
     if(damagetimer->Started()){
         damagetimer->Update(dt);
         if(damagetimer->Get() > 0.20){
             damagetimer->Restart();
-            if(state == CHASING){
-                SetSprite(spritefiles["walking"],FLYINGMINION_FLYING_FC,FLYINGMINION_FLYING_FT);
-            }else if(state == IDLE){
+            if(state == IDLE){
                 SetSprite(spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
             }
         }
@@ -163,8 +171,8 @@ void FlyingMinion::Update(float dt){
 
 void FlyingMinion::DamageFlyingMinion(int damage){
     hp -= damage;
-    if(!damagetimer->Started() && (!attacktimer->Started() && (hp > 0) && state != FALLINGFROMBOSS)){
-        SetSprite(spritefiles["damage"],FLYINGMINION_DAMAGE_FC,FLYINGMINION_DAMAGE_FT);
+    if(!damagetimer->Started() && (hp > 0)){
+        SetSprite(spritefiles["damage"],FLYINGMINION_DAMAGE_FC,FLYINGMINION_DAMAGE_FT, false);
         damagetimer->Delay(0);
     }else if(hp <= 0){
         KillFlyingMinion();
@@ -201,96 +209,39 @@ void FlyingMinion::KillFlyingMinion(){
     }
 }
 
-void FlyingMinion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
-    Component *component = owner.GetComponent("Collider");
-    Collider *collider = dynamic_cast<Collider*>(component);
-    if(hitbox.box.x < collider->box.x){
-        hitbox.box.x = collider->box.x - collider->box.w;
-    }else{
-        hitbox.box.x = collider->box.x + collider->box.w;
-    }
-    hitbox.box.y = collider->box.y;
-}
 
 void FlyingMinion::XMovement(float dt){
+
     physics->PerformXMovement(dt);//Perfoms Movement if Allowed
 }
+
 void FlyingMinion::YMovement(float dt){
     physics->PerformYMovement(dt);//Performs movement if it is allowed
     physics->PerformGravity(gravspeed,dt); // Gravity
 }
 
-void FlyingMinion::AttackState(float distanceToPlayer,float dt){
-    Collider *collider = physics->GetCollider();
+void FlyingMinion::CreateSpit(){
+    GameObject *spitObj = new GameObject();
     Vec2 player = Player::player->GetPosition();
+    spitObj->angleDeg = GetPosition().GetAngle(player.x,player.y - 100) * 360 / (2 * 3.14);
 
-    if((!attacktimer->Started()) && (!attackdelay->Started())){
-        hitboxinstantiated = false;
-        if(player.x < GetPosition().x){
-            difxpos = false;
-            if(!minionsprite->IsFlipped()){
-                minionsprite->Flip();
-            }
-        }else{
-            difxpos = true;
-            if(minionsprite->IsFlipped()){
-                minionsprite->Flip();
-            }
-        }
-        SetSprite(spritefiles["attacking"],FLYINGMINION_ATACKING_FC,FLYINGMINION_ATACKING_FT,false);
-        attacktimer->Delay(dt);
-    }else if(!attacktimer->Started() && attackdelay->Started()){
-        if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
-            state = CHASING;
-            SetSprite(spritefiles["walking"],FLYINGMINION_FLYING_FC,FLYINGMINION_FLYING_FT);
-        }else{
-            state = IDLE;
-            SetSprite(spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FC);
-        }
-    }
-
-    if(attacktimer->Started()){
-        speed.x = 0;
-        attacktimer->Update(dt);
-        if((attacktimer->Get() >= 0.56) && (!hitboxinstantiated)){
-            hitboxinstantiated = true;
-            Rect hitbox;
-            if(!difxpos){
-                hitbox = Rect(collider->box.x - collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-            }else{
-                hitbox = Rect(collider->box.x + collider->box.w,collider->box.y,collider->box.w,collider->box.h);
-            }
-            GameObject *hitboxObj = new GameObject();
-            std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-            HitBox *minionhitbox = new HitBox(*hitboxObj,hitbox,owner,0,30,0.44,0.44,false,true,false,{400,100},this);
-            minionhitbox->SetFunction(BiteHitbox);
-            hitboxObj->AddComponent(minionhitbox);
-            Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
-        }
-        if(attacktimer->Get() >= 1.2){
-            attacktimer->Restart();
-            attackdelay->Delay(dt);
-            if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
-                state = CHASING;
-                SetSprite(spritefiles["walking"],FLYINGMINION_FLYING_FC,FLYINGMINION_FLYING_FT);
-            }else{
-                state = IDLE;
-                SetSprite(spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
-            }
-        }
-    }
+    Spit *spit = new Spit(*spitObj, associated, 500);
+    spitObj->AddComponent(spit);
+    spitObj->box.SetCenter(associated.box.GetCenter());
+    Game::GetInstance().GetCurrentState().AddObject(spitObj);
 }
 
-void FlyingMinion::ChasingState(float distanceToPlayer,float dt){
-    Collider *collider = physics->GetCollider();
-    Vec2 player = Player::player->GetPosition();
+void FlyingMinion::IdleState(float dt){
+    IdleHandle(dt);
+    physics->PerformXDeceleration(despeed,dt);
+    physics->PerformYDeceleration(despeed,dt);
+}
 
-    if((distanceToPlayer >= sightrange) || ((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started()))){
-        state = IDLE;
-        SetSprite(spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
-    }else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (!attackdelay->Started())){
-        state = ATTACKING;
-    }else{
+void FlyingMinion::PositioningState(float dt){
+     Vec2 player = Player::player->GetPosition();
+
+    //Perform needed aceleration
+    if(dirToPlayer.x != 0){
         if(player.x < GetPosition().x){
             if(!minionsprite->IsFlipped()){
                 minionsprite->Flip();
@@ -303,24 +254,103 @@ void FlyingMinion::ChasingState(float distanceToPlayer,float dt){
             physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
         }
     }
+    
+    if(dirToPlayer.y != 0){
+        if(dirToPlayer.y == 1){
+            physics->PerformYAcceleration(false,aspeed,dt);
+        }
+        else{
+            physics->PerformYAcceleration(true,aspeed,dt);
+        }
+    }
 }
 
-void FlyingMinion::IdleState(float distanceToPlayer,float dt){
-    if((distanceToPlayer - (speed.x * dt)<= attackrange) && (attackdelay->Started())){
+void FlyingMinion::SpittingState(float dt){
+    
+    physics->PerformYDeceleration(despeed,dt);
+    physics->PerformXDeceleration(despeed,dt);
 
-    }
-    else if((distanceToPlayer - (speed.x * dt)<= attackrange) && (!attackdelay->Started())){
-        state = ATTACKING;
-    }
-    else if(distanceToPlayer < sightrange){
-        state = CHASING;
-        SetSprite(spritefiles["walking"],FLYINGMINION_FLYING_FC,FLYINGMINION_FLYING_FT);
-    }
-    if(state == IDLE){
-        IdleHandle(dt);
-        physics->PerformXDeceleration(despeed,dt);
+    spittimer->Update(dt);
+    if((spittimer->Get() > ((FLYINGMINION_SPITTING_FC-3) * FLYINGMINION_SPITTING_FT) )){
+        CreateSpit();
+        spitted = true;
+        spittimer->Restart();
     }
 
+    if((spittimer->Get() > 3 * FLYINGMINION_SPITTING_FT) && spitted){
+        spitdelay->Update(dt);
+        spittimer->Restart();
+        spitted = false;
+    }
+
+}
+
+void FlyingMinion::DefineState(float distanceToPlayer){
+    minionState newState;
+    Vec2 player = Player::player->GetPosition();
+    Vec2 positioning = PositioningHandle();
+
+
+    bool inRange, inPosition, canSpit;
+
+    inRange = (distanceToPlayer != sightrange) || CheckPlayerDown();        //True if it can see the player
+    inPosition = positioning == Vec2(0,0);                                  //True if flying minion is in the position to spit
+    canSpit = !spitdelay->Started();                                        //True if minion hasn't spitted yet (delay hasn't been set yet)
+
+
+    //Select state
+    if(!inRange || (inPosition && !canSpit)){
+        newState = IDLE;
+    }
+    else if(inRange && !inPosition){
+        newState = POSITIONING;
+    }
+    else{
+        newState = SPITTING;
+    }
+    
+    //Change sprite, if state has changed
+    if(newState != state){
+        if(newState == IDLE){
+            SetSprite(spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
+            spittimer->Restart();
+        }
+        else if(newState == POSITIONING){
+            SetSprite(spritefiles["flying"],FLYINGMINION_FLYING_FC,FLYINGMINION_FLYING_FT);
+            dirToPlayer = positioning;
+            spittimer->Restart();
+        }
+        else{
+            SetSprite(spritefiles["spitting"],FLYINGMINION_SPITTING_FC,FLYINGMINION_SPITTING_FT);
+        }
+    }
+
+    state = newState;
+}
+
+Vec2 FlyingMinion::PositioningHandle(){
+    Vec2 player = Player::player->GetPosition();
+    Vec2 minionpos = GetPosition();
+
+    float newx=0, newy=0;
+
+    if(player.y - minionpos.y > maxyspit){
+        newy = -1;                          //Fly up
+    }
+    else{
+        if(player.y - minionpos.y < minyspit){
+            newy = 1;                       //Fly down
+        }
+    }
+    if(sightangle > sightanglerange[1]){
+        newx = -1;                          //Fly to the left
+    }
+    else{
+        if(sightangle < sightanglerange[0]){
+            newx = 1;                       //Fly to the right
+        }
+    }
+    return Vec2(newx,newy);
 }
 
 void FlyingMinion::IdleHandle(float dt){
@@ -332,6 +362,29 @@ void FlyingMinion::IdleHandle(float dt){
     }else{
         idle = false;
         idletimer->Restart();
+    }
+}
+
+
+bool FlyingMinion::CheckPlayerDown(){
+
+    Vec2 minionpos = GetPosition();
+    Vec2 player = Player::player->GetPosition();
+
+    int distanceToPlayer = physics->SightTo(minionpos,player.Added(0,-100),downsightrange);
+
+    if(distanceToPlayer < downsightrange){
+        downsightangle = minionpos.GetAngle(player.x,player.y - 100);
+
+        if((downsightangle < downsightanglerange[1]) && (downsightangle > downsightanglerange[0])){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    else{
+        return false;
     }
 }
 
@@ -397,5 +450,6 @@ Vec2 FlyingMinion::GetPosition(){
 }
 
 FlyingMinion::minionState FlyingMinion::GetState(){
+
     return state;
 }

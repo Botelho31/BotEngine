@@ -6,25 +6,29 @@
     #define FLYINGMINION_H
 
     //Comonly used parameters
-    #define FLYINGMINION_IDLE_FC 60
-    #define FLYINGMINION_FLYING_FC 60
-    #define FLYINGMINION_DAMAGE_FC 60
-    #define FLYINGMINION_ATACKING_FC 60
-    #define FLYINGMINION_DEADBEHIND_FC 60
-    #define FLYINGMINION_DEADFRONT_FC 60
+    #define FLYINGMINION_IDLE_FC 30
+    #define FLYINGMINION_FLYING_FC 30
+    #define FLYINGMINION_DAMAGE_FC 12
+    #define FLYINGMINION_ATACKING_FC 30
+    #define FLYINGMINION_DEADBEHIND_FC 30
+    #define FLYINGMINION_DEADFRONT_FC 30
+    #define FLYINGMINION_SPITTING_FC 26
 
-    #define FLYINGMINION_IDLE_FT 0.05
-    #define FLYINGMINION_FLYING_FT 0.05
+    #define FLYINGMINION_IDLE_FT 0.03
+    #define FLYINGMINION_FLYING_FT 0.03
     #define FLYINGMINION_DAMAGE_FT 0.05
-    #define FLYINGMINION_ATACKING_FT 0.05
-    #define FLYINGMINION_DEADBEHIND_FT 0.05
-    #define FLYINGMINION_DEADFRONT_FT 0.05
+    #define FLYINGMINION_ATACKING_FT 0.03
+    #define FLYINGMINION_DEADBEHIND_FT 0.03
+    #define FLYINGMINION_DEADFRONT_FT 0.03
+    #define FLYINGMINION_SPITTING_FT 0.02
+
+    #define FLYINGMINION_SPITDELAY 1
 
     #include "Physics.h"
 
     class FlyingMinion : public Component{
         public:
-            enum minionState{IDLE,CHASING,ATTACKING,FALLINGFROMBOSS};
+            enum minionState{IDLE,SPITTING,POSITIONING};
             FlyingMinion(GameObject& associated,minionState startingState = IDLE);
             ~FlyingMinion();
             void Start();
@@ -36,11 +40,18 @@
 
             void XMovement(float dt);   //Performs X Movement
             void YMovement(float dt);   //Performs Y Movement 
-            void AttackState(float distanceToPlayer,float dt); //Handles attack state
-            void IdleState(float distanceToPlayer,float dt); //Handles idle state
-            void ChasingState(float distanceToPlayer,float dt); //Handles chasing state
+            void IdleState(float dt); //Handles idle state
+            void PositioningState(float dt); //Handles positioning state
+            void SpittingState(float dt); //Handles spitting state
 
             void IdleHandle(float dt); //Handles minion Idle
+            Vec2 PositioningHandle();  //Returns a direction vector to reach spitting position
+
+            void DefineState(float distanceToPlayer);
+
+            void CreateSpit();
+
+            bool CheckPlayerDown();     //Check if player is in sight bellow the minion
 
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
 
@@ -49,15 +60,26 @@
             void DamageFlyingMinion(int damage);
             void KillFlyingMinion();
 
-            static void BiteHitbox(GameObject& hitbox,GameObject& owner,float dt);
+
         private:
             minionState state;
 
             int hp;
-            int attackrange;
+
             int sightrange;
             float sightangle;
             Rect sightline;
+
+            int minyspit;
+            int maxyspit;
+            float sightanglerange[2];
+
+            int downsightrange;
+            float downsightangle;
+            float downsightanglerange[2];
+            Rect downsightline;
+
+            Vec2 dirToPlayer;
 
             Vec2 speed;
             int maxspeed;
@@ -68,17 +90,16 @@
 
             std::map<std::string,std::string> spritefiles;
             Sprite *minionsprite;
+
             Timer *idletimer;
-            Timer *hittheground;
-            Timer *attacktimer;
+            Timer *spittimer;
             Timer *invincibilitytimer;
             Timer *damagetimer;
-            Timer *attackdelay;
+            Timer *spitdelay;
             bool hitboxinstantiated;
-            bool difxpos;
             float damageCooldown;
-            bool falling;
             bool idle;
+            bool spitted;
 
             Physics *physics;
     };
