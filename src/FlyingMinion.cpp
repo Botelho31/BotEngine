@@ -126,7 +126,7 @@ void FlyingMinion::Update(float dt){
             PositioningState(dt);
             break;
         case SPITTING:
-            std::cout<<"SPITTING"<<std::endl;
+            // std::cout<<"SPITTING"<<std::endl;
             SpittingState(dt);
             break;
         default:

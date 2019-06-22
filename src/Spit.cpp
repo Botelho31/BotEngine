@@ -12,7 +12,7 @@ Spit::Spit(GameObject& associated, GameObject& spitOwner, float initSpeed) : Com
  
 	speed.x = initSpeed * cos(associated.angleDeg * (2*3.14/360)) * 1.5;
 	speed.y = initSpeed * sin(associated.angleDeg * (2*3.14/360));
-	std::cout<<"Vel x: "<<speed.x<<"; Vel y: "<<speed.y<<std::endl;
+	// std::cout<<"Vel x: "<<speed.x<<"; Vel y: "<<speed.y<<std::endl;
 	this->physics = new Physics(associated,&speed,false,false);
 	associated.AddComponent(physics);
 
