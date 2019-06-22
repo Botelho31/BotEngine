@@ -13,6 +13,7 @@
 #include "../include/EndState.h"
 #include "../include/Player.h"
 #include "../include/Minion.h"
+#include "../include/FlyingMinion.h"
 #include "../include/TransitionState.h"
 #include "../include/MovingTile.h"
 #include "../include/TileCollider.h"
@@ -80,6 +81,14 @@ void StageState::Update(float dt){
         if(input->KeyPress(SDLK_6)){
             GameObject *minionObj = new GameObject();
             Minion *minion = new Minion(*minionObj);
+            minionObj->AddComponent(minion);
+            Vec2  minionpos = mousePos;
+            minionObj->box.SetCenter(minionpos);
+            AddObject(minionObj);
+        }
+        if(input->KeyPress(SDLK_7)){
+            GameObject *minionObj = new GameObject();
+            FlyingMinion *minion = new FlyingMinion(*minionObj);
             minionObj->AddComponent(minion);
             Vec2  minionpos = mousePos;
             minionObj->box.SetCenter(minionpos);
@@ -278,6 +287,7 @@ void StageState::ClearMobs(){
         Component *component9 = objectArray[i]->GetComponent("Eye");
         Component *component10 = objectArray[i]->GetComponent("Spike");
         Component *component11 = objectArray[i]->GetComponent("Soul");
+        Component *component12 = objectArray[i]->GetComponent("FlyingMinion");
         if(component1){
             objectArray.erase(objectArray.begin() + i);
         }
@@ -309,6 +319,9 @@ void StageState::ClearMobs(){
             objectArray.erase(objectArray.begin() + i);
         }
         else if(component11){
+            objectArray.erase(objectArray.begin() + i);
+        }
+        else if(component12){
             objectArray.erase(objectArray.begin() + i);
         }
     }
