@@ -39,7 +39,7 @@ Spike
 
 Spike
   [
-    spikeBox 2300 400 150 600
+    spikeBox 2300 400 150 550
     flipped 0
     behind 0
   ]
