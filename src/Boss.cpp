@@ -25,6 +25,8 @@ Boss::Boss(GameObject& associated) : Component(associated){
     sightrange = 500;
     damageCooldown = 0;
     invincibilitytimer =  new Timer();
+    idlehandtimer = new Timer();
+    returnhandtimer = new Timer();
     damagetimer = new Timer();
     attackdelay = new Timer();
 
@@ -43,6 +45,11 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     SpawnHead({associated.box.x + 300,associated.box.y + 45}); //520 80 650 150
 
+    SetSprite(spritefiles["attacklefthand"],51,0.04,false);
+    SetSprite(spritefiles["idlelefthand"],20,0.04,true);
+    SetSprite(spritefiles["returnlefthand"],6,0.04,false);
+    SetSprite(spritefiles["idle"],24,0.04,true);
+
     // GameObject *handobj = new GameObject();
     // handobj->box.Transform(associated.box.x + 200,associated.box.y + 750);
     // Sprite *sprite = new Sprite(*handobj,"assets/img/bossIdlemaorascunho.png");
@@ -59,6 +66,8 @@ Boss::~Boss(){
     delete attacktimer;
     delete attackdelay;
     delete minionspawntimer;
+    delete idlehandtimer;
+    delete returnhandtimer;
 
     if(!head.expired()){
         head.lock()->RequestDelete();
@@ -242,6 +251,42 @@ void Boss::StopParallax(){
 }
 
 void Boss::AttackState(float dt){
+    if(!attacktimer->Started() && !idlehandtimer->Started() && !returnhandtimer->Started()){
+        attacktimer->Delay(dt);
+        StopParallax();
+        Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 800,200,100);
+        WindowEffects::AddBoxToDraw(LeftHandArea,0);
+        if(LeftHandArea.Contains(Player::player->GetPosition())){
+            SetSprite(spritefiles["attacklefthand"],51,0.04,false);
+        }else{
+            state = IDLE;
+            attacktimer->Restart();
+        }
+    }
+    if(attacktimer->Started()){
+        attacktimer->Update(dt);
+        if(attacktimer->Get() >= 2.04){
+            SetSprite(spritefiles["idlelefthand"],20,0.04,true);
+            idlehandtimer->Delay(dt);
+            attacktimer->Restart();
+        }
+    }
+    if(idlehandtimer->Started()){
+        idlehandtimer->Update(dt);
+        if(idlehandtimer->Get() >= 3){
+            SetSprite(spritefiles["returnlefthand"],6,0.04,false);
+            returnhandtimer->Delay(dt);
+            idlehandtimer->Restart();
+        }
+    }
+    if(returnhandtimer->Started()){
+        returnhandtimer->Update(dt);
+        if(returnhandtimer->Get() >= 0.24){
+            returnhandtimer->Restart();
+            state = IDLE;
+            SetSprite(spritefiles["idle"],24,0.04,true);
+        }
+    }
 }
 
 void Boss::ChasingState(float dt){
@@ -257,27 +302,37 @@ void Boss::IdleState(float dt){
             MoveHead({0,-55},dt);
         }
     }
-
-    if(input->KeyPress(SDLK_7)){
+    Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 800,200,100);
+    WindowEffects::AddBoxToDraw(LeftHandArea,0);
+    if(LeftHandArea.Contains(Player::player->GetPosition())){
+        this->state = ATTACKING;
         StopParallax();
     }
-    if(input->KeyPress(SDLK_8)){
-        CatchParallax();
-    }
 
-    if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
-        minionspawntimer->Update(dt);
-        if(minionspawntimer->Get() > 1){
-            int minionspawn = (rand() % 5) + 1;
-            // minionspawn = 5;
-            if(minionspawn == 5){
-                SpawnMinion();
-                // InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
-                // std::cout << "SPAWNED MINION" << dt << std::endl;
-            }
-            minionspawntimer->Restart();
-        }
+    if(input->IsKeyDown(SDLK_8)){
+        Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
+        std::cout << mousepos.x - associated.box.x << " " << mousepos.y - associated.box.y << std::endl;
     }
+    // if(input->KeyPress(SDLK_7)){
+    //     StopParallax();
+    // }
+    // if(input->KeyPress(SDLK_8)){
+    //     CatchParallax();
+    // }
+
+    // if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
+    //     minionspawntimer->Update(dt);
+    //     if(minionspawntimer->Get() > 1){
+    //         int minionspawn = (rand() % 5) + 1;
+    //         // minionspawn = 5;
+    //         if(minionspawn == 5){
+    //             SpawnMinion();
+    //             // InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
+    //             // std::cout << "SPAWNED MINION" << dt << std::endl;
+    //         }
+    //         minionspawntimer->Restart();
+    //     }
+    // }
 }
 
 void Boss::SpawnMinion(){

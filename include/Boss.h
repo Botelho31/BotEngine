@@ -60,6 +60,8 @@
             std::map<std::string,std::string> spritefiles;
             Sprite *bosssprite;
             Timer *attacktimer;
+            Timer *idlehandtimer;
+            Timer *returnhandtimer;
             Timer *invincibilitytimer;
             Timer *damagetimer;
             Timer *attackdelay;
