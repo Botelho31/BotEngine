@@ -45,11 +45,6 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     SpawnHead({associated.box.x + 300,associated.box.y + 45}); //520 80 650 150
 
-    SetSprite(spritefiles["attacklefthand"],51,0.04,false);
-    SetSprite(spritefiles["idlelefthand"],20,0.04,true);
-    SetSprite(spritefiles["returnlefthand"],6,0.04,false);
-    SetSprite(spritefiles["idle"],24,0.04,true);
-
     // GameObject *handobj = new GameObject();
     // handobj->box.Transform(associated.box.x + 200,associated.box.y + 750);
     // Sprite *sprite = new Sprite(*handobj,"assets/img/bossIdlemaorascunho.png");

@@ -9,6 +9,7 @@
 #include "../include/Boss.h"
 #include "../include/Spike.h"
 #include "../include/Soul.h"
+#include "../include/FlyingMinion.h"
 
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
@@ -126,6 +127,23 @@ void TileMap::SpawnMobs(std::string file){
                 minionObj->box.SetCenter(MinionPos);
                 minionObj->AddComponent(minion);
                 Game::GetInstance().GetCurrentState().AddObject(minionObj);
+                GameData::PreLoadSprites("assets/img/info/minion.txt");
+            }
+            else if(checkline == "FlyingMinion"){       
+                Vec2 MinionPos;
+                while(checkline != "minionX"){
+                    FileReader >> checkline;
+                } 
+                FileReader >> MinionPos.x;
+                FileReader >> checkline;
+                FileReader >> MinionPos.y;
+                GameObject *minionObj = new GameObject();
+                FlyingMinion *minion = new FlyingMinion(*minionObj);
+                minionObj->box.SetCenter(MinionPos);
+                minionObj->AddComponent(minion);
+                Game::GetInstance().GetCurrentState().AddObject(minionObj);
+                GameData::PreLoadSprites("assets/img/info/flyingminion.txt");
+                GameData::PreLoadSprites("assets/img/info/spit.txt");
             }
             else if(checkline == "MovingTile"){
                 Vec2 start;
@@ -245,6 +263,7 @@ void TileMap::SpawnMobs(std::string file){
                 bossObj->AddComponent(boss);
                 int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                 Game::GetInstance().GetCurrentState().AddObject(bossObj,place);
+                GameData::PreLoadSprites("assets/img/info/boss.txt");
             }
         }
     }else{

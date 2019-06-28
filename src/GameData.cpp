@@ -1,5 +1,6 @@
 #include "../include/GameData.h"
 #include "../include/Player.h"
+#include "../include/Resources.h"
 
 std::vector<std::string> GameData::saveFiles;
 bool GameData::playerAlive;
@@ -206,6 +207,13 @@ void GameData::PrintGameData(){
     std::cout << "MapInfo: " << checkpointMapInfo << std::endl;
     std::cout << "PlayerPos: " << savePlayerPos.x << " " << savePlayerPos.y << std::endl;
     std::cout << "PlayerLife: " << savePlayerHealth << std::endl;
+}
+
+void GameData::PreLoadSprites(std::string spritefile){
+    std::map<std::string,std::string> spritefiles = GetSpritesFiles(spritefile);
+     for(auto it = spritefiles.cbegin(); it != spritefiles.cend(); ++it){
+        Resources::GetImage(it->second);
+    }
 }
 
 std::map<std::string,std::string> GameData::GetSpritesFiles(std::string spritesfile){
