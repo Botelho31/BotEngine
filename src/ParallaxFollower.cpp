@@ -14,7 +14,7 @@ ParallaxFollower::~ParallaxFollower(){
 void ParallaxFollower::Update(float dt){
     if(parallax != 1){
         if(catchParallax){
-            if(Follow({(originalpos.x + associated.box.w/2) + Camera::pos.x * parallax,associated.box.GetCenter().y},600,dt)){
+            if(Follow({originalpos.x + Camera::pos.x * parallax,associated.box.GetCenter().y},300,dt)){
                 catchParallax = false;
             }
         }else{
@@ -39,23 +39,25 @@ bool ParallaxFollower::Is(std::string type){
 
 bool ParallaxFollower::Follow(Vec2 dest,float constspeed,float dt){
     Vec2 speed;
-    float angle = associated.box.GetCenter().GetAngle(dest.x,dest.y);
-    speed.x = abs(constspeed * cos(angle));
-    speed.y = abs(constspeed * sin(angle));
+    // float angle = associated.box.GetCenter().GetAngle(dest.x,dest.y);
+    // speed.x = abs(constspeed * cos(angle));
+    // speed.y = abs(constspeed * sin(angle));
+    speed.x =  constspeed;
+    speed.y = constspeed;
 
     bool gotx = false;
     bool goty = false;
-    if(associated.box.GetCenter().x == dest.x){
+    if(associated.box.x == dest.x){
         gotx = true;
     }
-    else if(associated.box.GetCenter().x < dest.x){
+    else if(associated.box.x < dest.x){
         associated.box.x += speed.x * dt;
-        if(associated.box.GetCenter().x > dest.x){
+        if(associated.box.x > dest.x){
             associated.box.x = dest.x;
         }
     }else{
         associated.box.x -= speed.x * dt;
-        if(associated.box.GetCenter().x < dest.x){
+        if(associated.box.x < dest.x){
             associated.box.x = dest.x;
         }
     }
@@ -78,6 +80,8 @@ bool ParallaxFollower::Follow(Vec2 dest,float constspeed,float dt){
     
     if(gotx && goty){
         return true;
+    }else{
+        return false;
     }
 }
 

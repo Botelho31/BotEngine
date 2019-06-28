@@ -5,7 +5,7 @@
 HUD::HUD(GameObject& associated) : Component(associated){
     this->belicon = new GameObject();
     belicon->renderAfterForeGround = true;
-    Sprite *belIcon = new Sprite(*belicon,"assets/img/HUD/belicon.png");
+    Sprite *belIcon = new Sprite(*belicon,"assets/img/HUD/belicon2.png");
     belicon->box.Transform(50,20);
     CameraFollower *camfollower =  new CameraFollower(*belicon);
     belicon->AddComponent(camfollower);
@@ -13,17 +13,17 @@ HUD::HUD(GameObject& associated) : Component(associated){
 
     bar = new GameObject();
     bar->renderAfterForeGround = true;
-    Sprite *belIcon2 = new Sprite(*bar,"assets/img/HUD/barraleatoria.png");
-    bar->box.Transform(300,175);
+    Sprite *belIcon2 = new Sprite(*bar,"assets/img/HUD/barraleatoria2.png");
+    bar->box.Transform(230,145);
     CameraFollower *camfollower2 =  new CameraFollower(*bar);
     bar->AddComponent(camfollower2);
     bar->AddComponent(belIcon2);
 
     GameObject *ownerObj = new GameObject();
     std::vector<std::string> lifesprites;
-    lifesprites.push_back("assets/img/HUD/vida.png");
-    lifesprites.push_back("assets/img/HUD/morte.png");
-    life = new TileSet(ownerObj,77,77,lifesprites);
+    lifesprites.push_back("assets/img/HUD/vida2.png");
+    lifesprites.push_back("assets/img/HUD/morte2.png");
+    life = new TileSet(ownerObj,60,60,lifesprites);
 }
 
 HUD::~HUD(){
@@ -41,8 +41,8 @@ void HUD::Render(){
     belicon->Render();
     bar->Render();
     int numberoficons = Player::player->GetLife()/10;
-    int currentWidth = 300;
-    int height = 100;
+    int currentWidth = 230;
+    int height = 60;
     for(int i = 0;i < numberoficons;i++){
         life->RenderTile(0,currentWidth,height);
         currentWidth += life->GetTileWidth();

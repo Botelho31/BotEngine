@@ -60,6 +60,7 @@
             std::map<std::string,std::string> spritefiles;
             Sprite *bosssprite;
             Timer *attacktimer;
+            Timer *handuptimer;
             Timer *idlehandtimer;
             Timer *returnhandtimer;
             Timer *invincibilitytimer;
@@ -67,6 +68,7 @@
             Timer *attackdelay;
             bool hitboxinstantiated;
             float damageCooldown;
+            bool screenshake;
 
             Timer* minionspawntimer;
             std::vector<std::weak_ptr<GameObject>> eyes; 

@@ -1,7 +1,8 @@
 [
     idle assets/img/bossidletest3.png
     head assets/img/bossheadtest2.png
-    attacklefthand assets/img/bossattack1.png
+    uplefthand assets/img/bosshandupleft.png
+    attacklefthand assets/img/bosshandattackleft.png
     idlelefthand assets/img/bossattack2.png
     returnlefthand assets/img/bossattack3.png
 ]

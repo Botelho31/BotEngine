@@ -33,6 +33,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     state = IDLE;
 
     this->attacktimer = new Timer();
+    this->handuptimer = new Timer();
     sightangle = 0;
     spritefiles = GameData::GetSpritesFiles("assets/img/info/boss.txt");
     this->bosssprite =  new Sprite(associated,spritefiles["idle"],24,0.04);
@@ -63,6 +64,7 @@ Boss::~Boss(){
     delete minionspawntimer;
     delete idlehandtimer;
     delete returnhandtimer;
+    delete handuptimer;
 
     if(!head.expired()){
         head.lock()->RequestDelete();
@@ -117,19 +119,18 @@ void Boss::Update(float dt){
 void Boss::HandHitbox(GameObject& hitbox,GameObject& owner,float dt){
     Physics* physics = hitbox.GetPhysics();
     Component *component = hitbox.GetComponent("HitBox");
-    physics->PerformGravity(1000,dt);
+    physics->PerformGravity(40000,dt);
     physics->PerformYMovement(dt);
 
     if(physics->IsGrounded()){
-        Camera::ShakeScreen(2,100);
-        physics->SetCollider(1.5,1);
+        hitbox.RequestDelete();
     }
 }
 
 void Boss::InstantiateHitBox(Rect hitbox,float duration,Vec2 knockback){
     GameObject *hitboxObj = new GameObject();
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
-    HitBox *hitboxcomp = new HitBox(*hitboxObj,hitbox,owner,0,40,duration,duration,false,true,false,knockback,this);
+    HitBox *hitboxcomp = new HitBox(*hitboxObj,hitbox,owner,0,20,duration,duration,false,true,false,knockback,this);
     hitboxcomp->SetFunction(Boss::HandHitbox);
     hitboxObj->AddComponent(hitboxcomp);
     Game::GetInstance().GetCurrentState().AddObject(hitboxObj);
@@ -246,22 +247,36 @@ void Boss::StopParallax(){
 }
 
 void Boss::AttackState(float dt){
-    if(!attacktimer->Started() && !idlehandtimer->Started() && !returnhandtimer->Started()){
-        attacktimer->Delay(dt);
+    if(!attacktimer->Started() && !idlehandtimer->Started() && !returnhandtimer->Started() && !handuptimer->Started()){
         StopParallax();
         Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 800,200,100);
-        WindowEffects::AddBoxToDraw(LeftHandArea,0);
+        // WindowEffects::AddBoxToDraw(LeftHandArea,0);
         if(LeftHandArea.Contains(Player::player->GetPosition())){
-            SetSprite(spritefiles["attacklefthand"],51,0.04,false);
+            SetSprite(spritefiles["uplefthand"],29,0.04,false,{15,-120});
+            handuptimer->Delay(dt);
+            screenshake = false;
         }else{
             state = IDLE;
-            attacktimer->Restart();
+            handuptimer->Restart();
+        }
+    }
+    if(handuptimer->Started()){
+        handuptimer->Update(dt);
+        if(handuptimer->Get() >= 1.16){
+            SetSprite(spritefiles["attacklefthand"],22,0.04,true);
+            handuptimer->Restart();
+            attacktimer->Delay(dt);
+            InstantiateHitBox({associated.box.x + 200,associated.box.y + 500,300,100},2,{1000,300});
         }
     }
     if(attacktimer->Started()){
         attacktimer->Update(dt);
-        if(attacktimer->Get() >= 2.04){
-            SetSprite(spritefiles["idlelefthand"],20,0.04,true);
+        if((attacktimer->Get() >= 0.08) && (!screenshake)){
+            screenshake = true;
+            Camera::ShakeScreen(1,60);
+        }
+        if(attacktimer->Get() >= 0.88){
+            SetSprite(spritefiles["idlelefthand"],20,0.04,true,{30,-70});
             idlehandtimer->Delay(dt);
             attacktimer->Restart();
         }
@@ -279,7 +294,8 @@ void Boss::AttackState(float dt){
         if(returnhandtimer->Get() >= 0.24){
             returnhandtimer->Restart();
             state = IDLE;
-            SetSprite(spritefiles["idle"],24,0.04,true);
+            SetSprite(spritefiles["idle"],24,0.04,true,{-45,190});
+            CatchParallax();
         }
     }
 }
@@ -298,15 +314,16 @@ void Boss::IdleState(float dt){
         }
     }
     Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 800,200,100);
-    WindowEffects::AddBoxToDraw(LeftHandArea,0);
+    // WindowEffects::AddBoxToDraw(LeftHandArea,0);
     if(LeftHandArea.Contains(Player::player->GetPosition())){
         this->state = ATTACKING;
         StopParallax();
     }
 
-    if(input->IsKeyDown(SDLK_8)){
+    if(input->KeyPress(SDLK_8)){
         Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
         std::cout << mousepos.x - associated.box.x << " " << mousepos.y - associated.box.y << std::endl;
+        // SetSprite(spritefiles["attacklefthand"],51,0.04,false,{25,-190});
     }
     // if(input->KeyPress(SDLK_7)){
     //     StopParallax();
