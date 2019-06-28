@@ -7,6 +7,7 @@
     #include "State.h"
     #include "Timer.h"
     #include "Button.h"
+    #include "WindowEffects.h"
 
     class MenuState : public State{
         public:
@@ -26,6 +27,7 @@
             Button *optionsButton;
             Button *quitButton;
             Button *infoButton;
+            WindowEffects *windoweffects;
     };
 
 #endif

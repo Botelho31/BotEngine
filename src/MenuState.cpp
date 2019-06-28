@@ -10,10 +10,12 @@
 #include "../include/Collision.h"
 #include "../include/Button.h"
 #include "../include/GameData.h"
+#include "../include/WindowEffects.h"
 
 MenuState::MenuState(){
     quitRequested = false;
     popRequested = false;
+    windoweffects = new WindowEffects();
 
     GameObject *titleobj =  new GameObject();
     Sprite *title = new Sprite(*titleobj,"assets/img/menuscreen.png");
@@ -58,6 +60,7 @@ MenuState::MenuState(){
 MenuState::~MenuState(){
     GameData::SaveListOfSaves("assets/saves/listofsaves.txt");
     objectArray.clear();
+    delete windoweffects;
 }
 
 void MenuState::LoadAssets(){
@@ -65,13 +68,14 @@ void MenuState::LoadAssets(){
 }
 
 void MenuState::Update(float dt){
+    windoweffects->Update(dt);
 	InputManager *input = &(InputManager::GetInstance());
     State::UpdateArray(dt);
     if(newgameButton->isSelected()){
 
     }
     else if(loadButton->isSelected()){
-        Game::GetInstance().Push(new StageState());
+        windoweffects->FadeToBlack(1);
     }
     else if(optionsButton->isSelected()){
 
@@ -83,7 +87,7 @@ void MenuState::Update(float dt){
         quitRequested = true;
     }
     else if(input->KeyPress(SDLK_SPACE)){
-        Game::GetInstance().Push(new StageState());
+        windoweffects->FadeToBlack(1);
     } 
 
     for(unsigned int i = 0; i < objectArray.size();i++){
@@ -102,10 +106,15 @@ void MenuState::Update(float dt){
             }
         }
     }
+
+    if(windoweffects->IsBlack()){
+        Game::GetInstance().Push(new StageState());
+    }
 }
 
 void MenuState::Render(){
     State::RenderArray();
+    windoweffects->Render();
 }
 
 void MenuState::Start(){
@@ -118,6 +127,7 @@ void MenuState::Resume(){
     loadButton->Reset();
     optionsButton->Reset();
     quitButton->Reset();
+    windoweffects->FadeFromBlack(1);
 }
 
 void MenuState::Pause(){
