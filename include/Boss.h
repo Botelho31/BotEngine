@@ -34,6 +34,8 @@
             void SpawnHead(Vec2 pos);
             void SpawnEye(Vec2 pos,Vec2 endpos);
             void SpawnMinion();
+            void SpawnHand(Vec2 pos);
+            void DestroyHand();
 
             void StopParallax();
             void CatchParallax();
@@ -59,10 +61,13 @@
 
             std::map<std::string,std::string> spritefiles;
             Sprite *bosssprite;
+
             Timer *attacktimer;
             Timer *handuptimer;
             Timer *idlehandtimer;
             Timer *returnhandtimer;
+            bool lefthand,righthand;
+
             Timer *invincibilitytimer;
             Timer *damagetimer;
             Timer *attackdelay;
@@ -73,6 +78,7 @@
             Timer* minionspawntimer;
             std::vector<std::weak_ptr<GameObject>> eyes; 
             std::weak_ptr<GameObject> head;
+            std::weak_ptr<GameObject> hand;
     };
 
 #endif

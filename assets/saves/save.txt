@@ -1,8 +1,8 @@
 Save
 	[
 		mapInfo assets/map/info/BOSSROOM.txt
-		playerPos 495.831 1379.7
-		playerLife 30
+		playerPos 3035.85 1380.01
+		playerLife 20
 		checkpointPos 20 1380
 		checkpointPosSpeed 600 0
 	]
@@ -18,4 +18,5 @@ ListOfDiscoveredMaps
 	]
 ListOfDiscoveredSouls
 	[
+		1
 	]

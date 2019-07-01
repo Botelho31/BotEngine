@@ -3,6 +3,11 @@
     head assets/img/bossheadtest2.png
     uplefthand assets/img/bosshandupleft.png
     attacklefthand assets/img/bosshandattackleft.png
-    idlelefthand assets/img/bossattack2.png
-    returnlefthand assets/img/bossattack3.png
+    idlelefthand assets/img/bosshandidleleft.png
+    returnlefthand assets/img/bosshandreturnleft.png
+
+    uprighthand assets/img/bosshandupright.png
+    attackrighthand assets/img/bosshandattackright.png
+    idlerighthand assets/img/bosshandidleright.png
+    returnrighthand assets/img/bosshandreturnright.png
 ]

@@ -10,6 +10,7 @@
 #include "../include/StageState.h"
 #include "../include/ParallaxFollower.h"
 #include "../include/InputManager.h"
+#include "../include/BossHand.h"
 
 Boss::Boss(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -68,6 +69,9 @@ Boss::~Boss(){
 
     if(!head.expired()){
         head.lock()->RequestDelete();
+    }
+    if(!hand.expired()){
+        DestroyHand();
     }
 }
 
@@ -249,24 +253,38 @@ void Boss::StopParallax(){
 void Boss::AttackState(float dt){
     if(!attacktimer->Started() && !idlehandtimer->Started() && !returnhandtimer->Started() && !handuptimer->Started()){
         StopParallax();
-        Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 800,200,100);
-        // WindowEffects::AddBoxToDraw(LeftHandArea,0);
+        Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 780,300,120);
+        Rect RightHandArea = Rect(associated.box.x + 1130,associated.box.y + 780,300,120);        
         if(LeftHandArea.Contains(Player::player->GetPosition())){
-            SetSprite(spritefiles["uplefthand"],29,0.04,false,{15,-120});
+            SetSprite(spritefiles["uplefthand"],29,0.04,false,{0,-120});
             handuptimer->Delay(dt);
             screenshake = false;
+            lefthand = true;
+            righthand = false;
+        }else if(RightHandArea.Contains(Player::player->GetPosition())){
+            SetSprite(spritefiles["uprighthand"],29,0.04,false,{0,-120});
+            handuptimer->Delay(dt);
+            screenshake = false;
+            lefthand = false;
+            righthand = true;
         }else{
             state = IDLE;
             handuptimer->Restart();
+            CatchParallax();
         }
     }
     if(handuptimer->Started()){
         handuptimer->Update(dt);
         if(handuptimer->Get() >= 1.16){
-            SetSprite(spritefiles["attacklefthand"],22,0.04,true);
+            if(lefthand){
+                SetSprite(spritefiles["attacklefthand"],22,0.04,true);
+                InstantiateHitBox({associated.box.x + 250,associated.box.y + 500,350,100},2,{1000,300});
+            }else{
+                SetSprite(spritefiles["attackrighthand"],22,0.04,true);
+                InstantiateHitBox({associated.box.x + 1300,associated.box.y + 500,350,100},2,{1000,300});
+            }
             handuptimer->Restart();
             attacktimer->Delay(dt);
-            InstantiateHitBox({associated.box.x + 200,associated.box.y + 500,300,100},2,{1000,300});
         }
     }
     if(attacktimer->Started()){
@@ -274,9 +292,18 @@ void Boss::AttackState(float dt){
         if((attacktimer->Get() >= 0.08) && (!screenshake)){
             screenshake = true;
             Camera::ShakeScreen(1,60);
+            if(lefthand){
+                SpawnHand({associated.box.x + 150,associated.box.y + 1120});
+            }else{
+                SpawnHand({associated.box.x + 1250,associated.box.y + 1120});
+            }
         }
         if(attacktimer->Get() >= 0.88){
-            SetSprite(spritefiles["idlelefthand"],20,0.04,true,{30,-70});
+            if(lefthand){
+                SetSprite(spritefiles["idlelefthand"],20,0.04,true);
+            }else{
+                SetSprite(spritefiles["idlerighthand"],20,0.04,true);
+            }
             idlehandtimer->Delay(dt);
             attacktimer->Restart();
         }
@@ -284,9 +311,14 @@ void Boss::AttackState(float dt){
     if(idlehandtimer->Started()){
         idlehandtimer->Update(dt);
         if(idlehandtimer->Get() >= 3){
-            SetSprite(spritefiles["returnlefthand"],6,0.04,false);
+            if(lefthand){
+                SetSprite(spritefiles["returnlefthand"],6,0.04,false);
+            }else{
+                SetSprite(spritefiles["returnrighthand"],6,0.04,false);
+            }
             returnhandtimer->Delay(dt);
             idlehandtimer->Restart();
+            DestroyHand();
         }
     }
     if(returnhandtimer->Started()){
@@ -294,7 +326,7 @@ void Boss::AttackState(float dt){
         if(returnhandtimer->Get() >= 0.24){
             returnhandtimer->Restart();
             state = IDLE;
-            SetSprite(spritefiles["idle"],24,0.04,true,{-45,190});
+            SetSprite(spritefiles["idle"],24,0.04,true,{0,120});
             CatchParallax();
         }
     }
@@ -313,9 +345,11 @@ void Boss::IdleState(float dt){
             MoveHead({0,-55},dt);
         }
     }
-    Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 800,200,100);
+    Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 780,300,120);
+    Rect RightHandArea = Rect(associated.box.x + 1130,associated.box.y + 780,300,120);
     // WindowEffects::AddBoxToDraw(LeftHandArea,0);
-    if(LeftHandArea.Contains(Player::player->GetPosition())){
+    // WindowEffects::AddBoxToDraw(RightHandArea,0);
+    if(LeftHandArea.Contains(Player::player->GetPosition()) || RightHandArea.Contains(Player::player->GetPosition())){
         this->state = ATTACKING;
         StopParallax();
     }
@@ -323,28 +357,36 @@ void Boss::IdleState(float dt){
     if(input->KeyPress(SDLK_8)){
         Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
         std::cout << mousepos.x - associated.box.x << " " << mousepos.y - associated.box.y << std::endl;
-        // SetSprite(spritefiles["attacklefthand"],51,0.04,false,{25,-190});
     }
-    // if(input->KeyPress(SDLK_7)){
-    //     StopParallax();
-    // }
-    // if(input->KeyPress(SDLK_8)){
-    //     CatchParallax();
-    // }
 
-    // if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
-    //     minionspawntimer->Update(dt);
-    //     if(minionspawntimer->Get() > 1){
-    //         int minionspawn = (rand() % 5) + 1;
-    //         // minionspawn = 5;
-    //         if(minionspawn == 5){
-    //             SpawnMinion();
-    //             // InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
-    //             // std::cout << "SPAWNED MINION" << dt << std::endl;
-    //         }
-    //         minionspawntimer->Restart();
-    //     }
-    // }
+    if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
+        minionspawntimer->Update(dt);
+        if(minionspawntimer->Get() > 1){
+            int minionspawn = (rand() % 5) + 1;
+            // minionspawn = 5;
+            if(minionspawn == 5){
+                SpawnMinion();
+                // InstantiateHitBox({Player::player->GetPosition().Added(-300,-600),300,100},2,{400,200});
+                // std::cout << "SPAWNED MINION" << dt << std::endl;
+            }
+            minionspawntimer->Restart();
+        }
+    }
+}
+
+void Boss::SpawnHand(Vec2 pos){
+    GameObject *bosshandObj =  new GameObject();
+    std::weak_ptr<GameObject> bossweakptr =  Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+    BossHand *bosshand = new BossHand(*bosshandObj,bossweakptr,pos);
+    bosshandObj->AddComponent(bosshand);
+    std::weak_ptr<GameObject> handweakptr =  Game::GetInstance().GetCurrentState().AddObject(bosshandObj);
+    hand = handweakptr;
+}
+
+void Boss::DestroyHand(){
+    if(!hand.expired()){
+        hand.lock()->RequestDelete();
+    }
 }
 
 void Boss::SpawnMinion(){
