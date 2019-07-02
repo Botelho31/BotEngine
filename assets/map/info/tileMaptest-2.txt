@@ -5,6 +5,7 @@ MapInfo
     parallaxDepth 0
     tilesetfiles assets/img/Tile2.6.png
     background assets/img/fundos/room1.png 0
+    music test
   ]
 
 Portal

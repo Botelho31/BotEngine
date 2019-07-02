@@ -5,7 +5,6 @@
     attacklefthand assets/img/bosshandattackleft.png
     idlelefthand assets/img/bosshandidleleft.png
     returnlefthand assets/img/bosshandreturnleft.png
-
     uprighthand assets/img/bosshandupright.png
     attackrighthand assets/img/bosshandattackright.png
     idlerighthand assets/img/bosshandidleright.png

@@ -671,6 +671,28 @@ void Player::SetSprite(std::string file,int framecount,float frametime,bool repe
     physics->GetCollider()->UpdateScale();
 }
 
+void Player::PlaySound(std::string file,int times){
+    Component *soundcomp = associated.GetComponent("Sound");
+    if(soundcomp){
+        Sound *sound = dynamic_cast<Sound*>(soundcomp);
+        sound->Open(file);
+        sound->Play(times);
+    }else{
+        Sound *sound = new Sound(associated,file);
+        sound->Play(times);
+    }
+}
+
+void Player::StopSound(){
+    Component *soundcomp = associated.GetComponent("Sound");
+    if(soundcomp){
+        Sound *sound = dynamic_cast<Sound*>(soundcomp);
+        if(sound->IsPlaying()){
+            sound->Stop();
+        }
+    }
+}
+
 void Player::SetSpeed(Vec2 speed){
     this->speed.x = speed.x;
     this->speed.y = speed.y;

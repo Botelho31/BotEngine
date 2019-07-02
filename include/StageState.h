@@ -35,9 +35,9 @@
             static bool LoadedTileColliders();
 
             static void ChangeBackground(std::string file,bool parallax = true,Vec2 scale = {1,1});
+            void ChangeMusic(std::string file);
         private:
             TileSet *tileset;
-            Music *backgroundMusic;
             bool showfps;
             Text *fps;
             WindowEffects *windoweffects;
@@ -46,6 +46,7 @@
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool pause;
             int initialtiles;
+            Music *backgroundMusic;
             static bool loadedTileColliders;
             static bool mapcollision; //Boolean indicating if mapcollision is ready or not
             static bool changingMap;    //Keeps the bool if the map is changing

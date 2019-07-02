@@ -270,6 +270,8 @@ void StageState::ExpandTileColliders(){
         std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
         changingMapTimer->Update(0);
+        std::cout << GameData::currentMusic << std::endl;
+        ChangeMusic(GameData::currentMusic);
         windoweffects->FadeFromBlack(1.5);
     }
 }
@@ -355,6 +357,7 @@ void StageState::HandleEvents(float dt){
                 }
                 else if(windoweffects->IsBlack()){
                     mapcollision = false;
+                    backgroundMusic->Stop();
 
                     Player::player->KeepStill(false);
                     std::string tileMapInfoFile = GameData::events.front()->GetTileMapInfo();
@@ -501,7 +504,6 @@ void StageState::Start(){
 }
 
 void StageState::Pause(){
-
 }
 
 void StageState::Resume(){
@@ -521,4 +523,10 @@ bool StageState::LoadedTileColliders(){
 
 void StageState::ChangeBackground(std::string file,bool parallax,Vec2 scale){
     background->ChangeBackground(file,parallax,scale);
+}
+
+void StageState::ChangeMusic(std::string musicfile){
+    backgroundMusic->Stop();
+    backgroundMusic->Open(musicfile);
+    backgroundMusic->Play();
 }

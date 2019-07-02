@@ -41,6 +41,7 @@
             static std::vector<int> listOfDiscoveredSouls;
             static bool playerSword;
 
+            static std::string currentMusic;
             static std::queue<Event*> events;
     };
 

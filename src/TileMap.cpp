@@ -42,6 +42,7 @@ std::string TileMap::LoadInfo(std::string file){
     bool backgroundParallax;
     Vec2 backgroundscale;
     std::vector<std::string> tilesetfiles;
+    std::string musicfile;
     std::string mapfile;
     std::fstream FileReader;
     FileReader.open(file.c_str());
@@ -69,6 +70,9 @@ std::string TileMap::LoadInfo(std::string file){
                 FileReader >> backgroundParallax;
                 FileReader >> backgroundscale.x;
                 FileReader >> backgroundscale.y;
+                FileReader >> checkline;
+                FileReader >> musicfile;
+                GameData::currentMusic = musicfile;
                 StageState::ChangeBackground(backgroundfile,backgroundParallax,backgroundscale);
                 GameObject *tilesetObj = new GameObject();
                 TileSet *newtileset = new TileSet(tilesetObj,50,50,tilesetfiles);

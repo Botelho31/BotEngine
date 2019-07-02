@@ -19,9 +19,9 @@ void Music::Open(std::string file){
     }
 }
 
-void Music::Play(int times){
+void Music::Play(int times,int ms){
     if(music){
-        Mix_PlayMusic(music.get(),times);
+        Mix_FadeInMusic(music.get(),times,ms);
     }else{
         std::cout << "No Music Loaded to Play\n" << std::endl;
     }
@@ -30,6 +30,18 @@ void Music::Play(int times){
 void Music::Stop(int msToStop){
     Mix_FadeOutMusic(msToStop);
 
+}
+
+void Music::Pause(){
+    if(Mix_PlayingMusic()){
+        Mix_PauseMusic();
+    }
+}
+
+void Music::Resume(){
+    if(Mix_PausedMusic()){
+        Mix_ResumeMusic();
+    }
 }
 
 bool Music::IsOpen(){

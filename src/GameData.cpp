@@ -13,6 +13,7 @@ Vec2 GameData::checkpointPosSpeed;
 std::vector<std::string> GameData::listOfDiscoveredMaps;
 std::vector<int> GameData::listOfDiscoveredSouls;
 
+std::string GameData::currentMusic;
 std::queue<Event*> GameData::events;
 
 

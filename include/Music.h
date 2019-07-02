@@ -11,9 +11,11 @@
             Music();
             Music(std::string file);
             ~Music();
-            void Play(int times = -1);
+            void Play(int times = -1,int ms = 1500);
             void Stop(int msToStop = 1500);
             void Open(std::string file);
+            void Pause();
+            void Resume();
             bool IsOpen();
         private:
             std::shared_ptr<Mix_Music> music;

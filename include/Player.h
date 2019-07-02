@@ -31,6 +31,8 @@
             void IdleHandle(float dt); //Handles player Idle
             void SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
+            void PlaySound(std::string file,int times);
+            void StopSound();
 
             void Reset(Vec2 speed = {0,0}); //Resets all player variables
             void SetInvincibility(bool Invencible);
@@ -88,6 +90,7 @@
             bool running;
 
             std::map<std::string,std::string> spritefiles;
+            std::map<std::string,std::string> soundfiles;
             Sprite *playersprite;
             InputManager *input;
             Physics *physics;

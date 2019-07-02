@@ -5,6 +5,7 @@ MapInfo
       parallaxDepth 0
       tilesetfiles assets/img/Tile2.6.png
       background assets/img/fundobranco.jpg 0 4 4
+      music test
   ]
 
 Portal
