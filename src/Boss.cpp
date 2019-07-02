@@ -292,6 +292,8 @@ void Boss::AttackState(float dt){
         if((attacktimer->Get() >= 0.08) && (!screenshake)){
             screenshake = true;
             Camera::ShakeScreen(1,60);
+        }
+        if((attacktimer->Get() >= 0.44) && (hand.expired())){
             if(lefthand){
                 SpawnHand({associated.box.x + 150,associated.box.y + 1120});
             }else{
