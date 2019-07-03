@@ -2,6 +2,7 @@
 #include "../include/Player.h"
 #include "../include/Minion.h"
 #include "../include/GameData.h"
+#include "../include/Boss.h"
 
 
 HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
@@ -105,6 +106,7 @@ void HitBox::NotifyCollision(GameObject& other){
         }
         if(hitEnemy){
             Component *component1 = other.GetComponent("Minion");
+            Component *component2 = other.GetComponent("BossHand");
             if(component1){
                 Minion *minion = dynamic_cast<Minion*>(component1);
                 if((other.box.w != 0) && minion->GetState() != Minion::ATTACKING){
@@ -127,6 +129,25 @@ void HitBox::NotifyCollision(GameObject& other){
                 hitfreezetime = 0;
                 // knockback.x = 0;
                 // knockback.y = 0;
+            }
+            if(component2){
+                if((other.box.w != 0)){
+                    std::cout << "test" << std::endl;
+                    if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
+                        if(associated.angleDeg <= 0){
+                            HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,true, {70,20});
+                        }else{
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,true, {70,-50});
+                        }
+                    }else{
+                        if(associated.angleDeg >= 0){
+                            HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,false, {-70,20}); //DIREITA
+                        }else{
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,false, {-70,-50}); //DIREITA
+                        }
+                    }
+                }
+                hitfreezetime = 0;
             }
             if(hitboxcomponent){
                 HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);

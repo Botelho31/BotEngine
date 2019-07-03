@@ -89,8 +89,8 @@ void Boss::Update(float dt){
         case CHASING:
             ChasingState(dt);
             break;
-        case ATTACKING:
-            AttackState(dt);
+        case HANDATTACKING:
+            HandAttackState(dt);
             break;
         default:
             break;
@@ -253,7 +253,7 @@ void Boss::StopParallax(){
     }
 }
 
-void Boss::AttackState(float dt){
+void Boss::HandAttackState(float dt){
     if(!attacktimer->Started() && !idlehandtimer->Started() && !returnhandtimer->Started() && !handuptimer->Started()){
         StopParallax();
         Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 780,300,120);
@@ -355,7 +355,7 @@ void Boss::IdleState(float dt){
     // WindowEffects::AddBoxToDraw(LeftHandArea,0);
     // WindowEffects::AddBoxToDraw(RightHandArea,0);
     if(LeftHandArea.Contains(Player::player->GetPosition()) || RightHandArea.Contains(Player::player->GetPosition())){
-        this->state = ATTACKING;
+        this->state = HANDATTACKING;
         StopParallax();
     }
 
@@ -434,6 +434,10 @@ bool Boss::Is(std::string type){
     }else{
         return false;
     }
+}
+
+Boss::bossState Boss::GetState(){
+    return state;
 }
 
 void Boss::NotifyCollision(GameObject& other){

@@ -9,6 +9,7 @@
 
     class Boss : public Component{
         public:
+            enum bossState{IDLE,CHASING,HANDATTACKING};
             Boss(GameObject& associated);
             ~Boss();
             void Start();
@@ -17,7 +18,7 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
-            void AttackState(float dt); //Handles attack state
+            void HandAttackState(float dt); //Handles attack state
             void IdleState(float dt); //Handles idle state
             void ChasingState(float dt); //Handles chasing state
 
@@ -40,10 +41,11 @@
             void StopParallax();
             void CatchParallax();
 
+            bossState GetState();            
+
             static void HandHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the hand
 
         private:
-            enum bossState{IDLE,CHASING,ATTACKING};
             bossState state;
 
             int hp;
