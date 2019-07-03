@@ -1,5 +1,5 @@
 [
-    spit		assets/img/spit.png
-    spitSplashing	assets/img/spitsplashing.png
-    spitPuddle		assets/img/spitpuddle.png
+    spit		assets/img/FlyingMinion/spit.png
+    spitSplashing	assets/img/FlyingMinion/spitsplashing.png
+    spitPuddle		assets/img/FlyingMinion/spitpuddle.png
 ]

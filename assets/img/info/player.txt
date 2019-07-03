@@ -1,18 +1,14 @@
 [
-    idle assets/img/belidleswordtest.png
-    walking assets/img/belwalktest4.png
-    walkingstop assets/img/belstoptest2.png
-    jumping assets/img/beljumptest4.png
-    damage assets/img/beldamagetest2.png
-    dead assets/img/beldeathtest3.png
-    falling assets/img/belfreefallingtest3.png
-    attacking1 assets/img/belattacktest2.png
-    attacking2 assets/img/belattack2test3.png
-    attacking3 assets/img/belattack3test2.png
-    projectileattack assets/img/projetilattack3test.png
-    hittheground assets/img/belhitthegroundtest4.png
-    smoke assets/img/smoketest.png
-    smoke2 assets/img/smoke2test.png
-    spark assets/img/sparktest.png
-    transparent assets/img/beltransparent.png
+    idle assets/img/Bel/belidlesword.png
+    walking assets/img/Bel/belwalk.png
+    walkingstop assets/img/Bel/belstopwalk.png
+    jumping assets/img/Bel/beljump.png
+    damage assets/img/Bel/beldamage.png
+    dead assets/img/Bel/beldeath.png
+    falling assets/img/Bel/belfreefalling.png
+    attacking1 assets/img/Bel/belattack1.png
+    attacking2 assets/img/Bel/belattack2.png
+    attacking3 assets/img/Bel/belattack3.png
+    projectileattack assets/img/Bel/belprojetilattack.png
+    hittheground assets/img/Bel/belhittheground.png
 ]

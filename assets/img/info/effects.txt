@@ -1,0 +1,9 @@
+[
+    smoke1 assets/img/Effects/smoke1.png
+    smoke2 assets/img/Effects/smoke2.png
+    sangue1 assets/img/Effects/sangue1.png
+    sangue2 assets/img/Effects/sangue2.png
+    spark1 assets/img/Effects/spark1.png
+    spark2 assets/img/Effects/spark2.png
+    transparent assets/img/Effects/transparent.png
+]

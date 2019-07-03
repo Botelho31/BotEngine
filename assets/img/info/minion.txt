@@ -1,9 +1,9 @@
 [
-    idle        assets/img/minionidletest.png
-    walking     assets/img/minionwalktest.png
-    attacking   assets/img/minionattacktest.png
-    deadfront   assets/img/miniondeathfronttest2.png
-    deadbehind  assets/img/miniondeathbehindtest2.png
-    damage      assets/img/miniondamagetest.png
-    falling     assets/img/minionfallingtest.png
+    idle        assets/img/Minion/minionidle.png
+    walking     assets/img/Minion/minionwalk.png
+    attacking   assets/img/Minion/minionattack.png
+    deadfront   assets/img/Minion/miniondeathfront.png
+    deadbehind  assets/img/Minion/miniondeathbehind.png
+    damage      assets/img/Minion/miniondamage.png
+    falling     assets/img/Minion/minionfalling.png
 ]

@@ -1,12 +1,12 @@
 [
-    idle assets/img/bossidletest3.png
-    head assets/img/bossheadtest2.png
-    uplefthand assets/img/bosshandupleft.png
-    attacklefthand assets/img/bosshandattackleft.png
-    idlelefthand assets/img/bosshandidleleft.png
-    returnlefthand assets/img/bosshandreturnleft.png
-    uprighthand assets/img/bosshandupright.png
-    attackrighthand assets/img/bosshandattackright.png
-    idlerighthand assets/img/bosshandidleright.png
-    returnrighthand assets/img/bosshandreturnright.png
+    idle assets/img/Boss/bossidle.png
+    head assets/img/Boss/bosshead.png
+    uplefthand assets/img/Boss/bosshandupleft.png
+    attacklefthand assets/img/Boss/bosshandattackleft.png
+    idlelefthand assets/img/Boss/bosshandidleleft.png
+    returnlefthand assets/img/Boss/bosshandreturnleft.png
+    uprighthand assets/img/Boss/bosshandupright.png
+    attackrighthand assets/img/Boss/bosshandattackright.png
+    idlerighthand assets/img/Boss/bosshandidleright.png
+    returnrighthand assets/img/Boss/bosshandreturnright.png
 ]
