@@ -92,6 +92,9 @@ void Boss::Update(float dt){
         case HANDATTACKING:
             HandAttackState(dt);
             break;
+        case RAMPAGEATTACKING:
+            RampageAttackState(dt);
+            break;
         default:
             break;
     }
@@ -253,18 +256,93 @@ void Boss::StopParallax(){
     }
 }
 
-void Boss::HandAttackState(float dt){
+void Boss::RampageAttackState(float dt){
     if(!attacktimer->Started() && !idlehandtimer->Started() && !returnhandtimer->Started() && !handuptimer->Started()){
         StopParallax();
-        Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 780,300,120);
-        Rect RightHandArea = Rect(associated.box.x + 1130,associated.box.y + 780,300,120);        
-        if(LeftHandArea.Contains(Player::player->GetPosition())){
+        if(Player::player->GetPosition().x <= associated.box.GetCenter().x){
+            SetSprite(spritefiles["uplefthand"],29,0.01,false,{0,-120});
+            handuptimer->Delay(dt);
+            screenshake = false;
+            lefthand = true;
+            righthand = false;
+        }
+        if(Player::player->GetPosition().x > associated.box.GetCenter().x){
+            SetSprite(spritefiles["uprighthand"],29,0.01,false,{0,-120});
+            handuptimer->Delay(dt);
+            screenshake = false;
+            lefthand = false;
+            righthand = true;
+        }
+        rampagecount = 0;
+    }
+    if(handuptimer->Started()){
+        handuptimer->Update(dt);
+        if(handuptimer->Get() >= 0.29){
+            if(lefthand){
+                SetSprite(spritefiles["attacklefthand"],22,0.04,true);
+                InstantiateHitBox({associated.box.x + 250,associated.box.y + 500,350,100},2,{1000,300});
+            }else{
+                SetSprite(spritefiles["attackrighthand"],22,0.04,true);
+                InstantiateHitBox({associated.box.x + 1300,associated.box.y + 500,350,100},2,{1000,300});
+            }
+            handuptimer->Restart();
+            attacktimer->Delay(dt);
+        }
+    }
+    if(attacktimer->Started()){
+        attacktimer->Update(dt);
+        if((attacktimer->Get() >= 0.04) && (!screenshake)){
+            screenshake = true;
+            Camera::ShakeScreen(0.37,60);
+            attacktimer->Restart();
+            returnhandtimer->Delay(dt);
+            if(lefthand){
+                SetSprite(spritefiles["returnlefthand"],6,0.01,false);
+            }else{
+                SetSprite(spritefiles["returnrighthand"],6,0.01,false);
+            }
+        }
+    }
+    if(returnhandtimer->Started()){
+        returnhandtimer->Update(dt);
+        if(returnhandtimer->Get() >= 0.06){
+            returnhandtimer->Restart();
+            if(rampagecount <= 10){
+                if(lefthand){
+                    SetSprite(spritefiles["uprighthand"],29,0.01,false);
+                    handuptimer->Delay(dt);
+                    screenshake = false;
+                    lefthand = false;
+                    righthand = true;
+                    rampagecount++;
+                }else{
+                    SetSprite(spritefiles["uplefthand"],29,0.01,false);
+                    handuptimer->Delay(dt);
+                    screenshake = false;
+                    lefthand = true;
+                    righthand = false;
+                    rampagecount ++;
+                }
+            }else{
+                returnhandtimer->Restart();
+                state = IDLE;
+                SetSprite(spritefiles["idle"],24,0.04,true,{0,120});
+                CatchParallax();
+            }
+        }
+    }
+}
+
+void Boss::HandAttackState(float dt){
+    if(!attacktimer->Started() && !idlehandtimer->Started() && !returnhandtimer->Started() && !handuptimer->Started()){
+        StopParallax();       
+        if(lefthand){
             SetSprite(spritefiles["uplefthand"],29,0.04,false,{0,-120});
             handuptimer->Delay(dt);
             screenshake = false;
             lefthand = true;
             righthand = false;
-        }else if(RightHandArea.Contains(Player::player->GetPosition())){
+        }else if(righthand){
             SetSprite(spritefiles["uprighthand"],29,0.04,false,{0,-120});
             handuptimer->Delay(dt);
             screenshake = false;
@@ -354,14 +432,24 @@ void Boss::IdleState(float dt){
     Rect RightHandArea = Rect(associated.box.x + 1130,associated.box.y + 780,300,120);
     // WindowEffects::AddBoxToDraw(LeftHandArea,0);
     // WindowEffects::AddBoxToDraw(RightHandArea,0);
-    if(LeftHandArea.Contains(Player::player->GetPosition()) || RightHandArea.Contains(Player::player->GetPosition())){
+    if(LeftHandArea.Contains(Player::player->GetPosition())){
         this->state = HANDATTACKING;
         StopParallax();
+        lefthand = true;
+        righthand = false;
+    }
+    if(RightHandArea.Contains(Player::player->GetPosition())){
+        this->state = HANDATTACKING;
+        StopParallax();
+        righthand = true;
+        lefthand = false;
     }
 
     if(input->KeyPress(SDLK_8)){
         Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
         std::cout << mousepos.x - associated.box.x << " " << mousepos.y - associated.box.y << std::endl;
+        this->state = RAMPAGEATTACKING;
+        StopParallax();
     }
 
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){

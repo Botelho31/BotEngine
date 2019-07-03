@@ -9,7 +9,7 @@
 
     class Boss : public Component{
         public:
-            enum bossState{IDLE,CHASING,HANDATTACKING};
+            enum bossState{IDLE,CHASING,HANDATTACKING,RAMPAGEATTACKING};
             Boss(GameObject& associated);
             ~Boss();
             void Start();
@@ -18,7 +18,8 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
-            void HandAttackState(float dt); //Handles attack state
+            void HandAttackState(float dt); //Handles Hand Attack state
+            void RampageAttackState(float dt);
             void IdleState(float dt); //Handles idle state
             void ChasingState(float dt); //Handles chasing state
 
@@ -69,6 +70,7 @@
             Timer *idlehandtimer;
             Timer *returnhandtimer;
             bool lefthand,righthand;
+            int rampagecount;
 
             Timer *invincibilitytimer;
             Timer *damagetimer;
