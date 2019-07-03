@@ -7,7 +7,7 @@ BossHand::BossHand(GameObject& associated,std::weak_ptr<GameObject> boss,Vec2 po
     associated.box.w = 400;
     associated.box.h = 300;
     associated.box.Transform(pos.x,pos.y);
-    TileCollider *tilecollider = new TileCollider(associated,associated.box,true);
+    TileCollider *tilecollider = new TileCollider(associated,associated.box,true,true);
     std::weak_ptr<Component> weakptr = associated.AddComponent(tilecollider);
     if(!weakptr.expired()){
         TileMap::tiles.push_back(weakptr);

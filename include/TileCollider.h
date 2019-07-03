@@ -9,7 +9,7 @@
 
     class TileCollider : public Component{
         public:
-            TileCollider(GameObject& associated,Rect tilebox,bool moving = false);
+            TileCollider(GameObject& associated,Rect tilebox,bool moving = false,bool isMob = false);
             void Update(float dt);
             void Render();
             void Start();
@@ -18,8 +18,10 @@
             void NotifyMobCollision(GameObject& other);
             bool CanMove(Vec2 vector);
             float Ceiling(float number);
+            bool IsMob();
             
             bool moving;
+            bool isMob;
             bool adjusted;
 
             bool maxX;

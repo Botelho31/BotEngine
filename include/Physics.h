@@ -27,7 +27,7 @@
             Rect GetLineBox(Vec2 vector,Vec2 vectorTo,float distance = 0);  //Returns a rect that forms a line from the 2 points
             
             bool IsOutofBounds(bool Completely = false,Rect box = {0,0,0,0},float angle = 0);   //Checks if a box is Out of Bounds
-            bool IsColliding(Rect box = {0,0,0,0},float angle = 0,bool nooutofbounds = false,bool markcollision = false); //Checks to see if it is colliding
+            bool IsColliding(Rect box = {0,0,0,0},float angle = 0,bool nooutofbounds = false,bool markcollision = false,bool ignoreMob = false); //Checks to see if it is colliding
 
             //Checks if it is colliding in a direction
             bool IsRight(int sum = 1);

@@ -224,7 +224,7 @@ bool Physics::IsOutofBounds(bool Completely,Rect box,float angle){
     }
     return false;
 }
-bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcollision){
+bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcollision,bool ignoreMob){
     #ifndef DEBUG
         markcollision = false;
     #endif
@@ -238,7 +238,13 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
     for(int i = 0;i < TileMap::tiles.size();i ++){
         TileCollider *tilecollider = dynamic_cast<TileCollider*>(TileMap::tiles[i].lock().get());
         if(Collision::IsColliding(box,tilecollider->box,angle,0,markcollision)){
-            return true;
+            if(ignoreMob){
+                if(!tilecollider->IsMob()){
+                    return true;
+                }
+            }else{
+                return true;
+            }
         }
     }
     return false;
@@ -265,7 +271,7 @@ Vec2 Physics::GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox,float colBoxAn
     float angle = origin.GetAngle(dest);
 
     if(colBox == Rect(0,0,0,0)){
-        if(IsColliding(box,angle,true)){
+        if(IsColliding(box,angle,true,false,true)){
             float interval = box.w/2;
             box.w -= interval;
             box = GetLineBox(origin,dest,box.w);

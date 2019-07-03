@@ -8,9 +8,10 @@
 #include "../include/Physics.h"
 #include "../include/StageState.h"
 
-TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving) : 
+TileCollider::TileCollider(GameObject& associated,Rect tilebox,bool moving,bool isMob) : 
     Component(associated),box(tilebox){
 	this->moving = moving;
+	this->isMob = isMob;
 	if(moving){
 		maxX = true;
 		maxY = true;
@@ -352,4 +353,8 @@ bool TileCollider::Is(std::string type){
     }else{
         return false;
     }
+}
+
+bool TileCollider::IsMob(){
+	return isMob;
 }
