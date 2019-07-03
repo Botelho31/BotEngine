@@ -5,8 +5,10 @@
 std::vector<std::string> GameData::saveFiles;
 bool GameData::playerAlive;
 bool GameData::playerSword;
+
 Vec2 GameData::savePlayerPos;
 int GameData::savePlayerHealth;
+int GameData::savePlayerMana;
 std::string GameData::checkpointMapInfo;
 Vec2 GameData::checkpointPos;
 Vec2 GameData::checkpointPosSpeed;
@@ -107,6 +109,7 @@ void GameData::SaveGame(){
     savefile << "\t\t" << "mapInfo " << checkpointMapInfo << "\n";
     savefile << "\t\t" << "playerPos " << savePlayerPos.x << " " << savePlayerPos.y << "\n";
     savefile << "\t\t" << "playerLife " << savePlayerHealth << "\n";
+    savefile << "\t\t" << "playerMana " << savePlayerMana << "\n";
     savefile << "\t\t" << "checkpointPos " << checkpointPos.x << " " << checkpointPos.y << "\n";
     savefile << "\t\t" << "checkpointPosSpeed " << checkpointPosSpeed.x << " " << checkpointPosSpeed.y << "\n";
     savefile << "\t]\n";
@@ -143,6 +146,8 @@ void GameData::LoadGame(){
                 FileReader >> savePlayerPos.y;
                 FileReader >> checkline;
                 FileReader >> savePlayerHealth;
+                FileReader >> checkline;
+                FileReader >> savePlayerMana;
                 FileReader >> checkline;
                 FileReader >> checkpointPos.x;
                 FileReader >> checkpointPos.y;
@@ -184,6 +189,7 @@ void GameData::LoadGame(){
         checkpointMapInfo = "assets/map/info/EntryRoom.txt";
         checkpointPos = Vec2(3120,1530);
         savePlayerHealth = PLAYERHP;
+        savePlayerMana = PLAYERMANA;
         savePlayerPos = checkpointPos;
         AddMap("assets/map/info/EntryRoom.txt");
     }

@@ -1,6 +1,7 @@
 #include "../include/HUD.h"
 #include "../include/CameraFollower.h"
 #include "../include/Player.h"
+#include "../include/GameData.h"
 
 HUD::HUD(GameObject& associated) : Component(associated){
     this->belicon = new GameObject();
@@ -13,11 +14,13 @@ HUD::HUD(GameObject& associated) : Component(associated){
 
     bar = new GameObject();
     bar->renderAfterForeGround = true;
-    Sprite *belIcon2 = new Sprite(*bar,"assets/img/HUD/barraleatoria2.png");
+    this->manabar = new StatBar(*bar,"assets/img/HUD/barraleatoria2.png","assets/img/HUD/barraleatoria2.png",{38,37},10,PLAYERMANA);
+    manabar->SetCurrent(PLAYERMANA,false);
+    // Sprite *belIcon2 = new Sprite(*bar,"assets/img/HUD/barraleatoria2.png");
     bar->box.Transform(230,145);
     CameraFollower *camfollower2 =  new CameraFollower(*bar);
     bar->AddComponent(camfollower2);
-    bar->AddComponent(belIcon2);
+    bar->AddComponent(manabar);
 
     GameObject *ownerObj = new GameObject();
     std::vector<std::string> lifesprites;
@@ -30,9 +33,13 @@ HUD::~HUD(){
     delete life;
     delete belicon;
     delete bar;
+    manabar = nullptr;
 }
 
 void HUD::Update(float dt){
+    if(manabar->GetCurrent() != GameData::savePlayerMana){
+        manabar->SetCurrent(GameData::savePlayerMana,false);
+    }
     belicon->Update(dt);
     bar->Update(dt);
 }

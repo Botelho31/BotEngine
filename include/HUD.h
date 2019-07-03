@@ -8,6 +8,7 @@
     #include "Physics.h"
     #include "Sprite.h"
     #include "TileSet.h"
+    #include "StatBar.h"
 
     class HUD : public Component{
         public:
@@ -20,6 +21,7 @@
             TileSet *life;
             GameObject* belicon;
             GameObject* bar;
+            StatBar* manabar;
     };
 
 #endif

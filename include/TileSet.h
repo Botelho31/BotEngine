@@ -15,6 +15,7 @@
             int GetTileWidth();
             int GetTileHeight();
 
+            int GetNumberOfTiles();
             void Flip(bool horizontal = true);
         private:
             GameObject *owner;

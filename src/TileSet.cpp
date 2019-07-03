@@ -58,6 +58,14 @@ int TileSet::GetTileWidth(){
     return tileWidth;
 }
 
+int TileSet::GetNumberOfTiles(){
+    int count = 0;
+    for(int i = 0;i < rows.size();i++){
+        count += rows[i] * columns[i];
+    }
+    return count;
+}
+
 void TileSet::Flip(bool horizontal){
     if(horizontal){
         for(int i = 0;i < tilesets.size();i++){
