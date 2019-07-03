@@ -20,7 +20,9 @@ Spit::Spit(GameObject& associated, GameObject& spitOwner, float initSpeed) : Com
 	gravspeed = 600;
 
 
-	spritefiles = GameData::GetSpritesFiles("assets/img/info/spit.txt");
+	std::vector<std::string> spritefile;
+	spritefile.push_back("assets/img/info/spit.txt");
+	spritefiles = GameData::GetSpritesFiles(spritefile);
     Sprite *spitSprite =  new Sprite(associated,spritefiles["spit"],4,0.1);
     this->spitsprite = spitSprite;
     associated.AddComponent(spitSprite);

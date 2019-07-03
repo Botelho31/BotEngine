@@ -36,7 +36,10 @@ Boss::Boss(GameObject& associated) : Component(associated){
     this->attacktimer = new Timer();
     this->handuptimer = new Timer();
     sightangle = 0;
-    spritefiles = GameData::GetSpritesFiles("assets/img/info/boss.txt");
+    std::vector<std::string> spritefile;
+    spritefile.push_back("assets/img/info/boss.txt");
+    spritefile.push_back("assets/img/info/effects.txt");
+    this->spritefiles = GameData::GetSpritesFiles(spritefile);
     this->bosssprite =  new Sprite(associated,spritefiles["idle"],24,0.04);
     associated.AddComponent(bosssprite);
 

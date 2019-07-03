@@ -211,36 +211,40 @@ void GameData::PrintGameData(){
 }
 
 void GameData::PreLoadSprites(std::string spritefile){
-    std::map<std::string,std::string> spritefiles = GetSpritesFiles(spritefile);
+    std::vector<std::string> spritefilevec;
+    spritefilevec.push_back(spritefile);
+    std::map<std::string,std::string> spritefiles = GetSpritesFiles(spritefilevec);
      for(auto it = spritefiles.cbegin(); it != spritefiles.cend(); ++it){
         Resources::GetImage(it->second);
     }
 }
 
-std::map<std::string,std::string> GameData::GetSpritesFiles(std::string spritesfile){
-    std::fstream FileReader;
-    FileReader.open(spritesfile);
-    std::string checkline;
-
+std::map<std::string,std::string> GameData::GetSpritesFiles(std::vector<std::string> spritesfile){
     std::map<std::string,std::string> filenames;
-    if (FileReader.is_open()) {
-        while (!FileReader.eof()) {
-            FileReader >> checkline;    
-            if(checkline == "["){  
-                while(checkline != "]"){
-                    FileReader >> checkline; 
-                    std::string name = checkline;
-                    FileReader >> checkline; 
-                    std::string file = checkline;
-                    filenames.insert({name,file});
+
+    for(int i = 0;i < spritesfile.size();i++){
+        std::fstream FileReader;
+        FileReader.open(spritesfile[i]);
+        std::string checkline;
+        if (FileReader.is_open()) {
+            while (!FileReader.eof()) {
+                FileReader >> checkline;    
+                if(checkline == "["){  
+                    while(checkline != "]"){
+                        FileReader >> checkline; 
+                        std::string name = checkline;
+                        FileReader >> checkline; 
+                        std::string file = checkline;
+                        filenames.insert({name,file});
+                    }
                 }
             }
+        }else{
+            ENDLINE
+            std::cout << "No Sprite File Found: " << spritesfile[i] << std::endl; //Printa um erro caso nao consiga dar load na file
         }
-    }else{
-        ENDLINE
-        std::cout << "No Sprite File Found: " << spritesfile << std::endl; //Printa um erro caso nao consiga dar load na file
+        FileReader.close();
     }
-    FileReader.close();
     return filenames;
 }
 

@@ -12,7 +12,10 @@ Eye::Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keep
     pupil.radius = pupilradius;
     this->bounds = bounds;
     this->keepPupilIn = keepPupilIn;
-    spritefiles = GameData::GetSpritesFiles("assets/img/info/eye.txt");
+    std::vector<std::string> spritefile;
+    spritefile.push_back("assets/img/info/eye.txt");
+    spritefile.push_back("assets/img/info/effects.txt");
+    this->spritefiles = GameData::GetSpritesFiles(spritefile);
     this->eyelid = new Sprite(associated,spritefiles["transparent"]);
     associated.AddComponent(eyelid);
     associated.box.SetCenter({bounds.x,bounds.y});

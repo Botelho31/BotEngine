@@ -18,7 +18,7 @@ MenuState::MenuState(){
     windoweffects = new WindowEffects();
 
     GameObject *titleobj =  new GameObject();
-    Sprite *title = new Sprite(*titleobj,"assets/img/menuscreen.png");
+    Sprite *title = new Sprite(*titleobj,"assets/img/HUD/menuscreen.png");
     titleobj->box.x = 0;
     titleobj->box.y = 0;
     titleobj->AddComponent(title);

@@ -35,7 +35,10 @@ Minion::Minion(GameObject& associated,minionState startingState) : Component(ass
     this->attacktimer = new Timer();
     sightangle = 0;
     
-    spritefiles = GameData::GetSpritesFiles("assets/img/info/minion.txt");
+    std::vector<std::string> spritefile;
+    spritefile.push_back("assets/img/info/minion.txt");
+    spritefile.push_back("assets/img/info/effects.txt");
+    spritefiles = GameData::GetSpritesFiles(spritefile);
     Sprite *minion =  new Sprite(associated,spritefiles["idle"],32,0.08);
     this->minionsprite = minion;
     associated.AddComponent(minion);

@@ -16,7 +16,7 @@ TitleState::TitleState(){
     popRequested = false;
 
     GameObject *titleobj =  new GameObject();
-    Sprite *title = new Sprite(*titleobj,"assets/img/titlescreen2.png");
+    Sprite *title = new Sprite(*titleobj,"assets/img/HUD/titlescreen2.png");
     titleobj->box.x = 0;
     titleobj->box.y = 0;
     titleobj->AddComponent(title);
@@ -28,7 +28,7 @@ TitleState::TitleState(){
     AddObject(mousePointerObj);
 
     GameObject *textObj = new GameObject();
-    Sprite* text = new Sprite(*textObj,"assets/img/titlePagetext.png");
+    Sprite* text = new Sprite(*textObj,"assets/img/HUD/titlePagetext.png");
     textObj->box.SetCenter({960,975});
     textObj->AddComponent(text);
     AddObject(textObj);

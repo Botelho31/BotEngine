@@ -55,7 +55,9 @@ FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : C
 
 
     //Add components to the Game Object
-    spritefiles = GameData::GetSpritesFiles("assets/img/info/flyingminion.txt");
+    std::vector<std::string> spritefile;
+    spritefile.push_back("assets/img/info/flyingminion.txt");
+    spritefiles = GameData::GetSpritesFiles(spritefile);
     Sprite *minion =  new Sprite(associated,spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
     minionsprite = minion;
     associated.AddComponent(minion);

@@ -56,7 +56,10 @@ Player::Player(GameObject& associated) : Component(associated){
     this->physics = new Physics(associated,&speed);
     associated.AddComponent(physics);
 
-    this->spritefiles = GameData::GetSpritesFiles("assets/img/info/player.txt");
+    std::vector<std::string> spritefile;
+    spritefile.push_back("assets/img/info/player.txt");
+    spritefile.push_back("assets/img/info/effects.txt");
+    this->spritefiles = GameData::GetSpritesFiles(spritefile);
     Sprite *player =  new Sprite(associated,spritefiles["idle"],32,0.08);
     this->playersprite = player;
     associated.AddComponent(player);
@@ -436,7 +439,7 @@ void Player::YMovement(float dt){
 
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
-            SpriteEffect(spritefiles["smoke"],5,0.05,0.25,smoke1);
+            SpriteEffect(spritefiles["smoke1"],5,0.05,0.25,smoke1);
             hittheground->Delay(dt);
         }
     }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
@@ -510,7 +513,7 @@ void Player::YMovement(float dt){
             if(physics->IsGrounded()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
-                SpriteEffect("assets/img/smoketest.png",5,0.05,0.25,smoke1);
+                SpriteEffect(spritefiles["smoke"],5,0.05,0.25,smoke1);
             }
             jumpsquat->Restart();
         }
