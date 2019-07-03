@@ -52,7 +52,7 @@
 
             Vec2 cachepoint;
 
-            
+            std::map<std::string,std::string> spritefiles;
             void (*Move)(GameObject&,GameObject&,float);
     };
 

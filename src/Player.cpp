@@ -513,7 +513,7 @@ void Player::YMovement(float dt){
             if(physics->IsGrounded()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
-                SpriteEffect(spritefiles["smoke"],5,0.05,0.25,smoke1);
+                SpriteEffect(spritefiles["smoke1"],5,0.05,0.25,smoke1);
             }
             jumpsquat->Restart();
         }

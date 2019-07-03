@@ -1,6 +1,7 @@
 #include "../include/HitBox.h"
 #include "../include/Player.h"
 #include "../include/Minion.h"
+#include "../include/GameData.h"
 
 
 HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
@@ -13,6 +14,9 @@ HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owne
     this->selfDestruct = new Timer();
     this->physics = new Physics(associated,&speed,true);
     associated.AddComponent(physics);
+    std::vector<std::string> spritefile;
+    spritefile.push_back("assets/img/info/effects.txt");
+    this->spritefiles =  GameData::GetSpritesFiles(spritefile);
 }
 
 HitBox::~HitBox(){
@@ -41,7 +45,7 @@ void HitBox::Update(float dt){
             Vec2 collisionpoint = physics->GetCollisionPoint(owner.lock().get()->box.GetCenter(),GetEdge());
             if((collisionpoint.x != 0) && (collisionpoint.y != 0)){
                 if(cachepoint.GetDistance(collisionpoint.x,collisionpoint.y) > 25){
-                    HitEffect("assets/img/Effects/spark2.png",5,0.04,0.20,collisionpoint);
+                    HitEffect(spritefiles["spark2"],5,0.04,0.20,collisionpoint);
                     cachepoint = collisionpoint;
                 }
                 Component *component1 = owner.lock().get()->GetComponent("Player");
@@ -95,7 +99,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     KeepStill(true,hitfreezetime);
                     hitbox->KeepStill(true,hitfreezetime);
                     hitfreezetime = 0;
-                    HitEffect("assets/img/Effects/spark2.png",5,0.04,0.20,collisionpoint);
+                    HitEffect(spritefiles["spark2"],5,0.04,0.20,collisionpoint);
                 }
             }
         }
@@ -108,15 +112,15 @@ void HitBox::NotifyCollision(GameObject& other){
                     component1->KeepStill(true,hitfreezetime);
                     if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
                         if(associated.angleDeg <= 0){
-                            HitEffect("assets/img/Effects/sangue1.png",8,0.04,0.32,collisionpoint,true, {35,0});
+                            HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,true, {35,0});
                         }else{
-                            HitEffect("assets/img/Effects/sangue2.png",8,0.04,0.32,collisionpoint,true, {35,-50});
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,true, {35,-50});
                         }
                     }else{
                         if(associated.angleDeg >= 0){
-                            HitEffect("assets/img/Effects/sangue1.png",8,0.04,0.32,collisionpoint,false, {-35,0}); //DIREITA
+                            HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,false, {-35,0}); //DIREITA
                         }else{
-                            HitEffect("assets/img/Effects/sangue2.png",8,0.04,0.32,collisionpoint,false, {-35,-50}); //DIREITA
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,false, {-35,-50}); //DIREITA
                         }
                     }
                 }
@@ -131,7 +135,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     hitbox->KeepStill(true,hitfreezetime);
                     hitfreezetime = 0;
                     if(collider){
-                         HitEffect("assets/img/Effects/spark2.png",5,0.04,0.20,collider->box.GetCenter());
+                         HitEffect(spritefiles["spark2"],5,0.04,0.20,collider->box.GetCenter());
                     }
                 }
             }
