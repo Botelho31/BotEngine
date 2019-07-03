@@ -127,12 +127,9 @@ void HitBox::NotifyCollision(GameObject& other){
                     }
                 }
                 hitfreezetime = 0;
-                // knockback.x = 0;
-                // knockback.y = 0;
             }
             if(component2){
                 if((other.box.w != 0)){
-                    std::cout << "test" << std::endl;
                     if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
                         if(associated.angleDeg <= 0){
                             HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,true, {70,20});
