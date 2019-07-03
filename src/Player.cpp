@@ -271,25 +271,30 @@ void Player::AttackHandle(float dt){
             delayedboosttimer->Delay(dt);
         }
         if(nextattack.front() == 3){
-            float frametime = 0.03;
-            SetSprite(spritefiles["attacking3"],31,frametime,false);
-            swordradius = 90;
-            boost = 700;
-            delayedboost = frametime * 20;
-            attacktiming = frametime * 30;
-            endofattack = frametime * 35;
-            if(playersprite->IsFlipped()){
-                player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
-                player->swordarc =  PI - 0.5;
-                player->aswordangle = 70;
+            if(GameData::savePlayerMana >= 10){
+                GameData::savePlayerMana -= 10;
+                float frametime = 0.03;
+                SetSprite(spritefiles["attacking3"],31,frametime,false);
+                swordradius = 90;
+                boost = 700;
+                delayedboost = frametime * 20;
+                attacktiming = frametime * 30;
+                endofattack = frametime * 35;
+                if(playersprite->IsFlipped()){
+                    player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
+                    player->swordarc =  PI - 0.5;
+                    player->aswordangle = 70;
 
+                }else{
+                    player->asword = -((PI * 0.35)/(attacktiming - delayedboost));
+                    player->swordarc =  0.5;
+                    player->aswordangle = -70;
+                }
+                swordattack->Delay(dt);
+                delayedboosttimer->Delay(dt);
             }else{
-                player->asword = -((PI * 0.35)/(attacktiming - delayedboost));
-                player->swordarc =  0.5;
-                player->aswordangle = -70;
+                nextattack.pop();
             }
-            swordattack->Delay(dt);
-            delayedboosttimer->Delay(dt);
         }
         if(!physics->IsGrounded() && (!physics->IsColliding(physics->GetCollider()->box.Added(0,0,0,100)))){
             speed.y = -350;
