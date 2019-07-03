@@ -370,7 +370,7 @@ void Boss::HandAttackState(float dt){
     }
     if(attacktimer->Started()){
         attacktimer->Update(dt);
-        if((attacktimer->Get() >= 0.08) && (!screenshake)){
+        if((attacktimer->Get() >= 0.06) && (!screenshake)){
             screenshake = true;
             Camera::ShakeScreen(1,60);
         }
@@ -448,8 +448,8 @@ void Boss::IdleState(float dt){
     if(input->KeyPress(SDLK_8)){
         Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
         std::cout << mousepos.x - associated.box.x << " " << mousepos.y - associated.box.y << std::endl;
-        this->state = RAMPAGEATTACKING;
-        StopParallax();
+        // this->state = RAMPAGEATTACKING;
+        // StopParallax();
     }
 
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
@@ -500,6 +500,18 @@ void Boss::SetSprite(std::string file,int framecount,float frametime,bool repeat
     bosssprite->Open(file);
     associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2) + offset.x;
     associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2) + offset.y;
+}
+
+void Boss::HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point,bool flip,Vec2 offset){
+    GameObject *effectObj = new GameObject();
+    Sprite *effect = new Sprite(*effectObj,file,frames,frametime,duration,false);
+    if(flip){
+        effect->Flip();
+    }
+    effectObj->box.x = point.x - effectObj->box.w/2 + offset.x;
+    effectObj->box.y = point.y - effectObj->box.h/2 + offset.y;
+    effectObj->AddComponent(effect);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void Boss::Render(){

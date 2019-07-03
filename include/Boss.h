@@ -26,6 +26,7 @@
             void IdleHandle(float dt); //Handles minion Idle
 
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
+            void HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point,bool flip = false,Vec2 offset = {0,0});
 
             void InstantiateHitBox(Rect hitbox,float duration,Vec2 knockback);
             void DamageBoss(int damage);
