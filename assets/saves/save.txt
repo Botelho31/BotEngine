@@ -1,9 +1,9 @@
 Save
 	[
 		mapInfo assets/map/info/EntryRoom.txt
-		playerPos 3395.64 1530
-		playerLife 60
-		playerMana 0
+		playerPos 3114.03 1529.7
+		playerLife 30
+		playerMana 5
 		checkpointPos 4175 1530
 		checkpointPosSpeed -600 0
 	]
@@ -19,5 +19,6 @@ ListOfDiscoveredMaps
 	]
 ListOfDiscoveredSouls
 	[
+		1
 		1
 	]

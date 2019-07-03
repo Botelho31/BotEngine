@@ -271,8 +271,8 @@ void Player::AttackHandle(float dt){
             delayedboosttimer->Delay(dt);
         }
         if(nextattack.front() == 3){
-            if(GameData::savePlayerMana >= 10){
-                GameData::savePlayerMana -= 10;
+            if(GameData::savePlayerMana >= PLAYERMANAPERPROJECTILE){
+                GameData::savePlayerMana -= PLAYERMANAPERPROJECTILE;
                 float frametime = 0.03;
                 SetSprite(spritefiles["attacking3"],31,frametime,false);
                 swordradius = 90;

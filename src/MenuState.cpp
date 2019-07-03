@@ -72,7 +72,9 @@ void MenuState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     State::UpdateArray(dt);
     if(newgameButton->isSelected()){
-
+        GameData::AddSave("newgameplus");
+        GameData::ChooseSave(GameData::saveFiles.size() - 1);
+        windoweffects->FadeToBlack(1);
     }
     else if(loadButton->isSelected()){
         windoweffects->FadeToBlack(1);

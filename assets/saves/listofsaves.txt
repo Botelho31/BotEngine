@@ -1,5 +1,4 @@
 ListOfSaves
 	[
 		assets/saves/save.txt
-		assets/saves/save2.txt
 	]

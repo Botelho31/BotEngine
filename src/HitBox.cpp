@@ -108,6 +108,9 @@ void HitBox::NotifyCollision(GameObject& other){
             Component *component1 = other.GetComponent("Minion");
             Component *component2 = other.GetComponent("BossHand");
             if(component1){
+                if((GameData::savePlayerMana += PLAYERMANAPERHIT) <= PLAYERMANA){
+                    GameData::savePlayerMana += 5;
+                }
                 Minion *minion = dynamic_cast<Minion*>(component1);
                 if((other.box.w != 0) && minion->GetState() != Minion::ATTACKING){
                     KeepStill(true,hitfreezetime);
@@ -129,6 +132,9 @@ void HitBox::NotifyCollision(GameObject& other){
                 hitfreezetime = 0;
             }
             if(component2){
+                if((GameData::savePlayerMana += PLAYERMANAPERHIT) <= PLAYERMANA){
+                    GameData::savePlayerMana += PLAYERMANAPERHIT;
+                }
                 if((other.box.w != 0)){
                     if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
                         if(associated.angleDeg <= 0){
@@ -147,6 +153,9 @@ void HitBox::NotifyCollision(GameObject& other){
                 hitfreezetime = 0;
             }
             if(hitboxcomponent){
+                if((GameData::savePlayerMana += PLAYERMANAPERHIT) <= PLAYERMANA){
+                    GameData::savePlayerMana += PLAYERMANAPERHIT;
+                }
                 HitBox *hitbox = dynamic_cast<HitBox*>(hitboxcomponent);
                 if(hitbox->HitPlayer()){
                     KeepStill(true,hitfreezetime);
