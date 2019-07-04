@@ -109,7 +109,7 @@ void HitBox::NotifyCollision(GameObject& other){
             Component *component2 = other.GetComponent("BossHand");
             if(component1){
                 if(!associated.GetComponent("Sprite")){
-                    if((GameData::savePlayerMana += PLAYERMANAPERHIT) <= PLAYERMANA){
+                    if((GameData::savePlayerMana + PLAYERMANAPERHIT) <= PLAYERMANA){
                         GameData::savePlayerMana += 5;
                     }
                 }
@@ -135,7 +135,7 @@ void HitBox::NotifyCollision(GameObject& other){
             }
             if(component2){
                 if(!associated.GetComponent("Sprite")){
-                    if((GameData::savePlayerMana += PLAYERMANAPERHIT) <= PLAYERMANA){
+                    if((GameData::savePlayerMana + PLAYERMANAPERHIT) <= PLAYERMANA){
                         GameData::savePlayerMana += 5;
                     }
                 }
@@ -158,7 +158,7 @@ void HitBox::NotifyCollision(GameObject& other){
             }
             if(hitboxcomponent){
                 if(!associated.GetComponent("Sprite")){
-                    if((GameData::savePlayerMana += PLAYERMANAPERHIT) <= PLAYERMANA){
+                    if((GameData::savePlayerMana + PLAYERMANAPERHIT) <= PLAYERMANA){
                         GameData::savePlayerMana += 5;
                     }
                 }
