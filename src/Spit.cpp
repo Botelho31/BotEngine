@@ -41,7 +41,6 @@ Spit::~Spit(){
 
 void Spit::Update(float dt){
 
-
 	physics->PerformGravity(gravspeed, dt);
 
 	associated.angleDeg = Vec2(0,0).GetAngle(speed) * 360 / (2*3.14);
@@ -51,9 +50,6 @@ void Spit::Update(float dt){
 
 	if(physics->IsColliding() || physics->IsGrounded() || physics->IsRight()  || physics->IsLeft()){
 		collided=true;
-
-
-
 	}
 
 

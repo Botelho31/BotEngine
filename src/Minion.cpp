@@ -6,6 +6,7 @@
 #include "../include/WindowEffects.h"
 #include "../include/DeadBody.h"
 #include "../include/GameData.h"
+#include "../include/Spike.h"
 
 Minion::Minion(GameObject& associated,minionState startingState) : Component(associated){
     speed.x = 0;
@@ -377,6 +378,7 @@ void Minion::NotifyCollision(GameObject& other){
     if(!invincibilitytimer->Started()){
         Component *component1 = other.GetComponent("HitBox");
         Component *component2 = other.GetComponent("Minion");
+        Component *component3 = other.GetComponent("Spike");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
@@ -397,6 +399,14 @@ void Minion::NotifyCollision(GameObject& other){
         }
         if(component2){
             physics->KnockBack(other.box,{5,0},true,{600,400});
+        }
+        if(component3){
+            Component *collidercomponent = other.GetComponent("Collider");
+            Collider *collider = dynamic_cast<Collider*>(collidercomponent);
+            Spike *spike = dynamic_cast<Spike*>(component3);
+            physics->KnockBack(collider->box,spike->GetKnockback());
+            DamageMinion(spike->GetDamage());
+            invincibilitytimer->Delay(0);
         }
     }
 }
