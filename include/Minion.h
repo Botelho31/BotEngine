@@ -27,6 +27,7 @@
             void IdleHandle(float dt); //Handles minion Idle
 
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
+            void SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
 
             minionState GetState();
             Vec2 GetPosition();
@@ -65,6 +66,8 @@
             bool idle;
 
             Physics *physics;
+
+            Vec2 cachepoint;
     };
 
 #endif

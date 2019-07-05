@@ -148,7 +148,7 @@ void Minion::Update(float dt){
         if(damagetimer->Get() > 0.20){
             damagetimer->Restart();
             if(state == CHASING){
-                SetSprite(spritefiles["walking"],8,0.08);
+                SetSprite(spritefiles["walking"],16,0.04);
             }else if(state == IDLE){
                 SetSprite(spritefiles["idle"],64,0.04);
             }
@@ -253,7 +253,7 @@ void Minion::AttackState(float distanceToPlayer,float dt){
     }else if(!attacktimer->Started() && attackdelay->Started()){
         if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
             state = CHASING;
-            SetSprite(spritefiles["walking"],8,0.08);
+            SetSprite(spritefiles["walking"],16,0.04);
         }else{
             state = IDLE;
             SetSprite(spritefiles["idle"],64,0.04);
@@ -283,7 +283,7 @@ void Minion::AttackState(float distanceToPlayer,float dt){
             attackdelay->Delay(dt);
             if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
                 state = CHASING;
-                SetSprite(spritefiles["walking"],8,0.08);
+                SetSprite(spritefiles["walking"],16,0.04);
             }else{
                 state = IDLE;
                 SetSprite(spritefiles["idle"],64,0.04);
@@ -307,11 +307,22 @@ void Minion::ChasingState(float distanceToPlayer,float dt){
                 minionsprite->Flip();
             }
             physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
+
+            Vec2 smoke1 = Vec2(collider->box.x + collider->box.w,collider->box.y + collider->box.h).Added(25,-25);
+            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 150){
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                cachepoint = smoke1;
+            }
         }else{
             if(minionsprite->IsFlipped()){
                 minionsprite->Flip();
             }
             physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
+            Vec2 smoke1 = Vec2(collider->box.x,collider->box.y + collider->box.h).Added(-25,-25);
+            if(smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 150){
+                SpriteEffect(spritefiles["smoke2"],6,0.1,0.6,smoke1);
+                cachepoint = smoke1;
+            }
         }
     }
 }
@@ -325,7 +336,7 @@ void Minion::IdleState(float distanceToPlayer,float dt){
     }
     else if(distanceToPlayer < sightrange){
         state = CHASING;
-        SetSprite(spritefiles["walking"],8,0.08);
+        SetSprite(spritefiles["walking"],16,0.04);
     }
     if(state == IDLE){
         IdleHandle(dt);
@@ -355,6 +366,15 @@ void Minion::SetSprite(std::string file,int framecount,float frametime,bool repe
     associated.box.x = prepos.x + (prepos.w/2) - (associated.box.w/2) + offset.x;
     associated.box.y = prepos.y + (prepos.h/2) - (associated.box.h/2) + offset.y;
     physics->GetCollider()->UpdateScale();
+}
+
+void Minion::SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point){
+    GameObject *effectObj = new GameObject();
+    Sprite *effect = new Sprite(*effectObj,file,frames,frametime,duration,false);
+    effectObj->box.x = point.x - effectObj->box.w/2;
+    effectObj->box.y = point.y - effectObj->box.h/2;
+    effectObj->AddComponent(effect);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void Minion::Render(){
