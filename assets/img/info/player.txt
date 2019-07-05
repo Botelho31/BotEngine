@@ -1,5 +1,5 @@
 [
-    idle assets/img/Bel/belidlesword.png
+    idle assets/img/Bel/belidle.png
     walking assets/img/Bel/belwalk.png
     walkingstop assets/img/Bel/belstopwalk.png
     jumping assets/img/Bel/beljump.png

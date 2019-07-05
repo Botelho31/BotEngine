@@ -448,8 +448,8 @@ void Boss::IdleState(float dt){
     if(input->KeyPress(SDLK_8)){
         Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
         std::cout << mousepos.x - associated.box.x << " " << mousepos.y - associated.box.y << std::endl;
-        // this->state = RAMPAGEATTACKING;
-        // StopParallax();
+        this->state = RAMPAGEATTACKING;
+        StopParallax();
     }
 
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){

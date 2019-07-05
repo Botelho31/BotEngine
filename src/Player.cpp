@@ -60,7 +60,7 @@ Player::Player(GameObject& associated) : Component(associated){
     spritefile.push_back("assets/img/info/player.txt");
     spritefile.push_back("assets/img/info/effects.txt");
     this->spritefiles = GameData::GetSpritesFiles(spritefile);
-    Sprite *player =  new Sprite(associated,spritefiles["idle"],32,0.08);
+    Sprite *player =  new Sprite(associated,spritefiles["idle"],64,0.04);
     this->playersprite = player;
     associated.AddComponent(player);
     physics->SetCollider(0.4,0.995,0,0);
@@ -113,7 +113,7 @@ void Player::Update(float dt){
             damagetimer->Restart();
             if(physics->IsGrounded()){
                 if(speed.x == 0){
-                    SetSprite(spritefiles["idle"],32,0.08);
+                    SetSprite(spritefiles["idle"],64,0.04);
                 }else{
                     running = true;
                     SetSprite(spritefiles["walking"],14,0.04);
@@ -332,7 +332,7 @@ void Player::AttackHandle(float dt){
             speed.x = 0;
             nextattack.pop();
             if(physics->IsGrounded()){
-                SetSprite(spritefiles["idle"],32,0.08);
+                SetSprite(spritefiles["idle"],64,0.04);
             }else{
                 SetSprite(spritefiles["falling"],4,0.04);
             }
@@ -426,7 +426,7 @@ void Player::XMovement(float dt){
         }
         if(runningstoptimer->Get() >= 0.08){
             speed.x = 0;
-            SetSprite(spritefiles["idle"],32,0.08);
+            SetSprite(spritefiles["idle"],64,0.04);
             runningstoptimer->Restart();
         }
     }
@@ -470,7 +470,7 @@ void Player::YMovement(float dt){
         hittheground->Update(dt);
         if(hittheground->Get() >= 0.12){
             if(!swordattack->Started()){
-                SetSprite(spritefiles["idle"],32,0.08);
+                SetSprite(spritefiles["idle"],64,0.04);
             }
             hittheground->Restart();
         }
@@ -658,7 +658,7 @@ void Player::Reset(Vec2 speed){
             }
             SetSprite(spritefiles["walking"],14,0.04);
         }else{
-            SetSprite(spritefiles["idle"],32,0.08);
+            SetSprite(spritefiles["idle"],64,0.04);
         }
     }
     else{
