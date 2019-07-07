@@ -20,7 +20,6 @@
             void Resume();
             void Pause();
         private:
-            Music *backgroundMusic;
     };
 
 #endif

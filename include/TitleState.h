@@ -7,6 +7,7 @@
     #include "State.h"
     #include "Timer.h"
     #include "Button.h"
+    #include "Music.h"
 
     class TitleState : public State{
         public:

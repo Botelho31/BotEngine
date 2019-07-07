@@ -8,6 +8,7 @@
     #include "Timer.h"
     #include "Button.h"
     #include "WindowEffects.h"
+    #include "Music.h"
 
     class MenuState : public State{
         public:

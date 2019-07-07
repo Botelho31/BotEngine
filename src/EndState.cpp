@@ -9,15 +9,15 @@ EndState::EndState(){
     GameObject *bgObj = new GameObject();
     if(GameData::playerAlive){
         Sprite *bg = new Sprite(*bgObj,"assets/img/win.jpg");
-        backgroundMusic = new Music("assets/audio/endStateWin.ogg");
-        backgroundMusic->Play();
+        // backgroundMusic = new Music("assets/audio/endStateWin.ogg");
+        // backgroundMusic->Play();
         bgObj->box.Transform(0,0);
         bgObj->AddComponent(bg);
         AddObject(bgObj);
     }else{  
         Sprite *bg = new Sprite(*bgObj,"assets/img/lose.jpg");
-        backgroundMusic = new Music("assets/audio/endStateLose.ogg");
-        backgroundMusic->Play();
+        // backgroundMusic = new Music("assets/audio/endStateLose.ogg");
+        // backgroundMusic->Play();
         bgObj->box.Transform(0,0);
         bgObj->AddComponent(bg);
         AddObject(bgObj);
@@ -30,9 +30,9 @@ EndState::EndState(){
 }
 
 EndState::~EndState(){
-    if(backgroundMusic){
-        delete backgroundMusic;
-    }
+    // if(backgroundMusic){
+    //     delete backgroundMusic;
+    // }
 }
 
 void EndState::LoadAssets(){

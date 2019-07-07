@@ -43,10 +43,10 @@
             WindowEffects *windoweffects;
             GameObject* HUDdisplay;
 
+            Music *backgroundMusic;
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool pause;
             int initialtiles;
-            Music *backgroundMusic;
             static bool loadedTileColliders;
             static bool mapcollision; //Boolean indicating if mapcollision is ready or not
             static bool changingMap;    //Keeps the bool if the map is changing

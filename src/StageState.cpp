@@ -37,25 +37,19 @@ StageState::StageState(){
     quitRequested = false;
     popRequested = false;
     started = false;
-    backgroundMusic = nullptr;
+    backgroundMusic = Game::GetInstance().GetMusic();
     changingMap = false;
     mapcollision = false;
     showfps = false;
     pause = false;
     windoweffects = new WindowEffects();
     changingMapTimer = new Timer();
-
-    //Loads the background music;
-    backgroundMusic = new Music("assets/audio/musicmenubel.ogg");
-    // backgroundMusic->Play();
 }
 
 StageState::~StageState(){
     delete windoweffects;
     delete changingMapTimer;
-    if(backgroundMusic){
-        delete backgroundMusic;
-    }
+    backgroundMusic = nullptr;
     while(!GameData::events.empty()){
         GameData::events.pop();
     }

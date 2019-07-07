@@ -27,6 +27,7 @@
   #include "State.h"
   #include "Resources.h"
   #include "InputManager.h"
+  #include "Music.h"
 
   #define PLAYERHP 70
   #define PLAYERMANA 100
@@ -54,6 +55,8 @@
 
       float GetDeltaTime();
 
+      Music* GetMusic();
+
     private:
       
       void CalculateDeltaTime();
@@ -65,6 +68,8 @@
       SDL_Renderer *renderer;
       State *storedstate;
       Resources *resources;
+
+      Music *backgroundMusic;
 
       std::stack<std::unique_ptr<State>> stateStack;
   };

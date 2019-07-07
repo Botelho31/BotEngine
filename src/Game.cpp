@@ -1,6 +1,7 @@
 #include "../include/Game.h"
 #include "../include/InputManager.h"
 #include "../include/Camera.h"
+#include "../include/Music.h"
 
 Game* Game::instance;
 
@@ -66,6 +67,7 @@ Game::Game(std::string Title,int Width,int Height){
             SDL_SetRenderDrawBlendMode(Game::GetInstance().GetRenderer(),SDL_BLENDMODE_BLEND);
             resources = new Resources();
             storedstate = nullptr;
+            backgroundMusic = new Music();
 
         }else{
             std::cout << "Fatal Error: SDL not initialized - " << SDL_GetError() << std::endl;
@@ -88,6 +90,7 @@ Game::~Game(){
         resources->ClearFonts();
         delete resources;
     }
+    delete backgroundMusic;
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     TTF_Quit();
@@ -104,6 +107,10 @@ SDL_Renderer* Game::GetRenderer(){
 
 State& Game::GetCurrentState(){
     return *(stateStack.top().get());
+}
+
+Music* Game::GetMusic(){
+    return backgroundMusic;
 }
 
 void Game::Push(State *state){

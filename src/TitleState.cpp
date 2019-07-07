@@ -15,6 +15,9 @@ TitleState::TitleState(){
     quitRequested = false;
     popRequested = false;
 
+    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belmenumusic.mp3");
+    Game::GetInstance().GetMusic()->Play();
+
     GameObject *titleobj =  new GameObject();
     Sprite *title = new Sprite(*titleobj,"assets/img/HUD/titlescreen2.png");
     titleobj->box.x = 0;
@@ -90,5 +93,4 @@ void TitleState::Resume(){
 }
 
 void TitleState::Pause(){
-
 }

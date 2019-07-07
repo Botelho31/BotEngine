@@ -130,7 +130,10 @@ void MenuState::Resume(){
     optionsButton->Reset();
     quitButton->Reset();
     windoweffects->FadeFromBlack(1);
+    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belmenu.mp3");
+    Game::GetInstance().GetMusic()->Play();
 }
 
 void MenuState::Pause(){
+    Game::GetInstance().GetMusic()->Stop();
 }
