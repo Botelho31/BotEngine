@@ -1,5 +1,6 @@
 #include "../include/Soul.h"
 #include "../include/GameData.h"
+#include "../include/Sound.h"
 
 Soul::Soul(GameObject& associated,int soulID) : Component(associated){
     this->soulID = soulID;
@@ -52,6 +53,7 @@ void Soul::NotifyCollision(GameObject& other){
     if(!catched){
         Component *component = other.GetComponent("Player");
         if(component){
+            PlaySound("assets/audio/musics/belmenumusic.mp3",-1);
             std::cout << "Catched soul" << std::endl;
             catched = true;
             catchinganimation->Delay(0);
@@ -61,6 +63,19 @@ void Soul::NotifyCollision(GameObject& other){
             GameData::checkpointPos = associated.box.GetCenter();
             GameData::checkpointPosSpeed = Vec2(0,0);
         }
+    }
+}
+
+void Soul::PlaySound(std::string file,int times){
+    Component *soundcomp = associated.GetComponent("Sound");
+    if(soundcomp){
+        Sound *sound = dynamic_cast<Sound*>(soundcomp);
+        sound->Open(file);
+        sound->Play(times);
+    }else{
+        std::cout << "test" << std::endl;
+        Sound *sound = new Sound(associated,file);
+        sound->Play(times);
     }
 }
 

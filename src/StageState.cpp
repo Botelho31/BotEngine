@@ -522,5 +522,5 @@ void StageState::ChangeBackground(std::string file,bool parallax,Vec2 scale){
 void StageState::ChangeMusic(std::string musicfile){
     backgroundMusic->Stop();
     backgroundMusic->Open(musicfile);
-    backgroundMusic->Play();
+    backgroundMusic->Play(-1,1500,true);
 }

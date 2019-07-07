@@ -26,6 +26,7 @@ void Sound::Open(std::string file){
 
 void Sound::Play(int times){
     channel = Mix_PlayChannel(-1,chunk.get(),times);
+    std::cout << SDL_GetError() << std::endl;
 }
 
 bool Sound::IsPlaying(){
