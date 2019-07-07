@@ -18,6 +18,9 @@ HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owne
     std::vector<std::string> spritefile;
     spritefile.push_back("assets/img/info/effects.txt");
     this->spritefiles =  GameData::GetSpritesFiles(spritefile);
+    std::vector<std::string> soundfile;
+    soundfile.push_back("assets/audio/info/effects.txt");
+    this->soundfiles =  GameData::GetSpritesFiles(soundfile);
 }
 
 HitBox::~HitBox(){

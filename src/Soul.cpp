@@ -23,7 +23,7 @@ Soul::~Soul(){
 void Soul::Update(float dt){
     if(catchinganimation->Started()){
         catchinganimation->Update(dt);
-        if(catchinganimation->Get() > 2){
+        if(catchinganimation->Get() > 14){
             catchinganimation->Restart();
             if(GameData::listOfDiscoveredSouls.size() == 3){
                 GameData::playerSword = true; //WHERE PLAYER GETS SWORD
@@ -53,7 +53,7 @@ void Soul::NotifyCollision(GameObject& other){
     if(!catched){
         Component *component = other.GetComponent("Player");
         if(component){
-            PlaySound("assets/audio/musics/belmenumusic.mp3",-1);
+            PlaySound("assets/audio/effects/almasound.ogg",1);
             std::cout << "Catched soul" << std::endl;
             catched = true;
             catchinganimation->Delay(0);
@@ -73,9 +73,9 @@ void Soul::PlaySound(std::string file,int times){
         sound->Open(file);
         sound->Play(times);
     }else{
-        std::cout << "test" << std::endl;
         Sound *sound = new Sound(associated,file);
         sound->Play(times);
+        associated.AddComponent(sound);
     }
 }
 

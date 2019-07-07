@@ -53,6 +53,7 @@
             Vec2 cachepoint;
 
             std::map<std::string,std::string> spritefiles;
+            std::map<std::string,std::string> soundfiles;
             void (*Move)(GameObject&,GameObject&,float);
     };
 

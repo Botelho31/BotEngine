@@ -60,6 +60,9 @@ Player::Player(GameObject& associated) : Component(associated){
     spritefile.push_back("assets/img/info/player.txt");
     spritefile.push_back("assets/img/info/effects.txt");
     this->spritefiles = GameData::GetSpritesFiles(spritefile);
+    std::vector<std::string> soundfile;
+    soundfile.push_back("assets/audio/info/effects.txt");
+    this->soundfiles = GameData::GetSpritesFiles(soundfile);
     Sprite *player =  new Sprite(associated,spritefiles["idle"],64,0.04);
     this->playersprite = player;
     associated.AddComponent(player);
@@ -308,6 +311,7 @@ void Player::AttackHandle(float dt){
                 InstanceProjectileHitbox();
             }else{
                 InstanceHitbox();
+                PlaySound(soundfiles["swordswosh"],1);
             }
             if(physics->IsGrounded()){
                 if(playersprite->IsFlipped()){
@@ -327,6 +331,7 @@ void Player::AttackHandle(float dt){
             nextattack.pop();
             speed.x = 0;
             swordattack->Restart();
+            StopSound();
         }
         if(swordattack->Get() >= endofattack){
             speed.x = 0;
@@ -337,6 +342,7 @@ void Player::AttackHandle(float dt){
                 SetSprite(spritefiles["falling"],4,0.04);
             }
             swordattack->Restart();
+            StopSound();
         }
     }
     //HANDLES WHEN TO STOP THE ATTACK
@@ -348,13 +354,15 @@ void Player::AttackHandle(float dt){
             nextattack.pop();
         }
         swordattack->Restart();
+        StopSound();
     }
 }
 
 void Player::XMovement(float dt){
     //Handles input and acceleration
-    if( falling || (hittheground->Started())  || (swordattack->Started())  || (jumpanimation->Started())){
+    if((running) && (falling || (hittheground->Started())  || (swordattack->Started())  || (jumpanimation->Started()))){
         running = false;
+        StopSound();
     }
 
     //Smoke on running printign
@@ -384,6 +392,7 @@ void Player::XMovement(float dt){
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
             SetSprite(spritefiles["walking"],14,0.04);
+            PlaySound(soundfiles["walking"],-1);
             running = true;
         }
         physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
@@ -396,6 +405,7 @@ void Player::XMovement(float dt){
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started()) && (!jumpanimation->Started())){
             SetSprite(spritefiles["walking"],14,0.04);
+            PlaySound(soundfiles["walking"],-1);
             running = true;
         }
         physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
@@ -415,6 +425,7 @@ void Player::XMovement(float dt){
             SetSprite(spritefiles["walkingstop"],2,0.04,false);
             runningstoptimer->Delay(dt);
             running = false;
+            StopSound();
         }
     }
 
@@ -683,11 +694,13 @@ void Player::PlaySound(std::string file,int times){
     Component *soundcomp = associated.GetComponent("Sound");
     if(soundcomp){
         Sound *sound = dynamic_cast<Sound*>(soundcomp);
+        sound->Stop();
         sound->Open(file);
         sound->Play(times);
     }else{
         Sound *sound = new Sound(associated,file);
         sound->Play(times);
+        associated.AddComponent(sound);
     }
 }
 
