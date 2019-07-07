@@ -145,7 +145,7 @@ void Minion::Update(float dt){
     }
     if(damagetimer->Started()){
         damagetimer->Update(dt);
-        if(damagetimer->Get() > 0.20){
+        if(damagetimer->Get() > 0.36){
             damagetimer->Restart();
             if(state == CHASING){
                 SetSprite(spritefiles["walking"],16,0.04);
@@ -175,7 +175,7 @@ void Minion::Update(float dt){
 void Minion::DamageMinion(int damage){
     hp -= damage;
     if(!damagetimer->Started() && (!attacktimer->Started() && (hp > 0) && state != FALLINGFROMBOSS)){
-        SetSprite(spritefiles["damage"],5,0.04);
+        SetSprite(spritefiles["damage"],9,0.04);
         damagetimer->Delay(0);
     }else if(hp <= 0){
         KillMinion();
@@ -184,21 +184,10 @@ void Minion::DamageMinion(int damage){
 
 void Minion::KillMinion(){
     GameObject *deadObj = new GameObject();
-    int animrand = rand() % 2 + 1;
+    int animrand = rand() % 4 + 1;
     if(animrand == 1){
-        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadbehind"],34,0.04,0,false,true);
-        int xoffset = -40;
-        if(minionsprite->IsFlipped()){
-            deadsprite->Flip();
-            xoffset = 40;
-        }
-        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(xoffset,80),false);
-        deadObj->AddComponent(deadbody);
-        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
-        Game::GetInstance().GetCurrentState().AddObject(deadObj);
-        associated.RequestDelete();
-    }else{
-        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadfront"],36,0.04,0,false,true);
+
+        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadfront1"],39,0.04,0,false,true);
         int xoffset = -40;
         if(minionsprite->IsFlipped()){
             deadsprite->Flip();
@@ -207,9 +196,40 @@ void Minion::KillMinion(){
         DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(-xoffset,80),false);
         deadObj->AddComponent(deadbody);
         deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
-        Game::GetInstance().GetCurrentState().AddObject(deadObj);
-        associated.RequestDelete();
+    }else if(animrand == 2){
+        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadfront2"],39,0.04,0,false,true);
+        int xoffset = -40;
+        if(minionsprite->IsFlipped()){
+            deadsprite->Flip();
+            xoffset = 40;
+        }
+        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(-xoffset,80),false);
+        deadObj->AddComponent(deadbody);
+        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
+    }else if(animrand == 3){
+        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadbehind1"],33,0.04,0,false,true);
+        int xoffset = -40;
+        if(minionsprite->IsFlipped()){
+            deadsprite->Flip();
+            xoffset = 40;
+        }
+        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(xoffset,80),false);
+        deadObj->AddComponent(deadbody);
+        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
+    }else{
+        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadbehind2"],33,0.04,0,false,true);
+        int xoffset = -40;
+        if(minionsprite->IsFlipped()){
+            deadsprite->Flip();
+            xoffset = 40;
+        }
+        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(xoffset,80),false);
+        deadObj->AddComponent(deadbody);
+        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
     }
+    int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+    Game::GetInstance().GetCurrentState().AddObject(deadObj,place);
+    associated.RequestDelete();
 }
 
 void Minion::BiteHitbox(GameObject& hitbox,GameObject& owner,float dt){
@@ -248,7 +268,7 @@ void Minion::AttackState(float distanceToPlayer,float dt){
                 minionsprite->Flip();
             }
         }
-        SetSprite(spritefiles["attacking"],27,0.04,false);
+        SetSprite(spritefiles["attacking"],28,0.04,false);
         attacktimer->Delay(dt);
     }else if(!attacktimer->Started() && attackdelay->Started()){
         if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
@@ -418,7 +438,7 @@ void Minion::NotifyCollision(GameObject& other){
             }
         }
         if(component2){
-            physics->KnockBack(other.box,{5,0},true,{600,400});
+            physics->KnockBack(other.box,{5,0},true,{800,400});
         }
         if(component3){
             Component *collidercomponent = other.GetComponent("Collider");

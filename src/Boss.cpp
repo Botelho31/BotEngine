@@ -183,7 +183,8 @@ void Boss::SpawnHead(Vec2 pos){
     ParallaxFollower *parallaxfollower = new ParallaxFollower(*headobj,0.5);
     headobj->AddComponent(parallaxfollower);
     headobj->AddComponent(headsprite);
-    head = Game::GetInstance().GetCurrentState().AddObject(headobj);
+    int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+    head = Game::GetInstance().GetCurrentState().AddObject(headobj,placeofplayer);
 
     //Up Eyes
     SpawnEye({pos.x + 314,pos.y + 285},{1532,1012});

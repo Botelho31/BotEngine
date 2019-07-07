@@ -230,7 +230,7 @@ void Eye::Render() { // .Added(-Camera::pos.x,- Camera::pos.y)
         }
     #endif 
     // DEBUG
-    eyelid->Render(bounds.x - associated.box.w/2,bounds.y - associated.box.h/2);
+    // eyelid->Render(bounds.x - associated.box.w/2,bounds.y - associated.box.h/2);
 }
 
 void Eye::NotifyCollision(GameObject& other){

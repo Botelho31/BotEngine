@@ -2,8 +2,10 @@
     idle        assets/img/Minion/minionidle.png
     walking     assets/img/Minion/minionwalk.png
     attacking   assets/img/Minion/minionattack.png
-    deadfront   assets/img/Minion/miniondeathfront.png
-    deadbehind  assets/img/Minion/miniondeathbehind.png
+    deadfront1   assets/img/Minion/miniondeathfront1.png
+    deadfront2   assets/img/Minion/miniondeathfront2.png
+    deadbehind1  assets/img/Minion/miniondeathbehind1.png
+    deadbehind2  assets/img/Minion/miniondeathbehind2.png
     damage      assets/img/Minion/miniondamage.png
     falling     assets/img/Minion/minionfalling.png
 ]
