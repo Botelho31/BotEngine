@@ -1,10 +1,10 @@
 Save
 	[
 		mapInfo assets/map/info/Room-3.txt
-		playerPos 416.835 229.726
-		playerLife 60
+		playerPos 390.761 379.518
+		playerLife 70
 		playerMana 100
-		checkpointPos 530 245
+		checkpointPos 530 365
 		checkpointPosSpeed 0 0
 	]
 ListOfDiscoveredMaps
@@ -23,4 +23,5 @@ ListOfDiscoveredMaps
 	]
 ListOfDiscoveredSouls
 	[
+		3
 	]

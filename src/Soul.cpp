@@ -6,7 +6,7 @@ Soul::Soul(GameObject& associated,int soulID) : Component(associated){
     this->soulID = soulID;
     catched = false;
     normalsprite = "assets/img/soul.png";
-    catchedsprite = "assets/img/testsoul.png";
+    catchedsprite = "assets/img/souldissapear.png";
     catchinganimation =  new Timer();
 
     this->soulsprite = new Sprite(associated,normalsprite,48,0.04);
@@ -64,7 +64,7 @@ void Soul::NotifyCollision(GameObject& other){
             std::cout << "Catched soul" << std::endl;
             catched = true;
             catchinganimation->Delay(0);
-            SetSprite(catchedsprite);
+            SetSprite(catchedsprite,13,0.04,false);
             //LOGIC THAT WORKS AFTER PLAYER CATCHES SOUL
             GameData::listOfDiscoveredSouls.push_back(soulID);
             GameData::checkpointPos = associated.box.GetCenter();

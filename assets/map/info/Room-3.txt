@@ -18,7 +18,7 @@ Portal
 
 Soul
   [
-    soulPos 480 170
+    soulPos 480 290
     soulID 3
   ]
 
@@ -40,7 +40,7 @@ Spike
 
 Spike
   [
-    spikeBox 2300 400 150 550
+    spikeBox 2300 650 150 350
     flipped 0
     behind 0
   ]
