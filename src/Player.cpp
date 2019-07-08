@@ -311,7 +311,7 @@ void Player::AttackHandle(float dt){
                 InstanceProjectileHitbox();
             }else{
                 InstanceHitbox();
-                PlaySound(soundfiles["swordswosh"],1);
+                PlaySound(soundfiles["swordswosh"],0);
             }
             if(physics->IsGrounded()){
                 if(playersprite->IsFlipped()){

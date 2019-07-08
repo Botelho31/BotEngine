@@ -54,7 +54,7 @@ class Collision {
 				WindowEffects::AddBoxToDraw(a,angleOfA,0,0,0);
 				WindowEffects::AddBoxToDraw(b,angleOfB,0,0,0);
 			}
-			
+
 			return true;
 		}
 
