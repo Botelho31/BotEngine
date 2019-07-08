@@ -82,7 +82,9 @@
             Timer *jumpsquat;
             Timer *hittheground;
             Timer *jumpanimation;
+            Timer *doublejumpanimation;
             bool falling;
+            bool doublejump;
 
             Timer *idletimer;
             bool idle;

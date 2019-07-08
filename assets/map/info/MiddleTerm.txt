@@ -10,6 +10,14 @@ MapInfo
 
 Portal
   [
+    portalBox 850 0 250 250
+    portalX 330
+    portalY 1990
+    tilemapinfofile assets/map/info/EntryRoom.txt
+  ]
+
+Portal
+  [
     portalBox 1850 2500 200 250
     portalX 30
     portalY 2580

@@ -22,13 +22,15 @@ Player::Player(GameObject& associated) : Component(associated){
 
     speed.y = 0;
     ajump = -1150;
-    awalljump = 400;
+    awalljump = 600;
     gravspeed = 2000;
 
     jumpsquat = new Timer();
     hittheground = new Timer();
     jumpanimation =  new Timer();
+    doublejumpanimation = new Timer();
     falling = false;
+    doublejump = false;
 
     swordarc = -1;
     asword = (PI*2);
@@ -83,6 +85,7 @@ Player::~Player(){
     delete delayedboosttimer;
     delete jumpanimation;
     delete runningstoptimer;
+    delete doublejumpanimation;
 }
 
 void Player::Start(){
@@ -395,7 +398,11 @@ void Player::XMovement(float dt){
             PlaySound(soundfiles["walking"],-1);
             running = true;
         }
-        physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
+        if(physics->IsGrounded()){
+            physics->PerformXAcceleration(true,aspeed,maxspeed,despeed,dt);
+        }else{
+            physics->PerformXAcceleration(true,aspeed/2,maxspeed,despeed,dt);
+        }
     }
     if(input->IsKeyDown(SDLK_a) && !input->IsKeyDown(SDLK_d)){
         if(!playersprite->IsFlipped() && (!swordattack->Started())){
@@ -408,7 +415,11 @@ void Player::XMovement(float dt){
             PlaySound(soundfiles["walking"],-1);
             running = true;
         }
-        physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
+        if(physics->IsGrounded()){
+            physics->PerformXAcceleration(false,aspeed,maxspeed,despeed,dt);
+        }else{
+            physics->PerformXAcceleration(false,aspeed/2,maxspeed,despeed,dt);
+        }
     }
     if(input->IsKeyDown(SDLK_a) && input->IsKeyDown(SDLK_d) && (!falling) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
             physics->PerformXDeceleration(despeed,dt);
@@ -496,6 +507,7 @@ void Player::YMovement(float dt){
                 PlaySoundEffect(soundfiles["jump"]);
                 jumpanimation->Delay(dt);
                 jumpsquat->Delay(dt);
+                doublejump = false;
             }else if(physics->IsRight()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
@@ -508,6 +520,7 @@ void Player::YMovement(float dt){
                 }
                 speed.y = ajump;
                 speed.x = -awalljump;
+                doublejump = false;
             }else if(physics->IsLeft()){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x,collider.y);
@@ -520,6 +533,18 @@ void Player::YMovement(float dt){
                 }
                 speed.y = ajump;
                 speed.x = awalljump;
+                doublejump = false;
+            }else{
+                if(doublejump){
+                    SetSprite(spritefiles["jumping"],15,0.04,false);
+                    PlaySoundEffect(soundfiles["jump"]);
+                    Rect collider = physics->GetCollider()->box;
+                    Vec2 platform = Vec2(collider.x + collider.w/2,collider.y+ collider.h - 50);
+                    SpriteEffect(spritefiles["platform"],35,0.04,1.4,platform);
+                    doublejumpanimation->Delay(dt);
+                    doublejump = false;
+                    speed.y = -1150;
+                }
             }
         }
     }
@@ -544,6 +569,23 @@ void Player::YMovement(float dt){
         }
         if(jumpanimation->Get() >= 0.6){
             jumpanimation->Restart();
+            doublejump = true;
+            if(!physics->IsGrounded() && !swordattack->Started()){
+                falling = true;
+                SetSprite(spritefiles["falling"],4,0.04);
+            }
+        }
+    }
+
+    //Double jump logic
+
+    if(doublejumpanimation->Started()){
+        doublejumpanimation->Update(dt);
+        if((physics->IsGrounded() && (speed.y >= 0)) && (!jumpsquat->Started())){
+            falling = true;
+            doublejumpanimation->Restart();
+        }
+        if(doublejumpanimation->Get() >= 0.6){
             if(!physics->IsGrounded() && !swordattack->Started()){
                 falling = true;
                 SetSprite(spritefiles["falling"],4,0.04);

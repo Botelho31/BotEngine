@@ -7,4 +7,5 @@
     spark1 assets/img/Effects/spark1.png
     spark2 assets/img/Effects/spark2.png
     transparent assets/img/Effects/transparent.png
+    platform assets/img/Effects/platform.png
 ]

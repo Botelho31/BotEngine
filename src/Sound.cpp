@@ -13,7 +13,7 @@ Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
 Sound::~Sound(){
     if(chunk != nullptr){
         if(channel != -2){
-            // Mix_HaltChannel(channel);
+            Mix_HaltChannel(channel);
         }
     }
 }
@@ -55,7 +55,7 @@ void Sound::Stop(){
 void Sound::Update(float dt){
     if(this->autodestruct){
         if(!IsPlaying()){
-            // associated.RequestDelete();
+            associated.RequestDelete();
         }
     }
 }
