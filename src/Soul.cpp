@@ -5,11 +5,11 @@
 Soul::Soul(GameObject& associated,int soulID) : Component(associated){
     this->soulID = soulID;
     catched = false;
-    normalsprite = "assets/img/testsoul.png";
+    normalsprite = "assets/img/soul.png";
     catchedsprite = "assets/img/testsoul.png";
     catchinganimation =  new Timer();
 
-    this->soulsprite = new Sprite(associated,normalsprite);
+    this->soulsprite = new Sprite(associated,normalsprite,48,0.04);
     associated.AddComponent(soulsprite);
 
     Collider *collider = new Collider(associated);

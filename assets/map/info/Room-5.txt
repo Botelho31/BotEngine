@@ -18,43 +18,43 @@ Portal
 
 Soul
   [
-    soulPos 170 230
+    soulPos 170 190
     soulID 5
   ]
 
 MovingTile
   [
-    startPos 1725 700
+    startPos 1725 850
     speed -100
-    destPos 900 700
+    destPos 900 850
     circular 0
     file assets/img/movingtile2.png
   ]
 
 Spike
   [
-    spikeBox 50 1650 500 150
+    spikeBox 50 1800 500 150
     flipped 0
     behind 0
   ]
 
 Spike
   [
-    spikeBox 550 1650 550 150
+    spikeBox 550 1800 550 150
     flipped 0
     behind 0
   ]
 
 Spike
   [
-    spikeBox 1100 1650 400 150
+    spikeBox 1100 1800 400 150
     flipped 0
     behind 0
   ]
 
 Spike
   [
-    spikeBox 1500 1650 450 150
+    spikeBox 1500 1800 450 150
     flipped 0
     behind 0
   ]

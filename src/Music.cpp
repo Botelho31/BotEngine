@@ -34,8 +34,6 @@ void Music::Play(int times,int ms,bool maintainPos){
             Mix_FadeInMusic(music.get(),times,ms);
             Mix_FadeInMusicPos(music.get(),times,ms,timer->Get());
             playing = true;
-            std::cout << "repeat" << std::endl;
-            std::cout << timer->Get() << std::endl;
         }else{
             Mix_FadeInMusic(music.get(),times,ms);
             timer->Restart();

@@ -28,7 +28,7 @@ Portal
   [
     portalBox 0 3250 200 250
     portalX 1980
-    portalY 2780
+    portalY 3030
     tilemapinfofile assets/map/info/Room-2.txt
   ]
 

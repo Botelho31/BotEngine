@@ -10,7 +10,7 @@ MapInfo
 
 Portal
   [
-    portalBox 1900 2650 200 200
+    portalBox 1900 2900 200 200
     portalX 0
     portalY 3380
     tilemapinfofile assets/map/info/MiddleTerm.txt
@@ -18,45 +18,45 @@ Portal
 
 Soul
   [
-    soulPos 660 290
+    soulPos 660 520
     soulID 2
   ]
 
 MovingTile
   [
-    startPos 500 1475
+    startPos 500 1725
     speed -200
-    destPos 1550 1475
+    destPos 1550 1725
     circular 0
     file assets/img/movingtile2.png
   ]
 
 MovingTile
   [
-    startPos 1550 875
+    startPos 1550 1125
     speed -200
-    destPos 500 875
+    destPos 500 1125
     circular 0
     file assets/img/movingtile2.png
   ]
 
 Spike
   [
-    spikeBox 50 2900 1650 150
+    spikeBox 50 3150 1650 150
     flipped 0
     behind 0
   ]
 
 Spike
   [
-    spikeBox 300 1550 1650 150
+    spikeBox 300 1800 1650 150
     flipped 0
     behind 0
   ]
 
 Spike
   [
-    spikeBox 0 700 150 600
+    spikeBox 0 950 150 600
     flipped 1
     behind 1
   ]

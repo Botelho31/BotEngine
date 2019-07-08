@@ -18,7 +18,7 @@ Portal
 
 Soul
   [
-    soulPos 480 210
+    soulPos 480 170
     soulID 3
   ]
 
