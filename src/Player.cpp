@@ -456,6 +456,7 @@ void Player::YMovement(float dt){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
             SpriteEffect(spritefiles["smoke1"],5,0.05,0.25,smoke1);
+            PlaySoundEffect(soundfiles["hittheground"]);
             hittheground->Delay(dt);
         }
     }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
@@ -492,6 +493,7 @@ void Player::YMovement(float dt){
         if(!swordattack->Started()){
             if(physics->IsGrounded()){
                 SetSprite(spritefiles["jumping"],15,0.04,false);
+                PlaySoundEffect(soundfiles["jump"]);
                 jumpanimation->Delay(dt);
                 jumpsquat->Delay(dt);
             }else if(physics->IsRight()){
@@ -627,6 +629,14 @@ void Player::SpriteEffect(std::string file,int frames,float frametime,float dura
     effectObj->box.x = point.x - effectObj->box.w/2;
     effectObj->box.y = point.y - effectObj->box.h/2;
     effectObj->AddComponent(effect);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
+}
+
+void Player::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
     Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 

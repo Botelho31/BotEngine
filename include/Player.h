@@ -32,6 +32,7 @@
             void SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
             void PlaySound(std::string file,int times);
+            void PlaySoundEffect(std::string file,int times = 0);
             void StopSound();
 
             void Reset(Vec2 speed = {0,0}); //Resets all player variables
