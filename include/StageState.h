@@ -44,6 +44,7 @@
             GameObject* HUDdisplay;
 
             Music *backgroundMusic;
+            GameObject *loadingIcon;
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
             bool pause;
             int initialtiles;

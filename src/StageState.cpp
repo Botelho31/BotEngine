@@ -196,6 +196,8 @@ void StageState::Update(float dt){
             std::cout << "Changed Map" << std::endl;
         }
     }
+
+    loadingIcon->Update(dt);
 }
 
 void StageState::Render(){
@@ -217,6 +219,10 @@ void StageState::Render(){
     }
     HUDdisplay->Render();
     windoweffects->Render();
+
+    if(!mapcollision){
+        loadingIcon->Render();
+    }
 }
 
 void StageState::ExpandTileColliders(){
@@ -507,6 +513,13 @@ void StageState::Start(){
     HUD *hudcomp = new HUD(*HUDdisplay);
     HUDdisplay->renderAfterForeGround = true;
     HUDdisplay->AddComponent(hudcomp);
+
+    loadingIcon = new GameObject();
+    Sprite *loadingSprite = new Sprite(*loadingIcon,"assets/img/soul.png",48,0.04);
+    loadingIcon->box.Transform(1700,900);
+    CameraFollower *camfollower4 = new CameraFollower(*loadingIcon);
+    loadingIcon->AddComponent(loadingSprite);
+    loadingIcon->AddComponent(camfollower4);
 
     GameData::PreLoadSounds("assets/audio/info/effects.txt");
 
