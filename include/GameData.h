@@ -20,6 +20,7 @@
             static void PrintGameData();
 
             static void PreLoadSprites(std::string spritefile);
+            static void PreLoadSounds(std::string soundfile);
             static std::map<std::string,std::string> GetSpritesFiles(std::vector<std::string> spritesfile);
 
             static std::string ParseTMX(std::string filetmx);   //Parses TMX and returns TXT tilemap file

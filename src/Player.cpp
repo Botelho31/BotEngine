@@ -584,6 +584,7 @@ void Player::DamagePlayer(int damage){
     }
     if(!damagetimer->Started() && !swordattack->Started()){
         SetSprite(spritefiles["damage"],7,0.03,false);
+        PlaySoundEffect(soundfiles["damage"]);
         damagetimer->Delay(0);
     }
 }

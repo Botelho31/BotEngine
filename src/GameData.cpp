@@ -225,6 +225,15 @@ void GameData::PreLoadSprites(std::string spritefile){
     }
 }
 
+void GameData::PreLoadSounds(std::string spritefile){
+    std::vector<std::string> spritefilevec;
+    spritefilevec.push_back(spritefile);
+    std::map<std::string,std::string> spritefiles = GetSpritesFiles(spritefilevec);
+     for(auto it = spritefiles.cbegin(); it != spritefiles.cend(); ++it){
+        Resources::GetSound(it->second);
+    }
+}
+
 std::map<std::string,std::string> GameData::GetSpritesFiles(std::vector<std::string> spritesfile){
     std::map<std::string,std::string> filenames;
 
@@ -238,10 +247,12 @@ std::map<std::string,std::string> GameData::GetSpritesFiles(std::vector<std::str
                 if(checkline == "["){  
                     while(checkline != "]"){
                         FileReader >> checkline; 
-                        std::string name = checkline;
-                        FileReader >> checkline; 
-                        std::string file = checkline;
-                        filenames.insert({name,file});
+                        if(checkline != "]"){
+                            std::string name = checkline;
+                            FileReader >> checkline; 
+                            std::string file = checkline;
+                            filenames.insert({name,file});
+                        }
                     }
                 }
             }

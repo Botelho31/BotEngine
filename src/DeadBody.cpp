@@ -77,7 +77,6 @@ void DeadBody::NotifyCollision(GameObject& other){
     if(!invincibilitytimer->Started() && interaction){
         Component *component1 = other.GetComponent("HitBox");
         if(component1){
-            std::cout << "test" << std::endl;
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
                 physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());

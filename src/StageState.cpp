@@ -492,6 +492,8 @@ void StageState::Start(){
     HUDdisplay->renderAfterForeGround = true;
     HUDdisplay->AddComponent(hudcomp);
 
+    GameData::PreLoadSounds("assets/audio/info/effects.txt");
+
     StartArray();
 
     this->initialtiles = TileMap::tiles.size();

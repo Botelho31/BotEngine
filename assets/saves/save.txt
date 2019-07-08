@@ -1,11 +1,11 @@
 Save
 	[
-		mapInfo assets/map/info/MiddleTerm.txt
-		playerPos 975.135 3030.1
-		playerLife 30
-		playerMana 100
-		checkpointPos 1000 5200
-		checkpointPosSpeed -400 -568
+		mapInfo assets/map/info/MiddleTerm2.txt
+		playerPos 798.141 779.201
+		playerLife 0
+		playerMana 70
+		checkpointPos 400 0
+		checkpointPosSpeed -62 1168
 	]
 ListOfDiscoveredMaps
 	[
