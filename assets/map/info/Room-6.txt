@@ -18,7 +18,7 @@ Portal
 
 Soul
   [
-    soulPos 233 181
+    soulPos 550 181
     soulID 6
   ]
 
@@ -61,14 +61,14 @@ Spike
 
 Spike
   [
-    spikeBox 850 450 150 1200
+    spikeBox 850 1000 150 650
     flipped 0
     behind 0
   ]
 
 Spike
   [
-    spikeBox 100 450 150 1200
+    spikeBox 100 1000 150 650
     flipped 1
     behind 0
   ]
@@ -77,5 +77,12 @@ FakeWall
   [
     pos 50 450
     spritefile assets/img/fakewallroom6.png
-    breakable 0
+    breakable 0 100
+  ]
+
+FakeWall
+  [
+    pos 400 350
+    spritefile assets/img/breakablefloor.png
+    breakable 1 1
   ]

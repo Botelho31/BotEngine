@@ -270,7 +270,6 @@ void StageState::ExpandTileColliders(){
         std::cout << "Map Collision Loaded" << std::endl;
         mapcollision = true;
         changingMapTimer->Update(0);
-        std::cout << GameData::currentMusic << std::endl;
         ChangeMusic(GameData::currentMusic);
         windoweffects->FadeFromBlack(1.5);
     }

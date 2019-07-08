@@ -292,7 +292,6 @@ void Player::AttackHandle(float dt){
                     player->asword= ((PI * 0.35)/(attacktiming - delayedboost));
                     player->swordarc =  PI - 0.5;
                     player->aswordangle = 70;
-
                 }else{
                     player->asword = -((PI * 0.35)/(attacktiming - delayedboost));
                     player->swordarc =  0.5;
@@ -305,7 +304,7 @@ void Player::AttackHandle(float dt){
             }
         }
         if(!physics->IsGrounded() && (!physics->IsColliding(physics->GetCollider()->box.Added(0,0,0,100)))){
-            speed.y = -350;
+            speed.y = -300;
         }
     }
     //HANDLES START OF HITBOX AND BOOST FROM ATTACK

@@ -40,8 +40,8 @@ void FakeWall::Update(float dt){
     }else{
         switch(currentEffect){
             case FADE:
-                if((alpha - (alphapersecond *dt)) <= 100){
-                    alpha = 100;
+                if((alpha - (alphapersecond *dt)) <= 50){
+                    alpha = 50;
                 }else{
                     alpha -= alphapersecond * dt;
                 }
@@ -80,6 +80,11 @@ bool FakeWall::Is(std::string type){
 
 void FakeWall::NotifyCollision(GameObject& other){
     if(breakable && !invincibilitytimer->Started()){
+        if(other.GetComponent("Player")){
+            if(hp == 1){
+                hp -= 1;
+            }
+        }
         if(other.GetComponent("HitBox")){
             HitBox *hitbox = dynamic_cast<HitBox*>(other.GetComponent("HitBox"));
             if(hitbox->HitEnemy()){

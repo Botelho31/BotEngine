@@ -181,6 +181,7 @@ void TileMap::SpawnMobs(std::string file){
                 Vec2 pos;
                 std::string sprite;
                 bool breakable;
+                int wallhp;
                 while(checkline != "pos"){
                     FileReader >> checkline;
                 } 
@@ -190,15 +191,16 @@ void TileMap::SpawnMobs(std::string file){
                 FileReader >> sprite;
                 FileReader >> checkline;
                 FileReader >> breakable;
+                FileReader >> wallhp;
                 GameObject *fakewallObj = new GameObject();
-                FakeWall *fakewall = new FakeWall(*fakewallObj,sprite,breakable);
+                FakeWall *fakewall = new FakeWall(*fakewallObj,sprite,breakable,wallhp);
                 fakewallObj->AddComponent(fakewall);
                 fakewallObj->box.Transform(pos.x,pos.y);
-                fakewallObj->renderAfterForeGround = true;
                 if(breakable){
                     int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                     Game::GetInstance().GetCurrentState().AddObject(fakewallObj,place);
                 }else{
+                    fakewallObj->renderAfterForeGround = true;
                     int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("HUD");
                     Game::GetInstance().GetCurrentState().AddObject(fakewallObj,place);
                 }
