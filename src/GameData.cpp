@@ -5,6 +5,7 @@
 std::vector<std::string> GameData::saveFiles;
 bool GameData::playerAlive;
 bool GameData::playerSword;
+bool GameData::playerDoubleJump;
 
 Vec2 GameData::savePlayerPos;
 int GameData::savePlayerHealth;
@@ -181,6 +182,13 @@ void GameData::LoadGame(){
                 if(listOfDiscoveredSouls.size() >= 3){
                     playerSword = true;
                 }
+                if(listOfDiscoveredSouls.size() >= 6){
+                    playerDoubleJump = true;
+                }
+                #ifdef DEBUG
+                    playerSword = true;
+                    playerDoubleJump = true;
+                #endif    
             }
         }
     }else{

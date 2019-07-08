@@ -440,6 +440,22 @@ void StageState::HandleEvents(float dt){
                 }
             }
         }
+        else if(GameData::events.front()->GetType() == Event::PLAYERGETSDOUBLEJUMP){
+            pause = true;
+            if(!windoweffects->Drawing()){
+                windoweffects->DimScreen(0.5,122);
+            }else{
+                GameData::events.front()->Update(dt);
+            }
+            if(GameData::events.front()->IsEventTimerOver()){
+                InputManager *input = &(InputManager::GetInstance());
+                if(input->KeyPress(SDLK_SPACE)){
+                    windoweffects->DimScreen(0.5,0);
+                    pause = false;
+                    GameData::events.pop();
+                }
+            }
+        }
     }
 }
 

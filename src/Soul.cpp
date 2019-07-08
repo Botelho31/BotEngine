@@ -32,6 +32,13 @@ void Soul::Update(float dt){
                 swordeventObj->AddComponent(swordevent);
                 GameData::events.push(swordevent);
             }
+            if(GameData::listOfDiscoveredSouls.size() == 6){
+                GameData::playerDoubleJump = true; //WHERE PLAYER GETS DoubleJump
+                GameObject* jumpeventObj = new GameObject();
+                Event *jumpevent = new Event(*jumpeventObj,Event::PLAYERGETSDOUBLEJUMP,2);
+                jumpeventObj->AddComponent(jumpevent);
+                GameData::events.push(jumpevent);
+            }
             associated.RequestDelete();
         }
     }

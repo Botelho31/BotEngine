@@ -105,7 +105,9 @@ void Player::Update(float dt){
         }
     #endif
 
-    AttackHandle(dt);//HANDLING ATTACK
+    if(GameData::playerSword){
+        AttackHandle(dt);//HANDLING ATTACK
+    }
     IdleHandle(dt);//IDLE HANDLING
     XMovement(dt); //X MOVEMENT
     YMovement(dt); //Y MOVEMENT
@@ -535,7 +537,7 @@ void Player::YMovement(float dt){
                 speed.x = awalljump;
                 doublejump = false;
             }else{
-                if(doublejump){
+                if(doublejump && GameData::playerDoubleJump){
                     SetSprite(spritefiles["jumping"],15,0.04,false);
                     PlaySoundEffect(soundfiles["jump"]);
                     Rect collider = physics->GetCollider()->box;

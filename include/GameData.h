@@ -42,6 +42,7 @@
             static std::vector<std::string> listOfDiscoveredMaps;
             static std::vector<int> listOfDiscoveredSouls;
             static bool playerSword;
+            static bool playerDoubleJump;
 
             static std::string currentMusic;
             static std::queue<Event*> events;
