@@ -11,7 +11,7 @@
             Sound(GameObject& associated);
             Sound(GameObject& associated, std::string file);
             ~Sound();
-            void Play (int times = 1);
+            void Play (int times = 1,bool autodestruct = false);
             void Stop();
             void Open(std::string file);
             bool IsOpen();
@@ -23,6 +23,8 @@
         private:
             std::shared_ptr<Mix_Chunk> chunk;
             int channel;
+
+            bool autodestruct;
     };
 
 #endif

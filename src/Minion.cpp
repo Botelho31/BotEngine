@@ -186,7 +186,6 @@ void Minion::KillMinion(){
     GameObject *deadObj = new GameObject();
     int animrand = rand() % 4 + 1;
     if(animrand == 1){
-
         Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadfront1"],39,0.04,0,false,true);
         int xoffset = -40;
         if(minionsprite->IsFlipped()){
@@ -227,8 +226,8 @@ void Minion::KillMinion(){
         deadObj->AddComponent(deadbody);
         deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
     }
-    int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
-    Game::GetInstance().GetCurrentState().AddObject(deadObj,place);
+    // int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+    Game::GetInstance().GetCurrentState().AddObject(deadObj);
     associated.RequestDelete();
 }
 

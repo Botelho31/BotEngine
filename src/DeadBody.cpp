@@ -36,7 +36,6 @@ void DeadBody::Start(){
 
 void DeadBody::Update(float dt){
     if(!idle){
-        // physics->Update(dt);
         physics->PerformXDeceleration(despeed,dt);
         physics->PerformXMovement(dt);
         physics->PerformYMovement(dt);
@@ -49,8 +48,6 @@ void DeadBody::Update(float dt){
         if(alphavalue <= 0){
             alphavalue = 0;
             associated.RequestDelete();
-            // associated.RemoveComponent(associated.GetComponent("Physics"));
-            // associated.RemoveComponent(associated.GetComponent("Collider"));
         }
     }
     if(interaction){
@@ -80,6 +77,7 @@ void DeadBody::NotifyCollision(GameObject& other){
     if(!invincibilitytimer->Started() && interaction){
         Component *component1 = other.GetComponent("HitBox");
         if(component1){
+            std::cout << "test" << std::endl;
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){
                 physics->KnockBack(hitbox->GetOwner()->box,hitbox->GetKnockBack());

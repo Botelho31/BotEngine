@@ -3,6 +3,7 @@
 #include "../include/Minion.h"
 #include "../include/GameData.h"
 #include "../include/Boss.h"
+#include "../include/Sound.h"
 
 
 HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
@@ -118,6 +119,7 @@ void HitBox::NotifyCollision(GameObject& other){
                 }
                 Minion *minion = dynamic_cast<Minion*>(component1);
                 if((other.box.w != 0) && minion->GetState() != Minion::ATTACKING){
+                    PlaySoundEffect(soundfiles["blood"]);
                     KeepStill(true,hitfreezetime);
                     component1->KeepStill(true,hitfreezetime);
                     if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
@@ -143,6 +145,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     }
                 }
                 if((other.box.w != 0)){
+                    PlaySoundEffect(soundfiles["blood"]);
                     if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
                         if(associated.angleDeg <= 0){
                             HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,true, {70,20});
@@ -203,6 +206,14 @@ void HitBox::HitEffect(std::string file,int frames,float frametime,float duratio
     effectObj->box.x = point.x - effectObj->box.w/2 + offset.x;
     effectObj->box.y = point.y - effectObj->box.h/2 + offset.y;
     effectObj->AddComponent(effect);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
+}
+
+void HitBox::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
     Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 

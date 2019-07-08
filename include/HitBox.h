@@ -19,6 +19,7 @@
             void KeepStill(bool freeze,float time = 0);
             
             void HitEffect(std::string file,int frames,float frametime,float duration,Vec2 point,bool flip = false,Vec2 offset = {0,0});
+            void PlaySoundEffect(std::string file,int times = 0);
             Collider* GetCollider();
             std::shared_ptr<GameObject> GetOwner();
             Vec2 GetKnockBack();

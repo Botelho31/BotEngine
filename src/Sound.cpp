@@ -3,6 +3,7 @@
 Sound::Sound(GameObject& associated) : Component(associated){
     chunk = nullptr;
     channel = -2;
+    autodestruct = false;
 }
 
 Sound::Sound(GameObject& associated, std::string file) : Sound(associated){
@@ -24,8 +25,9 @@ void Sound::Open(std::string file){
     }
 }
 
-void Sound::Play(int times){
+void Sound::Play(int times,bool autodestruct){
     channel = Mix_PlayChannel(-1,chunk.get(),times);
+    this->autodestruct = autodestruct;
 }
 
 bool Sound::IsPlaying(){
@@ -51,7 +53,11 @@ void Sound::Stop(){
 }
 
 void Sound::Update(float dt){
-
+    if(this->autodestruct){
+        if(!IsPlaying()){
+            associated.RequestDelete();
+        }
+    }
 }
 
 void Sound::Render(){
