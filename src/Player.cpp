@@ -673,7 +673,8 @@ void Player::SpriteEffect(std::string file,int frames,float frametime,float dura
     effectObj->box.x = point.x - effectObj->box.w/2;
     effectObj->box.y = point.y - effectObj->box.h/2;
     effectObj->AddComponent(effect);
-    Game::GetInstance().GetCurrentState().AddObject(effectObj);
+    int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+    Game::GetInstance().GetCurrentState().AddObject(effectObj,place);
 }
 
 void Player::PlaySoundEffect(std::string file,int times){
