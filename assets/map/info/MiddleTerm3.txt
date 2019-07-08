@@ -4,7 +4,7 @@ MapInfo
     collisionDepth 0
     parallaxDepth 0
     tilesetfiles assets/img/Tile2.6.png
-    background assets/img/fundobranco.jpg 0 4 4
+    background assets/img/fundobranco.jpg 0 4 4 1
     music test
   ]
 

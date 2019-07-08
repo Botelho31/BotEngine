@@ -4,7 +4,7 @@ MapInfo
     collisionDepth 1
     parallaxDepth 1
     tilesetfiles assets/img/Tile2.6.png assets/img/Estalactites.png
-    background assets/img/fundos/room4.png 1 1 1
+    background assets/img/fundos/room4.png 1 1 1 0
     music test
   ]
 

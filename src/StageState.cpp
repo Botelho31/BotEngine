@@ -533,8 +533,8 @@ bool StageState::LoadedTileColliders(){
     return loadedTileColliders;
 }
 
-void StageState::ChangeBackground(std::string file,bool parallax,Vec2 scale){
-    background->ChangeBackground(file,parallax,scale);
+void StageState::ChangeBackground(std::string file,bool parallax,Vec2 scale,bool camerafollower){
+    background->ChangeBackground(file,parallax,scale,camerafollower);
 }
 
 void StageState::ChangeMusic(std::string musicfile){
