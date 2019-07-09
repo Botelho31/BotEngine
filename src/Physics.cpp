@@ -250,20 +250,20 @@ bool Physics::IsColliding(Rect box,float angle,bool nooutofbounds,bool markcolli
     return false;
 }
 
-bool Physics::IsUp(int sum){
-    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),ToPI(associated.angleDeg));
+bool Physics::IsUp(int sum,bool outofbounds){
+    return IsColliding(collider->box.Added(0,-sum,0,-collider->box.h),ToPI(associated.angleDeg),!outofbounds);
 }
 
-bool Physics::IsGrounded(int sum){
-    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),ToPI(associated.angleDeg));
+bool Physics::IsGrounded(int sum,bool outofbounds){
+    return IsColliding(collider->box.Added(0,sum + collider->box.h,0,-collider->box.h),ToPI(associated.angleDeg),!outofbounds);
 }
 
-bool Physics::IsLeft(int sum){
-    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),ToPI(associated.angleDeg));
+bool Physics::IsLeft(int sum,bool outofbounds){
+    return IsColliding(collider->box.Added(-sum,0,-collider->box.w,0),ToPI(associated.angleDeg),!outofbounds);
 }
 
-bool Physics::IsRight(int sum){
-    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated.angleDeg));
+bool Physics::IsRight(int sum,bool outofbounds){
+    return IsColliding(collider->box.Added(sum + collider->box.w,0,-collider->box.w,0),ToPI(associated.angleDeg),!outofbounds);
 }
 
 Vec2 Physics::GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox,float colBoxAngle){

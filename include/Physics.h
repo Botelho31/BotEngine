@@ -30,10 +30,10 @@
             bool IsColliding(Rect box = {0,0,0,0},float angle = 0,bool nooutofbounds = false,bool markcollision = false,bool ignoreMob = false); //Checks to see if it is colliding
 
             //Checks if it is colliding in a direction
-            bool IsRight(int sum = 1);
-            bool IsUp(int sum = 1);
-            bool IsLeft(int sum = 1);
-            bool IsGrounded(int sum = 1);
+            bool IsRight(int sum = 1,bool outofbounds = true);
+            bool IsUp(int sum = 1,bool outofbounds = true);
+            bool IsLeft(int sum = 1,bool outofbounds = true);
+            bool IsGrounded(int sum = 1,bool outofbounds = true);
 
             Vec2 GetCollisionPoint(Vec2 origin,Vec2 dest,Rect colBox = {0,0,0,0},float colBoxAngle = 0); // Returns the collision point of the line formed by the two points to either the map or the box provided
 

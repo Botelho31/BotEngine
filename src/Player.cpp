@@ -472,7 +472,7 @@ void Player::YMovement(float dt){
             hittheground->Delay(dt);
         }
     }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
-        if(physics->IsRight()){
+        if(physics->IsRight(1,false)){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
             if((smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30) && physics->IsColliding(Rect(smoke1.Added(1,0),1,1))){
@@ -480,7 +480,7 @@ void Player::YMovement(float dt){
                 cachepoint = smoke1;
             }
         }
-        if(physics->IsLeft()){
+        if(physics->IsLeft(1,false)){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x,collider.y);
             if((smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30) && physics->IsColliding(Rect(smoke1.Added(-1,0),1,1))){
@@ -509,7 +509,7 @@ void Player::YMovement(float dt){
                 jumpanimation->Delay(dt);
                 jumpsquat->Delay(dt);
                 doublejump = false;
-            }else if(physics->IsRight()){
+            }else if(physics->IsRight(1,false)){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
                 Vec2 smoke2 = Vec2(collider.x + collider.w,collider.y + collider.h);
@@ -522,7 +522,7 @@ void Player::YMovement(float dt){
                 speed.y = ajump;
                 speed.x = -awalljump;
                 doublejump = false;
-            }else if(physics->IsLeft()){
+            }else if(physics->IsLeft(1,false)){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x,collider.y);
                 Vec2 smoke2 = Vec2(collider.x,collider.y + collider.h);
