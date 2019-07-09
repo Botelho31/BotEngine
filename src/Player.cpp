@@ -582,8 +582,9 @@ void Player::YMovement(float dt){
 
     if(doublejumpanimation->Started()){
         doublejumpanimation->Update(dt);
-        if((physics->IsGrounded() && (speed.y >= 0)) && (!jumpsquat->Started())){
+        if((physics->IsGrounded() || (speed.y >= 0))){
             falling = true;
+            SetSprite(spritefiles["falling"],4,0.04);
             doublejumpanimation->Restart();
         }
         if(doublejumpanimation->Get() >= 0.6){
