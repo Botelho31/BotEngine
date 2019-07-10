@@ -14,7 +14,10 @@
 
 #define BOSSPARALLAX 1.2
 
+Boss *Boss::boss;
+
 Boss::Boss(GameObject& associated) : Component(associated){
+    boss = this;
     speed.x = 0;
     maxspeed = 600;
     aspeed = 700;
@@ -33,7 +36,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     damagetimer = new Timer();
     attackdelay = new Timer();
 
-    state = IDLE;
+    state = APPEARING;
 
     this->attacktimer = new Timer();
     this->handuptimer = new Timer();
@@ -54,6 +57,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
 }
 
 Boss::~Boss(){
+    boss = nullptr;
     bosssprite = nullptr;
     delete invincibilitytimer;
     delete damagetimer;
@@ -153,6 +157,28 @@ void Boss::KillBoss(){
     associated.RequestDelete();
 }
 
+void Boss::SpeedUpParallax(){
+    for(int i = 0;i < eyes.size();i++){
+        Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
+        if(comp){
+            ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+            parallaxfollower->Jump();
+        }
+    }
+
+    GameObject *headObj = head.lock().get();
+    Component *comp2 = headObj->GetComponent("ParallaxFollower");
+    if(comp2){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
+        parallaxfollower->Jump();
+    }
+
+    Component *comp3 = associated.GetComponent("ParallaxFollower");
+    if(comp3){
+        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp3);
+        parallaxfollower->Jump();
+    }
+}
 
 void Boss::MoveHead(Vec2 speed,float dt){
     head.lock()->box.x += speed.x * dt;
@@ -254,7 +280,11 @@ void Boss::StopParallax(){
 }
 
 void Boss::AppearingState(float dt){
-
+    InputManager *input =  &(InputManager::GetInstance());
+    if(input->KeyPress(SDLK_8)){
+        state = IDLE;
+        std::cout << associated.box.x << " " << associated.box.y << std::endl;
+    }
 }
 
 void Boss::RampageAttackState(float dt){
@@ -431,8 +461,6 @@ void Boss::IdleState(float dt){
     }
     Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 780,300,120);
     Rect RightHandArea = Rect(associated.box.x + 1130,associated.box.y + 780,300,120);
-    // WindowEffects::AddBoxToDraw(LeftHandArea,0);
-    // WindowEffects::AddBoxToDraw(RightHandArea,0);
     if(LeftHandArea.Contains(Player::player->GetPosition())){
         this->state = HANDATTACKING;
         StopParallax();

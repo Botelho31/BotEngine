@@ -19,6 +19,7 @@
             bool Follow(Vec2 dest,float constspeed,float dt);
             void AddOriginalPos(Vec2 add);
             void SetParallax(float parallax,bool catchParallax = false);
+            void Jump();
         private:
             Vec2 originalpos;
             float parallax;

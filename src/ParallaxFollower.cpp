@@ -85,6 +85,10 @@ bool ParallaxFollower::Follow(Vec2 dest,float constspeed,float dt){
     }
 }
 
+void ParallaxFollower::Jump(){
+    associated.box.x = originalpos.x + Camera::pos.x * parallax;
+}
+
 void ParallaxFollower::AddOriginalPos(Vec2 add){
     originalpos.x += add.x;
     originalpos.y += add.y;

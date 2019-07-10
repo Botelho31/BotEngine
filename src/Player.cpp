@@ -11,10 +11,12 @@
 #include "../include/GameData.h"
 #include "../include/DeadBody.h"
 #include "../include/Spike.h"
+#include "../include/Boss.h"
 
 Player *Player::player;
 
 Player::Player(GameObject& associated) : Component(associated){
+    control = true;
     speed.x = 0;
     maxspeed = 600;
     aspeed = 2000;
@@ -111,6 +113,10 @@ void Player::Update(float dt){
     IdleHandle(dt);//IDLE HANDLING
     XMovement(dt); //X MOVEMENT
     YMovement(dt); //Y MOVEMENT
+    if(!control){
+        physics->PerformGravity(gravspeed,dt);
+        speed.x = 0;
+    }
 
     if(damagetimer->Started()){
         damagetimer->Update(dt);
@@ -145,6 +151,8 @@ void Player::Update(float dt){
     if((hp <= 0) && (GameData::playerAlive)){
         KillPlayer();
     }
+
+    control = true;
 }
 
 void Player::InstanceHitbox(){
@@ -210,7 +218,7 @@ void Player::InstanceProjectileHitbox(){
 
 void Player::AttackHandle(float dt){
     //HANDLING ATTACK
-    if(input->KeyPress(SDLK_e)){    //TESTING SWORD ON E
+    if(input->KeyPress(SDLK_e) && control){    //TESTING SWORD ON E
         if(nextattack.empty()){
             nextattack.push(1);
         }
@@ -229,7 +237,7 @@ void Player::AttackHandle(float dt){
             }
         }
     }
-    if(input->KeyPress(SDLK_q)){
+    if(input->KeyPress(SDLK_q) && control){
         if(nextattack.empty()){
             nextattack.push(3);
         }
@@ -388,7 +396,7 @@ void Player::XMovement(float dt){
         }
     }
 
-    if(input->IsKeyDown(SDLK_d) && !input->IsKeyDown(SDLK_a)){
+    if(input->IsKeyDown(SDLK_d) && !input->IsKeyDown(SDLK_a) && control){
         if(playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
             speed.x = 0;
@@ -405,7 +413,7 @@ void Player::XMovement(float dt){
             physics->PerformXAcceleration(true,aspeed/2,maxspeed,despeed,dt);
         }
     }
-    if(input->IsKeyDown(SDLK_a) && !input->IsKeyDown(SDLK_d)){
+    if(input->IsKeyDown(SDLK_a) && !input->IsKeyDown(SDLK_d) && control){
         if(!playersprite->IsFlipped() && (!swordattack->Started())){
             playersprite->Flip();
             speed.x = 0;
@@ -431,7 +439,7 @@ void Player::XMovement(float dt){
             }
     }
 
-    if(((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())){
+    if((((input->IsKeyDown(SDLK_a) == false) && (input->IsKeyDown(SDLK_d) == false)) && (physics->IsGrounded())) || (physics->IsGrounded() && !control)){
         physics->PerformXDeceleration(despeed,dt);
         if(running == true){
             SetSprite(spritefiles["walkingstop"],2,0.04,false);
@@ -501,7 +509,7 @@ void Player::YMovement(float dt){
     }
 
     //Handles Jump input and acceleration
-    if((input->KeyPress(SDLK_SPACE)) && (!hittheground->Started())){
+    if((input->KeyPress(SDLK_SPACE)) && (!hittheground->Started()) && control){
         if(!swordattack->Started()){
             if(physics->IsGrounded()){
                 SetSprite(spritefiles["jumping"],15,0.04,false);
@@ -855,7 +863,8 @@ void Player::NotifyCollision(GameObject& other){
             event->SetProcessing(true);
             GameData::events.push(event);
         }
-        if(!event->IsProcessing() && GameData::playerAlive && event->GetType() == Event::BOSSAPPEARS){
+        if(!event->IsProcessing() && GameData::playerAlive && (event->GetType() == Event::BOSSAPPEARS)){
+            event->SetProcessing(true);
             GameData::events.push(event);
         }
     }
@@ -867,6 +876,10 @@ Physics* Player::GetPhysics(){
 
 Vec2 Player::GetPosition(){
     return physics->GetCollider()->box.GetCenter();
+}
+
+void Player::StopControl(){
+    control = false;
 }
 
 float Player::GetPlayerAngle(){

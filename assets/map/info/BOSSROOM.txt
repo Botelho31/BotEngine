@@ -15,13 +15,8 @@ Portal
     portalY 1530
     tilemapinfofile assets/map/info/EntryRoom.txt
   ]
-  
-Boss
-  [
-    pos 70 555
-  ]
 
 BossAppears
   [
-    eventBox 1440 1280 200 200
+    eventBox 1850 0 50 1600
   ]

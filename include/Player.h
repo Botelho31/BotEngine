@@ -45,6 +45,8 @@
             void HealPlayer(int heal);
             void KnockBack(Rect hitbox,Vec2 knockback);
 
+            void StopControl();
+
 
             void InstanceHitbox();
             void InstanceProjectileHitbox();
@@ -53,6 +55,7 @@
 
             static Player *player;
         private:
+            bool control;
             Vec2 speed;
             int maxspeed;
             int aspeed;
