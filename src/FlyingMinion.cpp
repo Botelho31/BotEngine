@@ -7,6 +7,7 @@
 #include "../include/DeadBody.h"
 #include "../include/GameData.h"
 #include "../include/Spit.h"
+#include "../include/Sound.h"
 
 FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : Component(associated){
     //Movement related variables
@@ -58,6 +59,10 @@ FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : C
     std::vector<std::string> spritefile;
     spritefile.push_back("assets/img/info/flyingminion.txt");
     spritefiles = GameData::GetSpritesFiles(spritefile);
+    std::vector<std::string> soundfile;
+    soundfile.push_back("assets/audio/info/effects.txt");
+    soundfiles = GameData::GetSpritesFiles(soundfile);
+
     Sprite *minion =  new Sprite(associated,spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
     minionsprite = minion;
     associated.AddComponent(minion);
@@ -66,6 +71,7 @@ FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : C
     associated.AddComponent(physics);
     physics->SetCollider(0.25,0.3,0,0);
 
+    PlaySound(soundfiles["flying"],-1);
 }
 
 FlyingMinion::~FlyingMinion(){
@@ -284,6 +290,7 @@ void FlyingMinion::DefineState(float distanceToPlayer){
     //Select state
     if((hp <= 0) && (state != DYING)){
         newState = DYING;
+        StopSound();
     }else if(state == DYING){
         newState = DYING;
     }
@@ -355,6 +362,31 @@ void FlyingMinion::IdleHandle(float dt){
     }else{
         idle = false;
         idletimer->Restart();
+    }
+}
+
+
+void FlyingMinion::PlaySound(std::string file,int times){
+    Component *soundcomp = associated.GetComponent("Sound");
+    if(soundcomp){
+        Sound *sound = dynamic_cast<Sound*>(soundcomp);
+        sound->Stop();
+        sound->Open(file);
+        sound->Play(times);
+    }else{
+        Sound *sound = new Sound(associated,file);
+        sound->Play(times);
+        associated.AddComponent(sound);
+    }
+}
+
+void FlyingMinion::StopSound(){
+    Component *soundcomp = associated.GetComponent("Sound");
+    if(soundcomp){
+        Sound *sound = dynamic_cast<Sound*>(soundcomp);
+        if(sound->IsPlaying()){
+            sound->Stop();
+        }
     }
 }
 

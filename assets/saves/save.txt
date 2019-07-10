@@ -1,8 +1,8 @@
 Save
 	[
 		mapInfo assets/map/info/EntryRoom.txt
-		playerPos 3171.76 1529.76
-		playerLife 70
+		playerPos 626.829 1530.08
+		playerLife 30
 		playerMana 100
 		checkpointPos 330 1990
 		checkpointPosSpeed 600 -1006

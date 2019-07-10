@@ -11,7 +11,7 @@
     #define FLYINGMINION_DAMAGE_FC 10
     #define FLYINGMINION_ATACKING_FC 30
     #define FLYINGMINION_DEATH_FC 7
-    #define FLYINGMINION_SPITTING_FC 26
+    #define FLYINGMINION_SPITTING_FC 28
 
     #define FLYINGMINION_IDLE_FT 0.03
     #define FLYINGMINION_FLYING_FT 0.03
@@ -58,6 +58,10 @@
             void DamageFlyingMinion(int damage);
             void KillFlyingMinion();
 
+            void PlaySound(std::string file,int times);
+            // void PlaySoundEffect(std::string file,int times = 0);
+            void StopSound();
+
 
         private:
             minionState state;
@@ -87,6 +91,7 @@
             int gravspeed;
 
             std::map<std::string,std::string> spritefiles;
+            std::map<std::string,std::string> soundfiles;
             Sprite *minionsprite;
 
             Timer *idletimer;
