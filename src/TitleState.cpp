@@ -10,10 +10,14 @@
 #include "../include/Collision.h"
 #include "../include/Button.h"
 #include "../include/MenuState.h"
+#include "../include/GameData.h"
 
 TitleState::TitleState(){
     quitRequested = false;
     popRequested = false;
+
+    GameData::PreLoadMusics("assets/audio/info/musics.txt");
+    GameData::PreLoadSounds("assets/audio/info/effects.txt");
 
     Game::GetInstance().GetMusic()->Open("assets/audio/musics/belmenu.ogg");
     Game::GetInstance().GetMusic()->Play();

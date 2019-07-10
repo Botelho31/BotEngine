@@ -242,6 +242,15 @@ void GameData::PreLoadSounds(std::string spritefile){
     }
 }
 
+void GameData::PreLoadMusics(std::string spritefile){
+    std::vector<std::string> spritefilevec;
+    spritefilevec.push_back(spritefile);
+    std::map<std::string,std::string> spritefiles = GetSpritesFiles(spritefilevec);
+     for(auto it = spritefiles.cbegin(); it != spritefiles.cend(); ++it){
+        Resources::GetMusic(it->second);
+    }
+}
+
 std::map<std::string,std::string> GameData::GetSpritesFiles(std::vector<std::string> spritesfile){
     std::map<std::string,std::string> filenames;
 
