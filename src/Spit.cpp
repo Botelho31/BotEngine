@@ -23,11 +23,11 @@ Spit::Spit(GameObject& associated, GameObject& spitOwner, float initSpeed) : Com
 	std::vector<std::string> spritefile;
 	spritefile.push_back("assets/img/info/spit.txt");
 	spritefiles = GameData::GetSpritesFiles(spritefile);
-    Sprite *spitSprite =  new Sprite(associated,spritefiles["spit"],4,0.1);
+    Sprite *spitSprite =  new Sprite(associated,spritefiles["spit"],8,0.1);
     this->spitsprite = spitSprite;
     associated.AddComponent(spitSprite);
 
-    physics->SetCollider(0.5,0.65,0,0);
+    physics->SetCollider(0.5,0.4,5,5);
 
     splashTimer = new Timer();
     puddleTimer = new Timer();
@@ -58,7 +58,7 @@ void Spit::Update(float dt){
 
 		if(physics->IsGrounded()){	//Create DeadBody (spit puddle) only if it is on the ground
 			GameObject *puddleObj = new GameObject();
-			Sprite *puddleSprite = new Sprite(*puddleObj,spritefiles["spitSplashing"],4,0.1,0,false,true);
+			Sprite *puddleSprite = new Sprite(*puddleObj,spritefiles["spitSplashing"],3,0.1,0,false,true);
         	DeadBody *puddle = new DeadBody(*puddleObj,Vec2(0,0),puddleSprite,Vec2(0.5,0.35),Vec2(0,0),false);
         	puddleObj->AddComponent(puddle);
     		puddleObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
