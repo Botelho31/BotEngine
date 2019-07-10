@@ -2,9 +2,9 @@ MapInfo
   [
     mapFile assets/map/EntryRoom.tmx
     collisionDepth 1
-    parallaxDepth 0
-    tilesetfiles assets/img/Tile2.6.png
-    background assets/img/fundos/EntryRoom.png 0 1 1 1
+    parallaxDepth 2
+    tilesetfiles assets/img/Tile2.6.png assets/img/fundos/EntryRoomFront.png
+    background assets/img/fundos/entryroom.png 1 1 1 0
     music assets/audio/musics/belroommusic.mp3
   ]
 
