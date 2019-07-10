@@ -2,8 +2,8 @@
     idle        assets/img/FlyingMinion/flyingminionidle.png
     flying	assets/img/FlyingMinion/flyingminionidle.png
     spit	assets/img/FlyingMinion/flyingminionspit.png
-    deadfront   assets/img/FlyingMinion/flyingminionidle.png
-    deadbehind  assets/img/FlyingMinion/flyingminionidle.png
+    death   assets/img/FlyingMinion/flyingminiondeath.png
+    body    assets/img/FlyingMinion/flyingminionbody.png
     damage      assets/img/FlyingMinion/flyingminiondamage.png
     spitting	assets/img/FlyingMinion/flyingminionspitting.png
     flush	assets/img/FlyingMinion/flyingminionflush.png

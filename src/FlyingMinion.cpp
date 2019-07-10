@@ -122,15 +122,23 @@ void FlyingMinion::Update(float dt){
     }
     switch(state){
         case IDLE:
+            std::cout << "IDLE" << " " << dt << std::endl;
             IdleState(dt);
             break;
         case POSITIONING:
+            std::cout << "POSITIONING" << " " << dt << std::endl;
             PositioningState(dt);
             break;
         case SPITTING:
-            // std::cout<<"SPITTING"<<std::endl;
+            std::cout << "SPITTING" << " " << dt << std::endl;
             SpittingState(dt);
             break;
+        case DYING:
+            std::cout << "DYING" << " " << dt << std::endl;
+            physics->PerformGravity(1000,dt);
+            if(physics->IsGrounded()){
+                KillFlyingMinion();
+            }
         default:
             break;
     }
@@ -164,8 +172,6 @@ void FlyingMinion::Update(float dt){
         if(!associated.IsDead()){
             if(physics->IsOutofBounds(true)){
                 associated.RequestDelete();
-            }else{
-                KillFlyingMinion();
             }
         }
     }
@@ -176,39 +182,17 @@ void FlyingMinion::DamageFlyingMinion(int damage){
     if(!damagetimer->Started() && (hp > 0)){
         SetSprite(spritefiles["damage"],FLYINGMINION_DAMAGE_FC,FLYINGMINION_DAMAGE_FT, false);
         damagetimer->Delay(0);
-    }else if(hp <= 0){
-        KillFlyingMinion();
     }
 }
 
 void FlyingMinion::KillFlyingMinion(){
     GameObject *deadObj = new GameObject();
-    int animrand = rand() % 2 + 1;
-    if(animrand == 1){
-        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadbehind"],FLYINGMINION_DEADBEHIND_FC,FLYINGMINION_DEADBEHIND_FT,0,false,true);
-        int xoffset = -40;
-        if(minionsprite->IsFlipped()){
-            deadsprite->Flip();
-            xoffset = 40;
-        }
-        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(xoffset,80),false);
-        deadObj->AddComponent(deadbody);
-        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
-        Game::GetInstance().GetCurrentState().AddObject(deadObj);
-        associated.RequestDelete();
-    }else{
-        Sprite *deadsprite = new Sprite(*deadObj,spritefiles["deadfront"],FLYINGMINION_DEADFRONT_FC,FLYINGMINION_DEADFRONT_FT,0,false,true);
-        int xoffset = -40;
-        if(minionsprite->IsFlipped()){
-            deadsprite->Flip();
-            xoffset = 40;
-        }
-        DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(-xoffset,80),false);
-        deadObj->AddComponent(deadbody);
-        deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
-        Game::GetInstance().GetCurrentState().AddObject(deadObj);
-        associated.RequestDelete();
-    }
+    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["body"],1,1,0,false,true);
+    DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(0,0),false);
+    deadObj->AddComponent(deadbody);
+    deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));
+    Game::GetInstance().GetCurrentState().AddObject(deadObj);
+    associated.RequestDelete();
 }
 
 
@@ -301,14 +285,22 @@ void FlyingMinion::DefineState(float distanceToPlayer){
 
 
     //Select state
-    if(!inRange || (inPosition && !canSpit)){
-        newState = IDLE;
-    }
-    else if(inRange && !inPosition){
-        newState = POSITIONING;
+    if((hp <= 0) && (state != DYING)){
+        newState = DYING;
+    }else if(state == DYING){
+        newState = DYING;
     }
     else{
-        newState = SPITTING;
+        if(!inRange || (inPosition && !canSpit)){
+            newState = IDLE;
+            std::cout << "test" << std::endl;
+        }
+        else if(inRange && !inPosition){
+            newState = POSITIONING;
+        }
+        else{
+            newState = SPITTING;
+        }
     }
     
     //Change sprite, if state has changed
@@ -322,8 +314,11 @@ void FlyingMinion::DefineState(float distanceToPlayer){
             dirToPlayer = positioning;
             spittimer->Restart();
         }
-        else{
+        else if(newState == SPITTING){
             SetSprite(spritefiles["spitting"],FLYINGMINION_SPITTING_FC,FLYINGMINION_SPITTING_FT);
+        }
+        else if(newState == DYING){
+            SetSprite(spritefiles["death"],FLYINGMINION_DEATH_FC,FLYINGMINION_DAMAGE_FT, false);
         }
     }
 

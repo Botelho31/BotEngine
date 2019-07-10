@@ -8,18 +8,16 @@
     //Comonly used parameters
     #define FLYINGMINION_IDLE_FC 30
     #define FLYINGMINION_FLYING_FC 30
-    #define FLYINGMINION_DAMAGE_FC 12
+    #define FLYINGMINION_DAMAGE_FC 10
     #define FLYINGMINION_ATACKING_FC 30
-    #define FLYINGMINION_DEADBEHIND_FC 30
-    #define FLYINGMINION_DEADFRONT_FC 30
+    #define FLYINGMINION_DEATH_FC 7
     #define FLYINGMINION_SPITTING_FC 26
 
     #define FLYINGMINION_IDLE_FT 0.03
     #define FLYINGMINION_FLYING_FT 0.03
     #define FLYINGMINION_DAMAGE_FT 0.05
     #define FLYINGMINION_ATACKING_FT 0.03
-    #define FLYINGMINION_DEADBEHIND_FT 0.03
-    #define FLYINGMINION_DEADFRONT_FT 0.03
+    #define FLYINGMINION_DEATH_FT 0.03
     #define FLYINGMINION_SPITTING_FT 0.02
 
     #define FLYINGMINION_SPITDELAY 1
@@ -28,7 +26,7 @@
 
     class FlyingMinion : public Component{
         public:
-            enum minionState{IDLE,SPITTING,POSITIONING};
+            enum minionState{IDLE,SPITTING,POSITIONING,DYING};
             FlyingMinion(GameObject& associated,minionState startingState = IDLE);
             ~FlyingMinion();
             void Start();
