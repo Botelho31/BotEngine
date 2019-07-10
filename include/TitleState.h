@@ -18,6 +18,8 @@
             void Update(float dt);
             void Render();
 
+            void PlaySoundEffect(std::string file,int times = 0);
+
             void Start();
             void Resume();
             void Pause();

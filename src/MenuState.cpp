@@ -76,23 +76,27 @@ void MenuState::Update(float dt){
         GameData::AddSave("newgameplus");
         GameData::ChooseSave(GameData::saveFiles.size() - 1);
         windoweffects->FadeToBlack(1);
+        PlaySoundEffect("assets/audio/effects/select.wav");
     }
     else if(loadButton->isSelected()){
         windoweffects->FadeToBlack(1);
+        PlaySoundEffect("assets/audio/effects/select.wav");
         PlaySoundEffect("assets/audio/effects/startgame.ogg");
     }
     else if(optionsButton->isSelected()){
-
+        PlaySoundEffect("assets/audio/effects/select.wav");
     }
     else if(infoButton->isSelected()){
-
+        PlaySoundEffect("assets/audio/effects/select.wav");
     }
     else if(quitButton->isSelected()){
+        PlaySoundEffect("assets/audio/effects/select.wav");
         quitRequested = true;
     }
     #ifdef DEBUG
     else if(input->KeyPress(SDLK_SPACE)){
         windoweffects->FadeToBlack(1);
+        PlaySoundEffect("assets/audio/effects/select.wav");
         PlaySoundEffect("assets/audio/effects/startgame.ogg");
     } 
     #endif

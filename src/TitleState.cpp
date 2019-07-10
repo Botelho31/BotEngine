@@ -11,6 +11,7 @@
 #include "../include/Button.h"
 #include "../include/MenuState.h"
 #include "../include/GameData.h"
+#include "../include/Sound.h"
 
 TitleState::TitleState(){
     quitRequested = false;
@@ -59,9 +60,11 @@ void TitleState::Update(float dt){
     State::UpdateArray(dt);
 
     if(playButton->isSelected()){
+        PlaySoundEffect("assets/audio/effects/select.wav");
         Game::GetInstance().Push(new MenuState());
     }
     else if(input->KeyPress(SDLK_SPACE)){
+        PlaySoundEffect("assets/audio/effects/select.wav");
         Game::GetInstance().Push(new MenuState());
     } 
 
@@ -81,6 +84,14 @@ void TitleState::Update(float dt){
             }
         }
     }
+}
+
+void TitleState::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void TitleState::Render(){
