@@ -5,7 +5,7 @@ MapInfo
     parallaxDepth 2
     tilesetfiles assets/img/Tile2.6.png assets/img/fundos/EntryRoomFront.png
     background assets/img/fundos/entryroom.png 1 1 1 0
-    music assets/audio/musics/belroommusic.mp3
+    music test
   ]
 
 Portal

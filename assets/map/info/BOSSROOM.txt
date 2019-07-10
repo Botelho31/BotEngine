@@ -5,7 +5,7 @@ MapInfo
       parallaxDepth 0
       tilesetfiles assets/img/Tile2.6.png
       background assets/img/fundos/BossRoom.png 1 1 1 0
-      music oi
+      music test
   ]
 
 Portal

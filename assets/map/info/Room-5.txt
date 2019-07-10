@@ -5,7 +5,7 @@ MapInfo
     parallaxDepth 1
     tilesetfiles assets/img/Tile2.6.png assets/img/Estalactites.png
     background assets/img/fundos/room5.png 1 1 1 0
-    music test
+    music assets/audio/musics/belfase.mp3
   ]
 
 Portal
