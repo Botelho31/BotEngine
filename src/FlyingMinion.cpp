@@ -122,19 +122,15 @@ void FlyingMinion::Update(float dt){
     }
     switch(state){
         case IDLE:
-            std::cout << "IDLE" << " " << dt << std::endl;
             IdleState(dt);
             break;
         case POSITIONING:
-            std::cout << "POSITIONING" << " " << dt << std::endl;
             PositioningState(dt);
             break;
         case SPITTING:
-            std::cout << "SPITTING" << " " << dt << std::endl;
             SpittingState(dt);
             break;
         case DYING:
-            std::cout << "DYING" << " " << dt << std::endl;
             physics->PerformGravity(1000,dt);
             if(physics->IsGrounded()){
                 KillFlyingMinion();

@@ -8,6 +8,7 @@
 #include "../include/GameData.h"
 #include "../include/Spike.h"
 #include "../include/Sound.h"
+#include "../include/BossHand.h"
 
 Minion::Minion(GameObject& associated,minionState startingState) : Component(associated){
     speed.x = 0;
@@ -103,7 +104,6 @@ void Minion::Update(float dt){
 
             if(!alert){
                 alert = true;
-                std::cout << "alert" << std::endl;
                 PlaySoundEffect(soundfiles["minionalert"]);
             }
         }else{
@@ -113,7 +113,6 @@ void Minion::Update(float dt){
 
             if(alert){
                 alert = false;
-                std::cout << "unalert" << std::endl;
             }
         }
     }
@@ -450,6 +449,7 @@ void Minion::NotifyCollision(GameObject& other){
         Component *component1 = other.GetComponent("HitBox");
         Component *component2 = other.GetComponent("Minion");
         Component *component3 = other.GetComponent("Spike");
+        Component *component4 = other.GetComponent("BossHand");
         if(component1){
             HitBox *hitbox = dynamic_cast<HitBox*>(component1);
             if((hitbox)  && hitbox->HitEnemy()){

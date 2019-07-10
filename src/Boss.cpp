@@ -12,6 +12,8 @@
 #include "../include/InputManager.h"
 #include "../include/BossHand.h"
 
+#define BOSSPARALLAX 0.5
+
 Boss::Boss(GameObject& associated) : Component(associated){
     speed.x = 0;
     maxspeed = 600;
@@ -43,7 +45,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     this->bosssprite =  new Sprite(associated,spritefiles["idle"],24,0.04);
     associated.AddComponent(bosssprite);
 
-    ParallaxFollower *parallaxfollower = new ParallaxFollower(associated,0.5);
+    ParallaxFollower *parallaxfollower = new ParallaxFollower(associated,BOSSPARALLAX);
     associated.AddComponent(parallaxfollower);
 
     minionspawntimer = new Timer();
@@ -180,7 +182,7 @@ void Boss::SpawnHead(Vec2 pos){
     headobj->box.x = pos.x;
     headobj->box.y = pos.y;
     Sprite* headsprite = new Sprite(*headobj,spritefiles["head"],16,0.04);
-    ParallaxFollower *parallaxfollower = new ParallaxFollower(*headobj,0.5);
+    ParallaxFollower *parallaxfollower = new ParallaxFollower(*headobj,BOSSPARALLAX);
     headobj->AddComponent(parallaxfollower);
     headobj->AddComponent(headsprite);
     int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
@@ -202,7 +204,7 @@ void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
     GameObject *eyeObj =  new GameObject();
     Circle bounds = Circle(pos.x,pos.y,35);
     Eye *eye = new Eye(*eyeObj,bounds,endpos,30);
-    ParallaxFollower *parallaxfollower = new ParallaxFollower(*eyeObj,0.5);
+    ParallaxFollower *parallaxfollower = new ParallaxFollower(*eyeObj,BOSSPARALLAX);
     eyeObj->AddComponent(parallaxfollower);
     eyeObj->AddComponent(eye);
     int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
@@ -215,7 +217,7 @@ void Boss::CatchParallax(){
         Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
         if(comp){
             ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
-            parallaxfollower->SetParallax(0.5,true);
+            parallaxfollower->SetParallax(BOSSPARALLAX,true);
         }
     }
 
@@ -223,13 +225,13 @@ void Boss::CatchParallax(){
     Component *comp2 = headObj->GetComponent("ParallaxFollower");
     if(comp2){
         ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
-        parallaxfollower->SetParallax(0.5,true);
+        parallaxfollower->SetParallax(BOSSPARALLAX,true);
     }
 
     Component *comp3 = associated.GetComponent("ParallaxFollower");
     if(comp3){
         ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp3);
-        parallaxfollower->SetParallax(0.5,true);
+        parallaxfollower->SetParallax(BOSSPARALLAX,true);
     }
 }
 

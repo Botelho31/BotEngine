@@ -4,6 +4,7 @@
 #include "../include/GameData.h"
 #include "../include/Boss.h"
 #include "../include/Sound.h"
+#include "../include/FlyingMinion.h"
 
 
 HitBox::HitBox(GameObject& associated,Rect hitbox,std::weak_ptr<GameObject> owner,double angledeg,int damage,float secondsToSelfDestruct,float damageCooldown,bool disconnected,bool hitPlayer,bool hitEnemy,Vec2 knockback,Component *component,float hitfreezetime) : 
@@ -111,6 +112,7 @@ void HitBox::NotifyCollision(GameObject& other){
         if(hitEnemy){
             Component *component1 = other.GetComponent("Minion");
             Component *component2 = other.GetComponent("BossHand");
+            Component *component3 = other.GetComponent("FlyingMinion");
             if(component1){
                 if(!associated.GetComponent("Sprite")){
                     if((GameData::savePlayerMana + PLAYERMANAPERHIT) <= PLAYERMANA){
@@ -118,7 +120,7 @@ void HitBox::NotifyCollision(GameObject& other){
                     }
                 }
                 Minion *minion = dynamic_cast<Minion*>(component1);
-                if((other.box.w != 0) && minion->GetState() != Minion::ATTACKING){
+                if((other.box.w != 0)){
                     PlaySoundEffect(soundfiles["blood"]);
                     KeepStill(true,hitfreezetime);
                     component1->KeepStill(true,hitfreezetime);
@@ -157,6 +159,31 @@ void HitBox::NotifyCollision(GameObject& other){
                             HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,false, {-70,20}); //DIREITA
                         }else{
                             HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,false, {-70,-50}); //DIREITA
+                        }
+                    }
+                }
+                hitfreezetime = 0;
+            }
+            if(component3){
+                if(!associated.GetComponent("Sprite")){
+                    if((GameData::savePlayerMana + PLAYERMANAPERHIT) <= PLAYERMANA){
+                        GameData::savePlayerMana += 5;
+                    }
+                }
+                FlyingMinion *minion = dynamic_cast<FlyingMinion*>(component3);
+                if(other.box.w != 0){
+                    PlaySoundEffect(soundfiles["blood"]);
+                    if(owner.lock()->box.GetCenter().x >= physics->GetCollider()->box.GetCenter().x){ //DIREITA POSITIVO SANGUE1 ESQUERDA NEGATIVO SANGUE1
+                        if(associated.angleDeg <= 0){
+                            HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,true, {15,0});
+                        }else{
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,true, {15,-25});
+                        }
+                    }else{
+                        if(associated.angleDeg >= 0){
+                            HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,false, {-15,0}); //DIREITA
+                        }else{
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,false, {-15,-25}); //DIREITA
                         }
                     }
                 }
