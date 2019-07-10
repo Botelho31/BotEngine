@@ -12,7 +12,7 @@
 #include "../include/InputManager.h"
 #include "../include/BossHand.h"
 
-#define BOSSPARALLAX 0.5
+#define BOSSPARALLAX 1.2
 
 Boss::Boss(GameObject& associated) : Component(associated){
     speed.x = 0;
@@ -254,7 +254,7 @@ void Boss::StopParallax(){
 }
 
 void Boss::AppearingState(float dt){
-    
+
 }
 
 void Boss::RampageAttackState(float dt){
