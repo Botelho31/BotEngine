@@ -177,13 +177,13 @@ void HitBox::NotifyCollision(GameObject& other){
                         if(associated.angleDeg <= 0){
                             HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,true, {15,0});
                         }else{
-                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,true, {15,-25});
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,true, {15,0});
                         }
                     }else{
                         if(associated.angleDeg >= 0){
                             HitEffect(spritefiles["sangue1"],8,0.04,0.32,collisionpoint,false, {-15,0}); //DIREITA
                         }else{
-                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,false, {-15,-25}); //DIREITA
+                            HitEffect(spritefiles["sangue2"],8,0.04,0.32,collisionpoint,false, {-15,0}); //DIREITA
                         }
                     }
                 }

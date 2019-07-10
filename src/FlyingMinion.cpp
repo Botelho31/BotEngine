@@ -64,7 +64,7 @@ FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : C
 
     physics = new Physics(associated,&speed,false,true);
     associated.AddComponent(physics);
-    physics->SetCollider(0.5,0.65,0,0);
+    physics->SetCollider(0.25,0.3,0,0);
 
 }
 
@@ -150,6 +150,7 @@ void FlyingMinion::Update(float dt){
     }
     if(damagetimer->Started()){
         damagetimer->Update(dt);
+        IdleState(dt);
         if(damagetimer->Get() > 0.20){
             damagetimer->Restart();
             if(state == IDLE){
@@ -289,7 +290,6 @@ void FlyingMinion::DefineState(float distanceToPlayer){
     else{
         if(!inRange || (inPosition && !canSpit)){
             newState = IDLE;
-            std::cout << "test" << std::endl;
         }
         else if(inRange && !inPosition){
             newState = POSITIONING;

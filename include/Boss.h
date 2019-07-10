@@ -9,7 +9,7 @@
 
     class Boss : public Component{
         public:
-            enum bossState{IDLE,CHASING,HANDATTACKING,RAMPAGEATTACKING};
+            enum bossState{IDLE,CHASING,HANDATTACKING,RAMPAGEATTACKING,APPEARING};
             Boss(GameObject& associated);
             ~Boss();
             void Start();
@@ -22,6 +22,7 @@
             void RampageAttackState(float dt);
             void IdleState(float dt); //Handles idle state
             void ChasingState(float dt); //Handles chasing state
+            void AppearingState(float dt); //Handles appearing state
 
             void IdleHandle(float dt); //Handles minion Idle
 

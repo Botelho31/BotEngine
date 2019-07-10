@@ -51,14 +51,6 @@ Boss::Boss(GameObject& associated) : Component(associated){
     minionspawntimer = new Timer();
 
     SpawnHead({associated.box.x + 300,associated.box.y + 45}); //520 80 650 150
-
-    // GameObject *handobj = new GameObject();
-    // handobj->box.Transform(associated.box.x + 200,associated.box.y + 750);
-    // Sprite *sprite = new Sprite(*handobj,"assets/img/bossIdlemaorascunho.png");
-    // ParallaxFollower *parallaxfollower2 = new ParallaxFollower(*handobj,0.5);
-    // handobj->AddComponent(parallaxfollower2);
-    // handobj->AddComponent(sprite);
-    // Game::GetInstance().GetCurrentState().AddObject(handobj);
 }
 
 Boss::~Boss(){
@@ -97,6 +89,8 @@ void Boss::Update(float dt){
         case RAMPAGEATTACKING:
             RampageAttackState(dt);
             break;
+        case APPEARING:
+            AppearingState(dt);
         default:
             break;
     }
@@ -257,6 +251,10 @@ void Boss::StopParallax(){
         ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
         parallaxfollower->SetParallax(1);
     }
+}
+
+void Boss::AppearingState(float dt){
+    
 }
 
 void Boss::RampageAttackState(float dt){
