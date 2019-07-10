@@ -7,6 +7,7 @@
 #include "../include/DeadBody.h"
 #include "../include/GameData.h"
 #include "../include/Spike.h"
+#include "../include/Sound.h"
 
 Minion::Minion(GameObject& associated,minionState startingState) : Component(associated){
     speed.x = 0;
@@ -28,6 +29,7 @@ Minion::Minion(GameObject& associated,minionState startingState) : Component(ass
 
     idletimer = new Timer();
     idle = false;
+    alert = false;
 
     state = startingState;
     this->physics = new Physics(associated,&speed,false,true);
@@ -40,6 +42,9 @@ Minion::Minion(GameObject& associated,minionState startingState) : Component(ass
     spritefile.push_back("assets/img/info/minion.txt");
     spritefile.push_back("assets/img/info/effects.txt");
     spritefiles = GameData::GetSpritesFiles(spritefile);
+    std::vector<std::string> soundfile;
+    soundfile.push_back("assets/audio/info/effects.txt");
+    soundfiles = GameData::GetSpritesFiles(soundfile);
     Sprite *minion =  new Sprite(associated,spritefiles["idle"],64,0.04);
     this->minionsprite = minion;
     associated.AddComponent(minion);
@@ -95,10 +100,21 @@ void Minion::Update(float dt){
                 sightangle = minionpos.GetAngle(player.x,player.y);
                 sightline = physics->GetLineBox(minionpos,player,distanceToPlayer);
             }
+
+            if(!alert){
+                alert = true;
+                std::cout << "alert" << std::endl;
+                PlaySoundEffect(soundfiles["minionalert"]);
+            }
         }else{
             sightline.Transform(minionpos.x,minionpos.y);
             sightline.w = 10;
             sightline.h = 10;
+
+            if(alert){
+                alert = false;
+                std::cout << "unalert" << std::endl;
+            }
         }
     }
     switch(state){
@@ -268,6 +284,14 @@ void Minion::AttackState(float distanceToPlayer,float dt){
             }
         }
         SetSprite(spritefiles["attacking"],28,0.04,false);
+        int soundrand = (rand() % 3) + 1;
+        if(soundrand == 1){
+            PlaySoundEffect(soundfiles["bite1"]);
+        }else if(soundrand == 2){
+            PlaySoundEffect(soundfiles["bite2"]);
+        }else{
+            PlaySoundEffect(soundfiles["bite3"]);
+        }
         attacktimer->Delay(dt);
     }else if(!attacktimer->Started() && attackdelay->Started()){
         if((distanceToPlayer >= attackrange) && (distanceToPlayer < sightrange)){
@@ -393,6 +417,14 @@ void Minion::SpriteEffect(std::string file,int frames,float frametime,float dura
     effectObj->box.x = point.x - effectObj->box.w/2;
     effectObj->box.y = point.y - effectObj->box.h/2;
     effectObj->AddComponent(effect);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
+}
+
+void Minion::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
     Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 

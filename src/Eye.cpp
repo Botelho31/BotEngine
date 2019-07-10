@@ -6,6 +6,7 @@
 #include "../include/Minion.h"
 #include "../include/ParallaxFollower.h"
 #include "../include/GameData.h"
+#include "../include/Sound.h"
 
 Eye::Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keepPupilIn) : 
     Component(associated){
@@ -16,6 +17,9 @@ Eye::Eye(GameObject& associated,Circle bounds,Vec2 end,int pupilradius,bool keep
     spritefile.push_back("assets/img/info/eye.txt");
     spritefile.push_back("assets/img/info/effects.txt");
     this->spritefiles = GameData::GetSpritesFiles(spritefile);
+    std::vector<std::string> soundfile;
+    soundfile.push_back("assets/audio/info/effects.txt");
+    this->soundfiles = GameData::GetSpritesFiles(soundfile);
     this->eyelid = new Sprite(associated,spritefiles["transparent"]);
     associated.AddComponent(eyelid);
     associated.box.SetCenter({bounds.x,bounds.y});
@@ -55,6 +59,7 @@ void Eye::Update(float dt){
                 eyepop->Update(dt);
                 if(eyepop->Get() > 1.28){
                     SetSprite(spritefiles["eyeempty"]);
+                    PlaySoundEffect(soundfiles["pop"]);
     
                     GameObject *minionObj =  new GameObject();
                     Minion *minion = new Minion(*minionObj,Minion::FALLINGFROMBOSS);
@@ -260,6 +265,14 @@ void Eye::SetSprite(std::string file,int framecount,float frametime,bool repeat,
         ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
         parallaxfollower->AddOriginalPos({adjustedbox.x - newbox.x,adjustedbox.y - newbox.y});
     }
+}
+
+void Eye::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void Eye::SpawnMinion(){

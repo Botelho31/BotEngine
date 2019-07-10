@@ -15,7 +15,7 @@ TitleState::TitleState(){
     quitRequested = false;
     popRequested = false;
 
-    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belmenumusic.mp3");
+    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belmenu.ogg");
     Game::GetInstance().GetMusic()->Play();
 
     GameObject *titleobj =  new GameObject();

@@ -20,6 +20,7 @@
 
             void SpawnMinion();
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0});
+            void PlaySoundEffect(std::string file,int times = 0);
 
             Vec2 PupilFollow(Vec2 dest,float constspeed,float dt);
             bool GoToEndPoint(float constspeed,float dt);
@@ -41,6 +42,7 @@
             Timer *eyedelay;
 
             std::map<std::string,std::string> spritefiles;
+            std::map<std::string,std::string> soundfiles;
 
             
     };

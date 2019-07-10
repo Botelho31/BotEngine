@@ -11,6 +11,7 @@
 #include "../include/Button.h"
 #include "../include/GameData.h"
 #include "../include/WindowEffects.h"
+#include "../include/Sound.h"
 
 MenuState::MenuState(){
     quitRequested = false;
@@ -78,6 +79,7 @@ void MenuState::Update(float dt){
     }
     else if(loadButton->isSelected()){
         windoweffects->FadeToBlack(1);
+        PlaySoundEffect("assets/audio/effects/startgame.ogg");
     }
     else if(optionsButton->isSelected()){
 
@@ -88,9 +90,12 @@ void MenuState::Update(float dt){
     else if(quitButton->isSelected()){
         quitRequested = true;
     }
+    #ifdef DEBUG
     else if(input->KeyPress(SDLK_SPACE)){
         windoweffects->FadeToBlack(1);
+        PlaySoundEffect("assets/audio/effects/startgame.ogg");
     } 
+    #endif
 
     for(unsigned int i = 0; i < objectArray.size();i++){
         Component *component1 = objectArray[i]->GetComponent("Collider");
@@ -114,6 +119,14 @@ void MenuState::Update(float dt){
     }
 }
 
+void MenuState::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
+}
+
 void MenuState::Render(){
     State::RenderArray();
     windoweffects->Render();
@@ -130,7 +143,7 @@ void MenuState::Resume(){
     optionsButton->Reset();
     quitButton->Reset();
     windoweffects->FadeFromBlack(1);
-    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belmenumusic.mp3");
+    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belmenu.ogg");
     Game::GetInstance().GetMusic()->Play();
 }
 

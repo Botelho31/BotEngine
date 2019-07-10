@@ -28,6 +28,7 @@
 
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0}); //changes the sprite in usage
             void SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point);
+            void PlaySoundEffect(std::string file,int times = 0);
 
             minionState GetState();
             Vec2 GetPosition();
@@ -51,6 +52,7 @@
 
             int gravspeed;
 
+            std::map<std::string,std::string> soundfiles;
             std::map<std::string,std::string> spritefiles;
             Sprite *minionsprite;
             Timer *idletimer;
@@ -64,6 +66,8 @@
             float damageCooldown;
             bool falling;
             bool idle;
+
+            bool alert;
 
             Physics *physics;
 
