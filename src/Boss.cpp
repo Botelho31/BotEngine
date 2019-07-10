@@ -11,6 +11,7 @@
 #include "../include/ParallaxFollower.h"
 #include "../include/InputManager.h"
 #include "../include/BossHand.h"
+#include "../include/Sound.h"
 
 #define BOSSPARALLAX 1.2
 
@@ -35,6 +36,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     returnhandtimer = new Timer();
     damagetimer = new Timer();
     attackdelay = new Timer();
+    appearingtimer = new Timer();
 
     state = APPEARING;
 
@@ -59,6 +61,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
 Boss::~Boss(){
     boss = nullptr;
     bosssprite = nullptr;
+    delete appearingtimer;
     delete invincibilitytimer;
     delete damagetimer;
     delete attacktimer;
@@ -280,10 +283,20 @@ void Boss::StopParallax(){
 }
 
 void Boss::AppearingState(float dt){
-    InputManager *input =  &(InputManager::GetInstance());
-    if(input->KeyPress(SDLK_8)){
-        state = IDLE;
-        std::cout << associated.box.x << " " << associated.box.y << std::endl;
+    if(!appearingtimer->Started()){
+        SpeedUpParallax();
+        Game::GetInstance().GetMusic()->Open("assets/audio/musics/bossintro.ogg");
+        Game::GetInstance().GetMusic()->Play();
+        appearingtimer->Delay(dt);
+    }
+    if(appearingtimer->Started()){
+        appearingtimer->Update(dt);
+        if(appearingtimer->Get() > 10){
+            appearingtimer->Restart();
+            Game::GetInstance().GetMusic()->Open("assets/audio/musics/boss.ogg");
+            Game::GetInstance().GetMusic()->Play();
+            state = IDLE;
+        }
     }
 }
 
@@ -494,6 +507,14 @@ void Boss::IdleState(float dt){
             minionspawntimer->Restart();
         }
     }
+}
+
+void Boss::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void Boss::SpawnHand(Vec2 pos){

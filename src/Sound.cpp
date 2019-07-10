@@ -26,6 +26,9 @@ void Sound::Open(std::string file){
 }
 
 void Sound::Play(int times,bool autodestruct){
+    if(channel > -1){
+        Mix_HaltChannel(channel);
+    }
     channel = Mix_PlayChannel(-1,chunk.get(),times);
     this->autodestruct = autodestruct;
 }
