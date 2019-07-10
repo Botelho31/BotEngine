@@ -19,6 +19,22 @@ Event::Event(GameObject& associated,EventType eventType,Rect box,std::string til
     associated.AddComponent(collider);
 }
 
+Event::Event(GameObject& associated,EventType eventType,Rect box) : 
+    Component(associated){
+    associated.box = box;
+    this->tileMapInfo = "";
+
+    this->eventtimer = new Timer();
+    this->eventduration = 0;
+
+    this->eventType = eventType;
+
+    this->processing = false;
+    
+    Collider *collider = new Collider(associated);
+    associated.AddComponent(collider);
+}
+
 Event::Event(GameObject& associated,EventType eventType,float duration) : 
     Component(associated){
     this->tileMapInfo = "";

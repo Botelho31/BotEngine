@@ -4,7 +4,7 @@
 ParallaxFollower::ParallaxFollower(GameObject& go,float parallax) : Component(go){
     originalpos = Vec2(go.box.x,go.box.y);
     this->parallax = parallax;
-    this->catchParallax = false;
+    this->catchParallax = true;
     this->speed = Vec2(600,600);
 }
 
@@ -15,7 +15,7 @@ void ParallaxFollower::Update(float dt){
     if(parallax != 1){
         if(catchParallax){
             if(Follow({originalpos.x + Camera::pos.x * parallax,associated.box.GetCenter().y},300,dt)){
-                catchParallax = false;
+                catchParallax = true;
             }
         }else{
             associated.box.x = originalpos.x + Camera::pos.x * parallax;

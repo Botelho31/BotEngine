@@ -851,8 +851,11 @@ void Player::NotifyCollision(GameObject& other){
     Component *component = other.GetComponent("Event");
     if(component){
         Event *event = dynamic_cast<Event*>(component);
-        if(!event->IsProcessing() && GameData::playerAlive){
+        if(!event->IsProcessing() && GameData::playerAlive && event->GetType() == Event::PORTAL){
             event->SetProcessing(true);
+            GameData::events.push(event);
+        }
+        if(!event->IsProcessing() && GameData::playerAlive && event->GetType() == Event::BOSSAPPEARS){
             GameData::events.push(event);
         }
     }

@@ -461,6 +461,26 @@ void StageState::HandleEvents(float dt){
                 }
             }
         }
+        else if(GameData::events.front()->GetType() == Event::BOSSAPPEARS){
+            if(!GameData::events.front()->IsProcessing()){
+                GameObject *bossObj = new GameObject();
+                bossObj->box.Transform(70,555);
+                Boss *boss = new Boss(*bossObj);
+                bossObj->AddComponent(boss);
+                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                Game::GetInstance().GetCurrentState().AddObject(bossObj,place);
+
+                GameObject *fakewallObj = new GameObject();
+                FakeWall *fakewall = new FakeWall(*fakewallObj,"assets/img/fakewallbossroom.png",true,2000);
+                fakewallObj->AddComponent(fakewall);
+                fakewallObj->box.Transform(0,1220);
+                int place2 = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                Game::GetInstance().GetCurrentState().AddObject(fakewallObj,place2);
+                GameData::events.front()->SetProcessing(true);
+            }else{
+                GameData::events.pop();
+            }
+        }
     }
 }
 

@@ -265,12 +265,27 @@ void TileMap::SpawnMobs(std::string file){
                 }
                 FileReader >> pos.x;
                 FileReader >> pos.y;
-                GameObject *bossObj = new GameObject();
-                bossObj->box.Transform(pos.x,pos.y);
-                Boss *boss = new Boss(*bossObj);
-                bossObj->AddComponent(boss);
-                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
-                Game::GetInstance().GetCurrentState().AddObject(bossObj,place);
+                // GameObject *bossObj = new GameObject();
+                // bossObj->box.Transform(pos.x,pos.y);
+                // Boss *boss = new Boss(*bossObj);
+                // bossObj->AddComponent(boss);
+                // int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                // Game::GetInstance().GetCurrentState().AddObject(bossObj,place);
+                // GameData::PreLoadSprites("assets/img/info/boss.txt");
+            }
+            else if(checkline == "BossAppears"){
+                Rect box;
+                while(checkline != "eventBox"){
+                    FileReader >> checkline;
+                }
+                FileReader >> box.x;
+                FileReader >> box.y;
+                FileReader >> box.w;
+                FileReader >> box.h;
+                GameObject *eventObj = new GameObject();
+                Event *event = new Event(*eventObj,Event::BOSSAPPEARS,box);
+                eventObj->AddComponent(event);
+                Game::GetInstance().GetCurrentState().AddObject(eventObj);
                 GameData::PreLoadSprites("assets/img/info/boss.txt");
             }
         }

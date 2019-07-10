@@ -18,5 +18,10 @@ Portal
   
 Boss
   [
-    pos 100 555
+    pos 70 555
+  ]
+
+BossAppears
+  [
+    eventBox 1440 1280 200 200
   ]
