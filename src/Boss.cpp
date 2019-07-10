@@ -291,7 +291,7 @@ void Boss::AppearingState(float dt){
     }
     if(appearingtimer->Started()){
         appearingtimer->Update(dt);
-        if(appearingtimer->Get() > 10){
+        if(appearingtimer->Get() > 9){
             appearingtimer->Restart();
             Game::GetInstance().GetMusic()->Open("assets/audio/musics/boss.ogg");
             Game::GetInstance().GetMusic()->Play();

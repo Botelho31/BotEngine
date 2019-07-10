@@ -470,8 +470,6 @@ void StageState::HandleEvents(float dt){
                 int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
                 Game::GetInstance().GetCurrentState().AddObject(bossObj,place);
 
-                boss->SpeedUpParallax();
-
                 GameObject *fakewallObj = new GameObject();
                 FakeWall *fakewall = new FakeWall(*fakewallObj,"assets/img/fakewallbossroom.png",true,2000);
                 fakewallObj->AddComponent(fakewall);

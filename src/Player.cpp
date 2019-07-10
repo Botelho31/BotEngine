@@ -130,7 +130,7 @@ void Player::Update(float dt){
                     SetSprite(spritefiles["idle"],64,0.04);
                 }else{
                     running = true;
-                    SetSprite(spritefiles["walking"],14,0.04);
+                    SetSprite(spritefiles["walking"],19,0.04);
                 }
             }
             else{
@@ -403,7 +403,7 @@ void Player::XMovement(float dt){
             running = false;
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started())  && (!jumpanimation->Started())){
-            SetSprite(spritefiles["walking"],14,0.04);
+            SetSprite(spritefiles["walking"],19,0.04);
             PlaySound(soundfiles["walking"],-1);
             running = true;
         }
@@ -420,7 +420,7 @@ void Player::XMovement(float dt){
             running = false;
         }
         if((running == false) && (physics->IsGrounded()) && (!hittheground->Started())  && (!swordattack->Started()) && (!jumpanimation->Started())){
-            SetSprite(spritefiles["walking"],14,0.04);
+            SetSprite(spritefiles["walking"],19,0.04);
             PlaySound(soundfiles["walking"],-1);
             running = true;
         }
@@ -731,7 +731,7 @@ void Player::Reset(Vec2 speed){
             }else{
                 speed.x = -600;
             }
-            SetSprite(spritefiles["walking"],14,0.04);
+            SetSprite(spritefiles["walking"],19,0.04);
         }else{
             SetSprite(spritefiles["idle"],64,0.04);
         }

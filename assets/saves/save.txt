@@ -1,11 +1,11 @@
 Save
 	[
-		mapInfo assets/map/info/EntryRoom.txt
-		playerPos 626.829 1530.08
-		playerLife 30
+		mapInfo assets/map/info/BOSSROOM.txt
+		playerPos 1739.18 1380.03
+		playerLife 10
 		playerMana 100
-		checkpointPos 330 1990
-		checkpointPosSpeed 600 -1006
+		checkpointPos 20 1380
+		checkpointPosSpeed 600 0
 	]
 ListOfDiscoveredMaps
 	[
@@ -23,6 +23,22 @@ ListOfDiscoveredMaps
 	]
 ListOfDiscoveredSouls
 	[
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
+		5
 		5
 		5
 		5
