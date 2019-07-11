@@ -28,6 +28,7 @@
 #include "../include/BackGround.h"
 #include "../include/HUD.h"
 #include "../include/GameOverState.h"
+#include "../include/ConquistaState.h"
 
 bool StageState::changingMap;
 bool StageState::mapcollision;
@@ -466,12 +467,9 @@ void StageState::HandleEvents(float dt){
                 GameData::events.front()->Update(dt);
             }
             if(GameData::events.front()->IsEventTimerOver()){
-                InputManager *input = &(InputManager::GetInstance());
-                if(input->KeyPress(SDLK_SPACE)){
-                    windoweffects->DimScreen(0.5,0);
-                    pause = false;
-                    GameData::events.pop();
-                }
+                ConquistaState *pausestate = new ConquistaState(this,"assets/img/HUD/excaliberto.png",{346,225});
+                Game::GetInstance().Push(pausestate);
+                GameData::events.pop();
             }
         }
         else if(GameData::events.front()->GetType() == Event::PLAYERGETSDOUBLEJUMP){
@@ -482,12 +480,9 @@ void StageState::HandleEvents(float dt){
                 GameData::events.front()->Update(dt);
             }
             if(GameData::events.front()->IsEventTimerOver()){
-                InputManager *input = &(InputManager::GetInstance());
-                if(input->KeyPress(SDLK_SPACE)){
-                    windoweffects->DimScreen(0.5,0);
-                    pause = false;
-                    GameData::events.pop();
-                }
+                ConquistaState *pausestate = new ConquistaState(this,"assets/img/HUD/puloduplo.png",{354,374});
+                Game::GetInstance().Push(pausestate);
+                GameData::events.pop();
             }
         }
         else if(GameData::events.front()->GetType() == Event::BOSSAPPEARS){

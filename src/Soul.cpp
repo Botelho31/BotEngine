@@ -29,7 +29,7 @@ void Soul::Update(float dt){
             if(GameData::listOfDiscoveredSouls.size() == 3){
                 GameData::playerSword = true; //WHERE PLAYER GETS SWORD
                 GameObject* swordeventObj = new GameObject();
-                Event *swordevent = new Event(*swordeventObj,Event::PLAYERGETSSWORD,2);
+                Event *swordevent = new Event(*swordeventObj,Event::PLAYERGETSSWORD,0.5);
                 swordeventObj->AddComponent(swordevent);
                 GameData::events.push(swordevent);
                 if(Player::player){
@@ -42,7 +42,7 @@ void Soul::Update(float dt){
             if(GameData::listOfDiscoveredSouls.size() == 6){
                 GameData::playerDoubleJump = true; //WHERE PLAYER GETS DoubleJump
                 GameObject* jumpeventObj = new GameObject();
-                Event *jumpevent = new Event(*jumpeventObj,Event::PLAYERGETSDOUBLEJUMP,2);
+                Event *jumpevent = new Event(*jumpeventObj,Event::PLAYERGETSDOUBLEJUMP,0.5);
                 jumpeventObj->AddComponent(jumpevent);
                 GameData::events.push(jumpevent);
             }

@@ -1,11 +1,11 @@
 Save
 	[
-		mapInfo assets/map/info/MiddleTerm.txt
-		playerPos 1098.4 4179.62
+		mapInfo assets/map/info/Room-1.txt
+		playerPos 1646.75 280.431
 		playerLife 70
 		playerMana 100
-		checkpointPos 970 0
-		checkpointPosSpeed 0 1124
+		checkpointPos 1710 295
+		checkpointPosSpeed 0 0
 	]
 ListOfDiscoveredMaps
 	[
@@ -23,16 +23,10 @@ ListOfDiscoveredMaps
 	]
 ListOfDiscoveredSouls
 	[
-		1
 		2
 		3
+		4
+		5
+		6
 		1
-		2
-		3
-		1
-		2
-		3
-		1
-		2
-		3
 	]
