@@ -186,8 +186,8 @@ void GameData::LoadGame(){
                     playerDoubleJump = true;
                 }
                 #ifdef DEBUG
-                    // playerSword = true;
-                    // playerDoubleJump = true;
+                    playerSword = true;
+                    playerDoubleJump = true;
                 #endif    
             }
         }

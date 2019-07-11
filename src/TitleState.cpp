@@ -24,11 +24,18 @@ TitleState::TitleState(){
     Game::GetInstance().GetMusic()->Play();
 
     GameObject *titleobj =  new GameObject();
-    Sprite *title = new Sprite(*titleobj,"assets/img/HUD/titlescreen2.png");
+    Sprite *title = new Sprite(*titleobj,"assets/img/HUD/startscreen.jpg");
     titleobj->box.x = 0;
     titleobj->box.y = 0;
     titleobj->AddComponent(title);
     AddObject(titleobj);
+
+    GameObject *rebellioobj =  new GameObject();
+    Sprite *rebellio = new Sprite(*rebellioobj,"assets/img/HUD/rebelliostart.png");
+    rebellioobj->box.x = 212;
+    rebellioobj->box.y = -40;
+    rebellioobj->AddComponent(rebellio);
+    AddObject(rebellioobj);
 
     GameObject *mousePointerObj = new GameObject();
     MousePointer *mousepointer = new MousePointer(*mousePointerObj);
@@ -59,6 +66,9 @@ void TitleState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     State::UpdateArray(dt);
 
+    if(input->IsKeyDown(SDLK_5)){
+        std::cout << input->GetMouseX() << " " << input->GetMouseY() << std::endl;
+    }
     if(playButton->isSelected()){
         PlaySoundEffect("assets/audio/effects/select.wav");
         Game::GetInstance().Push(new MenuState());

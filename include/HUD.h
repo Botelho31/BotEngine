@@ -18,10 +18,15 @@
             void Render();
             bool Is(std::string type);
         private:
-            TileSet *life;
             GameObject* belicon;
-            GameObject* bar;
+            GameObject* healthicon;
+            GameObject* manaicon;
+            GameObject* manabarObj;
+            GameObject* healthbarObj;
+            GameObject* bossbarObj;
             StatBar* manabar;
+            StatBar* healthbar;
+            StatBar* bossbar;
     };
 
 #endif

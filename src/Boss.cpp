@@ -27,7 +27,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     speed.y = 0;
     gravspeed = 2000;
 
-    hp = 800;
+    hp = BOSSHP;
     attackrange = 150;
     sightrange = 500;
     damageCooldown = 0;
@@ -571,11 +571,6 @@ void Boss::Render(){
         WindowEffects::DrawBox(sightline,sightangle,255,0,0);
 	}
     #endif // DEBUG
-
-    Rect lifebar =  Rect((Camera::window.x - hp*2)/2,Camera::window.y - 80,hp*2,50);
-
-    WindowEffects::FillRect(lifebar,0,0,0,255);
-    WindowEffects::FillRect(lifebar.Added(6,6,-12,-12),255,0,0,255);
 }
 
 bool Boss::Is(std::string type){
@@ -584,6 +579,10 @@ bool Boss::Is(std::string type){
     }else{
         return false;
     }
+}
+
+int Boss::GetHP(){
+    return hp;
 }
 
 Boss::bossState Boss::GetState(){

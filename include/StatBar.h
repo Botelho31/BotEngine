@@ -11,7 +11,7 @@
 
     class StatBar : public Component{
         public:
-            StatBar(GameObject& associated,std::string emptybarfile,std::string fullbarfile,Vec2 tilesize,int perblockratio,int max);
+            StatBar(GameObject& associated,std::string emptybarfile,std::string fullbarfile,Vec2 tilesize,int max);
             ~StatBar();
             void Update(float dt);
             void Render();
@@ -26,7 +26,7 @@
             int perblockratio;
             int max;
             int current;
-            TileSet *emptybartileset;
+            GameObject *emptybar;
             TileSet *fullbartileset;
     };
 

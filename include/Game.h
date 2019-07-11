@@ -39,6 +39,8 @@
   #define MINIONHP 60
   #define MINIONDAMAGE 10
 
+  #define BOSSHP 1000
+
   class Game {
 
     public:

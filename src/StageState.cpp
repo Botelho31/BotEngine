@@ -101,6 +101,9 @@ void StageState::Update(float dt){
         if(input->KeyPress(SDLK_4)){
             Camera::ShakeScreen(1,200);
         }
+        if(input->KeyPress(SDLK_8)){
+            std::cout << input->GetMouseX()*2 << " " << input->GetMouseY()*2 << std::endl;
+        }
         if(showfps){
             std::stringstream fpsstring;
             fpsstring << (int)(1/dt);

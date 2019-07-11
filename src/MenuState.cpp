@@ -25,6 +25,13 @@ MenuState::MenuState(){
     titleobj->AddComponent(title);
     AddObject(titleobj);
 
+    GameObject *rebellioobj =  new GameObject();
+    Sprite *rebellio = new Sprite(*rebellioobj,"assets/img/HUD/rebelliomenu.png");
+    rebellioobj->box.x = 399;
+    rebellioobj->box.y = -50;
+    rebellioobj->AddComponent(rebellio);
+    AddObject(rebellioobj);
+
     GameObject *mousePointerObj = new GameObject();
     MousePointer *mousepointer = new MousePointer(*mousePointerObj);
     mousePointerObj->AddComponent(mousepointer);

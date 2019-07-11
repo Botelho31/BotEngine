@@ -47,7 +47,8 @@
             void StopParallax();
             void CatchParallax();
 
-            bossState GetState();            
+            bossState GetState();    
+            int GetHP();        
 
             static void HandHitbox(GameObject &hitbox,GameObject& owner,float dt); //Logic for hitbox function of the hand
 
