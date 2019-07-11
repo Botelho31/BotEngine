@@ -27,6 +27,7 @@
 #include "../include/Spike.h"
 #include "../include/BackGround.h"
 #include "../include/HUD.h"
+#include "../include/GameOverState.h"
 
 bool StageState::changingMap;
 bool StageState::mapcollision;
@@ -45,9 +46,11 @@ StageState::StageState(){
     pause = false;
     windoweffects = new WindowEffects();
     changingMapTimer = new Timer();
+    deathtimer = new Timer();
 }
 
 StageState::~StageState(){
+    delete deathtimer;
     delete windoweffects;
     delete changingMapTimer;
     backgroundMusic = nullptr;
@@ -390,26 +393,41 @@ void StageState::HandleEvents(float dt){
             GameData::events.front()->Update(dt);
             if(GameData::events.front()->IsEventTimerOver()){
                 if(!windoweffects->Drawing()){
-                    windoweffects->FadeToBlack(2);
+                    windoweffects->DimScreen(1,122);
+                    deathtimer->Delay(dt);
                 }
-                if(windoweffects->IsBlack()){
-                    mapcollision = false;
-                    changingMap = true;
-                    Camera::UnFollow();
-                    ClearMobs();
-                    tilemap->ExchangeMap(GameData::checkpointMapInfo);
-                    this->initialtiles = TileMap::tiles.size();
-                    Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
-                    if(GameData::checkpointPosSpeed.y < -100){
-                        GameData::checkpointPosSpeed.y = -900;
+                if(deathtimer->Started()){
+                    deathtimer->Update(dt);
+                    if(deathtimer->Get() >= 1){
+                        GameOverState *pausestate = new GameOverState(this);
+                        Game::GetInstance().Push(pausestate);
+                        GameData::events.pop();
+                        deathtimer->Restart();
                     }
-                    Player::player->KeepStill(false);
-                    Player::player->SetInvincibility(false);
-                    Player::player->Reset(GameData::checkpointPosSpeed);
-                    GameData::playerAlive = true;
-                    GameData::events.pop();
-                    Camera::Follow(Player::player->GetAssociated());
                 }
+            }
+        }
+        else if(GameData::events.front()->GetType() == Event::PLAYERUNDEATH){
+            if(windoweffects->GetCurrentEffect() == WindowEffects::DIMSCREEN){
+                windoweffects->FadeToBlack(1);
+            }
+            if(windoweffects->IsBlack()){
+                mapcollision = false;
+                changingMap = true;
+                Camera::UnFollow();
+                ClearMobs();
+                tilemap->ExchangeMap(GameData::checkpointMapInfo);
+                this->initialtiles = TileMap::tiles.size();
+                Player::player->MovePlayer(GameData::checkpointPos.x,GameData::checkpointPos.y,false);
+                if(GameData::checkpointPosSpeed.y < -100){
+                    GameData::checkpointPosSpeed.y = -900;
+                }
+                Player::player->KeepStill(false);
+                Player::player->SetInvincibility(false);
+                Player::player->Reset(GameData::checkpointPosSpeed);
+                GameData::playerAlive = true;
+                GameData::events.pop();
+                Camera::Follow(Player::player->GetAssociated());
             }
         }
         else if(GameData::events.front()->GetType() == Event::PAUSE){
@@ -563,11 +581,18 @@ void StageState::Pause(){
 }
 
 void StageState::Resume(){
-    Camera::Follow(Player::player->GetAssociated());
-    GameObject* unpauseeventObj = new GameObject();
-    Event *unpauseevent = new Event(*unpauseeventObj,Event::UNPAUSE,0.5);
-    unpauseeventObj->AddComponent(unpauseevent);
-    GameData::events.push(unpauseevent);
+    if(GameData::playerAlive){
+        Camera::Follow(Player::player->GetAssociated());
+        GameObject* unpauseeventObj = new GameObject();
+        Event *unpauseevent = new Event(*unpauseeventObj,Event::UNPAUSE,0.5);
+        unpauseeventObj->AddComponent(unpauseevent);
+        GameData::events.push(unpauseevent);
+    }else{
+        GameObject* unpauseeventObj = new GameObject();
+        Event *unpauseevent = new Event(*unpauseeventObj,Event::PLAYERUNDEATH,1);
+        unpauseeventObj->AddComponent(unpauseevent);
+        GameData::events.push(unpauseevent);
+    }
 }
 
 bool StageState::MapCollisionLoaded(){

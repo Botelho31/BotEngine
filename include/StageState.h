@@ -46,6 +46,7 @@
 
             bool returnToMenu;
 
+            Timer *deathtimer;
             Music *backgroundMusic;
             GameObject *loadingIcon;
             Timer *changingMapTimer; //Timer to allow player to move freely after entering new map
