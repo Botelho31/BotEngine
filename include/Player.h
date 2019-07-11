@@ -86,8 +86,10 @@
             Timer *hittheground;
             Timer *jumpanimation;
             Timer *doublejumpanimation;
+            Timer *walljumpanimation;
             bool falling;
             bool doublejump;
+            bool walldrag;
 
             Timer *idletimer;
             bool idle;

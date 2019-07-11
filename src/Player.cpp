@@ -31,8 +31,10 @@ Player::Player(GameObject& associated) : Component(associated){
     hittheground = new Timer();
     jumpanimation =  new Timer();
     doublejumpanimation = new Timer();
+    walljumpanimation = new Timer();
     falling = false;
     doublejump = false;
+    walldrag = false;
 
     swordarc = -1;
     asword = (PI*2);
@@ -92,6 +94,7 @@ Player::~Player(){
     delete jumpanimation;
     delete runningstoptimer;
     delete doublejumpanimation;
+    delete walljumpanimation;
 }
 
 void Player::Start(){
@@ -482,13 +485,21 @@ void Player::YMovement(float dt){
             PlaySoundEffect(soundfiles["hittheground"]);
             hittheground->Delay(dt);
         }
-    }else if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started())){
+    }
+    if((!physics->IsGrounded()) && (speed.y > 0) && (!swordattack->Started()) && !walljumpanimation->Started() && !doublejumpanimation->Started() && !jumpanimation->Started()){
         if(physics->IsRight(1,false)){
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w,collider.y);
             if((smoke1.GetDistance(cachepoint.x,cachepoint.y) >= 30) && physics->IsColliding(Rect(smoke1.Added(1,0),1,1))){
                 SpriteEffect(spritefiles["smoke2"],6,0.05,0.25,smoke1);
                 cachepoint = smoke1;
+            }
+            if(!walldrag){
+                walldrag = true;
+                SetSprite(spritefiles["walldrag"],8,0.03);
+                if(playersprite->IsFlipped()){
+                    playersprite->Flip();
+                }
             }
         }
         if(physics->IsLeft(1,false)){
@@ -498,7 +509,16 @@ void Player::YMovement(float dt){
                 SpriteEffect(spritefiles["smoke2"],6,0.05,0.25,smoke1);
                 cachepoint = smoke1;
             }
+            if(!walldrag){
+                walldrag = true;
+                SetSprite(spritefiles["walldrag"],8,0.03);
+                if(!playersprite->IsFlipped()){
+                    playersprite->Flip();
+                }
+            }
         }
+    }else{
+        walldrag = false;
     }
 
     if(hittheground->Started()){
@@ -533,6 +553,11 @@ void Player::YMovement(float dt){
                 speed.y = ajump;
                 speed.x = -awalljump;
                 doublejump = false;
+                SetSprite(spritefiles["walljump"],10,0.02,false);
+                walljumpanimation->Delay(dt);
+                if(playersprite->IsFlipped()){
+                    playersprite->Flip();
+                }
             }else if(physics->IsLeft(1,false)){
                 Rect collider = physics->GetCollider()->box;
                 Vec2 smoke1 = Vec2(collider.x,collider.y);
@@ -546,6 +571,11 @@ void Player::YMovement(float dt){
                 speed.y = ajump;
                 speed.x = awalljump;
                 doublejump = false;
+                SetSprite(spritefiles["walljump"],10,0.02,false);
+                walljumpanimation->Delay(dt);
+                if(!playersprite->IsFlipped()){
+                    playersprite->Flip();
+                }
             }else{
                 if(doublejump && GameData::playerDoubleJump){
                     SetSprite(spritefiles["jumping"],15,0.04,false);
@@ -589,6 +619,22 @@ void Player::YMovement(float dt){
         }
     }
 
+    //Wall jump logic
+    if(walljumpanimation->Started()){
+        walljumpanimation->Update(dt);
+        if((physics->IsGrounded() || (speed.y >= 0))){
+            falling = true;
+            SetSprite(spritefiles["falling"],8,0.04);
+            walljumpanimation->Restart();
+        }
+        if(walljumpanimation->Get() >= 0.6){
+            if(!physics->IsGrounded() && !swordattack->Started()){
+                falling = true;
+                SetSprite(spritefiles["falling"],8,0.04);
+            }
+            walljumpanimation->Restart();
+        }
+    }
     //Double jump logic
 
     if(doublejumpanimation->Started()){
@@ -599,6 +645,7 @@ void Player::YMovement(float dt){
             doublejumpanimation->Restart();
         }
         if(doublejumpanimation->Get() >= 0.6){
+            doublejumpanimation->Restart();
             if(!physics->IsGrounded() && !swordattack->Started()){
                 falling = true;
                 SetSprite(spritefiles["falling"],8,0.04);
@@ -608,6 +655,10 @@ void Player::YMovement(float dt){
 
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,11) > 10) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
+        SetSprite(spritefiles["falling"],8,0.04);
+        falling = true;
+    }
+    if(walldrag && !(physics->IsRight(1,false)) && !(physics->IsLeft(1,false)) && (!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,11) > 10) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
         SetSprite(spritefiles["falling"],8,0.04);
         falling = true;
     }

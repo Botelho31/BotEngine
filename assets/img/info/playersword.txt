@@ -6,6 +6,8 @@
     damage assets/img/Bel/beldamage.png
     dead assets/img/Bel/beldeath.png
     falling assets/img/Bel/belfreefalling.png
+    walldrag assets/img/Bel/belwalldrag.png
+    walljump assets/img/Bel/belwalljump.png
     attacking1 assets/img/Bel/belattack1.png
     attacking2 assets/img/Bel/belattack2.png
     attacking3 assets/img/Bel/belattack3.png
