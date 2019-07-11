@@ -1,6 +1,7 @@
 #include "../include/Soul.h"
 #include "../include/GameData.h"
 #include "../include/Sound.h"
+#include "../include/Player.h"
 
 Soul::Soul(GameObject& associated,int soulID) : Component(associated){
     this->soulID = soulID;
@@ -23,7 +24,7 @@ Soul::~Soul(){
 void Soul::Update(float dt){
     if(catchinganimation->Started()){
         catchinganimation->Update(dt);
-        if(catchinganimation->Get() > 14){
+        if(catchinganimation->Get() > 1){
             catchinganimation->Restart();
             if(GameData::listOfDiscoveredSouls.size() == 3){
                 GameData::playerSword = true; //WHERE PLAYER GETS SWORD
@@ -31,6 +32,12 @@ void Soul::Update(float dt){
                 Event *swordevent = new Event(*swordeventObj,Event::PLAYERGETSSWORD,2);
                 swordeventObj->AddComponent(swordevent);
                 GameData::events.push(swordevent);
+                if(Player::player){
+                    std::vector<std::string> spritefile;
+                    spritefile.push_back("assets/img/info/playersword.txt");
+                    spritefile.push_back("assets/img/info/effects.txt");
+                    Player::player->LoadSpriteFiles(spritefile);
+                }
             }
             if(GameData::listOfDiscoveredSouls.size() == 6){
                 GameData::playerDoubleJump = true; //WHERE PLAYER GETS DoubleJump
@@ -60,7 +67,7 @@ void Soul::NotifyCollision(GameObject& other){
     if(!catched){
         Component *component = other.GetComponent("Player");
         if(component){
-            PlaySound("assets/audio/effects/almasound.ogg",1);
+            PlaySoundEffect("assets/audio/effects/almasound.ogg");
             std::cout << "Catched soul" << std::endl;
             catched = true;
             catchinganimation->Delay(0);
@@ -73,17 +80,12 @@ void Soul::NotifyCollision(GameObject& other){
     }
 }
 
-void Soul::PlaySound(std::string file,int times){
-    Component *soundcomp = associated.GetComponent("Sound");
-    if(soundcomp){
-        Sound *sound = dynamic_cast<Sound*>(soundcomp);
-        sound->Open(file);
-        sound->Play(times);
-    }else{
-        Sound *sound = new Sound(associated,file);
-        sound->Play(times);
-        associated.AddComponent(sound);
-    }
+void Soul::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 

@@ -190,7 +190,7 @@ void FlyingMinion::DamageFlyingMinion(int damage){
 
 void FlyingMinion::KillFlyingMinion(){
     GameObject *deadObj = new GameObject();
-    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["body"],1,1,0,false,true);
+    Sprite *deadsprite = new Sprite(*deadObj,spritefiles["body"],6,0.04,0,false,true);
     DeadBody *deadbody = new DeadBody(*deadObj,speed,deadsprite,Vec2(0.5,0.35),Vec2(0,0),false);
     deadObj->AddComponent(deadbody);
     deadObj->box.SetCenter(associated.box.GetCenter().Added(0,0));

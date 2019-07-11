@@ -61,7 +61,11 @@ Player::Player(GameObject& associated) : Component(associated){
     associated.AddComponent(physics);
 
     std::vector<std::string> spritefile;
-    spritefile.push_back("assets/img/info/player.txt");
+    if(GameData::playerSword){
+        spritefile.push_back("assets/img/info/playersword.txt");
+    }else{
+        spritefile.push_back("assets/img/info/player.txt");
+    }
     spritefile.push_back("assets/img/info/effects.txt");
     this->spritefiles = GameData::GetSpritesFiles(spritefile);
     std::vector<std::string> soundfile;
@@ -106,7 +110,6 @@ void Player::Update(float dt){
             }
         }
     #endif
-
     if(GameData::playerSword){
         AttackHandle(dt);//HANDLING ATTACK
     }
@@ -135,7 +138,7 @@ void Player::Update(float dt){
             }
             else{
                 falling = true;
-                SetSprite(spritefiles["falling"],4,0.04);
+                SetSprite(spritefiles["falling"],8,0.04);
             }
         }
     }
@@ -351,7 +354,7 @@ void Player::AttackHandle(float dt){
             if(physics->IsGrounded()){
                 SetSprite(spritefiles["idle"],64,0.04);
             }else{
-                SetSprite(spritefiles["falling"],4,0.04);
+                SetSprite(spritefiles["falling"],8,0.04);
             }
             swordattack->Restart();
             StopSound();
@@ -471,7 +474,7 @@ void Player::YMovement(float dt){
     if((physics->IsGrounded()) && falling){
         falling = false;
         if(!swordattack->Started() && !hittheground->Started()){
-            SetSprite(spritefiles["hittheground"],4,0.04,false,{0,0});
+            SetSprite(spritefiles["hittheground"],8,0.02,false,{0,0});
 
             Rect collider = physics->GetCollider()->box;
             Vec2 smoke1 = Vec2(collider.x + collider.w/2,collider.y + collider.h - 20);
@@ -581,7 +584,7 @@ void Player::YMovement(float dt){
             doublejump = true;
             if(!physics->IsGrounded() && !swordattack->Started()){
                 falling = true;
-                SetSprite(spritefiles["falling"],4,0.04);
+                SetSprite(spritefiles["falling"],8,0.04);
             }
         }
     }
@@ -592,20 +595,20 @@ void Player::YMovement(float dt){
         doublejumpanimation->Update(dt);
         if((physics->IsGrounded() || (speed.y >= 0))){
             falling = true;
-            SetSprite(spritefiles["falling"],4,0.04);
+            SetSprite(spritefiles["falling"],8,0.04);
             doublejumpanimation->Restart();
         }
         if(doublejumpanimation->Get() >= 0.6){
             if(!physics->IsGrounded() && !swordattack->Started()){
                 falling = true;
-                SetSprite(spritefiles["falling"],4,0.04);
+                SetSprite(spritefiles["falling"],8,0.04);
             }
         }
     }
 
     //Handles when it is falling
     if((!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,11) > 10) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
-        SetSprite(spritefiles["falling"],4,0.04);
+        SetSprite(spritefiles["falling"],8,0.04);
         falling = true;
     }
 
@@ -614,6 +617,9 @@ void Player::YMovement(float dt){
     //GRAVITY
     if(!jumpsquat->Started()){
         physics->PerformGravity(gravspeed,dt);
+        if(speed.y >= 2000){
+            speed.y = 2000;
+        }
     }
 }
 
@@ -738,7 +744,7 @@ void Player::Reset(Vec2 speed){
     }
     else{
         falling = true;
-        SetSprite(spritefiles["falling"],4,0.04);
+        SetSprite(spritefiles["falling"],8,0.04);
     }
 }
 
@@ -880,6 +886,10 @@ Vec2 Player::GetPosition(){
 
 void Player::StopControl(){
     control = false;
+}
+
+void Player::LoadSpriteFiles(std::vector<std::string> spritefile){
+    this->spritefiles = GameData::GetSpritesFiles(spritefile);
 }
 
 float Player::GetPlayerAngle(){

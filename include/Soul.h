@@ -18,7 +18,7 @@
             bool Is(std::string type);
             void NotifyCollision(GameObject& other);
 
-            void PlaySound(std::string file,int times);
+            void PlaySoundEffect(std::string file,int times = 0);
 
             void SetSprite(std::string file,int framecount = 1,float frametime = 1,bool repeat = true,Vec2 offset = {0,0});
 

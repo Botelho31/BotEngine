@@ -46,7 +46,7 @@
             void KnockBack(Rect hitbox,Vec2 knockback);
 
             void StopControl();
-
+            void LoadSpriteFiles(std::vector<std::string> spritefile);
 
             void InstanceHitbox();
             void InstanceProjectileHitbox();
