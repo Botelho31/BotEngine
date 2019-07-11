@@ -34,6 +34,7 @@ bool StageState::loadedTileColliders;
 BackGround * StageState::background;
 
 StageState::StageState(){
+    returnToMenu = false;
     quitRequested = false;
     popRequested = false;
     started = false;
@@ -63,6 +64,10 @@ StageState::~StageState(){
 
 void StageState::LoadAssets(){
 
+}
+
+void StageState::ReturnToMenu(){
+    returnToMenu = true;
 }
 
 void StageState::Update(float dt){
@@ -113,7 +118,10 @@ void StageState::Update(float dt){
         }
     //FOR DEBUGGING REASONS SPAWNS MINION ON 6
     #endif
-
+    if(returnToMenu){
+        std::cout << "test" << std::endl;
+        popRequested = true;
+    }
 	if(input->QuitRequested()){
 		quitRequested = true;
 	}
@@ -407,12 +415,12 @@ void StageState::HandleEvents(float dt){
         else if(GameData::events.front()->GetType() == Event::PAUSE){
             pause = true;
             if(!windoweffects->Drawing()){
-                windoweffects->DimScreen(0.5,122);
+                windoweffects->DimScreen(0.25,122);
             }else{
                 GameData::events.front()->Update(dt);
             }
             if(GameData::events.front()->IsEventTimerOver()){
-                PauseState *pausestate = new PauseState();
+                PauseState *pausestate = new PauseState(this);
                 Game::GetInstance().Push(pausestate);
                 GameData::events.pop();
             }
@@ -555,6 +563,7 @@ void StageState::Pause(){
 }
 
 void StageState::Resume(){
+    Camera::Follow(Player::player->GetAssociated());
     GameObject* unpauseeventObj = new GameObject();
     Event *unpauseevent = new Event(*unpauseeventObj,Event::UNPAUSE,0.5);
     unpauseeventObj->AddComponent(unpauseevent);

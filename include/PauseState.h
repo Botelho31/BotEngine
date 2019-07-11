@@ -6,10 +6,12 @@
     #define PAUSESTATE_H
     #include "Timer.h"
     #include "WindowEffects.h"
+    #include "Button.h"
+    #include "StageState.h"
 
     class PauseState : public State{
         public:
-            PauseState();
+            PauseState(StageState *stagestate);
             ~PauseState();
             void LoadAssets();
             void Update(float dt);
@@ -19,6 +21,10 @@
             void Resume();
             void Pause();
         private:
+            Button *continueButton;
+            Button *returnToMenuButton;
+            GameObject *screenObj;
+            StageState *stagestate;
     };
 
 #endif

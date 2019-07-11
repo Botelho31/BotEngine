@@ -16,7 +16,7 @@ MousePointer::~MousePointer(){
 
 void MousePointer::Update(float dt){
     InputManager *input = &(InputManager::GetInstance());
-    Vec2 mouse = Vec2(input->GetMouseX() * 2,input->GetMouseY() * 2);
+    Vec2 mouse = Vec2(input->GetMouseX() * 2 + Camera::pos.x,input->GetMouseY() * 2 + Camera::pos.y);
     associated.box.SetCenter(mouse);
     if(input->IsKeyDown(SDLK_EQUALS)){
         std::cout << mouse.x << " " << mouse.y << std::endl;

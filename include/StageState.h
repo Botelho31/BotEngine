@@ -36,12 +36,15 @@
 
             static void ChangeBackground(std::string file,bool parallax = true,Vec2 scale = {1,1},bool camfollower = false);
             void ChangeMusic(std::string file);
+            void ReturnToMenu();
         private:
             TileSet *tileset;
             bool showfps;
             Text *fps;
             WindowEffects *windoweffects;
             GameObject* HUDdisplay;
+
+            bool returnToMenu;
 
             Music *backgroundMusic;
             GameObject *loadingIcon;
