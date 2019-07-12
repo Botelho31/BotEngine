@@ -102,6 +102,8 @@
 
             std::weak_ptr<GameObject> headhitbox;
             std::weak_ptr<GameObject> hand;
+
+            bool rampage1,rampage2,rampage3; 
     };
 
 #endif

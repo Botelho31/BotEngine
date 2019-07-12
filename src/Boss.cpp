@@ -23,6 +23,9 @@
 Boss *Boss::boss;
 
 Boss::Boss(GameObject& associated) : Component(associated){
+    rampage1 = false;
+    rampage2 = false;
+    rampage3 = false;
     boss = this;
     bossrisehalf = false;
     bossrisetimer = new Timer();
@@ -86,6 +89,7 @@ Boss::~Boss(){
     if(!hand.expired()){
         DestroyHand();
     }
+    Game::GetInstance().GetMusic()->Stop();
 }
 
 void Boss::Start(){
@@ -639,14 +643,27 @@ void Boss::IdleState(float dt){
             this->state = BITING;
             StopParallax();
         }
-    }
-
-
-    if(input->KeyPress(SDLK_8)){
-        Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
-        std::cout << mousepos.x - associated.box.x << " " << mousepos.y - associated.box.y << std::endl;
-        this->state = RAMPAGEATTACKING;
-        StopParallax();
+        if(hp <= (BOSSHP - (BOSSHP/3))){
+            if(!rampage1){
+                rampage1 = true;
+                state = RAMPAGEATTACKING;
+                StopParallax();
+            }
+        }
+        if(hp <= (BOSSHP - (BOSSHP/3)*2)){
+            if(!rampage2){
+                rampage2 = true;
+                state = RAMPAGEATTACKING;
+                StopParallax();
+            }
+        }
+        if(hp <= (BOSSHP - ((BOSSHP/3)*3) + 100)){
+            if(!rampage3){
+                rampage3 = true;
+                state = RAMPAGEATTACKING;
+                StopParallax();
+            }
+        }
     }
 
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
