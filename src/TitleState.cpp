@@ -12,6 +12,7 @@
 #include "../include/MenuState.h"
 #include "../include/GameData.h"
 #include "../include/Sound.h"
+#include "../include/Rotating.h"
 
 TitleState::TitleState(){
     quitRequested = false;
@@ -36,6 +37,36 @@ TitleState::TitleState(){
     rebellioobj->box.y = -40;
     rebellioobj->AddComponent(rebellio);
     AddObject(rebellioobj);
+
+    //START CIRCLES
+    // GameObject *circleobj =  new GameObject();
+    // Sprite *circle = new Sprite(*circleobj,"assets/img/HUD/circlestart.png");
+    // circleobj->box.x = 212;
+    // circleobj->box.y = -40;
+    // Rotating *rotating1 = new Rotating(*circleobj,5);
+    // circleobj->AddComponent(rotating1);
+    // circleobj->AddComponent(circle);
+    // AddObject(circleobj);
+
+    // GameObject *circle2obj =  new GameObject();
+    // Sprite *circle2 = new Sprite(*circle2obj,"assets/img/HUD/circle2start.png");
+    // circle2obj->box.x = 212;
+    // circle2obj->box.y = -40;
+    // Rotating *rotating2 = new Rotating(*circleobj,5);
+    // circleobj->AddComponent(rotating2);
+    // circle2obj->AddComponent(circle2);
+    // AddObject(circle2obj);
+
+    // GameObject *circle3obj =  new GameObject();
+    // Sprite *circle3 = new Sprite(*circle3obj,"assets/img/HUD/circle3start.png");
+    // circle3obj->box.x = 212;
+    // circle3obj->box.y = -40;
+    // Rotating *rotating3 = new Rotating(*circleobj,5);
+    // circle3obj->AddComponent(rotating3);
+    // circle3obj->AddComponent(circle3);
+    // AddObject(circle3obj);
+
+    //END CIRCLES
 
     GameObject *mousePointerObj = new GameObject();
     MousePointer *mousepointer = new MousePointer(*mousePointerObj);

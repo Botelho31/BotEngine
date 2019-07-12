@@ -28,7 +28,7 @@ MenuState::MenuState(){
     GameObject *rebellioobj =  new GameObject();
     Sprite *rebellio = new Sprite(*rebellioobj,"assets/img/HUD/rebelliomenu.png");
     rebellioobj->box.x = 399;
-    rebellioobj->box.y = -50;
+    rebellioobj->box.y = -90;
     rebellioobj->AddComponent(rebellio);
     AddObject(rebellioobj);
 
