@@ -20,6 +20,10 @@
             void AddOriginalPos(Vec2 add);
             void SetParallax(float parallax,bool catchParallax = false);
             void Jump();
+
+            void SetOriginalPos(Vec2 pos){
+                this->originalpos = pos;
+            }
         private:
             Vec2 originalpos;
             float parallax;

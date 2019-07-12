@@ -14,6 +14,11 @@
 #include "../include/Sound.h"
 
 #define BOSSPARALLAX 1.2
+#define INITIALPOSX 70
+#define INITIALPOSY 555
+#define HEADOFFSETX 250
+#define HEADOFFSETY 45
+
 
 Boss *Boss::boss;
 
@@ -55,7 +60,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
 
     minionspawntimer = new Timer();
 
-    SpawnHead({associated.box.x + 300,associated.box.y + 45}); //520 80 650 150
+    // SpawnHead({associated.box.x + 300,associated.box.y + 45}); //520 80 650 150
 }
 
 Boss::~Boss(){
@@ -161,19 +166,23 @@ void Boss::KillBoss(){
 }
 
 void Boss::SpeedUpParallax(){
-    for(int i = 0;i < eyes.size();i++){
-        Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
-        if(comp){
-            ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
-            parallaxfollower->Jump();
+    if(eyes.size() > 0){
+        for(int i = 0;i < eyes.size();i++){
+            Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
+            if(comp){
+                ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+                parallaxfollower->Jump();
+            }
         }
     }
 
-    GameObject *headObj = head.lock().get();
-    Component *comp2 = headObj->GetComponent("ParallaxFollower");
-    if(comp2){
-        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
-        parallaxfollower->Jump();
+    if(!head.expired()){
+        GameObject *headObj = head.lock().get();
+        Component *comp2 = headObj->GetComponent("ParallaxFollower");
+        if(comp2){
+            ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
+            parallaxfollower->Jump();
+        }
     }
 
     Component *comp3 = associated.GetComponent("ParallaxFollower");
@@ -208,19 +217,20 @@ void Boss::SpawnHead(Vec2 pos){
     ParallaxFollower *parallaxfollower = new ParallaxFollower(*headobj,BOSSPARALLAX);
     headobj->AddComponent(parallaxfollower);
     headobj->AddComponent(headsprite);
+    parallaxfollower->SetOriginalPos({INITIALPOSX + 300,INITIALPOSY + 45});
     int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
     head = Game::GetInstance().GetCurrentState().AddObject(headobj,placeofplayer);
 
     //Up Eyes
-    SpawnEye({pos.x + 314,pos.y + 285},{1532,1012});
-    SpawnEye({pos.x + 408,pos.y + 285},{1532,1012});
-    SpawnEye({pos.x + 508,pos.y + 285},{1532,1012});
+    SpawnEye({pos.x + 314,pos.y + 285},{INITIALPOSX + 314 + HEADOFFSETX,INITIALPOSY + 285 + HEADOFFSETY});
+    SpawnEye({pos.x + 408,pos.y + 285},{INITIALPOSX + 408  + HEADOFFSETX,INITIALPOSY + 285 + HEADOFFSETY});
+    SpawnEye({pos.x + 508,pos.y + 285},{INITIALPOSX + 508  + HEADOFFSETX,INITIALPOSY + 285 + HEADOFFSETY});
 
     //Down Eyes
-    SpawnEye({pos.x + 255,pos.y + 361},{1532,1012});
-    SpawnEye({pos.x + 360,pos.y + 361},{1532,1012});
-    SpawnEye({pos.x + 463,pos.y + 361},{1532,1012});
-    SpawnEye({pos.x + 568,pos.y + 361},{1532,1012});
+    SpawnEye({pos.x + 255,pos.y + 361},{INITIALPOSX + 255 + HEADOFFSETX,INITIALPOSY + 361 + HEADOFFSETY});
+    SpawnEye({pos.x + 360,pos.y + 361},{INITIALPOSX + 360 + HEADOFFSETX,INITIALPOSY + 361 + HEADOFFSETY});
+    SpawnEye({pos.x + 463,pos.y + 361},{INITIALPOSX + 463 + HEADOFFSETX,INITIALPOSY + 361 + HEADOFFSETY});
+    SpawnEye({pos.x + 568,pos.y + 361},{INITIALPOSX + 568 + HEADOFFSETX,INITIALPOSY + 361 + HEADOFFSETY});
 }
 
 void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
@@ -228,6 +238,7 @@ void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
     Circle bounds = Circle(pos.x,pos.y,35);
     Eye *eye = new Eye(*eyeObj,bounds,endpos,30);
     ParallaxFollower *parallaxfollower = new ParallaxFollower(*eyeObj,BOSSPARALLAX);
+    parallaxfollower->SetOriginalPos(endpos);
     eyeObj->AddComponent(parallaxfollower);
     eyeObj->AddComponent(eye);
     int placeofplayer = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
@@ -296,6 +307,7 @@ void Boss::AppearingState(float dt){
             Game::GetInstance().GetMusic()->Open("assets/audio/musics/boss.ogg");
             Game::GetInstance().GetMusic()->Play();
             state = IDLE;
+            SpawnHead({associated.box.x + 300,associated.box.y + 45});
         }
     }
 }

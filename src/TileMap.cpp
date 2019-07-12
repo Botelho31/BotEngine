@@ -11,6 +11,7 @@
 #include "../include/Soul.h"
 #include "../include/FlyingMinion.h"
 #include "../include/Velho.h"
+#include "../include/Minion.h"
 
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
