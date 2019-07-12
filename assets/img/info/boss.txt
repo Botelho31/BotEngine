@@ -13,4 +13,6 @@
     bite assets/img/Boss/bossbite.png
     rise1 assets/img/Boss/bossrise1.png
     rise2 assets/img/Boss/bossrise2.png
+    death assets/img/Boss/bossdeath.png
+    deathstand assets/img/Boss/bossdeathstand.png
 ]

@@ -118,10 +118,17 @@ void Boss::Update(float dt){
         case DYING:
             if(!bossdeathtimer->Started()){
                 DestroyHead();
+                SetSprite(spritefiles["deathstand"],1,0,false,{0,-125});
                 bossdeathtimer->Delay(0);
+                screenshake = false;
             }else{
                 bossdeathtimer->Update(dt);
-                if(bossdeathtimer->Get() >= 1){
+                if((bossdeathtimer->Get() >= 2) && (!screenshake)){
+                    SetSprite(spritefiles["death"],15,0.12,false);
+                    screenshake = true;
+                }
+                if(bossdeathtimer->Get() >= 3.8){
+                    Camera::ShakeScreen(4,100);
                     associated.RequestDelete();
                 }
             }
@@ -182,10 +189,7 @@ void Boss::DamageBoss(int damage){
 }
 
 void Boss::KillBoss(){
-    for(int i = 0;i < eyes.size();i ++){
-        eyes[i].lock()->RequestDelete();
-    }
-    associated.RequestDelete();
+    
 }
 
 void Boss::SpeedUpParallax(){
@@ -385,8 +389,10 @@ void Boss::AppearingState(float dt){
         appearingtimer->Update(dt);
         if(appearingtimer->Get() > 9){
             appearingtimer->Restart();
-            Game::GetInstance().GetMusic()->Open("assets/audio/musics/boss.ogg");
-            Game::GetInstance().GetMusic()->Play();
+            if(GameData::playerAlive){
+                Game::GetInstance().GetMusic()->Open("assets/audio/musics/boss.ogg");
+                Game::GetInstance().GetMusic()->Play();
+            }   
             state = IDLE;
             CatchParallax();
         }
@@ -665,6 +671,15 @@ void Boss::IdleState(float dt){
             }
         }
     }
+
+    if(hp <= 0){
+        state = DYING;
+    }
+    #ifdef DEBUG
+        if(input->KeyPress(SDLK_8)){
+            hp = 10;
+        }
+    #endif
 
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
         minionspawntimer->Update(dt);
