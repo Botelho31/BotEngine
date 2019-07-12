@@ -31,40 +31,40 @@ TitleState::TitleState(){
     titleobj->AddComponent(title);
     AddObject(titleobj);
 
+    //START CIRCLES
+    GameObject *circleobj =  new GameObject();
+    Sprite *circle = new Sprite(*circleobj,"assets/img/HUD/circlestart.png");
+    circleobj->box.x = -400;
+    circleobj->box.y = 650;
+    Rotating *rotating1 = new Rotating(*circleobj,-1);
+    circleobj->AddComponent(rotating1);
+    circleobj->AddComponent(circle);
+    AddObject(circleobj);
+
+    GameObject *circle2obj =  new GameObject();
+    Sprite *circle2 = new Sprite(*circle2obj,"assets/img/HUD/circle2start.png");
+    circle2obj->box.x = 1362;
+    circle2obj->box.y = 250;
+    Rotating *rotating2 = new Rotating(*circle2obj,1);
+    circleobj->AddComponent(rotating2);
+    circle2obj->AddComponent(circle2);
+    AddObject(circle2obj);
+
+    GameObject *circle3obj =  new GameObject();
+    Sprite *circle3 = new Sprite(*circle3obj,"assets/img/HUD/circle3start.png");
+    circle3obj->box.x = 520;
+    circle3obj->box.y = -350;
+    Rotating *rotating3 = new Rotating(*circle3obj,1);
+    circle3obj->AddComponent(rotating3);
+    circle3obj->AddComponent(circle3);
+    AddObject(circle3obj);
+
     GameObject *rebellioobj =  new GameObject();
     Sprite *rebellio = new Sprite(*rebellioobj,"assets/img/HUD/rebelliostart.png");
     rebellioobj->box.x = 212;
     rebellioobj->box.y = -40;
     rebellioobj->AddComponent(rebellio);
     AddObject(rebellioobj);
-
-    //START CIRCLES
-    // GameObject *circleobj =  new GameObject();
-    // Sprite *circle = new Sprite(*circleobj,"assets/img/HUD/circlestart.png");
-    // circleobj->box.x = 212;
-    // circleobj->box.y = -40;
-    // Rotating *rotating1 = new Rotating(*circleobj,5);
-    // circleobj->AddComponent(rotating1);
-    // circleobj->AddComponent(circle);
-    // AddObject(circleobj);
-
-    // GameObject *circle2obj =  new GameObject();
-    // Sprite *circle2 = new Sprite(*circle2obj,"assets/img/HUD/circle2start.png");
-    // circle2obj->box.x = 212;
-    // circle2obj->box.y = -40;
-    // Rotating *rotating2 = new Rotating(*circleobj,5);
-    // circleobj->AddComponent(rotating2);
-    // circle2obj->AddComponent(circle2);
-    // AddObject(circle2obj);
-
-    // GameObject *circle3obj =  new GameObject();
-    // Sprite *circle3 = new Sprite(*circle3obj,"assets/img/HUD/circle3start.png");
-    // circle3obj->box.x = 212;
-    // circle3obj->box.y = -40;
-    // Rotating *rotating3 = new Rotating(*circleobj,5);
-    // circle3obj->AddComponent(rotating3);
-    // circle3obj->AddComponent(circle3);
-    // AddObject(circle3obj);
 
     //END CIRCLES
 

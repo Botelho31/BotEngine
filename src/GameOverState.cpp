@@ -5,6 +5,7 @@
 #include "../include/MousePointer.h"
 #include "../include/Collider.h"
 #include "../include/Collision.h"
+#include "../include/Rotating.h"
 
 GameOverState::GameOverState(StageState *stagestate){
 
@@ -15,6 +16,24 @@ GameOverState::GameOverState(StageState *stagestate){
     // screenObj->box.y = 0 + Camera::pos.y;
     // screenObj->AddComponent(screen);
     // AddObject(screenObj);
+
+    GameObject *circleobj =  new GameObject();
+    Sprite *circle = new Sprite(*circleobj,"assets/img/HUD/assetbranco.png");
+    circleobj->box.x = -200 + Camera::pos.x;
+    circleobj->box.y = -250 + Camera::pos.y;
+    Rotating *rotating1 = new Rotating(*circleobj,-1);
+    circleobj->AddComponent(rotating1);
+    circleobj->AddComponent(circle);
+    AddObject(circleobj);
+
+    GameObject *circle2obj =  new GameObject();
+    Sprite *circle2 = new Sprite(*circle2obj,"assets/img/HUD/assetbranco2.png");
+    circle2obj->box.x = 1362 + Camera::pos.x;
+    circle2obj->box.y = 350  + Camera::pos.y;
+    Rotating *rotating2 = new Rotating(*circle2obj,1);
+    circleobj->AddComponent(rotating2);
+    circle2obj->AddComponent(circle2);
+    AddObject(circle2obj);
 
     GameObject *gameoverObj =  new GameObject();
     Sprite *gameover = new Sprite(*gameoverObj,"assets/img/HUD/gameover.png");

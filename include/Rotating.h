@@ -8,6 +8,7 @@
     #include "Physics.h"
     #include "Sprite.h"
     #include "TileSet.h"
+    #include "Timer.h"
 
     class Rotating : public Component{
         public:
@@ -18,6 +19,7 @@
             bool Is(std::string type);
         private:
             int rotatingSum;
+            Timer *timerrot;
     };
 
 #endif
