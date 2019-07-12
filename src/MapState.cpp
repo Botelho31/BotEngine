@@ -21,7 +21,8 @@ MapState::MapState(){
     AddObject(playerIcon);
 
     GameObject *celphoneObj = new GameObject();
-    Sprite *celphone =  new Sprite(*celphoneObj,"assets/img/belcellphone.png");
+    Sprite *celphone =  new Sprite(*celphoneObj,"assets/img/belcellphone.png",27,0.04,0,false);
+    celphoneObj->box = celphoneObj->box.Added(-7,-7);
     celphoneObj->AddComponent(celphone);
     CameraFollower *camfollow =  new CameraFollower(*celphoneObj);
     celphoneObj->AddComponent(camfollow);

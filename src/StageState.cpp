@@ -567,6 +567,8 @@ void StageState::Start(){
     loadingIcon->AddComponent(loadingSprite);
     loadingIcon->AddComponent(camfollower4);
 
+    GameData::PreLoadSprites("assets/img/info/effects.txt");
+
     StartArray();
 
     this->initialtiles = TileMap::tiles.size();

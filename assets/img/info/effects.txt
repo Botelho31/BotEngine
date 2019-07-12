@@ -8,4 +8,5 @@
     spark2 assets/img/Effects/spark2.png
     transparent assets/img/Effects/transparent.png
     platform assets/img/Effects/platform.png
+    cellphone assets/img/belcellphone.png
 ]
