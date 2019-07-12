@@ -12,7 +12,7 @@
 
 #ifndef GAME_H
   #define GAME_H
-  #define DEBUG
+  // #define DEBUG
   #define PI 3.14159265
   #define ToPI(x) (x * PI)/180
   #define ENDLINE std::cout << std::endl;
