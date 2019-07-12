@@ -1,11 +1,11 @@
 Save
 	[
-		mapInfo assets/map/info/EntryRoom.txt
-		playerPos 644.552 1529.98
+		mapInfo assets/map/info/MiddleTerm.txt
+		playerPos 164.953 3379.78
 		playerLife 70
 		playerMana 10
-		checkpointPos 330 1990
-		checkpointPosSpeed 600 -718
+		checkpointPos 970 0
+		checkpointPosSpeed 14 1578
 	]
 ListOfDiscoveredMaps
 	[

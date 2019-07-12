@@ -5,7 +5,7 @@
 Velho::Velho(GameObject& associated) : Component(associated){
 
     state = IDLE;
-    Sprite *sprite = new Sprite(associated,"assets/img/velho.png",16,0.04);
+    Sprite *sprite = new Sprite(associated,"assets/img/velho.png",16,0.16,false);
     associated.AddComponent(sprite);
 
     Collider *collider = new Collider(associated);

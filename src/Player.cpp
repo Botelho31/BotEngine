@@ -509,7 +509,7 @@ void Player::YMovement(float dt){
             }
             if(!walldrag){
                 walldrag = true;
-                SetSprite(spritefiles["walldrag"],8,0.03);
+                SetSprite(spritefiles["walldrag"],8,0.06);
                 if(playersprite->IsFlipped()){
                     playersprite->Flip();
                 }
@@ -524,7 +524,7 @@ void Player::YMovement(float dt){
             }
             if(!walldrag){
                 walldrag = true;
-                SetSprite(spritefiles["walldrag"],8,0.03);
+                SetSprite(spritefiles["walldrag"],8,0.06);
                 if(!playersprite->IsFlipped()){
                     playersprite->Flip();
                 }
