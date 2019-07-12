@@ -5,6 +5,7 @@
 #include "../include/MousePointer.h"
 #include "../include/Collider.h"
 #include "../include/Collision.h"
+#include "../include/Sound.h"
 
 PauseState::PauseState(StageState *stagestate){
     this->stagestate =stagestate;
@@ -44,8 +45,10 @@ void PauseState::Update(float dt){
     State::UpdateArray(dt);
     if(continueButton->isSelected()){
         popRequested = true;
+        PlaySoundEffect("assets/audio/effects/select.ogg");
     }
     if(returnToMenuButton->isSelected()){
+        PlaySoundEffect("assets/audio/effects/select.ogg");
         popRequested = true;
         stagestate->ReturnToMenu();
     }
@@ -66,6 +69,14 @@ void PauseState::Update(float dt){
             }
         }
     }
+}
+
+void PauseState::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void PauseState::Render(){

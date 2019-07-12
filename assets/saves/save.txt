@@ -1,8 +1,8 @@
 Save
 	[
 		mapInfo assets/map/info/BOSSROOM.txt
-		playerPos 2158.03 1379.8
-		playerLife 40
+		playerPos 51.618 1380
+		playerLife 70
 		playerMana 100
 		checkpointPos 20 1380
 		checkpointPosSpeed 600 0
@@ -11,13 +11,7 @@ ListOfDiscoveredMaps
 	[
 		assets/map/info/EntryRoom.txt
 		assets/map/info/BOSSROOM.txt
-		assets/map/info/MiddleTerm.txt
-		assets/map/info/Room-1.txt
-		assets/map/info/Room-2.txt
 	]
 ListOfDiscoveredSouls
 	[
-		1
-		2
-		3
 	]

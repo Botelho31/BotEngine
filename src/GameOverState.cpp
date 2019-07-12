@@ -6,6 +6,7 @@
 #include "../include/Collider.h"
 #include "../include/Collision.h"
 #include "../include/Rotating.h"
+#include  "../include/Sound.h"
 
 GameOverState::GameOverState(StageState *stagestate){
 
@@ -70,9 +71,11 @@ void GameOverState::Update(float dt){
 	InputManager *input = &(InputManager::GetInstance());
     State::UpdateArray(dt);
     if(continueButton->isSelected()){
+        PlaySoundEffect("assets/audio/effects/select.ogg");
         popRequested = true;
     }
     if(returnToMenuButton->isSelected()){
+        PlaySoundEffect("assets/audio/effects/select.ogg");
         popRequested = true;
         stagestate->ReturnToMenu();
     }
@@ -93,6 +96,14 @@ void GameOverState::Update(float dt){
             }
         }
     }
+}
+
+void GameOverState::PlaySoundEffect(std::string file,int times){
+    GameObject *effectObj = new GameObject();
+    Sound *sound = new Sound(*effectObj,file);
+    sound->Play(times,true);
+    effectObj->AddComponent(sound);
+    Game::GetInstance().GetCurrentState().AddObject(effectObj);
 }
 
 void GameOverState::Render(){

@@ -56,7 +56,7 @@ Game::Game(std::string Title,int Width,int Height){
                 Camera::window.x = 1920;
                 Camera::window.y = 1080;
 
-                SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
+                // SDL_SetWindowFullscreen(window,SDL_WINDOW_FULLSCREEN);
             }else{
                 std::cout << "Fatal Error Loading Renderer: " << SDL_GetError() << "\n" << std::endl; 
                 std::cout << "Number of Drivers: " << SDL_GetNumRenderDrivers() << "\n" << std::endl;
