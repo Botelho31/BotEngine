@@ -80,6 +80,7 @@ void Text::RemakeTexture(){
                    break;
             case BLENDED:
                 surface = TTF_RenderText_Blended(font.get(),text.c_str(),color);
+                surface = TTF_RenderText_Blended_Wrapped(font.get(),text.c_str(),color,1700);
                 break;
             default:
                 std::cout << "No style found" << std::endl;

@@ -10,6 +10,7 @@
 #include "../include/Spike.h"
 #include "../include/Soul.h"
 #include "../include/FlyingMinion.h"
+#include "../include/Velho.h"
 
 
 std::vector<std::weak_ptr<Component>> TileMap::tiles;
@@ -150,6 +151,20 @@ void TileMap::SpawnMobs(std::string file){
                 Game::GetInstance().GetCurrentState().AddObject(minionObj);
                 GameData::PreLoadSprites("assets/img/info/flyingminion.txt");
                 GameData::PreLoadSprites("assets/img/info/spit.txt");
+            }
+            else if(checkline == "Velho"){       
+                Vec2 MinionPos;
+                while(checkline != "velhoX"){
+                    FileReader >> checkline;
+                } 
+                FileReader >> MinionPos.x;
+                FileReader >> checkline;
+                FileReader >> MinionPos.y;
+                GameObject *minionObj = new GameObject();
+                Velho *minion = new Velho(*minionObj);
+                minionObj->box.SetCenter(MinionPos);
+                minionObj->AddComponent(minion);
+                Game::GetInstance().GetCurrentState().AddObject(minionObj);
             }
             else if(checkline == "MovingTile"){
                 Vec2 start;

@@ -23,3 +23,9 @@ Portal
     portalY 1380
     tilemapinfofile assets/map/info/BOSSROOM.txt
   ]
+
+Velho
+  [
+    velhoX 850
+    velhoY 1530
+  ]
