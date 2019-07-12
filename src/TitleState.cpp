@@ -101,11 +101,11 @@ void TitleState::Update(float dt){
         std::cout << input->GetMouseX() << " " << input->GetMouseY() << std::endl;
     }
     if(playButton->isSelected()){
-        PlaySoundEffect("assets/audio/effects/select.wav");
+        PlaySoundEffect("assets/audio/effects/select.ogg");
         Game::GetInstance().Push(new MenuState());
     }
     else if(input->KeyPress(SDLK_SPACE)){
-        PlaySoundEffect("assets/audio/effects/select.wav");
+        PlaySoundEffect("assets/audio/effects/select.ogg");
         Game::GetInstance().Push(new MenuState());
     } 
 
