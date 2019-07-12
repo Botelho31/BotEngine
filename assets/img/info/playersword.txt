@@ -1,7 +1,7 @@
 [
     idle assets/img/Bel/belidlesword2.png
     walking assets/img/Bel/belwalksword.png
-    walkingstop assets/img/Bel/belstopwalk.png
+    walkingstop assets/img/Bel/belstopwalksword.png
     jumping assets/img/Bel/beljumpsword.png
     damage assets/img/Bel/beldamage.png
     dead assets/img/Bel/beldeath.png

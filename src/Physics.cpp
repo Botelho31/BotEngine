@@ -534,21 +534,32 @@ float Physics::PerformXMovement(float dt){
 float Physics::PerformYMovement(float dt){
     if(speed->y != 0){
         float modY = 0;
+        float dif = speed->y/2;
         if((speed->y * dt) < 0){
             modY = speed->y * dt;
         }
         if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),ToPI(associated.angleDeg))){
-            speed->y = speed->y/2;
             if(IsGrounded() && (speed->y > 0)){
                 speed->y = 0;
+                dif = 0;
                 return 0;
             }
             if(IsUp() && (speed->y < 0)){
                 speed->y = 0;
+                dif = 0;
                 return 0;
             }
-            else{
-                PerformYMovement(dt);
+            while(dif > 1){
+                if((speed->y * dt) < 0){
+                    modY = speed->y * dt;
+                }
+                if(IsColliding(collider->box.Added(0,modY,0,std::fabs(speed->y * dt)),ToPI(associated.angleDeg))){
+                    speed->y - dif;
+                    dif /= 2;
+                }else{
+                    speed->y + dif;
+                    dif /= 2;
+                }
             }
         }
         else{
@@ -560,8 +571,8 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        float DistToGround = DistanceTo(collider->box,0,1,12);
-        if((DistToGround <= 10) && (speed->y >= 0)){
+        float DistToGround = DistanceTo(collider->box,0,1,17);
+        if((DistToGround <= 15) && (speed->y >= 0)){
             collider->box.y += DistToGround;
             collider->UpdateAssociated();
             if(IsGrounded()){
