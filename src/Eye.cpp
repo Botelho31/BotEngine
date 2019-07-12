@@ -76,14 +76,14 @@ void Eye::Update(float dt){
             else if(eyedelay->Started()){
                 eyedelay->Update(dt);
                 if(eyedelay->Get() > 3){
-                    SetSprite(spritefiles["eyein"],36,0.04,false);
+                    SetSprite(spritefiles["eyein"],32,0.04,false);
                     eyedelay->Restart();
                     eyein->Delay(0);
                 }
             }
             else if(eyein->Started()){
                 eyein->Update(dt);
-                if(eyein->Get() > 1.44){
+                if(eyein->Get() > 1.28){
                     eyein->Restart();
                     SetSprite(spritefiles["transparent"]);
                     stopPrint = false;

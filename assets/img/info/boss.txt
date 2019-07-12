@@ -9,5 +9,6 @@
     attackrighthand assets/img/Boss/bosshandattackright.png
     idlerighthand assets/img/Boss/bosshandidleright.png
     returnrighthand assets/img/Boss/bosshandreturnright.png
+    headup assets/img/Boss/bossheadup.png
     bite assets/img/Boss/bossbite.png
 ]

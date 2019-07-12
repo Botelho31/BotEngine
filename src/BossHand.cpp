@@ -4,8 +4,6 @@
 
 BossHand::BossHand(GameObject& associated,std::weak_ptr<GameObject> boss,Vec2 pos) : Component(associated){
     this->boss = boss;
-    associated.box.w = 400;
-    associated.box.h = 300;
     associated.box.Transform(pos.x,pos.y);
     TileCollider *tilecollider = new TileCollider(associated,associated.box,true,true);
     std::weak_ptr<Component> weakptr = associated.AddComponent(tilecollider);

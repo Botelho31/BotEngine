@@ -9,7 +9,7 @@
 
     class Boss : public Component{
         public:
-            enum bossState{IDLE,CHASING,HANDATTACKING,RAMPAGEATTACKING,APPEARING};
+            enum bossState{IDLE,CHASING,HANDATTACKING,RAMPAGEATTACKING,APPEARING,DYING,BITING};
             Boss(GameObject& associated);
             ~Boss();
             void Start();
@@ -19,6 +19,7 @@
             void NotifyCollision(GameObject& other);
 
             void HandAttackState(float dt); //Handles Hand Attack state
+            void BiteState(float dt); //Handles Hand Attack state
             void RampageAttackState(float dt);
             void IdleState(float dt); //Handles idle state
             void ChasingState(float dt); //Handles chasing state
@@ -41,6 +42,9 @@
             void SpawnMinion();
             void SpawnHand(Vec2 pos);
             void DestroyHand();
+
+            void SpawnHeadHitbox(Vec2 pos);
+            void DestroyHeadHitbox();
 
             void SpeedUpParallax();
 
@@ -73,6 +77,7 @@
             Sprite *bosssprite;
 
             Timer *attacktimer;
+            Timer *appearinganimtimer;
             Timer *appearingtimer;
             Timer *handuptimer;
             Timer *idlehandtimer;
@@ -90,6 +95,8 @@
             Timer* minionspawntimer;
             std::vector<std::weak_ptr<GameObject>> eyes; 
             std::weak_ptr<GameObject> head;
+
+            std::weak_ptr<GameObject> headhitbox;
             std::weak_ptr<GameObject> hand;
     };
 

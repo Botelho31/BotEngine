@@ -1,11 +1,11 @@
 Save
 	[
-		mapInfo assets/map/info/EntryRoom.txt
-		playerPos 3659.99 1484.63
-		playerLife 0
+		mapInfo assets/map/info/BOSSROOM.txt
+		playerPos 999.357 1209.15
+		playerLife 10
 		playerMana 100
-		checkpointPos 4175 1530
-		checkpointPosSpeed -600 0
+		checkpointPos 20 1380
+		checkpointPosSpeed 478 0
 	]
 ListOfDiscoveredMaps
 	[

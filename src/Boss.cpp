@@ -103,13 +103,20 @@ void Boss::Update(float dt){
             break;
         case APPEARING:
             AppearingState(dt);
+            break;
+        case BITING:
+            BiteState(dt);
+            break;
+        case DYING:
+            break;
+            
         default:
             break;
     }
 
     if(attackdelay->Started()){
         attackdelay->Update(dt);
-        if(attackdelay->Get() > 0.5){
+        if(attackdelay->Get() > 5){
             attackdelay->Restart();
         }
     }
@@ -207,6 +214,7 @@ void Boss::DestroyHead(){
     for(int i = 0;i < eyes.size();i++){
         eyes[i].lock()->RequestDelete();
     }
+    eyes.clear();
 }
 
 void Boss::SpawnHead(Vec2 pos){
@@ -247,19 +255,23 @@ void Boss::SpawnEye(Vec2 pos,Vec2 endpos){
 }
 
 void Boss::CatchParallax(){
-    for(int i = 0;i < eyes.size();i++){
-        Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
-        if(comp){
-            ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
-            parallaxfollower->SetParallax(BOSSPARALLAX,true);
+    if(eyes.size() > 0){
+        for(int i = 0;i < eyes.size();i++){
+            Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
+            if(comp){
+                ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+                parallaxfollower->SetParallax(BOSSPARALLAX,true);
+            }
         }
     }
 
-    GameObject *headObj = head.lock().get();
-    Component *comp2 = headObj->GetComponent("ParallaxFollower");
-    if(comp2){
-        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
-        parallaxfollower->SetParallax(BOSSPARALLAX,true);
+    if(!head.expired()){
+        GameObject *headObj = head.lock().get();
+        Component *comp2 = headObj->GetComponent("ParallaxFollower");
+        if(comp2){
+            ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp2);
+            parallaxfollower->SetParallax(BOSSPARALLAX,true);
+        }
     }
 
     Component *comp3 = associated.GetComponent("ParallaxFollower");
@@ -384,6 +396,7 @@ void Boss::RampageAttackState(float dt){
                 state = IDLE;
                 SetSprite(spritefiles["idle"],24,0.04,true,{0,120});
                 CatchParallax();
+                attackdelay->Delay(0);
             }
         }
     }
@@ -467,11 +480,68 @@ void Boss::HandAttackState(float dt){
             state = IDLE;
             SetSprite(spritefiles["idle"],24,0.04,true,{0,120});
             CatchParallax();
+            attackdelay->Delay(0);
         }
     }
 }
 
 void Boss::ChasingState(float dt){
+}
+
+void Boss::BiteState(float dt){
+    if(!attacktimer->Started() && !handuptimer->Started()){
+        SetSprite(spritefiles["headup"],19,0.04,false,{0,-134});
+        screenshake = false;
+        hitboxinstantiated = false;
+        handuptimer->Delay(dt);
+        DestroyHead();
+    }
+
+    if(handuptimer->Started()){
+        handuptimer->Update(dt);
+        if(handuptimer->Get() >= 0.76){
+            SetSprite(spritefiles["bite"],34,0.04,false);
+            handuptimer->Restart();
+            attacktimer->Delay(dt);
+        }
+    }
+    if(attacktimer->Started()){
+        attacktimer->Update(dt);
+        if((attacktimer->Get() >= 0.08) && (!screenshake)){
+            screenshake = true;
+            InstantiateHitBox(Rect(associated.box.x + 450,associated.box.y + 780,700,120),2,{1000,300});
+            Camera::ShakeScreen(1,200);
+        }
+        if((attacktimer->Get() >= 0.24) && (headhitbox.expired())){
+            SpawnHeadHitbox({associated.box.x + 600,associated.box.y + 1000});
+        }
+        if(attacktimer->Get() >= 1.36){
+            state = IDLE;
+            SetSprite(spritefiles["idle"],24,0.04,true,{0,134});
+            attacktimer->Restart();
+            SpawnHead({associated.box.x + 300,associated.box.y + 45});
+            CatchParallax();
+            DestroyHeadHitbox();
+            attackdelay->Delay(0);
+        }
+    }
+}
+
+void Boss::SpawnHeadHitbox(Vec2 pos){
+    GameObject *bosshandObj =  new GameObject();
+    bosshandObj->box.w = 600;
+    bosshandObj->box.h = 650;
+    std::weak_ptr<GameObject> bossweakptr =  Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
+    BossHand *bosshand = new BossHand(*bosshandObj,bossweakptr,pos);
+    bosshandObj->AddComponent(bosshand);
+    std::weak_ptr<GameObject> handweakptr =  Game::GetInstance().GetCurrentState().AddObject(bosshandObj);
+    headhitbox = handweakptr;
+}
+
+void Boss::DestroyHeadHitbox(){
+    if(!headhitbox.expired()){
+        headhitbox.lock()->RequestDelete();
+    }
 }
 
 void Boss::IdleState(float dt){
@@ -486,18 +556,26 @@ void Boss::IdleState(float dt){
     }
     Rect LeftHandArea = Rect(associated.box.x + 0,associated.box.y + 780,300,120);
     Rect RightHandArea = Rect(associated.box.x + 1130,associated.box.y + 780,300,120);
-    if(LeftHandArea.Contains(Player::player->GetPosition())){
-        this->state = HANDATTACKING;
-        StopParallax();
-        lefthand = true;
-        righthand = false;
+    Rect BiteArea = Rect(associated.box.x + 450,associated.box.y + 780,500,120);
+    if(!attackdelay->Started()){
+        if(LeftHandArea.Contains(Player::player->GetPosition())){
+            this->state = HANDATTACKING;
+            StopParallax();
+            lefthand = true;
+            righthand = false;
+        }
+        if(RightHandArea.Contains(Player::player->GetPosition())){
+            this->state = HANDATTACKING;
+            StopParallax();
+            righthand = true;
+            lefthand = false;
+        }
+        if(BiteArea.Contains(Player::player->GetPosition())){
+            this->state = BITING;
+            StopParallax();
+        }
     }
-    if(RightHandArea.Contains(Player::player->GetPosition())){
-        this->state = HANDATTACKING;
-        StopParallax();
-        righthand = true;
-        lefthand = false;
-    }
+
 
     if(input->KeyPress(SDLK_8)){
         Vec2 mousepos = Vec2(input->GetMouseX()*2,input->GetMouseY()*2).Added(Camera::pos.x,Camera::pos.y);
@@ -531,6 +609,8 @@ void Boss::PlaySoundEffect(std::string file,int times){
 
 void Boss::SpawnHand(Vec2 pos){
     GameObject *bosshandObj =  new GameObject();
+    bosshandObj->box.w = 400;
+    bosshandObj->box.h = 300;
     std::weak_ptr<GameObject> bossweakptr =  Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
     BossHand *bosshand = new BossHand(*bosshandObj,bossweakptr,pos);
     bosshandObj->AddComponent(bosshand);
