@@ -73,9 +73,13 @@
 
             int gravspeed;
 
+            bool bossrisehalf;
+
             std::map<std::string,std::string> spritefiles;
             Sprite *bosssprite;
 
+            Timer *bossrisetimer;
+            Timer *bossdeathtimer;
             Timer *attacktimer;
             Timer *appearinganimtimer;
             Timer *appearingtimer;

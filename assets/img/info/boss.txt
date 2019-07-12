@@ -11,4 +11,6 @@
     returnrighthand assets/img/Boss/bosshandreturnright.png
     headup assets/img/Boss/bossheadup.png
     bite assets/img/Boss/bossbite.png
+    rise1 assets/img/Boss/bossrise1.png
+    rise2 assets/img/Boss/bossrise2.png
 ]

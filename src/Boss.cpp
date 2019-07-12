@@ -24,6 +24,9 @@ Boss *Boss::boss;
 
 Boss::Boss(GameObject& associated) : Component(associated){
     boss = this;
+    bossrisehalf = false;
+    bossrisetimer = new Timer();
+    bossdeathtimer = new Timer();
     speed.x = 0;
     maxspeed = 600;
     aspeed = 700;
@@ -52,7 +55,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
     spritefile.push_back("assets/img/info/boss.txt");
     spritefile.push_back("assets/img/info/effects.txt");
     this->spritefiles = GameData::GetSpritesFiles(spritefile);
-    this->bosssprite =  new Sprite(associated,spritefiles["idle"],24,0.04);
+    this->bosssprite =  new Sprite(associated,spritefiles["rise1"],23,0.08);
     associated.AddComponent(bosssprite);
 
     ParallaxFollower *parallaxfollower = new ParallaxFollower(associated,BOSSPARALLAX);
@@ -66,6 +69,7 @@ Boss::Boss(GameObject& associated) : Component(associated){
 Boss::~Boss(){
     boss = nullptr;
     bosssprite = nullptr;
+    delete bossrisetimer;
     delete appearingtimer;
     delete invincibilitytimer;
     delete damagetimer;
@@ -108,8 +112,16 @@ void Boss::Update(float dt){
             BiteState(dt);
             break;
         case DYING:
+            if(!bossdeathtimer->Started()){
+                DestroyHead();
+                bossdeathtimer->Delay(0);
+            }else{
+                bossdeathtimer->Update(dt);
+                if(bossdeathtimer->Get() >= 1){
+                    associated.RequestDelete();
+                }
+            }
             break;
-            
         default:
             break;
     }
@@ -282,20 +294,23 @@ void Boss::CatchParallax(){
 }
 
 void Boss::StopParallax(){
+    if(eyes.size() > 0){
+        for(int i = 0;i < eyes.size();i++){
+            Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
+            if(comp){
+                ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
+                parallaxfollower->SetParallax(1);
+            }
+        }
+    }
 
-    for(int i = 0;i < eyes.size();i++){
-        Component *comp = eyes[i].lock()->GetComponent("ParallaxFollower");
+    if(!head.expired()){
+        GameObject *headObj = head.lock().get();
+        Component *comp = headObj->GetComponent("ParallaxFollower");
         if(comp){
             ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
             parallaxfollower->SetParallax(1);
         }
-    }
-
-    GameObject *headObj = head.lock().get();
-    Component *comp = headObj->GetComponent("ParallaxFollower");
-    if(comp){
-        ParallaxFollower *parallaxfollower = dynamic_cast<ParallaxFollower*>(comp);
-        parallaxfollower->SetParallax(1);
     }
 
     Component *comp2 = associated.GetComponent("ParallaxFollower");
@@ -306,12 +321,62 @@ void Boss::StopParallax(){
 }
 
 void Boss::AppearingState(float dt){
-    if(!appearingtimer->Started()){
+    if(!appearingtimer->Started() && !bossrisetimer->Started() && !attacktimer->Started() && !handuptimer->Started()){
         SpeedUpParallax();
+        StopParallax();
         Game::GetInstance().GetMusic()->Open("assets/audio/musics/bossintro.ogg");
         Game::GetInstance().GetMusic()->Play();
         appearingtimer->Delay(dt);
+        bossrisetimer->Delay(dt);
+        bossrisehalf = false;
     }
+    if(bossrisetimer->Started()){
+        bossrisetimer->Update(dt);
+        if((bossrisetimer->Get() >= 1.84) && !bossrisehalf){
+            SetSprite(spritefiles["rise2"],23,0.08,false);
+            bossrisehalf = true;
+        }
+        if(bossrisetimer->Get() >= 3.68){
+            bossrisetimer->Restart();
+            if(!GameData::playerSword){
+                SetSprite(spritefiles["headup"],19,0.04,false,{0,-134});
+                screenshake = false;
+                hitboxinstantiated = false;
+                handuptimer->Delay(dt);
+            }else{
+                SetSprite(spritefiles["idle"],24,0.04,true);
+                attacktimer->Restart();
+                SpawnHead({associated.box.x + 300,associated.box.y + 45});
+            }
+        }
+    }
+    
+    if(handuptimer->Started()){
+        handuptimer->Update(dt);
+        if(handuptimer->Get() >= 0.76){
+            SetSprite(spritefiles["bite"],34,0.04,false);
+            handuptimer->Restart();
+            attacktimer->Delay(dt);
+        }
+    }
+    if(attacktimer->Started()){
+        attacktimer->Update(dt);
+        if((attacktimer->Get() >= 0.08) && (!screenshake)){
+            screenshake = true;
+            InstantiateHitBox(Rect(associated.box.x + 450,associated.box.y + 780,700,120),2,{1000,300});
+            Camera::ShakeScreen(1,200);
+
+            if(Player::player){
+                Player::player->SetHealth(0);
+            }
+        }
+        if(attacktimer->Get() >= 1.36){
+            SetSprite(spritefiles["idle"],24,0.04,true,{0,134});
+            attacktimer->Restart();
+            SpawnHead({associated.box.x + 300,associated.box.y + 45});
+        }
+    }
+
     if(appearingtimer->Started()){
         appearingtimer->Update(dt);
         if(appearingtimer->Get() > 9){
@@ -319,7 +384,7 @@ void Boss::AppearingState(float dt){
             Game::GetInstance().GetMusic()->Open("assets/audio/musics/boss.ogg");
             Game::GetInstance().GetMusic()->Play();
             state = IDLE;
-            SpawnHead({associated.box.x + 300,associated.box.y + 45});
+            CatchParallax();
         }
     }
 }
