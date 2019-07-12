@@ -15,8 +15,8 @@ FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : C
     speed.y = 0;
     gravspeed = 0;
 
-    maxspeed = 300;
-    aspeed = 200;
+    maxspeed = 200;
+    aspeed = 150;
     despeed = 2000;
 
     //Minion health
@@ -24,19 +24,19 @@ FlyingMinion::FlyingMinion(GameObject& associated,minionState startingState) : C
 
 
     //Sight related variables
-    sightrange = 800;
+    sightrange = 650;
     sightanglerange[0] = PI/2 - PI/8;                 //Range of 45 deg, centered right bellow minion (90 degrees)
     sightanglerange[1] = PI/2 + PI/8;
 
     downsightrange = 1250;
-    downsightanglerange[0] = PI/2 - PI/12;             //Range of 30 deg, centered right bellow minion (90 degrees)
-    downsightanglerange[1] = PI/2 + PI/12;
+    downsightanglerange[0] = PI/2 - PI/10;             
+    downsightanglerange[1] = PI/2 + PI/10;
 
     sightangle = 0;
     downsightangle = 0;
 
-    minyspit = 500;
-    maxyspit = 750;
+    minyspit = 350;
+    maxyspit = 550;
 
 
     //Time related variables
@@ -161,6 +161,9 @@ void FlyingMinion::Update(float dt){
             damagetimer->Restart();
             if(state == IDLE){
                 SetSprite(spritefiles["idle"],FLYINGMINION_IDLE_FC,FLYINGMINION_IDLE_FT);
+            }
+            else if(state == POSITIONING){
+                 SetSprite(spritefiles["flying"],FLYINGMINION_FLYING_FC,FLYINGMINION_FLYING_FT);
             }
         }
     }
