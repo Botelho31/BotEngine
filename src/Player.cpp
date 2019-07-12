@@ -667,11 +667,11 @@ void Player::YMovement(float dt){
     }
 
     //Handles when it is falling
-    if((!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,16) > 10) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
+    if((!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,21) > 10) && (falling == false) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
         SetSprite(spritefiles["falling"],8,0.04);
         falling = true;
     }
-    if(walldrag && !(physics->IsRight(1,false)) && !(physics->IsLeft(1,false)) && (!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,11) > 10) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
+    if(walldrag && !(physics->IsRight(1,false)) && !(physics->IsLeft(1,false)) && (!physics->IsGrounded()) && (speed.y > 0) && (physics->DistanceTo(physics->GetCollider()->box,0,1,21) > 10) && (!hittheground->Started()) && (!jumpanimation->Started()) && (!damagetimer->Started()) && (!swordattack->Started())){
         SetSprite(spritefiles["falling"],8,0.04);
         falling = true;
     }

@@ -44,3 +44,27 @@ Spike
     flipped 0
     behind 0
   ]
+
+Minion
+  [
+    minionX 1300
+    minionY 1080
+  ]
+
+Minion
+  [
+    minionX 1000
+    minionY 1080
+  ]
+
+Minion
+  [
+    minionX 1995
+    minionY 930
+  ]
+
+Minion
+  [
+    minionX 2200
+    minionY 1630
+  ]

@@ -60,3 +60,9 @@ Spike
     flipped 1
     behind 1
   ]
+
+FlyingMinion
+  [
+    minionX 1150
+    minionY 2300
+  ]

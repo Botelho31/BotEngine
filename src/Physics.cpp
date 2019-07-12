@@ -571,8 +571,8 @@ float Physics::PerformYMovement(float dt){
 
 void Physics::PerformGravity(float gravspeed,float dt){
     if(!IsGrounded()){
-        float DistToGround = DistanceTo(collider->box,0,1,17);
-        if((DistToGround <= 15) && (speed->y >= 0)){
+        float DistToGround = DistanceTo(collider->box,0,1,30);
+        if((DistToGround <= 20) && (speed->y >= 0)){
             collider->box.y += DistToGround;
             collider->UpdateAssociated();
             if(IsGrounded()){

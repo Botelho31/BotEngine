@@ -164,7 +164,8 @@ void TileMap::SpawnMobs(std::string file){
                 Velho *minion = new Velho(*minionObj);
                 minionObj->box.SetCenter(MinionPos);
                 minionObj->AddComponent(minion);
-                Game::GetInstance().GetCurrentState().AddObject(minionObj);
+                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+                Game::GetInstance().GetCurrentState().AddObject(minionObj,place);
             }
             else if(checkline == "MovingTile"){
                 Vec2 start;
