@@ -306,6 +306,8 @@ void MapState::Start(){
     //         std::cout << "\t\t" << maps[i]->portals[j]->PortalPosTo.x << " " << maps[i]->portals[j]->PortalPosTo.y << std::endl;
     //     }
     }
+    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belpause.ogg");
+    Game::GetInstance().GetMusic()->Play();
 }
 
 void MapState::Resume(){

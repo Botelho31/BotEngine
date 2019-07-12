@@ -74,6 +74,8 @@ void PauseState::Render(){
 }
 
 void PauseState::Start(){
+    Game::GetInstance().GetMusic()->Open("assets/audio/musics/belpause.ogg");
+    Game::GetInstance().GetMusic()->Play();
 }
 
 void PauseState::Resume(){

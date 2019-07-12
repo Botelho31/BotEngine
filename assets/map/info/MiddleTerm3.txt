@@ -5,7 +5,7 @@ MapInfo
     parallaxDepth 1
     tilesetfiles assets/img/Tile2.6.png assets/img/Estalactites.png
     background assets/img/fundos/middleterm3.png 1 1 1 0
-    music assets/audio/musics/belfase.mp3
+    music assets/audio/musics/belfaseabafado.ogg
   ]
 
 Portal

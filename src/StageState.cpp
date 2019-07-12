@@ -594,6 +594,10 @@ void StageState::Resume(){
         unpauseeventObj->AddComponent(unpauseevent);
         GameData::events.push(unpauseevent);
     }
+
+    backgroundMusic->Stop();
+    backgroundMusic->Open(GameData::currentMusic);
+    backgroundMusic->Play();
 }
 
 bool StageState::MapCollisionLoaded(){

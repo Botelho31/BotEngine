@@ -390,6 +390,7 @@ void Boss::AppearingState(float dt){
         if(appearingtimer->Get() > 9){
             appearingtimer->Restart();
             if(GameData::playerAlive){
+                GameData::currentMusic = "assets/audio/musics/boss.ogg";
                 Game::GetInstance().GetMusic()->Open("assets/audio/musics/boss.ogg");
                 Game::GetInstance().GetMusic()->Play();
             }   
@@ -675,11 +676,6 @@ void Boss::IdleState(float dt){
     if(hp <= 0){
         state = DYING;
     }
-    #ifdef DEBUG
-        if(input->KeyPress(SDLK_8)){
-            hp = 10;
-        }
-    #endif
 
     if(Game::GetInstance().GetCurrentState().GetNumberOf("Minion") < 5){
         minionspawntimer->Update(dt);
