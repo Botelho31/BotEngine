@@ -196,6 +196,16 @@ void Player::ProjectileHitbox(GameObject& hitbox,GameObject& owner,float dt){
     }
     physics->PerformXMovement(dt);
     if((physics->IsLeft() || physics->IsRight()) && !hitbox.IsDead()){
+        GameObject *effectObj = new GameObject();
+        Sprite *effect = new Sprite(*effectObj,"assets/img/souldissapear.png",13,0.04,0.52,false);
+        if(physics->IsLeft()){
+            effectObj->box.SetCenter(hitbox.box.GetCenter().Added(-50,0));
+        }else{
+            effectObj->box.SetCenter(hitbox.box.GetCenter().Added(50,0));
+        }
+        effectObj->AddComponent(effect);
+        int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
+        Game::GetInstance().GetCurrentState().AddObject(effectObj,place);
         hitbox.RequestDelete();
     }
 }
@@ -203,7 +213,7 @@ void Player::ProjectileHitbox(GameObject& hitbox,GameObject& owner,float dt){
 void Player::InstanceProjectileHitbox(){
     Vec2 start = Vec2(associated.box.x + associated.box.w,associated.box.y + associated.box.h/2);
     GameObject *projectileObj = new GameObject();
-    Sprite *projectilesprite = new Sprite(*projectileObj,spritefiles["projectileattack"],10,0.04);
+    Sprite *projectilesprite = new Sprite(*projectileObj,spritefiles["projectileattack"],8,0.04);
     projectileObj->AddComponent(projectilesprite);
     std::weak_ptr<GameObject> owner = Game::GetInstance().GetCurrentState().GetObjectPtr(&associated);
     HitBox *projectilehitbox = new HitBox(*projectileObj,{0,0,0,0},owner,0,PLAYERPROJECTILEDAMAGE,5,0.5,true,false,true,{300,100},this,0.04);
@@ -212,6 +222,9 @@ void Player::InstanceProjectileHitbox(){
     if(playersprite->IsFlipped()){
         start = Vec2(associated.box.x,associated.box.y + associated.box.h/2);
         projectilesprite->Flip();
+        SpriteEffect(spritefiles["boom"],2,0.04,0.08,start,true);
+    }else{
+        SpriteEffect(spritefiles["boom"],2,0.04,0.08,start,false);
     }
     projectilehitbox->GetCollider()->SetScale({0.8,0.5});
     projectileObj->box.SetCenter(start);
@@ -733,9 +746,12 @@ void Player::KnockBack(Rect hitbox,Vec2 knockback){
     physics->KnockBack(hitbox,knockback);
 }
 
-void Player::SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point){
+void Player::SpriteEffect(std::string file,int frames,float frametime,float duration,Vec2 point,bool flipped){
     GameObject *effectObj = new GameObject();
     Sprite *effect = new Sprite(*effectObj,file,frames,frametime,duration,false);
+    if(flipped){
+        effect->Flip();
+    }
     effectObj->box.x = point.x - effectObj->box.w/2;
     effectObj->box.y = point.y - effectObj->box.h/2;
     effectObj->AddComponent(effect);

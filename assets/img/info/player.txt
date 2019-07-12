@@ -13,4 +13,5 @@
     attacking3 assets/img/Bel/belattack3.png
     projectileattack assets/img/Bel/belprojetilattack.png
     hittheground assets/img/Bel/belhittheground.png
+    boom assets/img/Bel/belboom.png
 ]
