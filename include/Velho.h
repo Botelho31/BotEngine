@@ -10,7 +10,7 @@
     class Velho : public Component{
         public:
             enum velhoState{IDLE,CHATTING};
-            Velho(GameObject& associated);
+            Velho(GameObject& associated,GameObject *vendinhafront,GameObject *vendinhaback);
             ~Velho();
             void Start();
             void Update(float dt);
@@ -21,6 +21,9 @@
             void AddChatBox();
             void RemoveChatBox();
         private:
+            GameObject *vendinhaback;
+            GameObject *vendinhafront;
+
             velhoState state;
             GameObject *caixadetexto;
             GameObject *linhacaixadetexto;

@@ -2,8 +2,10 @@
 #include "../include/CameraFollower.h"
 #include "../include/GameData.h"
 
-Velho::Velho(GameObject& associated) : Component(associated){
+Velho::Velho(GameObject& associated,GameObject *vendinhafront,GameObject *vendinhaback) : Component(associated){
 
+    this->vendinhaback = vendinhaback;
+    this->vendinhafront = vendinhafront;
     state = IDLE;
     Sprite *sprite = new Sprite(associated,"assets/img/velho.png",16,0.16,false);
     associated.AddComponent(sprite);
@@ -46,6 +48,19 @@ Velho::Velho(GameObject& associated) : Component(associated){
 }
 
 Velho::~Velho(){
+    if(vendinhaback !=  nullptr){
+        if(!vendinhaback->IsDead()){
+            vendinhaback->RequestDelete();
+        }
+    }
+    if(vendinhafront != nullptr){
+        if(!vendinhafront->IsDead()){
+            vendinhafront->RequestDelete();
+        }
+    }
+    if(state == CHATTING){
+        RemoveChatBox();
+    }
 }
 
 void Velho::Start(){

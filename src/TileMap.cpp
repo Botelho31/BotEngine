@@ -160,12 +160,28 @@ void TileMap::SpawnMobs(std::string file){
                 FileReader >> MinionPos.x;
                 FileReader >> checkline;
                 FileReader >> MinionPos.y;
+
+                GameObject *frontObj = new GameObject();
+                Sprite *front = new Sprite(*frontObj,"assets/img/frentedavendinha.png");
+                frontObj->AddComponent(front);
+                frontObj->box.Transform(MinionPos.x - 415,MinionPos.y - 630);
+
+                GameObject *backObj = new GameObject();
+                Sprite *back = new Sprite(*backObj,"assets/img/trasdavendinha.png");
+                backObj->AddComponent(back);
+                backObj->box.Transform(MinionPos.x - 415,MinionPos.y - 630);
+
                 GameObject *minionObj = new GameObject();
-                Velho *minion = new Velho(*minionObj);
-                minionObj->box.SetCenter(MinionPos);
+                Velho *minion = new Velho(*minionObj,frontObj,backObj);
+                minionObj->box.SetCenter(MinionPos.Added(-50,-125));
                 minionObj->AddComponent(minion);
-                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("Player");
-                Game::GetInstance().GetCurrentState().AddObject(minionObj,place);
+
+                int place = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("TileMap");
+                Game::GetInstance().GetCurrentState().AddObject(backObj,place);
+                int place2 = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("TileMap");
+                Game::GetInstance().GetCurrentState().AddObject(minionObj,place2);
+                int place3 = Game::GetInstance().GetCurrentState().GetObjectPlaceAtLine("TileMap");
+                Game::GetInstance().GetCurrentState().AddObject(frontObj,place3);
             }
             else if(checkline == "MovingTile"){
                 Vec2 start;
