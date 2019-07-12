@@ -53,7 +53,7 @@ GameOverState::GameOverState(StageState *stagestate){
     AddObject(continueObj);
 
     GameObject *returnToMenuObj = new GameObject();
-    this->returnToMenuButton = new Button(*returnToMenuObj,{1266 + Camera::pos.x,750 + Camera::pos.y},"assets/img/buttons/normal/menu.png","assets/img/buttons/highlighted/menu.png","assets/img/buttons/selected/menu.png");
+    this->returnToMenuButton = new Button(*returnToMenuObj,{1266 + Camera::pos.x,750 + Camera::pos.y},"assets/img/buttons/normal/menu.png","assets/img/buttons/highlighted/menu.png","assets/img/buttons/selected/retornar.png");
     returnToMenuObj->AddComponent(returnToMenuButton);
     AddObject(returnToMenuObj);
 }

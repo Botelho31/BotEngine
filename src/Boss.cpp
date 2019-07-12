@@ -355,6 +355,7 @@ void Boss::AppearingState(float dt){
                 SetSprite(spritefiles["idle"],24,0.04,true);
                 attacktimer->Restart();
                 SpawnHead({associated.box.x + 300,associated.box.y + 45});
+                StopParallax();
             }
         }
     }
