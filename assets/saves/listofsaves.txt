@@ -1,4 +1,5 @@
 ListOfSaves
 	[
 		assets/saves/save.txt
+		assets/saves/newgameplus.txt
 	]
