@@ -1,10 +1,13 @@
 # Jogo Final IDJ 2019/1 - REBELLIO
 
-Estudantes: Lucas Verissimo Botelho,Lucas Mendonça,Daniel.
+Estudantes: Lucas Verissimo Botelho,Lucas Mendonça,Daniel Bauchspiess.
 
-Matriculas: 170109071,170149668.
+Matriculas: 170109071,170149668,150078901.
 
-Turma: A
+Oque fizeram:
+    -Lucas Verissimo Botelho - Boss, Minion, Fisica, Personagem Principal, MiniMapa, Tela de Menu,Tela de Pause, HUD, e o resto.
+    -Lucas Mendonça - Captura de controle do player.
+    -Daniel Bauchspiess - Minion Voador
 
 Contexto:
 
